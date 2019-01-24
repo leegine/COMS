@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/backend/artemis-disruptor-miaosha-backend.iml" filepath="$PROJECT_DIR$/backend/artemis-disruptor-miaosha-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms-base/artemis-disruptor-miaosha-jms-base.iml" filepath="$PROJECT_DIR$/jms-base/artemis-disruptor-miaosha-jms-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms-client/artemis-disruptor-miaosha-jms-client.iml" filepath="$PROJECT_DIR$/jms-client/artemis-disruptor-miaosha-jms-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms-msg/artemis-disruptor-miaosha-jms-msg.iml" filepath="$PROJECT_DIR$/jms-msg/artemis-disruptor-miaosha-jms-msg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms-server/artemis-disruptor-miaosha-jms-server.iml" filepath="$PROJECT_DIR$/jms-server/artemis-disruptor-miaosha-jms-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/artemis-disruptor-miaosha-parent.iml" filepath="$PROJECT_DIR$/artemis-disruptor-miaosha-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/artemis-disruptor-miaosha-web.iml" filepath="$PROJECT_DIR$/web/artemis-disruptor-miaosha-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rls/rls.iml" filepath="$PROJECT_DIR$/rls/rls.iml" />
+    </modules>
+  </component>
+</project>

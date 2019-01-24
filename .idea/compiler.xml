@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="artemis-disruptor-miaosha-backend" />
+        <module name="artemis-disruptor-miaosha-jms-base" />
+        <module name="artemis-disruptor-miaosha-jms-client" />
+        <module name="artemis-disruptor-miaosha-jms-msg" />
+        <module name="artemis-disruptor-miaosha-jms-server" />
+        <module name="artemis-disruptor-miaosha-web" />
+        <module name="rls" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="artemis-disruptor-miaosha-backend" target="1.8" />
+      <module name="artemis-disruptor-miaosha-jms-base" target="1.8" />
+      <module name="artemis-disruptor-miaosha-jms-client" target="1.8" />
+      <module name="artemis-disruptor-miaosha-jms-msg" target="1.8" />
+      <module name="artemis-disruptor-miaosha-jms-server" target="1.8" />
+      <module name="artemis-disruptor-miaosha-parent" target="1.8" />
+      <module name="artemis-disruptor-miaosha-web" target="1.8" />
+      <module name="rls" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
