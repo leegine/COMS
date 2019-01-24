@@ -1,0 +1,212 @@
+package jessx.automate;
+
+/**
+ * <p>Titre : <Classe Principale Automate/p>
+ *
+ * <p>Description : </p>
+ *
+ * <p>Copyright : Copyright (c) 2005, Licence GPL, </p>
+ *
+ * <p>Société : Ec-lille, USTL</p>
+ *
+ * @ MARKET - JessX
+ * @author Guillaume Tromp, Etienne Broutin
+ * @version 1.0
+ */
+
+
+/***************************************************************/
+/*                       IMPORT SECTION                        */
+/***************************************************************/
+
+import java.io.*;
+
+import java.awt.*;
+import javax.swing.*;
+
+import java.util.GregorianCalendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+//import org.apache.log4j.*;
+import jessx.business.*;
+import jessx.utils.*;
+import org.apache.log4j.PropertyConfigurator;
+import jessx.net.Initialisation;
+import java.util.Iterator;
+import jessx.server.Server;
+import java.util.Vector;
+import jessx.net.ExpUpdate;
+import jessx.server.gui.MessageTimer;
+import jessx.server.net.ExperimentManager;
+import jessx.server.net.NetworkCore;
+
+/**
+ *
+ * <p>Titre : </p>
+ *
+ * <p>Description : </p>
+ *
+ * <p>Copyright : Copyright (c) 2005, Licence GPL, </p>
+ *
+ * <p>Société : Ec-lille, USTL</p>
+ *
+ * @author Guillaume Tromp, Etienne Broutin
+ * @version 1.0
+ */
+public class Automate {
+
+    private final String Params_Serveur[] = {
+      "auto.xml", "automatique", "sortie.xml"};
+
+  //Initialize the current date
+  GregorianCalendar calendar = new java.util.GregorianCalendar();
+  Timer t1, t2, t3, t4, t33;
+  int nbrRepetitions = 3;
+  private jessx.server.gui.GeneralServerFrame frame;
+
+  public Automate() {
+
+    //Creation of a timer that will run until 7pm
+    t1 = new Timer();
+    t1.schedule(new HourAutomate(), 1000, 60000);
+  }
+
+  int hour = calendar.get(calendar.HOUR_OF_DAY);
+  int minutes = calendar.get(calendar.MINUTE);
+
+  //Tell whether the automate need to be launched or not
+  class HourAutomate
+      extends TimerTask {
+
+    public void run() {
+      if (hour == 19) {
+        System.out.println("Pas encore l'heure");
+      }
+      else {
+        System.out.println("Lancement de l'automate");
+        t1.cancel();
+        //Creation of a timer that will launch the automate every hour
+        t2 = new Timer();
+        t2.schedule(new RepetAutomate(), 0, 10*60000);
+//Problème de base : pour lancer plusieurs fois le serveur : cliquer sur end of experiment puis rouvrir un fichier
+      }
+    }
+  }
+
+  class HostSession
+      extends TimerTask {
+    public void run() {
+      System.out.println("Host a Session");
+      Server.setServerState(Server.SERVER_STATE_ONLINE);
+      t33.cancel();
+    }
+  }
+
+  class LaunchSession
+      extends TimerTask {
+    public void run() {
+      System.out.println("Launch a session");
+
+      Iterator iterPlayer = jessx.server.net.NetworkCore.getPlayerList().keySet().
+          iterator();
+      while (iterPlayer.hasNext()) {
+        jessx.server.net.NetworkCore.getPlayer( (String) iterPlayer.next()).
+            send(new
+                 Initialisation());
+      }
+
+      if (jessx.server.net.NetworkCore.getExperimentManager().beginExperiment(
+          frame)) {
+        new MessageTimer( (Vector) BusinessCore.getScenario().
+                         getListInformation().clone()).start();
+
+      }
+
+      t3.cancel();
+    }
+  }
+
+  class EndSession
+      extends TimerTask {
+    public void run() {
+      if ( (NetworkCore.getExperimentManager().getExperimentState() ==
+            ExperimentManager.EXP_OFF)
+//          & (Server.getServerState() == 4)
+          ) {
+        System.out.println("Fini!!!!!!!!!!!!!");
+        Server.setServerState(Server.SERVER_STATE_OFFLINE);
+        //chercher ce qui permet de faire : end of experiment
+      }
+      t4.cancel();
+    }
+  }
+
+  class RepetAutomate
+      extends TimerTask {
+    //Launch the automate nbreRepetitions times
+
+    public void run() {
+      if (nbrRepetitions > 0) {
+
+        nbrRepetitions--;
+        Date sessionBeginning = new Date();
+        //Launching of the automate
+        System.out.println("Lancement de l'automate ...");
+
+        jessx.automate.generator.generator gegen = new jessx.automate.
+            generator.generator();
+
+        gegen.Generate();
+
+        gegen.Save("auto.xml");
+
+        System.out.println("Fin de l'execution de l'automate ...");
+        File file = new File("./server.log");
+        if (file.exists()) {
+          file.delete();
+        }
+
+        PropertyConfigurator.configure("log4j.server.properties");
+        Utils.logger.debug("Logging enabled. Starting logging...");
+        try {
+          Utils.logger.debug("Getting and setting look and feel...");
+          UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e) {
+          Utils.logger.error("Error while loading look and feel: " +
+                             e.toString());
+          e.printStackTrace();
+        }
+
+        //Creation and launching of a server with the parameters of the file auto.xml
+        jessx.server.Server a = new jessx.server.Server(Params_Serveur);
+
+        //Hosting of a session and launching of it when clients are connected
+        t33 = new Timer();
+        t33.schedule(new HostSession(), 10000, 10000);
+
+        t3 = new Timer();
+        t3.schedule(new LaunchSession(),10000 + 15000, 20000);
+
+        //End the session btx 0 and 60 sec after the session is finished
+        t4 = new Timer();
+        t4.schedule(new EndSession(),1*60000, 20000);
+
+      }
+
+      //Shut down the timer when all the occurences are done
+      else {
+        System.out.println("Termine!");
+        t2.cancel();
+
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+    Automate automate = new Automate();
+  }
+
+}

@@ -1,0 +1,36 @@
+[PropertyInfo]
+border1,javax.swing.border.Border,false,false, , ,false,<défaut>
+border2,javax.swing.border.Border,false,false, , ,false,<défaut>
+gridBagLayout1,java.awt.GridBagLayout,false,false, , ,false,<défaut>
+gridBagLayout2,java.awt.GridBagLayout,false,false, , ,false,<défaut>
+JLabel1,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel10,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel11,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel12,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel13,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel14,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel2,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel3,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel4,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel5,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel6,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel7,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel8,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel9,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel_jesseLogo,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel_productName,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel_ressources,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabel_softModuleAndVersion,javax.swing.JLabel,false,false, , ,false,<défaut>
+JScrollPane1,javax.swing.JScrollPane,false,false, , ,false,<défaut>
+JTextArea1,javax.swing.JTextArea,false,false, , ,false,<défaut>
+logoECLille,javax.swing.ImageIcon,false,false, , ,false,<défaut>
+logoEcoxp,javax.swing.ImageIcon,false,false, , ,false,<défaut>
+logoJesse,javax.swing.ImageIcon,false,false, , ,false,<défaut>
+logoUSTL,javax.swing.ImageIcon,false,false, , ,false,<défaut>
+modulesInfoTextArea,javax.swing.JTextArea,false,false, , ,true,<défaut>
+panel1,javax.swing.JPanel,false,false, , ,false,<défaut>
+[IconNames]
+
+
+
+

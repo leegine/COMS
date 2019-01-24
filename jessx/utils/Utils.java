@@ -1,0 +1,381 @@
+package jessx.utils;
+
+/***************************************************************/
+/*                     SOFTWARE SECTION                        */
+/***************************************************************/
+/*
+ * <p>Name: Jessx</p>
+ * <p>Description: Financial Market Simulation Software</p>
+ * <p>Licence: GNU General Public License</p>
+ * <p>Organisation: EC Lille / USTL</p>
+ * <p>Persons involved in the project : group T.E.A.M.</p>
+ * <p>More details about this source code at :
+ *    http://eleves.ec-lille.fr/~ecoxp03  </p>
+ * <p>Current version: 1.0</p>
+ */
+
+/***************************************************************/
+/*                      LICENCE SECTION                        */
+/***************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+/***************************************************************/
+/*                      IMPORT SECTION                         */
+/***************************************************************/
+
+import javax.swing.*;
+import javax.swing.filechooser.*;
+import java.io.File;
+import org.apache.log4j.Logger;
+import java.util.*;
+import java.io.*;
+import org.jdom.*;
+import org.jdom.input.*;
+import org.jdom.output.*;
+import java.awt.*;
+
+/***************************************************************/
+/*                 Utils INTERFACE SECTION                     */
+/***************************************************************/
+/**
+ * <p>Title: Utils</p>
+ * <p>Description: Static useful functions</p>
+ * @author Franck Perez
+ * @author Thierry Curtil
+ * @version 0.2
+ */
+
+public abstract class Utils implements Constants {
+
+  /**
+   * To use this logger you should call first the following lines at the very beginning
+   * of the application:
+   * PropertyConfigurator.configure(String fileName);
+   * where the fileName is the path to a file that contains initialization
+   * properties for log4j
+   */
+  public static Logger logger = Logger.getLogger(Utils.class.getName());
+
+  public static Properties appsProperties = new Properties();
+
+  /**
+   * Raises a standard error dialog
+   * @param message String to display
+   */
+  public static void showErrorDialog(String message) {
+    JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+
+  }
+
+  /**
+   * Raises a File Chooser Window
+   *
+   * @param directory String
+   * @param selectedFile String
+   * @param filterDescription String
+   * @param filterExtension String
+   * @return JFileChooser
+   */
+  public static JFileChooser newFileChooser (String directory,
+                                             String selectedFile,
+                                             String filterDescription,
+                                             String filterExtension)
+  {
+
+    System.out.println("Creating file chooser...");
+    JFileChooser chooser;
+    //System.out.print("- Getting dir: ");
+    if (directory != null) {
+      chooser = new JFileChooser(directory);
+      //System.out.println(directory);
+    }
+    else {
+      chooser = new JFileChooser(System.getProperty("user.dir"));
+      //System.out.println(System.getProperty("user.dir"));
+    }
+
+    if ((filterDescription != null) && (filterExtension != null)) {
+      //System.out.println("- Adding filter to file chooser.");
+      javax.swing.filechooser.FileFilter filter = new  FileChooserFilter(filterDescription,filterExtension);
+
+      chooser.addChoosableFileFilter(filter);
+    }
+    else {
+      //System.out.println("- no extension type given.");
+    }
+
+    if (selectedFile != null) {
+      //System.out.println("- select a file by default.");
+      chooser.setSelectedFile(new java.io.File(selectedFile));
+    }
+    else {
+      //System.out.println("- no default selected file given.");
+    }
+
+    System.out.println("Sending back the chooser...");
+    return chooser;
+  }
+
+  /**
+   * @return String
+   */
+  public static String getApplicationSettingsDirectory () {
+
+    String home = System.getProperty("user.home");
+    home += (File.separator + GENERAL_SETTINGS_DIRECTORY + File.separator);
+
+    //exists ?
+    File homeDirectory = new File(home);
+    //assumes it is ok
+    boolean valid = true;
+
+    if (homeDirectory.isDirectory() == false)
+      valid = homeDirectory.mkdir();
+
+    if (valid)
+      return home;
+
+    else {
+      logger.warn(ERR_NO_USER_DIR);
+      return null;
+    }
+  }
+
+  public static void SetApplicationProperties(String key,String value) {
+
+    appsProperties.setProperty(key,value);
+  }
+  public static void loadApplicationProperties(String path, Properties prop) {
+    Utils.logger.debug("Loading client properties from file: " + path);
+    FileInputStream in;
+    try {
+      in = new FileInputStream(path);
+    }
+    catch (FileNotFoundException ex) {
+      String errorMessage = "Error, missing file: " + path + "\nThis file should be included in the software distribution.";
+      Utils.logger.fatal(errorMessage);
+      JOptionPane.showMessageDialog(null,errorMessage,"error: missing file.", JOptionPane.ERROR_MESSAGE);
+      ex.printStackTrace();
+      System.exit(1);
+      return;
+    }
+
+    try {
+      prop.load(in);
+    }
+    catch (IOException ex1) {
+      String errorMessage = "Error, could not read file: " + path + "\nYou should have read access to this file.";
+      Utils.logger.fatal(errorMessage);
+      JOptionPane.showMessageDialog(null,errorMessage,"error: could not read file.", JOptionPane.ERROR_MESSAGE);
+      ex1.printStackTrace();
+      System.exit(1);
+      return;
+
+    }
+
+    try {
+      in.close();
+    }
+    catch (IOException ex2) {
+      String errorMessage = "Error, could not close file: " + path + "\nApparently reading successful. [IGNORED]";
+      Utils.logger.error(errorMessage);
+    }
+
+  }
+
+  public static void loadApplicationProperties(String path) {
+    loadApplicationProperties(path, appsProperties);
+  }
+
+  public static Document readXmlFile(String fileName) throws Exception {
+      SAXBuilder sxb = new SAXBuilder();
+      return sxb.build(new File(fileName));
+   }
+
+   public static void saveXmlDocument(String fileName, Document xmlDoc) throws Exception {
+         XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+         sortie.output(xmlDoc, new FileOutputStream(fileName));
+   }
+
+
+  public static JLabel createColoredLabel(String string, Font font, Color color){
+    JLabel templabel = new JLabel(string);
+    templabel.setBackground(color);
+    templabel.setFont(font);
+    return templabel;
+
+  }
+
+/*
+  public static JLabel createStripedColoredLabel(String string, Font font, int row){
+    JLabel templabel = new JLabel(string);
+    templabel.setBackground(row % 2 == 0 ? COLOR_EVEN_LINE : COLOR_ODD_LINE);
+    templabel.setFont(font);
+    return templabel;
+
+  }
+
+  public static JEditorPane addToEditorPane(JEditorPane edPane, String string) {
+    String tempContent;
+    tempContent = edPane.getText() + string;
+    edPane.setText(tempContent);
+    return edPane;
+  }
+
+  */
+
+ /**
+  *
+  * @param text String an explanantion of the error
+  * @param errorCode int should something else than 0
+  * @param ex Exception the exception that has occured.
+  */
+ public static void fatalError(String text, int errorCode, Exception ex) {
+    Utils.logger.fatal(text);
+    JOptionPane.showConfirmDialog(null,text,"Fatal (for this program) error - execution will stop.", JOptionPane.OK_CANCEL_OPTION,JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+    System.exit(errorCode);
+  }
+
+  /**
+   * <p>This methods loads modules (jar files) from the folder <code>folder</code>
+   * ( file separator are automatically added at the beginning and the end of
+   * the folder name, so don't add them), and load the main class of this module,
+   * which must have the same name as the jar file. The class will be search in
+   * the package <code>package</code> (also a dot is added between the name you
+   * give and the classname).
+   * @param folder String
+   * @param basePackage String
+   */
+  public static void loadModules(String folder,String basePackage) {
+    String fileSep = System.getProperty("file.separator");
+    Utils.logger.info("Looking for analysis modules in: " + System.getProperty("user.dir") + fileSep + folder + fileSep);
+    File analysisToolFolder = new File("." + fileSep + folder + fileSep);
+    if (analysisToolFolder != null) {
+      String[] fileList = analysisToolFolder.list();
+      if (fileList != null) {
+
+        for (int i = 0; i < fileList.length; i++) {
+          try {
+
+            String fileName = "file:" + System.getProperty("user.dir") + fileSep
+                              + folder + fileSep + fileList[i];
+
+            Utils.logger.debug("loading: " + fileName);
+            jessx.utils.JarClassLoader extLoader = new jessx.utils.JarClassLoader(fileName);
+
+            String className = basePackage + "." + fileList[i].substring(0, fileList[i].length() - 4);
+            Utils.logger.debug("loading class: " + className);
+            Class tempClass = extLoader.findClass(className);
+            tempClass.newInstance();
+          }
+          catch (Exception ex1) {
+            Utils.logger.error("Error while loading module: " + ex1.toString());
+            ex1.printStackTrace();
+          }
+        }
+      }
+    }
+    Utils.logger.info("Finished loading module.");
+  }
+
+  /**
+   * <p>This methods loads modules from a class that is already in the path
+   * @param className String
+   */
+  public static void loadModules(String className) {
+    try {
+      Utils.logger.debug("loading class: " + className);
+      Class tempClass = Class.forName(className);
+      tempClass.newInstance();
+    }
+    catch (Exception ex1) {
+      Utils.logger.error("Error while loading module: " + ex1.toString());
+      ex1.printStackTrace();
+    }
+
+    Utils.logger.info("Finished loading module.");
+  }
+
+
+  /**
+   * return a docment if a substring of data contains a valid jessx message
+   * (xml formatted with a doctype ending with [jessx-end])
+   * @param data String
+   * @return Document
+   */
+  public static Document readXmlFromNetwork(String data) {
+
+    int begin = data.indexOf("<?");
+    int end = data.indexOf("[JessX-end]", begin);
+
+    if ((begin != -1) && (end != -1)) {
+      String message = data.substring(begin, end);
+      SAXBuilder sax = new SAXBuilder();
+
+      try {
+        return sax.build(new StringReader(message));
+      }
+      catch (IOException ex) {
+        // no way it can happen...
+      }
+      catch (JDOMException ex) {
+        Utils.logger.error("Could not read message : " + message + ". Error: " +
+                           ex.toString()); ;
+      }
+    }
+    return null;
+  }
+
+
+  public static Vector sortVector(Vector vect) {
+    int count = vect.size();
+    Object obj;
+    if (count > 0)
+      for (int i = 0; i < count - 1; i++)
+        for(int j = i + 1; j < count; j++)
+          if (((String)vect.get(i)).compareTo((String)vect.get(j))>0) {
+            obj = vect.get(i);
+            vect.setElementAt(vect.get(j),i);
+            vect.setElementAt(obj,j);
+          }
+    return vect;
+  }
+
+
+  public static Vector convertAndSortMapToVector(Map map) {
+
+    Iterator iter = map.keySet().iterator();
+    Vector keys = new Vector();
+    while (iter.hasNext())
+      keys.add(iter.next());
+
+    int keysCount = keys.size();
+    Object key;
+    if (keysCount > 0)
+      for (int i = 0; i < keysCount - 1; i++)
+        for(int j = i + 1; j < keysCount; j++)
+          if (((String)keys.get(i)).compareTo((String)keys.get(j))>0) {
+            key = keys.get(i);
+            keys.setElementAt(keys.get(j),i);
+            keys.setElementAt(key,j);
+          }
+    return keys;
+  }
+
+
+}

@@ -1,0 +1,43 @@
+package jesse.server.gui;
+
+
+
+
+
+
+
+/**
+ * <p>Title: Ecoxp</p>
+ * <p>Description: Simulation de march�s financiers</p>
+ * <p>Copyright: Copyright (c) 2004</p>
+ * <p>Company: EC Lille / USTL</p>
+ * @author Equipe projet ECOXP
+ * @version 0.6
+ */
+
+public class EcoxpServerFrame extends JFrame{
+
+
+    //Build the frame
+    public EcoxpServerFrame() {
+      enableEvents(AWTEvent.WINDOW_EVENT_MASK);
+      try {
+        jbInit();
+      }
+      catch(Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    //Init the component
+    private void jbInit() throws Exception  {
+      contentPane = (JPanel) this.getContentPane();
+      contentPane.setLayout(gridBagLayout1);
+
+
+    }
+
+
+
+
+}

@@ -1,0 +1,12 @@
+[PropertyInfo]
+experimentState,int,false,false, , ,true,<défaut>
+listeners,java.util.Vector,false,false, , ,false,<défaut>
+periodBeginning,java.util.Date,false,false, , ,false,<défaut>
+periodNum,int,false,false, , ,true,<défaut>
+timeInPeriod,long,false,false, , ,true,<défaut>
+timeRemainingInPeriod,long,false,false, , ,true,<défaut>
+[IconNames]
+
+
+
+

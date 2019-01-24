@@ -1,0 +1,16 @@
+[PropertyInfo]
+gridBagLayout1,GridBagLayout,false,false, , ,false,<défaut>
+gridBagLayout2,GridBagLayout,false,false, , ,false,<défaut>
+jPanel2,JPanel,false,false, , ,false,<défaut>
+jScrollPane1,JScrollPane,false,false, , ,false,<défaut>
+jScrollPane2,JScrollPane,false,false, , ,false,<défaut>
+jSplitPane1,JSplitPane,false,false, , ,false,<défaut>
+jTabbedPane1,JTabbedPane,false,false, , ,false,<défaut>
+jTextArea1,JTextArea,false,false, , ,false,<défaut>
+jTree1,JTree,false,false, , ,false,<défaut>
+treeModel,JesseExperimentSetupTree,false,false, , ,false,<défaut>
+[IconNames]
+
+
+
+

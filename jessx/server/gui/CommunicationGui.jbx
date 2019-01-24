@@ -1,0 +1,29 @@
+[PropertyInfo]
+border1,javax.swing.border.Border,false,false, , ,false,<défaut>
+border2,javax.swing.border.Border,false,false, , ,false,<défaut>
+border3,javax.swing.border.Border,false,false, , ,false,<défaut>
+CommuncationGui_jTable3Receivers_mouseAdapter,jesse.server.gui.CommuncationGui_jTable3Receivers_mouseAdapter,false,false, , ,false,<défaut>
+CommunicationGui_jButton2Send_mouseAdapter,jesse.server.gui.CommunicationGui_jButton2Send_mouseAdapter1,false,false, , ,false,<défaut>
+gridBagLayout0,java.awt.GridBagLayout,false,false, , ,false,<défaut>
+gridBagLayout1,java.awt.GridBagLayout,false,false, , ,false,<défaut>
+gridBagLayout2,java.awt.GridBagLayout,false,false, , ,false,<défaut>
+gridBagLayout3,java.awt.GridBagLayout,false,false, , ,false,<défaut>
+JButton2Send,javax.swing.JButton,false,false, , ,false,<défaut>
+JComboBox2inTable,javax.swing.JComboBox,false,false, , ,false,<défaut>
+JComboBox2Receivers,javax.swing.JComboBox,false,false, , ,false,<défaut>
+JLabel2To,javax.swing.JLabel,false,false, , ,false,<défaut>
+JLabelSpace,javax.swing.JLabel,false,false, , ,false,<défaut>
+JPanel1,javax.swing.JPanel,false,false, , ,false,<défaut>
+JPanel2,javax.swing.JPanel,false,false, , ,false,<défaut>
+JPanel3,javax.swing.JPanel,false,false, , ,false,<défaut>
+JScrollPane1,javax.swing.JScrollPane,false,false, , ,false,<défaut>
+JScrollPane3,javax.swing.JScrollPane,false,false, , ,false,<défaut>
+JTable3Receivers,javax.swing.JTable,false,false, , ,false,<défaut>
+JTextArea11Message,javax.swing.JTextArea,false,false, , ,false,<défaut>
+message,String[],false,false, , ,false,<défaut>
+tableModelMessages,jesse.server.gui.TableModelMessages,false,false, , ,false,<défaut>
+[IconNames]
+
+
+
+

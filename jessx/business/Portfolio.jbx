@@ -1,0 +1,14 @@
+[PropertyInfo]
+cash,float,false,false, , ,true,<défaut>
+investedCash,java.util.HashMap,false,false, , ,false,<défaut>
+investedOwnings,java.util.HashMap,false,false, , ,false,<défaut>
+investmentsWhenNotKeepingOrderBook,String,false,false, , ,true,<défaut>
+listeners,java.util.Vector,false,false, , ,false,<défaut>
+nonInvestedCash,float,false,false, , ,true,<défaut>
+nonInvestedOwnings,java.util.HashMap,false,false, , ,true,<défaut>
+ownings,java.util.HashMap,false,false, , ,true,<défaut>
+[IconNames]
+
+
+
+
