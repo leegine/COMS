@@ -43,7 +43,9 @@
     <module>jms-server</module>
     <module>web</module>
     <module>backend</module>
-      <module>rls</module>
+    <module>oms</module>
+    <module>qs</module>
+    <!--<module>rls</module>-->
   </modules>
 
   <dependencyManagement>

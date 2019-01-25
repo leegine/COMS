@@ -12,7 +12,6 @@
         <module name="artemis-disruptor-miaosha-jms-msg" />
         <module name="artemis-disruptor-miaosha-jms-server" />
         <module name="artemis-disruptor-miaosha-web" />
-        <module name="rls" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,9 +20,9 @@
       <module name="artemis-disruptor-miaosha-jms-client" target="1.8" />
       <module name="artemis-disruptor-miaosha-jms-msg" target="1.8" />
       <module name="artemis-disruptor-miaosha-jms-server" target="1.8" />
-      <module name="artemis-disruptor-miaosha-parent" target="1.8" />
       <module name="artemis-disruptor-miaosha-web" target="1.8" />
-      <module name="rls" target="1.8" />
+      <module name="coms" target="1.8" />
+      <module name="rls" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

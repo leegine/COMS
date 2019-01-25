@@ -7,9 +7,10 @@
       <module fileurl="file://$PROJECT_DIR$/jms-client/artemis-disruptor-miaosha-jms-client.iml" filepath="$PROJECT_DIR$/jms-client/artemis-disruptor-miaosha-jms-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/jms-msg/artemis-disruptor-miaosha-jms-msg.iml" filepath="$PROJECT_DIR$/jms-msg/artemis-disruptor-miaosha-jms-msg.iml" />
       <module fileurl="file://$PROJECT_DIR$/jms-server/artemis-disruptor-miaosha-jms-server.iml" filepath="$PROJECT_DIR$/jms-server/artemis-disruptor-miaosha-jms-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/artemis-disruptor-miaosha-parent.iml" filepath="$PROJECT_DIR$/artemis-disruptor-miaosha-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/artemis-disruptor-miaosha-web.iml" filepath="$PROJECT_DIR$/web/artemis-disruptor-miaosha-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rls/rls.iml" filepath="$PROJECT_DIR$/rls/rls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/coms.iml" filepath="$PROJECT_DIR$/coms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oms/oms.iml" filepath="$PROJECT_DIR$/oms/oms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qs/qs.iml" filepath="$PROJECT_DIR$/qs/qs.iml" />
     </modules>
   </component>
 </project>
