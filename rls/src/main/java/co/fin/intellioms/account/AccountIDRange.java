@@ -11,7 +11,7 @@ public class AccountIDRange
 
     public AccountIDRange(long start, long end)
     {
-        if(!$assertionsDisabled && start > end)
+        if( start > end)
         {
             throw new AssertionError((new StringBuilder()).append("Start value must be below or equals to end value [start=").append(start).append(", end=").append(end).append(']').toString());
         } else
@@ -39,6 +39,5 @@ public class AccountIDRange
 
     private final long start;
     private final long end;
-    static final boolean $assertionsDisabled = !com/ com /fin/intellioms/account/AccountIDRange.desiredAssertionStatus();
 
 }

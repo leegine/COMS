@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/jms-client" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jms-msg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jms-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rls/src/main/java/intellioms/omsclt/DOTOmsAdaptor.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/web" charset="UTF-8" />
   </component>
 </project>

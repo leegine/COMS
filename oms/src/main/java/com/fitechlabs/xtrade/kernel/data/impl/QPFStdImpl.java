@@ -1,6 +1,6 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) 
+// Decompiler options: packimports(3)
 // Source File Name:   QPFStdImpl.java
 
 package com.fitechlabs.xtrade.kernel.data.impl;
@@ -69,13 +69,7 @@ public class QPFStdImpl
         return processor;
     }
 
-    static Class _mthclass$(String x0)
-    {
-        return Class.forName(x0);
-        ClassNotFoundException x1;
-        x1;
-        throw new NoClassDefFoundError(x1.getMessage());
-    }
+ 
 
     private static final Logit log;
     private static final boolean DBG;
@@ -84,7 +78,7 @@ public class QPFStdImpl
     protected final QueryProcessor processor;
     protected final String namespace;
 
-    static 
+    static
     {
         log = Logit.getInstance(com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl.class);
         DBG = log.ison();
