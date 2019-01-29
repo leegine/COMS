@@ -1,0 +1,418 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.44;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-plugin.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Plugin build ANT file                        -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 11/30/2001                             -->
+<!-- ============================================ -->
+<project name="build-plugin" default="build">
+
+	<property environment="ENV"/>
+	<taskdef name="ExpandPluginsInfo" classname="com.fitechlabs.ant.ExpandPluginsInfo"/>
+	<taskdef name="CreateCodegenXMLFile" classname="com.fitechlabs.ant.CreateCodegenXMLFile"/>
+	<taskdef name="WriteFile" classname="com.fitechlabs.ant.WriteFile"/>
+	<taskdef name="VerifyBases" classname="com.fitechlabs.ant.VerifyBases"/>
+	<property name="logdir" value="${XTRADE_HOME}/build-results/logs"/>
+	<taskdef name="VerifyProperties" classname="com.fitechlabs.ant.VerifyProperties"/>
+
+	<target	name="set-defaults-ABSPATH"	if="USE.ABSPATH" >
+		<property name="COMP_ABS_HOME" value="${COMP_HOME}"/>
+	</target>
+
+	<target	name="set-defaults-RELPATH"	unless="USE.ABSPATH" >
+		<property name="COMP_ABS_HOME" value="${XTRADE_HOME}${COMP_HOME}"/>
+	</target>
+
+	<!-- ===================================================================== -->
+	<target name="set-defaults" depends="set-defaults-ABSPATH,set-defaults-RELPATH" >
+
+		<property name="COMP_TYPE" value="plugin"/>
+
+		<property name="CORE_ROOT" value="${INSTALL_DIR_STEM}"/>
+		<property name="PLUGINS_ROOT" value="${XTRADE_HOME}"/>
+		<property name="PLUGINS" value="_bad_directory_"/>
+		<property name="COMP_PROPERTY_FILE" value="${COMP_ABS_HOME}/build/build.properties"/>
+		<property file="${COMP_PROPERTY_FILE}"/>
+		<!-- <property name="BUILD_FILE_NAME" value="${COMP_ABS_HOME}/build/official-build.properties"/> -->
+		<property name="BUILD_FILE_NAME" value="${COMP_ABS_HOME}/build/build.properties"/>
+		<property name="install" value="${INSTALL_DIR_STEM}/${PLUGIN_NAME}"/>
+		<property name="working-token-file" value="${install}/incomplete"/>
+		<property name="PREBUILT_BASE" value="prebuilt"/>
+		<VerifyBases base="${XTRADE_HOME}/build-results" myname="${PLUGIN_NAME}" property="bad-base-plugins" plugins="${PLUGINS_NAMES}" basePrebuilt="${XTRADE_HOME}/${PREBUILT_BASE}"/>
+		<VerifyProperties propertyFileName="${COMP_PROPERTY_FILE}"/>
+		<ant antfile="verify_plugin_env.xml"/>
+		<delete dir="${install}" quiet="true"/>
+		<mkdir dir="${install}"/>
+		<WriteFile file="${working-token-file}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="check-bases" if="bad-base-plugins" depends="set-defaults">
+		<fail message="Cannot build since ${bad-base-plugins} not properly built."/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- OFFICIAL BUILDER STUFF -->
+	<!-- ===================================================================== -->
+	<target name="set-official" if="OFFICIAL_BUILD" depends="check-bases">
+		<echo message="">
+ ===============================================
+ Official Build
+ ===============================================
+		</echo>
+		<!-- names -->
+		<property name="VSS_XTRADE_HOME" value="/xtrade"/>
+		<property file="${ANT_BUILD}/properties/${COMPUTER_NAME}-official-builder.properties"/>
+		<property name="VSS_COMP_ABS_HOME" value="${VSS_XTRADE_HOME}/${COMP_HOME}"/>
+		<property name="VSS_BUILD_FILE_NAME" value="${VSS_COMP_ABS_HOME}/build/official-build.properties"/>
+		<property name="VSS_BUILD_TOKEN_NAME" value="${VSS_COMP_ABS_HOME}/build/official-build-token"/>
+		<property name="BUILD_TOKEN_NAME" value="${COMP_ABS_HOME}/build/official-build-token"/>
+		<property name="VSS_LOGIN" value="${user.name}"/>
+		<property name="VSS_COMP_PROPERTY_FILE" value="${VSS_COMP_ABS_HOME}/build/build.properties"/>
+		<!-- get build token -->
+		<delete file="${BUILD_TOKEN_NAME}" quiet="true"/>
+		<echo message=" Getting build token"/>
+		<vssget vsspath="${VSS_BUILD_TOKEN_NAME}" ssdir="${VSS_DIR}" localPath="${COMP_ABS_HOME}/build" login="${VSS_LOGIN}"/>
+		<!-- delete build token -->
+		<echo message=" Locking official build"/>
+		<exec executable="cmd.exe" dir="${VSS_DIR}" output="${XTRADE_TEMP_DIR}/deltoken.txt">
+			<arg value="/c"/>
+			<arg value="ss"/>
+			<arg value="Remove"/>
+			<arg value="$$${VSS_BUILD_TOKEN_NAME}"/>
+			<arg value="-I-Y"/>
+			<arg value="-Y${VSS_LOGIN}"/>
+		</exec>
+		<!-- erasing earlier version -->
+		<echo message=" Erasing earlier versions"/>
+		<delete quiet="true">
+			<fileset dir="${COMP_ABS_HOME}" excludes="build/official-build-token"/>
+		</delete>
+		<!-- get property file -->
+		<echo message=" Getting property file"/>
+		<vssget vsspath="${VSS_COMP_PROPERTY_FILE}" ssdir="${VSS_DIR}" localPath="${COMP_ABS_HOME}/build" login="${VSS_LOGIN}" autoresponse="Y"/>
+		<property file="${COMP_PROPERTY_FILE}"/>
+		<!-- check out build file -->
+		<echo message=" Getting build record"/>
+		<vsscheckout vsspath="${VSS_BUILD_FILE_NAME}" localpath="${COMP_ABS_HOME}/build" ssdir="${VSS_DIR}" serverPath="${VSERVER_PATH}" recursive="false" login="${VSS_LOGIN}"/>
+		<!-- increment build number -->
+		<echo message=" Incrementing build number"/>
+		<propertyfile file="${BUILD_FILE_NAME}">
+			<entry key="BUILT_BY" value="${user.name}"/>
+			<entry key="BUILD" type="int" operation="+" value="1"/>
+		</propertyfile>
+		<!-- check build file in -->
+		<echo message=" Checking in build record"/>
+		<vsscheckin vsspath="${VSS_BUILD_FILE_NAME}" localpath="${COMP_ABS_HOME}/build" ssdir="${VSS_DIR}" serverPath="${VSERVER_PATH}" login="${VSS_LOGIN}" comment="Modified by automatic build"/>
+		<!-- read build number -->
+		<property file="${BUILD_FILE_NAME}"/>
+		<property name="build-label" value="${PLUGIN_NAME}-build-${BUILD}"/>
+		<!-- label current stuff -->
+		<echo message=" Labeling ${COMP_TYPE}: ${build-label}"/>
+		<exec executable="cmd.exe" dir="${VSS_DIR}" output="${XTRADE_TEMP_DIR}/label.txt">
+			<arg value="/c"/>
+			<arg value="ss"/>
+			<arg value="Label"/>
+			<arg value="$$${VSS_COMP_ABS_HOME}"/>
+			<arg value="-C-"/>
+			<arg value="-I-"/>
+			<arg value="-L${build-label}"/>
+			<arg value="-Y${VSS_LOGIN}"/>
+		</exec>
+		<!-- get labeled stuff -->
+		<echo message=" Getting ${COMP_TYPE} sources for build ${BUILD}"/>
+		<vssget vsspath="${VSS_COMP_ABS_HOME}" ssdir="${VSS_DIR}" localPath="${COMP_ABS_HOME}" recursive="true" label="${build-label}" login="${VSS_LOGIN}"/>
+		<echo message=" Got all sources for build ${BUILD}"/>
+		<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+		<property name="REPORTED_BUILD" value="${BUILD}"/>
+		<property name="LATEST" value="true"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- END OF OFFICIAL BUILDER STUFF -->
+	<!-- ===================================================================== -->
+	<!--                                                                       -->
+	<!-- ===================================================================== -->
+	<!-- read property file -->
+	<target name="read-properties" depends="set-official">
+		<property file="${COMP_PROPERTY_FILE}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read build number -->
+	<target name="read-build-number" depends="read-properties" if="LATEST">
+		<property file="${BUILD_FILE_NAME}"/>
+		<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+		<property name="REPORTED_BUILD" value="${BUILD}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- expand plugins definitions -->
+	<target name="set-plugins-def" depends="read-build-number" if="PLUGINS_NAMES">
+		<property name="CODEGEN_XML_FILE" value="${COMP_ABS_HOME}/build/codegen.xml"/>
+		<ExpandPluginsInfo plugins="${PLUGINS_NAMES}" file="${TEMP_PROPERTY_FILE}" myname="${PLUGIN_NAME}" prebuiltBase="${PREBUILT_BASE}"/>
+		<property file="${TEMP_PROPERTY_FILE}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-build2" depends="set-plugins-def">
+		<!--
+			<property name="BUILD" value="LATEST"/>
+			<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+			<property name="REPORTED_BUILD" value="${BUILD}"/>
+		-->
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-codegen" depends="set-build2" if="CODEGEN">
+		<!-- create codegen file -->
+		<CreateCodegenXMLFile outputDir="${COMP_ABS_HOME}/build" codegenFiles="${CODEGEN}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-classpath-ref" depends="set-codegen">
+		<!-- CLASSPATH -->
+		<path id="classpath-all">
+			<!-- plugins -->
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_JAR}"/>
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_LIB}"/>
+			<fileset dir="${COMP_ABS_HOME}" includes="lib/**/*.jar, lib/**/*.zip, jars/*.jar"/>
+		</path>
+	</target>
+	<!-- adjust to windows -->
+	<!-- ******************************************************************************** -->
+	<target name="set-windows" if="WINDOWS-OS" depends="set-classpath-ref">
+		<!--		<pathconvert targetos="windows" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="windows" property="CLASSPATH" refid="classpath-all"/>
+	</target>
+	<!-- adjust to unix -->
+	<!-- ******************************************************************************** -->
+	<target name="set-unix" if="UNIX-OS" depends="set-classpath-ref">
+		<!--		<pathconvert targetos="unix" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="unix" property="CLASSPATH" refid="classpath-all"/>
+	</target>
+	<!-- adjust to a specific op system -->
+	<!-- ******************************************************************************** -->
+	<target name="set-env" depends="set-windows, set-unix"/>
+	<!-- ===================================================================== -->
+	<!-- set suffix -->
+	<target name="set-suffix" depends="set-env" unless="LATEST">
+		<property name="SUFFIX" value="${PLUGIN_NAME}.${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD}"/>
+		<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+		<property name="REPORTED_BUILD" value="${BUILD}"/>
+	</target>
+	<target name="set-suffix2" depends="set-suffix" if="LATEST">
+		<property name="SUFFIX" value="${PLUGIN_NAME}"/>
+		<!--
+			<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} LATEST Build"/>
+			<property name="REPORTED_BUILD" value="LATEST"/>
+		-->
+	</target>
+	<!-- read and verify all properties and report them -->
+	<!-- ******************************************************************************** -->
+	<target name="verify-env" depends="set-env" if="DEBUG">
+		<echo message="">
+ ===============================================
+ Plugin:
+ ===============================================
+ Home: ${COMP_ABS_HOME}
+ Name: ${PLUGIN_NAME}
+ CODEGEN FILE: ${CODEGEN_FILE}
+ CLASSPATH: ${CLASSPATH}
+ ===============================================
+		</echo>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- ========== -->
+	<!-- init build -->
+	<!-- ========== -->
+	<!-- define basic global properties -->
+	<target name="init" depends="set-suffix2">
+		<property name="VSUFFIX" value="${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD}"/>
+		<property name="src" value="${COMP_ABS_HOME}/java"/>
+		<property name="properties" value="${COMP_ABS_HOME}/properties"/>
+		<property name="properties2" value="${COMP_ABS_HOME}/properties"/>
+		
+		<property name="sql2" value="${COMP_ABS_HOME}/sql"/>
+		<property name="class" value="${COMP_ABS_HOME}/temp/classes_ant"/>
+		<delete dir="${class}" quiet="true"/>
+		<delete dir="${class}" quiet="true"/>
+		<mkdir dir="${class}"/>
+		<mkdir dir="${install}/jars"/>
+	</target>
+
+	<target name="init2" depends="init" if="DOAPP">
+		<property name="COMP_NAME" value="${APP_NAME}.${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD}"/>
+		<property name="COMP_NAME_SHORT" value="${APP_NAME}"/>
+	</target>
+
+	<target name="init3" depends="init2" unless="DOAPP">
+		<property name="COMP_NAME" value="${SUFFIX}"/>
+		<property name="COMP_NAME_SHORT" value="${COMP_NAME}"/>
+	</target>
+
+	
+	<!-- ========================= -->
+	<!-- Check target database     -->
+	<!-- ========================= -->
+	<target name="check-target-database" depends="init3">
+	  <condition property="is-oracle">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="oracle" />
+	    </and>
+	  </condition> 
+	  <condition property="is-postgresql">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="postgresql" />
+	    </and>
+	  </condition>
+	  <condition property="is-db2">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="db2" />
+	    </and>
+	  </condition>
+	</target>
+
+	<target name="set-oracle" if="is-oracle" depends="check-target-database" unless="DEBUG1">
+		<property name="sql" value="sql"/>
+		<property name="codegen" value="codegen"/>
+	</target>
+	<target name="set-postgresql" if="is-postgresql" depends="check-target-database" unless="DEBUG1">
+		<property name="sql" value="sql-${DATABASE}"/>
+		<property name="codegen" value="codegen-${DATABASE}"/>
+	</target>
+	<target name="set-db2" if="is-db2" depends="check-target-database" unless="DEBUG1">
+		<property name="sql" value="sql-${DATABASE}"/>
+		<property name="codegen" value="codegen-${DATABASE}"/>
+	</target>
+
+	<target name="name-jar" depends="set-oracle,set-postgresql,set-db2" if="JARNAME">
+		<property name="jarfile" value="${install}/jars/${JARNAME}.jar"/>
+	</target>
+	<target name="clean-jar" depends="name-jar">
+		<property name="jarfile" value="${install}/jars/${COMP_NAME_SHORT}.jar"/>
+		<delete file="${jarfile}" quiet="true"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!-- ========================= -->
+	<!-- create data binding layer -->
+	<!-- ========================= -->
+	<target name="build-plugin-binding-layer" depends="clean-jar" if="CODEGEN">
+		<ant antfile="${CODEGEN_XML_FILE}"/>
+	</target>
+	<!-- ============ -->
+	<!-- build plugin -->
+	<!-- ============ -->
+	<!-- ******************************************************************************** -->
+	<target name="build-plugin-source" depends="build-plugin-binding-layer">
+		<echo message="">
+ Building Plugin ${COMP_NAME}:
+ ${REPORTED_VERSION}
+		</echo>
+		<ant antfile="${ANT_BUILD}/build-plugin-source.xml"/>
+	</target>
+	<!-- =============== -->
+	<!-- copy loadjava files for java stored proceedure   -->
+	<!-- =============== -->
+	<!-- ******************************************************************************** -->
+	<target name="copy-loadjava-files" depends="build-plugin-source" if="LOADJAVA">
+		<mkdir dir="${class}/loadjava"/>		
+		<echo file="${class}/loadjava/loadjavafiles.properties">
+ loadjava.files=${LOADJAVA}
+		</echo>
+		<replace file="${class}/loadjava/loadjavafiles.properties" token="class" value="java"/>				
+		<loadproperties srcFile="${class}/loadjava/loadjavafiles.properties"/>	
+		<echo>
+ Recompile ${loadjava.files} using source 1.3 parameter		
+		</echo>
+		<javac  source="1.3" target="1.1" srcdir="${src}" destdir="${class}/loadjava" includes="${loadjava.files}" classpath="${CLASSPATH}" debug="off" verbose="no"/>
+		<echo message="">
+Copy load java files:
+${LOADJAVA}		
+		</echo>  		
+  		<copy todir="${COMP_ABS_HOME}/${sql}" flatten="true">
+  			<fileset dir="${class}/loadjava" includes="${LOADJAVA}" />
+  		</copy>
+  		<!-- delete dir="${class}/loadjava" quiet="true"/ -->
+  	</target>
+	<!-- =============== -->
+	<!-- jar files       -->
+	<!-- =============== -->
+	<!-- ******************************************************************************** -->
+	<target name="jar-classes" depends="copy-loadjava-files" unless="JARCLASSES">
+		<property name="JARCLASSES" value="**/*.class"/>
+	</target>
+	<target name="jar-plugin" depends="jar-classes">
+		<ant antfile="${ANT_BUILD}/update-jarmanifest.xml">
+			<property name="M_FILE" value="${jarfile}"/>
+			<property name="M_IMPLEMENTATION_TITLE" value="xTrade PLUGIN ${COMP_NAME_SHORT}"/>
+			<property name="M_IMPLEMENTATION_VERSION" value="${MAJOR_VERSION}.${MINOR_VERSION}.${REPORTED_BUILD} ${DATABASE}"/>
+			<property name="M_IMPLEMENTATION_VENDER" value="Fitech Laboratories, Inc."/>
+			<property name="M_IMPLEMENTATION_VENDER_ID" value="com.fitechlabs"/>
+			<property name="M_SPECIFICATION_TITLE" value="xTrade Specification"/>
+			<property name="M_SPECIFICATION_VERSION" value="${MAJOR_VERSION}.${MINOR_VERSION}.${REPORTED_BUILD}"/>
+			<property name="M_SPECIFICATION_VENDER" value="Fitech Laboratories, Inc."/>
+		</ant>
+		<jar jarfile="${jarfile}" basedir="${class}" includes="${JARCLASSES}" manifest="${XTRADE_TEMP_DIR}/MANIFEST.MF"/>
+		<!-- update manifest -->
+		<ant antfile="${ANT_BUILD}/update-manifest.xml">
+			<property name="M_COMP_NAME" value="${COMP_NAME_SHORT}"/>
+			<property name="M_TYPE" value="PLUGIN"/>
+			<property name="M_FILENAME" value="${COMP_NAME_SHORT}.jar"/>
+			<property name="M_NOTE" value="${DATABASE} version"/>
+			<property name="M_JAR" value="true"/>
+			<property name="M_FILE" value="${jarfile}"/>
+		</ant>
+	</target>
+	<!-- ================ -->
+	<!-- separate plugin  -->
+	<!-- ================ -->
+	<!-- ******************************************************************************** -->
+	<target name="separate-plugin" depends="jar-plugin">
+		<ant antfile="${ANT_BUILD}/separate-plugin.xml"/>
+	</target>
+	<!-- ================ -->
+	<!-- war     plugin   -->
+	<!-- ================ -->
+	<!-- ******************************************************************************** -->
+	<target name="war-plugin" depends="separate-plugin">
+		<!--
+		<property name="install" value="${INSTALL_DIR_STEM}/${SUFFIX}"/>
+		<ant antfile="${ANT_BUILD}/war-plugin.xml"/>
+-->
+	</target>
+	<!-- ================ -->
+	<!-- zip plugin       -->
+	<!-- ================ -->
+	<!-- ******************************************************************************** -->
+	<target name="zip-plugin" depends="war-plugin" if="ZIPIT">
+		<property name="install" value="${INSTALL_DIR_STEM}/${SUFFIX}"/>
+		<ant antfile="${ANT_BUILD}/zip-plugin.xml"/>
+	</target>
+	<!-- ========= -->
+	<!-- build all -->
+	<!-- ========= -->
+	<!-- ******************************************************************************** -->
+	<target name="build" depends="zip-plugin">
+		<delete file="${working-token-file}" quiet="true"/>
+	</target>
+</project>
+@

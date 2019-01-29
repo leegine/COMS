@@ -1,0 +1,102 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.04.32.25;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7284d803d575ff6;
+filename	create_test_data4om_testing.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-- //////////////////////////////////////////////////////////////////////////
+--  Author : Warlu
+--   Useful test data for testing order manager
+-- Note: this assumes a clean database.
+--    and intendend for unit testing only.
+-- //////////////////////////////////////////////////////////////////////////
+
+insert into institution (institution_id, institution_code, institution_name)
+	values(1, 'institution_code', 'institution_name');
+insert into branch (branch_id, branch_code, branch_name, branch_type, institution_id)
+	values(1, 'branch_code', 'branch_name', 0, 1);
+
+insert into trader (trader_id, trader_code, trader_type, login_id, branch_code, family_name, given_name)
+	values(1, 'trader_code', 0, '3300', 'branch_code', 'trader_family_name', 'trader_given_name');
+
+insert into main_account (account_id, institution_id, account_code, family_name, given_name, address_line1, zip_code, trading_password, account_status, account_type, branch_id, branch_code)
+	values(1, 1, 'account_code', 'account_family_name', 'account_given_name', 'address_line1', '94104', 'trading_password', 0, 0, 1, 'branch_code');
+insert into sub_account (account_id, sub_account_id, sub_account_type, sub_account_status, cash_balance)
+	values(1, 1, 0, 0, 10000000);
+
+--
+-- market
+insert into market(market_id, market_code, market_name, open_time, close_time)
+	values(1, 'TSE', 'TSE', '09:00', '15:00');
+insert into market(market_id, market_code, market_name, open_time, close_time)
+	values(2, 'OSE', 'OSE', '09:00', '15:00');
+
+
+--
+-- market prefs
+INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+VALUES (1,'accepts_limit_order',1,'true');
+
+INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+VALUES (1,'accepts_market_order',1,'true');
+
+INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+VALUES (1,'is_accepting_orders',1,'true');
+
+-- market prefs for OSE
+INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+VALUES (2,'accepts_limit_order',1,'true');
+
+INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+VALUES (2,'accepts_market_order',1,'true');
+
+INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+VALUES (2,'is_accepting_orders',1,'true');
+
+
+--
+-- product
+INSERT into eqtype_product(product_id, product_code, product_type,standard_name, primary_market_id, lot_size)
+	values(1, 'SONY',1, 'Sony', '1', 100);
+
+INSERT into eqtype_product(product_id, product_code, product_type,standard_name, primary_market_id, lot_size)
+	values(2, 'IBM', 1,'IBM Japan', '1', 100);
+
+INSERT into eqtype_product(product_id, product_code, product_type,standard_name, primary_market_id, lot_size)
+	values(3, 'YAHOO', 1,'Yahoo Japan', '1', 100);
+
+--
+-- traded product
+insert into eqtype_traded_product(traded_product_id,product_id, 	market_id,base_date,listed_date,margin_ratio,marginable_flag,shortable_flag,last_closing_price,daily_delivery_date,stop_low_price,stop_high_price,price_range_ratio)
+	values(1, 1, 1, to_date('20030108','yyyymmdd'), to_date('19490501','yyyymmdd'), 0.7, 1, 1, 444, to_date('20030113','yyyymmdd'),1,999999,1);
+
+INSERT into eqtype_traded_product(traded_product_id,product_id, market_id,base_date,listed_date,margin_ratio,marginable_flag,shortable_flag,last_closing_price,daily_delivery_date,stop_low_price,stop_high_price,price_range_ratio)
+	values(2, 1, 2, to_date('20030108','yyyymmdd'), to_date('19490501','yyyymmdd'), 0.7, 1, 1, 444, to_date('20030113','yyyymmdd'),1,9999999,1);
+
+
+INSERT into eqtype_traded_product(traded_product_id,product_id, market_id,base_date,listed_date,margin_ratio,marginable_flag,shortable_flag,last_closing_price,daily_delivery_date,stop_low_price,stop_high_price,price_range_ratio)
+	values(30, 2, 1, to_date('20030108','yyyymmdd'), to_date('19490501','yyyymmdd'), 0.7, 1, 1, 444, to_date('20030113','yyyymmdd'),1,9999999,1);
+
+INSERT into eqtype_traded_product(traded_product_id,product_id, market_id,base_date,listed_date,margin_ratio,marginable_flag,shortable_flag,last_closing_price,daily_delivery_date,stop_low_price,stop_high_price,price_range_ratio)
+	values(40, 3, 1, to_date('20030108','yyyymmdd'), to_date('19490501','yyyymmdd'), 0.7, 1, 1, 444, to_date('20030113','yyyymmdd'),1,9999999,1);@

@@ -1,0 +1,220 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.48.26;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	xbuild-useabspath.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@@echo off
+::
+::XTRADE COMPONENT-BASED BUILD FRAMEOWRK
+::UNIVERSAL BUILD SCRIPT
+::Author: Charny
+::Date: 11/01/01
+::
+
+@@setlocal
+
+:: TEST ENVIRONMENT FOR JAVA
+call test-env.bat
+if %XTRADE_ERROR%==1 goto ENDSCRIPT
+
+set CLASSPATH=
+set MAIL=
+
+:: Build type
+set COMPONENT=
+set COMPONENT_FULL_TYPE=
+set DOAPP=
+
+:: Component's home
+set HOME=
+set COMP_HOME=
+
+:: Build control
+set BUILD=
+set OFFICIAL_BUILD=
+set LATEST=
+set DOC=
+set ZIPAPP=
+set UNZIPAPP=
+
+:: Debug controls
+set DEBUG=
+set FULL_DEBUG=-quiet
+set ECHOCMD=
+set EMACS=
+
+:: Zip controls
+
+set ZIPIT=
+set ssdir=\\192.168.39.108\VSS_DEV
+
+:: ERROR TOKEN FILE HANDLING
+if not "%X_ERROR_TOKEN_FILE%"=="" set X_ERROR_TOKEN_FILE=-DX_ERROR_TOKEN_FILE=%X_ERROR_TOKEN_FILE%
+
+:LOCAL_LOOP
+	if %1a==a goto FINISHED_LOCAL
+	if "%1"=="-core" set COMPONENT=core
+	if "%1"=="-plugin" set COMPONENT=plugin
+	if "%1"=="-app" set COMPONENT=app
+	if "%1"=="-codegen" set COMPONENT=codegen
+	if "%1"=="-b" set BUILD=-DBUILD=%2
+	if "%1"=="-official" set OFFICIAL_BUILD=-DOFFICIAL_BUILD=1
+	if "%1"=="-latest" set LATEST=-DLATEST=1
+	if "%1"=="-doc" set DOC=-DDOC=1
+	if "%1"=="-ssdir" set ssdir=%2
+	if "%1"=="-h" (
+		set COMP_HOME=-DCOMP_HOME=%2
+		set HOME=%2
+	)
+	if "%1"=="-d" set DEBUG=-DDEBUG=1
+	if "%1"=="-fd" (
+		set FULL_DEBUG=-verbose
+		set DEBUG=-DDEBUG=1
+	)
+	if "%1"=="-echo" set ECHOCMD=1
+	if "%1"=="-mail" set MAIL=-DMAIL=1
+	if "%1"=="-z" set ZIPIT=-DZIPIT=1
+	if "%1"=="-emacs" set EMACS=-emacs
+	if "%1"=="-error_token_file" set X_ERROR_TOKEN_FILE=-DX_ERROR_TOKEN_FILE=%2
+	if "%1"=="-zipapp" set ZIPAPP=-DZIPAPP=1
+	if "%1"=="-unzipapp" set UNZIPAPP=-DUNZIPAPP=1
+	shift
+	goto LOCAL_LOOP
+:FINISHED_LOCAL
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::
+if not "%COMP_HOME%"=="" goto CHECK_TYPE
+if "%COMPONENT%"=="core" goto CHECK_TYPE
+set ERR=ERROR: Need to supply component's home directory: -h component_home_dir
+goto USAGE
+
+:CHECK_TYPE
+if "%COMPONENT%"=="core" goto SET_CORE
+if "%COMPONENT%"=="plugin" goto SET_PLUGIN
+if "%COMPONENT%"=="app" goto SET_APP
+if "%COMPONENT%"=="codegen" goto SET_CODEGEN
+set ERR=ERROR: Need to supply component's type: -core or -plugin or -app
+goto USAGE
+
+:SET_PLUGIN
+set COMPONENT_FULL_TYPE=PLUGIN
+echo.
+::echo ***************************************************
+echo  BUILDING PLUGIN IN %HOME%
+::echo ***************************************************
+::echo.
+
+goto SETXANT
+
+:SET_CODEGEN
+set COMPONENT_FULL_TYPE=CODE GENERATION
+echo.
+::echo ***************************************************
+echo  GENERATING CODE FOR PLUGIN IN %HOME%
+::echo ***************************************************
+::echo.
+
+goto SETXANT
+
+:SET_APP
+set COMPONENT_FULL_TYPE=APPLICATION
+set DOAPP=-DDOAPP=1
+echo.
+::echo ***************************************************
+echo  BUILDING APPLICATION IN %HOME%
+::echo ***************************************************
+::echo.
+
+goto SETXANT
+
+:SET_CORE
+set COMPONENT_FULL_TYPE=CORE
+set HOME=core
+echo.
+::echo ***************************************************
+echo  BUILDING CORE
+::echo ***************************************************
+::echo.
+
+:SETXANT
+call set-ant-build.bat
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+:BUILD
+:: Run build
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:Set build file
+if "%COMPONENT%"=="core" set MAIN_ANT_FILE=-DMAIN_ANT_FILE=build-core.xml
+if "%COMPONENT%"=="plugin" set MAIN_ANT_FILE=-DMAIN_ANT_FILE=build-plugin.xml
+if "%COMPONENT%"=="app" set MAIN_ANT_FILE=-DMAIN_ANT_FILE=build-app.xml
+if "%COMPONENT%"=="codegen" set MAIN_ANT_FILE=-DMAIN_ANT_FILE=build-plugin.xml
+
+:Set build target
+if "%COMPONENT%"=="core" set BUILD_TARGET=-DBUILD_TARGET=build
+if "%COMPONENT%"=="plugin" set BUILD_TARGET=-DBUILD_TARGET=build
+if "%COMPONENT%"=="app" set BUILD_TARGET=-DBUILD_TARGET=build
+if "%COMPONENT%"=="codegen" set BUILD_TARGET=-DBUILD_TARGET=build-plugin-binding-layer
+
+::echo ...................................................
+::echo ...................................................
+
+::===============================================================
+if not "%ECHOCMD%"=="" echo call ..\ant\bin\ant.bat -DUSE.ABSPATH=true -logger com.fitechlabs.ant.XLogger %MAIN_ANT_FILE% %BUILD_TARGET% %BUILD% %OFFICIAL_BUILD% %LATEST% %COMP_HOME% %DEBUG% %FULL_DEBUG% %ZIPIT% %DOC% %DOAPP% %MAIL% %EMACS% %X_ERROR_TOKEN_FILE% %ZIPAPP% %UNZIPAPP%
+	call ..\ant\bin\ant.bat -DUSE.ABSPATH=true -logger com.fitechlabs.ant.XLogger %MAIN_ANT_FILE% %BUILD_TARGET% %BUILD% %OFFICIAL_BUILD% %LATEST% %COMP_HOME% %DEBUG% %FULL_DEBUG% %ZIPIT% %DOC% %DOAPP% %MAIL% %EMACS% %X_ERROR_TOKEN_FILE% %ZIPAPP% %UNZIPAPP%
+::===============================================================
+
+if %OFFICIAL_BUILD%a==a goto FINISHED
+call restore-official-build-token.bat -h %HOME%
+
+:FINISHED
+
+::echo.
+::echo      FINISHED BUILDING %COMPONENT_FULL_TYPE%
+::echo.
+::echo.
+
+goto ENDSCRIPT
+
+:USAGE
+echo.
+echo ***************************************************
+echo.
+echo %ERR%
+echo.
+echo Usage:
+echo     xbuild -core or -plugin or -app or -codegen
+echo            -b build or -latest or -bf build_file
+echo            -h component_home_dir
+echo            [-d] [-fd] [-echo] [-z]
+echo.
+echo ***************************************************
+echo.
+
+:ENDSCRIPT
+@@endlocal
+@

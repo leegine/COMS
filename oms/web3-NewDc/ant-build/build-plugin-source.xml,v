@@ -1,0 +1,88 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.04;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-plugin-source.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Build Plugin Source ANT file                 -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/04/2001                             -->
+<!-- ============================================ -->
+<project name="build-plugin-source" default="build" basedir=".">
+
+	<target name="set_source_opt" unless="JAVAC_SOURCE_OPT" >
+		<property name="JAVAC_SOURCE_OPT"	value="1.5" />
+	</target>
+    
+	<!-- set global properties for this build -->
+	<target name="build1" depends="set_source_opt" if="SOURCE_ENCODING">
+		<echo message="">
+ Compiling classes with options: source="${JAVAC_SOURCE_OPT}" encoding="${SOURCE_ENCODING}"
+		</echo>		
+		<mkdir dir="${class}"/>
+		<javac srcdir="${src}" destdir="${class}" includes="**/*.java" classpath="${CLASSPATH}" debug="on" verbose="no" encoding="${SOURCE_ENCODING}" source="${JAVAC_SOURCE_OPT}"/>
+	</target>
+	
+	<target name="build2" depends="build1" unless="SOURCE_ENCODING">
+		<echo message="">
+ Compiling classes with options: source="${JAVAC_SOURCE_OPT}"
+		</echo>		
+		<mkdir dir="${class}"/>
+		<javac srcdir="${src}" destdir="${class}" includes="**/*.java" classpath="${CLASSPATH}" debug="on" verbose="no" source="${JAVAC_SOURCE_OPT}"/>
+	</target>
+
+	<!-- ========================= -->
+	<!-- Check target database     -->
+	<!-- ========================= -->
+	<target name="check-database" depends="build2">
+		<condition property="is-build-db-src">
+			<and>
+	        	<equals arg1="${DATABASE}" arg2="oracle" />
+	    		<available property="is-com-db-src" file="${COMP_ABS_HOME}/java-${DATABASE}" type="dir"/>
+			</and>
+		</condition>
+		<condition property="is-build-db-src">
+	    	<and>
+	        	<equals arg1="${DATABASE}" arg2="postgresql" />
+				<available property="is-com-db-src" file="${COMP_ABS_HOME}/java-${DATABASE}" type="dir"/>
+			</and>
+		</condition>
+		<condition property="is-build-db-src">
+	    	<and>
+	        	<equals arg1="${DATABASE}" arg2="db2" />
+				<available property="is-com-db-src" file="${COMP_ABS_HOME}/java-${DATABASE}" type="dir"/>
+			</and>
+		</condition>
+	</target>
+
+	<target name="build" if="is-build-db-src" depends="check-database" unless="DEBUG1">
+		<property name="src-database" value="${COMP_ABS_HOME}/java-${DATABASE}"/>
+		<javac srcdir="${src-database}" destdir="${class}" includes="**/*.java" classpath="${CLASSPATH}" debug="on" verbose="no" source="${JAVAC_SOURCE_OPT}"/>
+	</target>
+	
+</project>
+@

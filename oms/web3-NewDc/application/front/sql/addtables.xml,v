@@ -1,0 +1,48 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.28.05;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2144d9046833db9;
+filename	addtables.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!--                                      -->
+<!-- Author: Warlu                        -->
+<!-- Date:                                -->
+<!-- ============================================ -->
+<project name="tables" default="build">
+	<target name="build">
+		<!--
+			Install trial license for webstock
+		-->
+		
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/queryprocessor.sql"/>
+		
+		<!--
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/xblocks.trial.licenses.sql"/>
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/insert.sql"/>
+		-->
+	</target>
+</project>
+@

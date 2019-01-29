@@ -1,0 +1,1116 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.04.07.01.42.03;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5444d9d078c63f4;
+filename	WEB3MarginCancelServiceImplTest_jiddk01.txt;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Logit: starting, will look for log.properties
+||||||||||||| PropertiesFileFinder: loaded as resource: /log.properties
+||||||||||||| PropertiesFileFinder: loaded as resource: /cat.properties
+2007-02-01 11:34:51,874 - main - INFO  - TestBase - Initializing the plugin
+2007-02-01 11:34:51,874 - main - INFO  - TestBase - *** Plugin will use JDBC driver :oracle.jdbc.driver.OracleDriver
+2007-02-01 11:34:51,874 - main - INFO  - TestBase - *** >>>>>>> Plugin will use JDBC URL: jdbc:oracle:thin:web3csh/web3csh@@10.253.111.77:1521:daiwa7
+||||||||||||| PropertiesFileFinder: not found: license.properties
+||||||||||||| PropertiesFileFinder: not found: config.properties
+2007-02-01 11:34:52,062 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor license use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:53,655 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.core-061201-2527 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.dbind-061201-9465 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-ifo-pdbt-040917-7297 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-aio-pdbt-040917-7433 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-feq-pdbt-040917-7940 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.core-040917-8136 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.dbind-040917-3329 from server_license
+2007-02-01 11:34:53,687 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-ruito-pdbt-040917-9209 from server_license
+2007-02-01 11:34:53,702 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.ov-041018-2917 from server_license
+2007-02-01 11:34:53,702 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.gtl-041018-4762 from server_license
+2007-02-01 11:34:53,702 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.basic-041018-2924 from server_license
+2007-02-01 11:34:53,702 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.mini-041018-5320 from server_license
+2007-02-01 11:34:53,702 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-mf-pdbt-041018-5481 from server_license
+2007-02-01 11:34:53,702 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.margin-041018-9111 from server_license
+2007-02-01 11:34:53,718 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.core-050117-2924 from server_license
+2007-02-01 11:34:53,718 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.dbind-050117-3802 from server_license
+2007-02-01 11:34:53,718 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-bd-pdbt-061201-2823 from server_license
+2007-02-01 11:34:54,015 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor config use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,015 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'config' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,077 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor session use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,077 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'session' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,093 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor master use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,093 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'master' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,124 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor account use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,124 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'account' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,155 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor default use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,155 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'default' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFDefaultImpl
+2007-02-01 11:34:54,218 - main - INFO  - com.fitechlabs.dbind.DBindConfig - xTrade dbind layer will use PreparedStatement.setCharacterStream method for binding a String if its length is bigger than 1024
+2007-02-01 11:34:54,405 - main - INFO  - TestBase - KernelPlugin bootstrap succeeded !!!
+2007-02-01 11:34:54,499 - main - INFO  - TestBase - QueryRequestPlugin bootstrap succeeded !!!
+2007-02-01 11:34:54,702 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor login-master use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,702 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-master' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,734 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor login-account use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,734 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-account' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,734 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor login-session use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 11:34:54,734 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-session' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 11:34:54,749 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-account' factory replaced with com.fitechlabs.xtrade.plugin.security.oplogin.impl.QPFOpLoginImpl
+2007-02-01 11:34:55,812 - main - INFO  - TestBase - OpLoginPlugin bootstrap succeeded !!!
+2007-02-01 11:34:55,905 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.gtl License Available = true
+2007-02-01 11:35:00,077 - main - WARN  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.TradingSystemImpl - !!! system timestamp shifting is ON !!!
+2007-02-01 11:35:00,140 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Registered FinApp Service.
+2007-02-01 11:35:00,202 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum
+2007-02-01 11:35:00,202 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.MainAccountTypeEnum
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.MainAccountStatusEnum
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.SubAccountTypeEnum
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.SubAccountStatusEnum
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.BranchTypeEnum
+2007-02-01 11:35:00,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.ParticipantTypeEnum
+2007-02-01 11:35:00,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.TraderTypeEnum
+2007-02-01 11:35:00,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum
+2007-02-01 11:35:00,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum
+2007-02-01 11:35:00,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.SideEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.ContractTypeEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum
+2007-02-01 11:35:00,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum
+2007-02-01 11:35:00,780 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Done plugging in class com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin
+2007-02-01 11:35:00,780 - main - INFO  - TestBase - GenericTradingPlugin bootstrap succeeded !!!
+2007-02-01 11:35:00,843 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.eqtype.basic License Available = true
+2007-02-01 11:35:02,546 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Installing TradingModule : eqtype
+2007-02-01 11:35:02,859 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:eqtype is turned on
+2007-02-01 11:35:02,859 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EqTypeMarketAdapterImpl - Wrapped EqTypeMarketResponseReceiverCallbackService with interceptor : com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor
+2007-02-01 11:35:03,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.eqtype.margin License Available = true
+2007-02-01 11:35:03,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.eqtype.mini License Available = true
+2007-02-01 11:35:03,296 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : eqtype
+2007-02-01 11:35:03,296 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : eqtype
+2007-02-01 11:35:03,296 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : eqtype registered to handle product types : EQUITY,CASH
+2007-02-01 11:35:03,296 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Installed TradingModule : eqtype
+2007-02-01 11:35:03,312 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType
+2007-02-01 11:35:03,312 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Done plugging in class com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin
+2007-02-01 11:35:03,312 - main - INFO  - TestBase - EqTypeTradingPlugin bootstrap succeeded !!!
+2007-02-01 11:35:03,343 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:35:03,343 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:35:15,890 - main - WARN  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ******* Overriding account manager
+2007-02-01 11:35:15,921 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - **** Overriding FinObjectManager
+2007-02-01 11:35:17,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - **** Overriding GlobalBizLogicProvider with class:class webbroker3.gentrade.WEB3GentradeBizLogicProvider
+2007-02-01 11:35:17,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:35:17,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:35:17,249 - main - INFO  - TestBase - WEB3GentradeAppPlugin bootstrap succeeded !!!
+2007-02-01 11:35:17,265 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:35:17,265 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:35:17,265 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - KernelPlugin bootstrap succeeded !!!
+2007-02-01 11:35:17,265 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - QueryRequestPlugin bootstrap succeeded !!!
+2007-02-01 11:35:17,265 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - OpLoginPlugin bootstrap succeeded !!!
+2007-02-01 11:35:17,265 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - GenericTradingPlugin bootstrap succeeded !!!
+2007-02-01 11:35:19,077 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:35:19,077 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:35:19,077 - main - INFO  - TestBase - WEB3LoginAppPlugin bootstrap succeeded !!!
+2007-02-01 11:35:19,187 - main - INFO  - webbroker3.servlet.WEB3HttpServletPlugin - WEB3HttpServletPlugin bootstrap succeeded.
+2007-02-01 11:35:19,187 - main - INFO  - TestBase - WEB3HttpServletPlugin bootstrap succeeded !!!
+2007-02-01 11:35:19,280 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:35:19,280 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:35:22,202 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : eqtype
+2007-02-01 11:35:22,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:eqtype is turned on
+2007-02-01 11:35:22,249 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EqTypeMarketAdapterImpl - Wrapped EqTypeMarketResponseReceiverCallbackService with interceptor : com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor
+2007-02-01 11:35:22,265 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : eqtype
+2007-02-01 11:35:22,265 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : eqtype
+2007-02-01 11:35:22,265 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : eqtype registered to handle product types : EQUITY,CASH
+2007-02-01 11:35:22,796 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.equity.marketadaptor.WEB3EquityMarketRequestSenderServiceImpl
+2007-02-01 11:35:24,343 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EquityProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EquityProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations
+2007-02-01 11:35:38,296 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:35:38,296 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:35:38,296 - main - INFO  - TestBase - WEB3EquityAppPlugin bootstrap succeeded !!!
+2007-02-01 11:35:38,499 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-ifo-pdbt License Available = true
+2007-02-01 11:35:40,968 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installing TradingModule : xb-ifo-pdbt
+2007-02-01 11:35:41,077 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-ifo-pdbt is turned on
+2007-02-01 11:35:41,218 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-ifo-pdbt
+2007-02-01 11:35:41,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-ifo-pdbt
+2007-02-01 11:35:41,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-ifo-pdbt registered to handle product types : IFO
+2007-02-01 11:35:41,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installed TradingModule : xb-ifo-pdbt
+2007-02-01 11:35:41,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum
+2007-02-01 11:35:41,234 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType
+2007-02-01 11:35:41,609 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:35:41,624 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:35:41,624 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : xb-ifo-pdbt
+2007-02-01 11:35:41,624 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - Installing TradingModule : web3-xbifo
+2007-02-01 11:35:41,687 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-ifo-pdbt is turned on
+2007-02-01 11:35:41,765 - main - DEBUG - webbroker3.ifo.WEB3IfoFinTransactionManagerImpl - ------- >>>>>>>> WEB3IfoPositionManagerImpl Has Intializtion Successed !!!
+2007-02-01 11:35:41,765 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-ifo-pdbt
+2007-02-01 11:35:41,765 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-ifo-pdbt
+2007-02-01 11:35:41,765 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-ifo-pdbt registered to handle product types : IFO
+2007-02-01 11:35:41,780 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - Installed TradingModule : web3-xbifo
+2007-02-01 11:35:42,796 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.stdimpls.IfoProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.xbifo.stdimpls.IfoProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.ifo.WEB3IfoOrderManagerReusableValidations
+2007-02-01 11:35:42,796 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - XBIFO: 市場Adapterの登録
+2007-02-01 11:35:42,827 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:35:42,827 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:35:42,827 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - XBIFO: 市場リクエスト送信サービスをインストール
+2007-02-01 11:35:42,874 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.ifo.marketadaptor.WEB3IfoMarketRequestSenderServiceImpl
+2007-02-01 11:35:42,874 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:35:42,874 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:35:56,109 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:35:56,109 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:35:56,171 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-ruito-pdbt License Available = true
+2007-02-01 11:35:57,562 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin - Installing TradingModule : xb-ruito-pdbt
+2007-02-01 11:35:57,624 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-ruito-pdbt is turned on
+2007-02-01 11:35:57,734 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-ruito-pdbt
+2007-02-01 11:35:57,734 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-ruito-pdbt
+2007-02-01 11:35:57,749 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-ruito-pdbt registered to handle product types : RUITO
+2007-02-01 11:35:57,749 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin - Installed TradingModule : xb-ruito-pdbt
+2007-02-01 11:35:57,749 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTypeEnum
+2007-02-01 11:35:57,780 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-feq-pdbt License Available = true
+2007-02-01 11:35:59,124 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Installing TradingModule : xb-feq-pdbt
+2007-02-01 11:35:59,202 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-feq-pdbt is turned on
+2007-02-01 11:35:59,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-feq-pdbt
+2007-02-01 11:35:59,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-feq-pdbt
+2007-02-01 11:35:59,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-feq-pdbt registered to handle product types : FOREIGN_EQUITY
+2007-02-01 11:35:59,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Installed TradingModule : xb-feq-pdbt
+2007-02-01 11:35:59,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqExecutionConditionType
+2007-02-01 11:35:59,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Done plugging in class com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin
+2007-02-01 11:35:59,374 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： plug() ： ENTER
+2007-02-01 11:35:59,390 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： onPlug() ： ENTER
+2007-02-01 11:35:59,390 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - Installing TradingModule : web3-ipo: ENTER
+2007-02-01 11:35:59,780 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : web3-ipo
+2007-02-01 11:35:59,780 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : web3-ipo
+2007-02-01 11:35:59,780 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : web3-ipo registered to handle product types : IPO
+2007-02-01 11:35:59,780 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - Installed TradingModule : web3-ipo: END
+2007-02-01 11:36:06,280 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： onPlug() ： EXIT
+2007-02-01 11:36:06,280 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： plug() ： EXIT
+2007-02-01 11:36:06,312 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-aio-pdbt License Available = true
+2007-02-01 11:36:07,187 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin - Installing TradingModule : xb-aio-pdbt
+2007-02-01 11:36:07,280 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-aio-pdbt is turned on
+2007-02-01 11:36:07,405 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-aio-pdbt
+2007-02-01 11:36:07,405 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-aio-pdbt
+2007-02-01 11:36:07,405 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-aio-pdbt registered to handle product types : AIO
+2007-02-01 11:36:07,405 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin - Installed TradingModule : xb-aio-pdbt
+2007-02-01 11:36:07,437 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbaio.AssetTransferTypeEnum
+2007-02-01 11:36:07,890 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:36:07,890 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:07,890 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : xb-aio-pdbt
+2007-02-01 11:36:07,890 - main - INFO  - webbroker3.aio.WEB3AioAppPlugin - Installing TradingModule : web3-aio
+2007-02-01 11:36:07,937 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-aio-pdbt is turned on
+2007-02-01 11:36:07,937 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-aio-pdbt
+2007-02-01 11:36:07,937 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-aio-pdbt
+2007-02-01 11:36:07,937 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-aio-pdbt registered to handle product types : AIO
+2007-02-01 11:36:07,937 - main - INFO  - webbroker3.aio.WEB3AioAppPlugin - Installed TradingModule : web3-aio
+2007-02-01 11:36:08,359 - main - DEBUG - webbroker3.aio.WEB3AioProductTypeOrderManagerReusableValidations - メソッド名：register() ： ENTER
+2007-02-01 11:36:08,359 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.stdimpls.AioProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.xbaio.stdimpls.AioProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.aio.WEB3AioProductTypeOrderManagerReusableValidations
+2007-02-01 11:36:08,359 - main - DEBUG - webbroker3.aio.WEB3AioProductTypeOrderManagerReusableValidations - メソッド名：register() ： EXIT
+2007-02-01 11:36:08,374 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:36:08,374 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:08,374 - main - INFO  - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - XBAIO: 市場リクエスト送信サービスをインストール........
+2007-02-01 11:36:08,437 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.aio.marketadaptor.WEB3AioMarketRequestSenderServiceImpl
+2007-02-01 11:36:08,437 - main - INFO  - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - XBAIO: 市場リクエスト送信サービスをインストール........OK
+2007-02-01 11:36:08,437 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:08,437 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:36:16,890 - main - DEBUG - webbroker3.servlet.WEB3HttpServiceMappingsImpl - New entry registered. ServiceName=web3-aio, ServiceInterface=webbroker3.aio.service.delegate.WEB3AioMultiBankTelegramProcessService
+2007-02-01 11:36:27,593 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:27,593 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:36:27,671 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： plug() ： ENTER
+2007-02-01 11:36:27,671 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： onPlug() ： ENTER
+2007-02-01 11:36:33,312 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： onPlug() ： EXIT
+2007-02-01 11:36:33,312 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： plug() ： EXIT
+2007-02-01 11:36:33,515 - main - INFO  - TestBase - WEB3ThreadPoolPlugin bootstrap succeeded !!!
+2007-02-01 11:36:33,593 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor rac-config use dataSource=oracle.jdbc.pool.OracleConnectionCacheImpl@@13e02ed
+||||||||||||| PropertiesFileFinder: loaded as resource: /dbind.properties
+2007-02-01 11:36:33,702 - InvServer-40 - INFO  - com.fitechlabs.dbind.impl.InvServer - InvServer-40 has started at chai-shuanghong:2121.
+2007-02-01 11:36:33,734 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'rac-config' factory set to webbroker3.system.tune.affinity.WEB3AffinityTestPlugin$QPFRacImpl
+2007-02-01 11:36:33,734 - Heartbeat-40.1 - INFO  - com.fitechlabs.dbind.impl.InvHeartbeat - Heartbeat-40.1 has started on jdbc:oracle:thin:web3csh/web3csh@@10.253.111.77:1521:daiwa7, interval=6.0, duration=20
+2007-02-01 11:36:33,734 - Heartbeat-40.1 - INFO  - com.fitechlabs.dbind.impl.InvHeartbeat - Heartbeat will use new Connection object from oracle.jdbc.pool.OracleConnectionCacheImpl@@13e02ed
+2007-02-01 11:36:34,702 - main - INFO  - TestBase - WEB3AffinityPlugin bootstrap succeeded !!!
+2007-02-01 11:36:34,734 - main - INFO  - TestBase - WEB3AffinityTestPlugin bootstrap succeeded !!!
+2007-02-01 11:36:35,015 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.TradingModuleImpl - Installed QuoteDataSupplierService provided by webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService
+2007-02-01 11:36:35,015 - main - INFO  - webbroker3.quoteadaptor.prototype.WEB3ProtoQuotePlugin - QuoteDataSupplierService installed to EqType TradingModule.
+2007-02-01 11:36:35,030 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.stdimpls.IfoTradingModuleImpl - Installed QuoteDataSupplierService provided by class webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService
+2007-02-01 11:36:35,030 - main - INFO  - webbroker3.quoteadaptor.prototype.WEB3ProtoQuotePlugin - QuoteDataSupplierService installed to IFO TradingModule.
+2007-02-01 11:36:35,030 - main - INFO  - TestBase - WEB3ProtoQuotePlugin bootstrap succeeded !!!
+2007-02-01 11:36:35,155 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositCalcService registered.
+2007-02-01 11:36:35,171 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositCalcServiceInterceptor added to WEB3IfoDepositCalcService
+2007-02-01 11:36:35,171 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - TransactionalInterceptor added to WEB3IfoDepositCalcService
+2007-02-01 11:36:35,265 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceService registered.
+2007-02-01 11:36:35,280 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceServiceInterceptor added to WEB3IfoDepositTransitionReferenceService
+2007-02-01 11:36:35,280 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - TransactionalInterceptor added to WEB3IfoDepositTransitionReferenceService
+2007-02-01 11:36:35,296 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceRequest registered.
+2007-02-01 11:36:35,296 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceResponse registered.
+2007-02-01 11:36:35,312 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceHandler registered.
+2007-02-01 11:36:35,312 - main - INFO  - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositPlugin bootstrap succeeded.
+2007-02-01 11:36:35,359 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:36:35,359 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:36,671 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerService registered.
+2007-02-01 11:36:36,702 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerService
+2007-02-01 11:36:36,702 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerService
+2007-02-01 11:36:36,702 - main - DEBUG - webbroker3.tradingpower.WEB3TPTradingPowerReCalcServiceImpl - メソッド名：WEB3TPTradingPowerReCalcServiceImpl() ： ENTER
+2007-02-01 11:36:36,702 - main - DEBUG - webbroker3.tradingpower.WEB3TPTradingPowerReCalcServiceImpl - メソッド名：WEB3TPTradingPowerReCalcServiceImpl() ： EXIT
+2007-02-01 11:36:36,702 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerReCalcService registered.
+2007-02-01 11:36:36,702 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerReCalcService
+2007-02-01 11:36:36,718 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerReCalcService
+2007-02-01 11:36:36,796 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerAfterRepayService registered.
+2007-02-01 11:36:36,796 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerAfterRepayService
+2007-02-01 11:36:36,796 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerAfterRepayService
+2007-02-01 11:36:36,843 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerSettlementService registered.
+2007-02-01 11:36:36,843 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerSettlementService
+2007-02-01 11:36:36,843 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerSettlementService
+2007-02-01 11:36:36,890 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPReCalcNotifyService registered.
+2007-02-01 11:36:36,890 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPReCalcNotifyService
+2007-02-01 11:36:36,921 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPReCalcNotifyUnitService registered.
+2007-02-01 11:36:36,937 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPReCalcNotifyUnitServiceInterceptor added to WEB3TPReCalcNotifyUnitService
+2007-02-01 11:36:36,937 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPReCalcNotifyUnitService
+2007-02-01 11:36:36,968 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPDescendRacCtxInterceptor added to WEB3TPReCalcNotifyUnitService
+2007-02-01 11:36:37,062 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPOrixVantiveService registered.
+2007-02-01 11:36:37,062 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPOrixVantiveService
+2007-02-01 11:36:37,155 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:37,155 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:36:37,421 - main - INFO  - webbroker3.mqgateway.WEB3MQGatewayPlugin - WEB3MQGatewayPlugin was plugged.
+2007-02-01 11:36:37,484 - main - INFO  - webbroker3.mqgateway.stdimpls.WEB3MQGatewayForTestPlugin - WEB3MQGatewayService was orverrided by WEB3MQMessageGatewayServiceForTestImpl
+2007-02-01 11:36:37,484 - main - INFO  - webbroker3.mqgateway.stdimpls.WEB3MQGatewayForTestPlugin - WEB3MQGatewayForTestPlugin was plugged.
+2007-02-01 11:36:38,374 - main - INFO  - webbroker3.rlsgateway.WEB3RlsGatewayTestPlugin - WEB3RlsGatewayTestPlugin was plugged.
+2007-02-01 11:36:38,405 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:36:38,405 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:38,499 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : web3-bond
+2007-02-01 11:36:38,499 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : web3-bond
+2007-02-01 11:36:38,499 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : web3-bond registered to handle product types : BOND
+2007-02-01 11:36:38,640 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:38,640 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:36:38,640 - main - INFO  - TestBase - WEB3BondAppPlugin bootstrap succeeded !!!
+2007-02-01 11:36:38,671 - main - DEBUG - webbroker3.triggerorder.base.WEB3ToSuccBaseAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:39,124 - main - DEBUG - webbroker3.triggerorder.base.WEB3ToSuccBaseAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:39,718 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-mf-pdbt License Available = true
+2007-02-01 11:36:40,796 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin - Installing TradingModule : xblocks.xb-mf-pdbt
+2007-02-01 11:36:40,827 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-mf-pdbt is turned on
+2007-02-01 11:36:40,890 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-mf-pdbt
+2007-02-01 11:36:40,890 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-mf-pdbt
+2007-02-01 11:36:40,890 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-mf-pdbt registered to handle product types : MUTUAL_FUND
+2007-02-01 11:36:40,890 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin - Installed TradingModule : xblocks.xb-mf-pdbt
+2007-02-01 11:36:40,890 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTypeEnum
+2007-02-01 11:36:40,937 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:36:40,937 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:40,937 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : xb-mf-pdbt
+2007-02-01 11:36:40,937 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - Installing TradingModule : web3-mf
+2007-02-01 11:36:40,984 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-mf-pdbt is turned on
+2007-02-01 11:36:40,984 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-mf-pdbt
+2007-02-01 11:36:40,984 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-mf-pdbt
+2007-02-01 11:36:40,984 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-mf-pdbt registered to handle product types : MUTUAL_FUND
+2007-02-01 11:36:40,984 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - Installed TradingModule : web3-mf
+2007-02-01 11:36:41,155 - main - DEBUG - webbroker3.mf.WEB3MutualFundOrderManagerReusableValidationsCheck - メソッド名：register() ： ENTER
+2007-02-01 11:36:41,155 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.stdimpls.MutualFundProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.xbmf.stdimpls.MutualFundProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.mf.WEB3MutualFundOrderManagerReusableValidationsCheck
+2007-02-01 11:36:41,155 - main - DEBUG - webbroker3.mf.WEB3MutualFundOrderManagerReusableValidationsCheck - メソッド名：register() ： EXIT
+2007-02-01 11:36:41,171 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 11:36:41,171 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 11:36:41,171 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - XBMF: 市場リクエスト送信サービスをインストール........
+2007-02-01 11:36:41,202 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.mf.marketadaptor.WEB3MutualFundMarketRequestService
+2007-02-01 11:36:41,202 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - XBMF: 市場リクエスト送信サービスをインストール........OK
+2007-02-01 11:36:41,202 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:41,202 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:36:45,640 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 11:36:45,640 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 11:36:45,702 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：testValidateOrder_T01() ： ENTER
+2007-02-01 11:36:45,702 - main - INFO  - TestBase - doLogin(): ENTER
+2007-02-01 11:36:45,702 - main - DEBUG - webbroker3.login.handler.WEB3AcceptLoginHandler - メソッド名：acceptLoginRequest(WEB3AcceptLoginRequest) ： ENTER
+2007-02-01 11:36:45,749 - main - INFO  - webbroker3.login.service.delegate.WEB3AcceptLoginService - メソッド名 ： webbroker3.login.service.delegate.WEB3AcceptLoginService.execute業務処理開始時刻 ： Thu Feb 01 11:36:45 GMT+08:00 2007
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - メソッド名：execute(WEB3GenRequest) ： ENTER
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... inst = 60, brch = 624, user = 1606246000283
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isLoginStop() ： ENTER
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - isLoginStop() .... LOGIN_STOP_DIV = 1
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isLoginStop() ： EXIT
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkOrderChannel(String) ： ENTER
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkOrderChannel(String) ： EXIT
+2007-02-01 11:36:45,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkAcceptCode(String) ： ENTER
+2007-02-01 11:36:46,280 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：checkCode(int, int, String, String) ： ENTER
+2007-02-01 11:36:46,280 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：checkCode(int, int, String, String) ： EXIT
+2007-02-01 11:36:46,280 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkAcceptCode(String) ： EXIT
+2007-02-01 11:36:46,296 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：WEB3PasswordUtility(long) ： ENTER
+2007-02-01 11:36:46,312 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：WEB3PasswordUtility(long) ： EXIT
+2007-02-01 11:36:46,312 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... inst = 信用アルファ@証券株式会社, brch = 関東支店, user = 1606246000283
+2007-02-01 11:36:46,312 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isEnabledUser() ： ENTER
+2007-02-01 11:36:46,327 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isEnabledUser() ： EXIT
+2007-02-01 11:36:46,405 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... sessionID = 606246000283:606246000283:82001:3kaorcl39e1jjhq32c0skph6j2oa
+2007-02-01 11:36:46,405 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：setSessionAttribute(String, WEB3SetSessionRequest) ： ENTER
+2007-02-01 11:36:46,405 - main - WARN  - com.fitechlabs.xtrade.plugin.security.oplogin.impl.DevelopmentOpLoginSecurityServiceImpl - DevelopmentOpLoginSecurityServiceImpl is in use. This should only happen in test environment.
+2007-02-01 11:36:46,452 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - メソッド名：setSessionRequest(WEB3SetSessionRequest) ： ENTER
+2007-02-01 11:36:46,468 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = orderRootDiv, value = 2
+2007-02-01 11:36:46,484 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = institutionID, value = 60
+2007-02-01 11:36:46,484 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = branchID, value = 60624
+2007-02-01 11:36:46,499 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = orderChannel, value = 1
+2007-02-01 11:36:46,530 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = sessionID, value = 82001
+2007-02-01 11:36:46,530 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - メソッド名：setSessionRequest(WEB3SetSessionRequest) ： EXIT
+2007-02-01 11:36:46,530 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：setSessionAttribute(String, WEB3SetSessionRequest) ： EXIT
+2007-02-01 11:36:46,577 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... user = インター２８３　@梅子
+2007-02-01 11:36:46,577 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getAcceptInfo(String) ： ENTER
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - getAcceptInfo(String) .... lastLogin = Thu Feb 01 11:34:16 GMT+08:00 2007
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:46,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： ENTER
+2007-02-01 11:36:46,734 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:46,734 - main - INFO  - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - ThreadLocalSystemAttributesRegistryより、取引カレンダコンテキストを取得ない
+2007-02-01 11:36:46,734 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getAcceptInfo(String) ： EXIT
+2007-02-01 11:36:46,734 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getInstitutionInfo() ： ENTER
+2007-02-01 11:36:46,734 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getInstitutionInfo() ： EXIT
+2007-02-01 11:36:46,749 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getBranchInfo() ： ENTER
+2007-02-01 11:36:46,765 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getBranchInfo() ： EXIT
+2007-02-01 11:36:46,765 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getServiceImpState() ： ENTER
+2007-02-01 11:36:46,765 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getServiceImpState() ： EXIT
+2007-02-01 11:36:46,765 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：isChangeNecessity() ： ENTER
+2007-02-01 11:36:46,765 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：isChangeNecessity() ： EXIT
+2007-02-01 11:36:46,765 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：updateLastLoginTime(long) ： ENTER
+2007-02-01 11:36:46,796 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：updateLastLoginTime(long) ： EXIT
+2007-02-01 11:36:46,796 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - メソッド名：execute(WEB3GenRequest) ： EXIT
+2007-02-01 11:36:46,796 - main - INFO  - webbroker3.login.service.delegate.WEB3AcceptLoginService - メソッド名 ： webbroker3.login.service.delegate.WEB3AcceptLoginService.execute業務処理終了時刻 ： Thu Feb 01 11:36:46 GMT+08:00 2007
+2007-02-01 11:36:46,796 - main - DEBUG - webbroker3.login.handler.WEB3AcceptLoginHandler - メソッド名：acceptLoginRequest(WEB3AcceptLoginRequest) ： EXIT
+2007-02-01 11:36:46,796 - main - WARN  - com.fitechlabs.xtrade.plugin.security.oplogin.impl.DevelopmentOpLoginSecurityServiceImpl - DevelopmentOpLoginSecurityServiceImpl is in use. This should only happen in test environment.
+2007-02-01 11:36:46,827 - main - INFO  - TestBase - doLogin(): EXIT
+2007-02-01 11:36:46,890 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setTimestamp() ： ENTER
+2007-02-01 11:36:46,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - 取引カレンダキー：[証券会社=60, 部店=624, 市場=2, 取引時間タイプ=01, 営業日タイプ=1, 開始時間=000000]
+2007-02-01 11:36:46,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - 営業日ロール:[0]
+2007-02-01 11:36:46,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setTimestamp() ： EXIT
+2007-02-01 11:36:46,952 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - updateRow----------------------ok
+2007-02-01 11:36:46,984 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - deleteRow----------------------ok
+2007-02-01 11:36:46,984 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - doDeleteAllQuery--------------------------success!
+2007-02-01 11:36:46,984 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrder() ： ENTER
+2007-02-01 11:36:46,984 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrder() ： EXIT
+2007-02-01 11:36:46,984 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrderUnit() ： ENTER
+2007-02-01 11:36:46,999 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrderUnit() ： EXIT
+2007-02-01 11:36:46,999 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertBranchMarketRepayDealtCond() ： ENTER
+2007-02-01 11:36:47,015 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertBranchMarketRepayDealtCond() ： EXIT
+2007-02-01 11:36:47,015 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypecontract() ： ENTER
+2007-02-01 11:36:47,015 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypecontract() ： EXIT
+2007-02-01 11:36:47,015 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypeClosingContractSpec() ： ENTER
+2007-02-01 11:36:47,030 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypeClosingContractSpec() ： EXIT
+2007-02-01 11:36:47,030 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImpl - メソッド名：validateOrder(WEB3MarginCancelConfirmRequest) ： ENTER
+2007-02-01 11:36:47,030 - main - DEBUG - webbroker3.equity.message.WEB3MarginCancelConfirmRequest - メソッド名：validate() ： ENTER
+2007-02-01 11:36:47,030 - main - DEBUG - webbroker3.equity.message.WEB3MarginCancelConfirmRequest - メソッド名：validate() ： EXIT
+2007-02-01 11:36:47,030 - main - DEBUG - webbroker3.gentrade.WEB3ClientRequestService - メソッド名：getSubAccount(SubAccountTypeEnum) ： ENTER
+2007-02-01 11:36:47,062 - main - DEBUG - webbroker3.gentrade.WEB3ClientRequestService - メソッド名：getSubAccount(SubAccountTypeEnum) ： EXIT
+2007-02-01 11:36:47,062 - main - DEBUG - webbroker3.gentrade.WEB3ClientRequestService - メソッド名：getTrader() ： ENTER
+2007-02-01 11:36:47,140 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:47,140 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:47,140 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:47,140 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:47,140 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:47,187 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateCancelOrder(SubAccount,EqTypeCancelOrderSpec) ： ENTER
+2007-02-01 11:36:47,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:47,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:47,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:47,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:47,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:47,218 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrderCancel(WEB3GentradeSubAccount, WEB3EquityCancelOrderSpec) ： ENTER
+2007-02-01 11:36:47,234 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateOrderForCancellation(Order) ： ENTER
+2007-02-01 11:36:47,234 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:47,234 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:47,234 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:47,234 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:47,234 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:47,234 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： ENTER
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 判定時刻 = 060619
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 開局時間 = 000000
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 閉局時間 = 150959
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   市場開局時間帯
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： EXIT
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeCloseTimeZone() ： ENTER
+2007-02-01 11:36:47,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： ENTER
+2007-02-01 11:36:47,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 判定時刻 = 060619
+2007-02-01 11:36:47,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 開局時間 = 000000
+2007-02-01 11:36:47,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 閉局時間 = 150959
+2007-02-01 11:36:47,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   市場開局時間帯
+2007-02-01 11:36:47,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： EXIT
+2007-02-01 11:36:47,296 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   休憩時間帯でない
+2007-02-01 11:36:47,296 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeCloseTimeZone() ： EXIT
+2007-02-01 11:36:47,296 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateOrderForCancellation(Order) ： EXIT
+2007-02-01 11:36:47,296 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:47,296 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:47,296 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:47,296 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:47,296 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:47,327 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrder(WEB3GentradeSubAccount, String) ： ENTER
+2007-02-01 11:36:47,327 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：validateOrderAccept() ： ENTER
+2007-02-01 11:36:47,343 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - validateOrderAccept()：受付時間帯
+2007-02-01 11:36:47,343 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：validateOrderAccept() ： EXIT
+2007-02-01 11:36:47,343 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - validate注文受付可能を執行します
+2007-02-01 11:36:47,343 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateSubAccountForTrading(SubAccount) ： ENTER
+2007-02-01 11:36:47,405 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： ENTER
+2007-02-01 11:36:47,405 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:47,421 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:47,421 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： EXIT
+2007-02-01 11:36:47,421 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateSubAccountForTrading(SubAccount) ： EXIT
+2007-02-01 11:36:47,421 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - commonFirstValidationsForAllOperationsを執行します
+2007-02-01 11:36:47,468 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：isMarginTradeEnforcement(String) ： ENTER
+2007-02-01 11:36:47,468 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：isMarginTradeEnforcement(String) ： EXIT
+2007-02-01 11:36:47,468 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - is信用取扱実施 = true
+2007-02-01 11:36:47,484 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isMarginAccountEstablished(String) ： ENTER
+2007-02-01 11:36:47,484 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isMarginAccountEstablished(String) ： EXIT
+2007-02-01 11:36:47,484 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - is信用口座開設 = true
+2007-02-01 11:36:47,484 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrder(WEB3GentradeSubAccount, String) ： EXIT
+2007-02-01 11:36:47,484 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateMarket(String, String) ： ENTER
+2007-02-01 11:36:47,484 - main - DEBUG - webbroker3.gentrade.WEB3GentradeFinObjectManager - メソッド名：getMarket(String, String) ： ENTER
+2007-02-01 11:36:47,499 - main - DEBUG - webbroker3.gentrade.WEB3GentradeFinObjectManager - メソッド名：getMarket(String, String) ： EXIT
+2007-02-01 11:36:47,499 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateMarket(String, String) ： EXIT
+2007-02-01 11:36:47,609 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateTradedProduct(EqTypeProduct , Market) ： ENTER
+2007-02-01 11:36:47,640 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:47,640 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:47,671 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:47,687 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:47,734 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateTradedProduct(EqTypeProduct , Market) ： EXIT
+2007-02-01 11:36:47,734 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateHandlingMarket(WEB3GentradeBranch, WEB3EquityTradedProduct, String, String, double) ： ENTER
+2007-02-01 11:36:47,765 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketRepayDealtCond - メソッド名：WEB3GentradeBranchMarketRepayDealtCond(String,String,String,String,double) ： ENTER
+2007-02-01 11:36:47,765 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketRepayDealtCond - メソッド名：WEB3GentradeBranchMarketRepayDealtCond(String,String,String,String,double) ： EXIT
+2007-02-01 11:36:47,765 - main - DEBUG - webbroker3.equity.WEB3EquityTradedProduct - メソッド名：validateJASDAQProductHandling(WEB3GentradeBranch) ： ENTER
+2007-02-01 11:36:47,812 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateHandlingMarket(WEB3GentradeBranch, WEB3EquityTradedProduct, String, String, double) ： EXIT
+2007-02-01 11:36:47,812 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:47,812 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:47,812 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrderCancel(WEB3GentradeSubAccount, WEB3EquityCancelOrderSpec) ： EXIT
+2007-02-01 11:36:47,812 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：createContractUnitByOrder(long) ： ENTER
+2007-02-01 11:36:47,827 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getContract ： ENTER
+2007-02-01 11:36:47,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getContract ： EXIT
+2007-02-01 11:36:47,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： ENTER
+2007-02-01 11:36:47,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： EXIT
+2007-02-01 11:36:47,859 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:47,859 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:47,874 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:47,890 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:47,937 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getCurrentPrice(EqTypeTradedProduct) ： ENTER
+2007-02-01 11:36:47,937 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getCurrentPrice(EqTypeTradedProduct, boolean) ： ENTER
+2007-02-01 11:36:47,937 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getProductQuote(EqtypeTradedProduct, RealType, boolean) ： ENTER
+2007-02-01 11:36:47,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： ENTER
+2007-02-01 11:36:47,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 判定時刻 = 060619
+2007-02-01 11:36:47,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 開局時間 = 000000
+2007-02-01 11:36:47,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 閉局時間 = 150959
+2007-02-01 11:36:47,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   市場開局時間帯
+2007-02-01 11:36:47,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： EXIT
+2007-02-01 11:36:48,030 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteDataQueryParamsSpec : QuoteDataQueryParamsSpec={where=real_type=? and data_type=? and market_code=? and product_code=?, bindVars={1:REAL,1:EQUITY,1,10510,}}
+2007-02-01 11:36:48,030 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteData found. {quote_data_id=2001,quote_date=20040806,real_type=1:REAL,data_type=1:EQUITY,market_code=1,product_code=10510,contract_month=null,put_and_call=null,strike_price=null,open_price=null,open_price_time=null,high_price=null,high_price_time=null,low_price=null,low_price_time=null,current_price=null,current_price_time=null,current_price_flag=0:NORMAL,change=null,volume=null,volume_time=null,ask_price_title=0:UNDEFINED,ask_price=null,ask_price_time=null,bid_price_title=0:UNDEFINED,bid_price=null,bid_price_time=null,base_price=null,created_timestamp=2004-08-06 05:37:23.0,last_updated_timestamp=2004-08-06 05:37:23.0}
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getProductQuote(EqtypeTradedProduct, RealType, boolean) ： EXIT
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getCurrentPrice(EqTypeTradedProduct, boolean) ： EXIT
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getAppraisalProfitOrLossExpenses(double, double, long) ： ENTER
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFee(double, long) ： ENTER
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,046 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,062 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,062 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFee(double, long) ： EXIT
+2007-02-01 11:36:48,062 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFeeTax(double, long) ： ENTER
+2007-02-01 11:36:48,062 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,062 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFeeTax(double, long) ： EXIT
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFee(double, long) ： ENTER
+2007-02-01 11:36:48,093 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,109 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFee(double, long) ： EXIT
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFeeTax(double, long) ： ENTER
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,124 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,140 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,140 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFeeTax(double, long) ： EXIT
+2007-02-01 11:36:48,140 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFee(double, long) ： ENTER
+2007-02-01 11:36:48,140 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,155 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFee(double, long) ： EXIT
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFeeTax(double, long) ： ENTER
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,171 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFeeTax(double, long) ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getInterestFee(double, long) ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getInterestFee(double, long) ： EXIT
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：PayInterestFee(double, long) ： ENTER
+2007-02-01 11:36:48,187 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,202 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,202 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,202 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：PayInterestFee(double, long) ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：LoanEquityFee(double, long) ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：Other(double, long) ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,218 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：Other(double, long) ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - メソッド名：calcExpenses(double, double, double, double, double, double, double, double, double, double, double, double,ContractTypeEnum) ： ENTER
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - ****** 建区分：[1:LONG]
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - ****** 諸経費：[810.0]
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - メソッド名：calcExpenses(double, double, double, double, double, double, double, double, double, double, double, double,ContractTypeEnum) ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： ENTER
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getAppraisalProfitOrLossExpenses(double, double, long) ： EXIT
+2007-02-01 11:36:48,234 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseMarket(WEB3GentradeBranch,ProductTypeEnum,String) ： ENTER
+2007-02-01 11:36:48,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：getMarketMessageSuspension(ProductTypeEnum ,String, String) ： ENTER
+2007-02-01 11:36:48,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：getMarketMessageSuspension(ProductTypeEnum ,String, String) ： EXIT
+2007-02-01 11:36:48,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：getHandingCondBranchMarket(WEB3GentradeBranch) ： ENTER
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：getHandingCondBranchMarket(WEB3GentradeBranch) ： EXIT
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： ENTER
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： EXIT
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： ENTER
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - ****** 市場閉局時間：[145959]
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： EXIT
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： ENTER
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： EXIT
+2007-02-01 11:36:48,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： ENTER
+2007-02-01 11:36:48,296 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - ****** 市場閉局時間：[152959]
+2007-02-01 11:36:48,296 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： EXIT
+2007-02-01 11:36:48,296 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseMarket(WEB3GentradeBranch,ProductTypeEnum,String) ： EXIT
+2007-02-01 11:36:48,296 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： ENTER
+2007-02-01 11:36:48,296 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： EXIT
+2007-02-01 11:36:48,327 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:48,343 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:48,359 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:48,359 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:48,421 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getDisplayEquityProductQuote(EqtypeTradedProduct, WEB3GentradeSubAccount) ： ENTER
+2007-02-01 11:36:48,437 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteDataQueryParamsSpec : QuoteDataQueryParamsSpec={where=real_type=? and data_type=? and market_code=? and product_code=?, bindVars={2:DELAY,1:EQUITY,1,10510,}}
+2007-02-01 11:36:48,437 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteData found. {quote_data_id=30071,quote_date=20040716,real_type=2:DELAY,data_type=1:EQUITY,market_code=1,product_code=10510,contract_month=null,put_and_call=null,strike_price=null,open_price=1999.0,open_price_time=0870,high_price=2500.0,high_price_time=0970,low_price=1990.0,low_price_time=1070,current_price=72.0,current_price_time=0911,current_price_flag=0:NORMAL,change=7.0,volume=0.0,volume_time=1570,ask_price_title=1:ASK,ask_price=71.0,ask_price_time=0921,bid_price_title=4:BID,bid_price=73.0,bid_price_time=0931,base_price=null,created_timestamp=2004-02-27 20:15:09.0,last_updated_timestamp=2004-02-27 20:15:09.0}
+2007-02-01 11:36:48,437 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getDisplayEquityProductQuote(EqtypeTradedProduct, WEB3GentradeSubAccount) ： EXIT
+2007-02-01 11:36:48,452 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:48,468 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:48,468 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isCarriedOrderUnit(EqTypeOrderUnit l_orderUnit) ： ENTER
+2007-02-01 11:36:48,468 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isCarriedOrderUnit(EqTypeOrderUnit l_orderUnit) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitEnableStatusDiv(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitEnableStatusDiv(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchPrice(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchPrice(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchExecCondType(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchExecCondType(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitOrderPriceDiv(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - this.get発注条件()の戻り値 != W指値の場合。
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitOrderPriceDiv(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitExecCondType(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - this.get発注条件()の戻り値 != W指値の場合。
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitExecCondType(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImpl - メソッド名：validateOrder(WEB3MarginCancelConfirmRequest) ： EXIT
+2007-02-01 11:36:48,640 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - testValidateOrder_T01()------------------>ok
+2007-02-01 11:36:48,640 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：testValidateOrder_T01() ： EXIT
+2007-02-01 11:36:48,655 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：testValidateOrder_T02() ： ENTER
+2007-02-01 11:36:48,655 - main - INFO  - TestBase - doLogin(): ENTER
+2007-02-01 11:36:48,655 - main - DEBUG - webbroker3.login.handler.WEB3AcceptLoginHandler - メソッド名：acceptLoginRequest(WEB3AcceptLoginRequest) ： ENTER
+2007-02-01 11:36:48,655 - main - INFO  - webbroker3.login.service.delegate.WEB3AcceptLoginService - メソッド名 ： webbroker3.login.service.delegate.WEB3AcceptLoginService.execute業務処理開始時刻 ： Thu Feb 01 11:36:48 GMT+08:00 2007
+2007-02-01 11:36:48,655 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - メソッド名：execute(WEB3GenRequest) ： ENTER
+2007-02-01 11:36:48,655 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... inst = 60, brch = 624, user = 1606246000283
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isLoginStop() ： ENTER
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - isLoginStop() .... LOGIN_STOP_DIV = 1
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isLoginStop() ： EXIT
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkOrderChannel(String) ： ENTER
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkOrderChannel(String) ： EXIT
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkAcceptCode(String) ： ENTER
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：checkCode(int, int, String, String) ： ENTER
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：checkCode(int, int, String, String) ： EXIT
+2007-02-01 11:36:48,671 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkAcceptCode(String) ： EXIT
+2007-02-01 11:36:48,687 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：WEB3PasswordUtility(long) ： ENTER
+2007-02-01 11:36:48,702 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：WEB3PasswordUtility(long) ： EXIT
+2007-02-01 11:36:48,702 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... inst = 信用アルファ@証券株式会社, brch = 関東支店, user = 1606246000283
+2007-02-01 11:36:48,702 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isEnabledUser() ： ENTER
+2007-02-01 11:36:48,702 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isEnabledUser() ： EXIT
+2007-02-01 11:36:48,780 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... sessionID = 606246000283:606246000283:82002:5ojcn5vs77p3pp3csnkqf9o6b5l3
+2007-02-01 11:36:48,780 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：setSessionAttribute(String, WEB3SetSessionRequest) ： ENTER
+2007-02-01 11:36:48,780 - main - WARN  - com.fitechlabs.xtrade.plugin.security.oplogin.impl.DevelopmentOpLoginSecurityServiceImpl - DevelopmentOpLoginSecurityServiceImpl is in use. This should only happen in test environment.
+2007-02-01 11:36:48,827 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - メソッド名：setSessionRequest(WEB3SetSessionRequest) ： ENTER
+2007-02-01 11:36:48,827 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = orderRootDiv, value = 2
+2007-02-01 11:36:48,859 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = institutionID, value = 60
+2007-02-01 11:36:48,874 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = branchID, value = 60624
+2007-02-01 11:36:48,890 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = orderChannel, value = 1
+2007-02-01 11:36:48,890 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = sessionID, value = 82002
+2007-02-01 11:36:48,890 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - メソッド名：setSessionRequest(WEB3SetSessionRequest) ： EXIT
+2007-02-01 11:36:48,890 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：setSessionAttribute(String, WEB3SetSessionRequest) ： EXIT
+2007-02-01 11:36:48,905 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... user = インター２８３　@梅子
+2007-02-01 11:36:48,905 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getAcceptInfo(String) ： ENTER
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - getAcceptInfo(String) .... lastLogin = Thu Feb 01 11:36:46 GMT+08:00 2007
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： ENTER
+2007-02-01 11:36:48,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： EXIT
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getAcceptInfo(String) ： EXIT
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getInstitutionInfo() ： ENTER
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getInstitutionInfo() ： EXIT
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getBranchInfo() ： ENTER
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getBranchInfo() ： EXIT
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getServiceImpState() ： ENTER
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getServiceImpState() ： EXIT
+2007-02-01 11:36:48,952 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：isChangeNecessity() ： ENTER
+2007-02-01 11:36:48,968 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：isChangeNecessity() ： EXIT
+2007-02-01 11:36:48,968 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：updateLastLoginTime(long) ： ENTER
+2007-02-01 11:36:48,968 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：updateLastLoginTime(long) ： EXIT
+2007-02-01 11:36:48,968 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - メソッド名：execute(WEB3GenRequest) ： EXIT
+2007-02-01 11:36:48,968 - main - INFO  - webbroker3.login.service.delegate.WEB3AcceptLoginService - メソッド名 ： webbroker3.login.service.delegate.WEB3AcceptLoginService.execute業務処理終了時刻 ： Thu Feb 01 11:36:48 GMT+08:00 2007
+2007-02-01 11:36:48,968 - main - DEBUG - webbroker3.login.handler.WEB3AcceptLoginHandler - メソッド名：acceptLoginRequest(WEB3AcceptLoginRequest) ： EXIT
+2007-02-01 11:36:48,968 - main - WARN  - com.fitechlabs.xtrade.plugin.security.oplogin.impl.DevelopmentOpLoginSecurityServiceImpl - DevelopmentOpLoginSecurityServiceImpl is in use. This should only happen in test environment.
+2007-02-01 11:36:48,984 - main - INFO  - TestBase - doLogin(): EXIT
+2007-02-01 11:36:48,984 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setTimestamp() ： ENTER
+2007-02-01 11:36:49,030 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - 取引カレンダキー：[証券会社=60, 部店=624, 市場=2, 取引時間タイプ=01, 営業日タイプ=1, 開始時間=000000]
+2007-02-01 11:36:49,030 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - 営業日ロール:[0]
+2007-02-01 11:36:49,030 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setTimestamp() ： EXIT
+2007-02-01 11:36:49,030 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - updateRow----------------------ok
+2007-02-01 11:36:49,046 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - deleteRow----------------------ok
+2007-02-01 11:36:49,062 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - doDeleteAllQuery--------------------------success!
+2007-02-01 11:36:49,062 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrder() ： ENTER
+2007-02-01 11:36:49,062 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrder() ： EXIT
+2007-02-01 11:36:49,062 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrderUnit() ： ENTER
+2007-02-01 11:36:49,077 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertOrderUnit() ： EXIT
+2007-02-01 11:36:49,077 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertBranchMarketRepayDealtCond() ： ENTER
+2007-02-01 11:36:49,077 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertBranchMarketRepayDealtCond() ： EXIT
+2007-02-01 11:36:49,077 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypecontract() ： ENTER
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypecontract() ： EXIT
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypeClosingContractSpec() ： ENTER
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：insertEqtypeClosingContractSpec() ： EXIT
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImpl - メソッド名：validateOrder(WEB3MarginCancelConfirmRequest) ： ENTER
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.equity.message.WEB3MarginCancelConfirmRequest - メソッド名：validate() ： ENTER
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.equity.message.WEB3MarginCancelConfirmRequest - メソッド名：validate() ： EXIT
+2007-02-01 11:36:49,093 - main - DEBUG - webbroker3.gentrade.WEB3ClientRequestService - メソッド名：getSubAccount(SubAccountTypeEnum) ： ENTER
+2007-02-01 11:36:49,109 - main - DEBUG - webbroker3.gentrade.WEB3ClientRequestService - メソッド名：getSubAccount(SubAccountTypeEnum) ： EXIT
+2007-02-01 11:36:49,109 - main - DEBUG - webbroker3.gentrade.WEB3ClientRequestService - メソッド名：getTrader() ： ENTER
+2007-02-01 11:36:49,155 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:49,155 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:49,155 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:49,155 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:49,155 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:49,171 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateCancelOrder(SubAccount,EqTypeCancelOrderSpec) ： ENTER
+2007-02-01 11:36:49,171 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:49,171 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:49,171 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:49,171 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:49,171 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:49,187 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrderCancel(WEB3GentradeSubAccount, WEB3EquityCancelOrderSpec) ： ENTER
+2007-02-01 11:36:49,187 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateOrderForCancellation(Order) ： ENTER
+2007-02-01 11:36:49,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:49,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:49,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:49,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:49,187 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:49,202 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： ENTER
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 判定時刻 = 060621
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 開局時間 = 000000
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 閉局時間 = 150959
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   市場開局時間帯
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： EXIT
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeCloseTimeZone() ： ENTER
+2007-02-01 11:36:49,218 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： ENTER
+2007-02-01 11:36:49,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 判定時刻 = 060621
+2007-02-01 11:36:49,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 開局時間 = 000000
+2007-02-01 11:36:49,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 閉局時間 = 150959
+2007-02-01 11:36:49,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   市場開局時間帯
+2007-02-01 11:36:49,249 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： EXIT
+2007-02-01 11:36:49,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   休憩時間帯でない
+2007-02-01 11:36:49,265 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeCloseTimeZone() ： EXIT
+2007-02-01 11:36:49,265 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateOrderForCancellation(Order) ： EXIT
+2007-02-01 11:36:49,265 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - where=order_id=?
+2007-02-01 11:36:49,265 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - orderBy=null
+2007-02-01 11:36:49,265 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageSize=-1
+2007-02-01 11:36:49,265 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - pageNumber=-1
+2007-02-01 11:36:49,265 - main - DEBUG - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlQueryUtils - bindVars[0]=11000909
+2007-02-01 11:36:49,280 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrder(WEB3GentradeSubAccount, String) ： ENTER
+2007-02-01 11:36:49,280 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：validateOrderAccept() ： ENTER
+2007-02-01 11:36:49,312 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - validateOrderAccept()：受付時間帯
+2007-02-01 11:36:49,312 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：validateOrderAccept() ： EXIT
+2007-02-01 11:36:49,312 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - validate注文受付可能を執行します
+2007-02-01 11:36:49,312 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateSubAccountForTrading(SubAccount) ： ENTER
+2007-02-01 11:36:49,327 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： ENTER
+2007-02-01 11:36:49,327 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,359 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,359 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： EXIT
+2007-02-01 11:36:49,359 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateSubAccountForTrading(SubAccount) ： EXIT
+2007-02-01 11:36:49,359 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - commonFirstValidationsForAllOperationsを執行します
+2007-02-01 11:36:49,374 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：isMarginTradeEnforcement(String) ： ENTER
+2007-02-01 11:36:49,374 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：isMarginTradeEnforcement(String) ： EXIT
+2007-02-01 11:36:49,374 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - is信用取扱実施 = true
+2007-02-01 11:36:49,390 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isMarginAccountEstablished(String) ： ENTER
+2007-02-01 11:36:49,390 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isMarginAccountEstablished(String) ： EXIT
+2007-02-01 11:36:49,390 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - is信用口座開設 = true
+2007-02-01 11:36:49,390 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrder(WEB3GentradeSubAccount, String) ： EXIT
+2007-02-01 11:36:49,405 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateMarket(String, String) ： ENTER
+2007-02-01 11:36:49,405 - main - DEBUG - webbroker3.gentrade.WEB3GentradeFinObjectManager - メソッド名：getMarket(String, String) ： ENTER
+2007-02-01 11:36:49,405 - main - DEBUG - webbroker3.gentrade.WEB3GentradeFinObjectManager - メソッド名：getMarket(String, String) ： EXIT
+2007-02-01 11:36:49,421 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateMarket(String, String) ： EXIT
+2007-02-01 11:36:49,437 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateTradedProduct(EqTypeProduct , Market) ： ENTER
+2007-02-01 11:36:49,437 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,468 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,499 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,499 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,530 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateTradedProduct(EqTypeProduct , Market) ： EXIT
+2007-02-01 11:36:49,530 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateHandlingMarket(WEB3GentradeBranch, WEB3EquityTradedProduct, String, String, double) ： ENTER
+2007-02-01 11:36:49,530 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketRepayDealtCond - メソッド名：WEB3GentradeBranchMarketRepayDealtCond(String,String,String,String,double) ： ENTER
+2007-02-01 11:36:49,546 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketRepayDealtCond - メソッド名：WEB3GentradeBranchMarketRepayDealtCond(String,String,String,String,double) ： EXIT
+2007-02-01 11:36:49,546 - main - DEBUG - webbroker3.equity.WEB3EquityTradedProduct - メソッド名：validateJASDAQProductHandling(WEB3GentradeBranch) ： ENTER
+2007-02-01 11:36:49,546 - main - DEBUG - webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations - メソッド名：validateHandlingMarket(WEB3GentradeBranch, WEB3EquityTradedProduct, String, String, double) ： EXIT
+2007-02-01 11:36:49,546 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,562 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,562 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：validateMarginOrderCancel(WEB3GentradeSubAccount, WEB3EquityCancelOrderSpec) ： EXIT
+2007-02-01 11:36:49,562 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：createContractUnitByOrder(long) ： ENTER
+2007-02-01 11:36:49,577 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getContract ： ENTER
+2007-02-01 11:36:49,593 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getContract ： EXIT
+2007-02-01 11:36:49,593 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： ENTER
+2007-02-01 11:36:49,593 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： EXIT
+2007-02-01 11:36:49,593 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,609 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,624 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,624 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,655 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getCurrentPrice(EqTypeTradedProduct) ： ENTER
+2007-02-01 11:36:49,655 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getCurrentPrice(EqTypeTradedProduct, boolean) ： ENTER
+2007-02-01 11:36:49,655 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getProductQuote(EqtypeTradedProduct, RealType, boolean) ： ENTER
+2007-02-01 11:36:49,655 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： ENTER
+2007-02-01 11:36:49,702 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 判定時刻 = 060621
+2007-02-01 11:36:49,702 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 開局時間 = 000000
+2007-02-01 11:36:49,702 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理*** 閉局時間 = 150959
+2007-02-01 11:36:49,702 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - *** 取引時間管理***   市場開局時間帯
+2007-02-01 11:36:49,702 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：isTradeOpenTimeZone() ： EXIT
+2007-02-01 11:36:49,702 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteDataQueryParamsSpec : QuoteDataQueryParamsSpec={where=real_type=? and data_type=? and market_code=? and product_code=?, bindVars={1:REAL,1:EQUITY,1,10510,}}
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteData found. {quote_data_id=2001,quote_date=20040806,real_type=1:REAL,data_type=1:EQUITY,market_code=1,product_code=10510,contract_month=null,put_and_call=null,strike_price=null,open_price=null,open_price_time=null,high_price=null,high_price_time=null,low_price=null,low_price_time=null,current_price=null,current_price_time=null,current_price_flag=0:NORMAL,change=null,volume=null,volume_time=null,ask_price_title=0:UNDEFINED,ask_price=null,ask_price_time=null,bid_price_title=0:UNDEFINED,bid_price=null,bid_price_time=null,base_price=null,created_timestamp=2004-08-06 05:37:23.0,last_updated_timestamp=2004-08-06 05:37:23.0}
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getProductQuote(EqtypeTradedProduct, RealType, boolean) ： EXIT
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getCurrentPrice(EqTypeTradedProduct, boolean) ： EXIT
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getAppraisalProfitOrLossExpenses(double, double, long) ： ENTER
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFee(double, long) ： ENTER
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,718 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFee(double, long) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFeeTax(double, long) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,734 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getSetupFeeTax(double, long) ： EXIT
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFee(double, long) ： ENTER
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,749 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFee(double, long) ： EXIT
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFeeTax(double, long) ： ENTER
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,765 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,780 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,780 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getNameTransferFeeTax(double, long) ： EXIT
+2007-02-01 11:36:49,780 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFee(double, long) ： ENTER
+2007-02-01 11:36:49,780 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,796 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,796 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,796 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,796 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,812 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,827 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,827 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,827 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,827 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,827 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFee(double, long) ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFeeTax(double, long) ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getManagementFeeTax(double, long) ： EXIT
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getInterestFee(double, long) ： ENTER
+2007-02-01 11:36:49,843 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getInterestFee(double, long) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：PayInterestFee(double, long) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,859 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：PayInterestFee(double, long) ： EXIT
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：LoanEquityFee(double, long) ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：Other(double, long) ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getClosingExecutedQuantity ： EXIT
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：calcExpensesFactorRatio(double, double) ： EXIT
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： ENTER
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManager - メソッド名：getFinTransactionListByOrderUnitPlusContract(long, long) ： EXIT
+2007-02-01 11:36:49,874 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： ENTER
+2007-02-01 11:36:49,905 - main - DEBUG - webbroker3.equity.WEB3EquityPositionManagerHelper - メソッド名：getFinTransactionListByOrderUnitPlusContract ： EXIT
+2007-02-01 11:36:49,905 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：Other(double, long) ： EXIT
+2007-02-01 11:36:49,905 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - メソッド名：calcExpenses(double, double, double, double, double, double, double, double, double, double, double, double,ContractTypeEnum) ： ENTER
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - ****** 建区分：[1:LONG]
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - ****** 諸経費：[810.0]
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.equity.WEB3EquityBizLogicProvider - メソッド名：calcExpenses(double, double, double, double, double, double, double, double, double, double, double, double,ContractTypeEnum) ： EXIT
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： ENTER
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getContractAmount ： EXIT
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.equity.WEB3EquityContract - メソッド名：getAppraisalProfitOrLossExpenses(double, double, long) ： EXIT
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseMarket(WEB3GentradeBranch,ProductTypeEnum,String) ： ENTER
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：getMarketMessageSuspension(ProductTypeEnum ,String, String) ： ENTER
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranch - メソッド名：getMarketMessageSuspension(ProductTypeEnum ,String, String) ： EXIT
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：getHandingCondBranchMarket(WEB3GentradeBranch) ： ENTER
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：getHandingCondBranchMarket(WEB3GentradeBranch) ： EXIT
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： ENTER
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： EXIT
+2007-02-01 11:36:49,921 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： ENTER
+2007-02-01 11:36:49,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - ****** 市場閉局時間：[145959]
+2007-02-01 11:36:49,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： EXIT
+2007-02-01 11:36:49,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： ENTER
+2007-02-01 11:36:49,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeBranchMarketDealtCond - メソッド名：isHandingPossible(ProductTypeEnum,String) ： EXIT
+2007-02-01 11:36:49,937 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： ENTER
+2007-02-01 11:36:49,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - ****** 市場閉局時間：[152959]
+2007-02-01 11:36:49,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseTime(String, String) ： EXIT
+2007-02-01 11:36:49,952 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getTradeCloseMarket(WEB3GentradeBranch,ProductTypeEnum,String) ： EXIT
+2007-02-01 11:36:49,952 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： ENTER
+2007-02-01 11:36:49,952 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： EXIT
+2007-02-01 11:36:49,968 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,968 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:49,984 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:49,999 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:50,046 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getDisplayEquityProductQuote(EqtypeTradedProduct, WEB3GentradeSubAccount) ： ENTER
+2007-02-01 11:36:50,077 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteDataQueryParamsSpec : QuoteDataQueryParamsSpec={where=real_type=? and data_type=? and market_code=? and product_code=?, bindVars={2:DELAY,1:EQUITY,1,10510,}}
+2007-02-01 11:36:50,077 - main - DEBUG - webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService - QuoteData found. {quote_data_id=30071,quote_date=20040716,real_type=2:DELAY,data_type=1:EQUITY,market_code=1,product_code=10510,contract_month=null,put_and_call=null,strike_price=null,open_price=1999.0,open_price_time=0870,high_price=2500.0,high_price_time=0970,low_price=1990.0,low_price_time=1070,current_price=72.0,current_price_time=0911,current_price_flag=0:NORMAL,change=7.0,volume=0.0,volume_time=1570,ask_price_title=1:ASK,ask_price=71.0,ask_price_time=0921,bid_price_title=4:BID,bid_price=73.0,bid_price_time=0931,base_price=null,created_timestamp=2004-02-27 20:15:09.0,last_updated_timestamp=2004-02-27 20:15:09.0}
+2007-02-01 11:36:50,077 - main - DEBUG - webbroker3.equity.WEB3EquityProductManager - メソッド名：getDisplayEquityProductQuote(EqtypeTradedProduct, WEB3GentradeSubAccount) ： EXIT
+2007-02-01 11:36:50,077 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 11:36:50,093 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isCarriedOrderUnit(EqTypeOrderUnit l_orderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isCarriedOrderUnit(EqTypeOrderUnit l_orderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitEnableStatusDiv(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitEnableStatusDiv(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchPrice(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchPrice(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchExecCondType(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderSwitching(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getWLimitBefSwitchExecCondType(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitOrderPriceDiv(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitOrderPriceDiv(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitOrderPrice(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： ENTER
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitOrderPrice(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,109 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitExecCondType(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(String, String) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderValid(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrderConditionType(String, String) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(String, String) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：isStopOrderExpired(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： ENTER
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getExecutionConditionTypeSonar(EqTypeExecutionConditionType) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.WEB3EquityDataAdapter - メソッド名：getOrgWLimitExecCondType(EqTypeOrderUnit) ： EXIT
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImpl - メソッド名：validateOrder(WEB3MarginCancelConfirmRequest) ： EXIT
+2007-02-01 11:36:50,124 - main - INFO  - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - testValidateOrder_T02()------------------>ok
+2007-02-01 11:36:50,124 - main - DEBUG - webbroker3.equity.service.delegate.stdimpls.WEB3MarginCancelServiceImplTest_jiddk01 - メソッド名：testValidateOrder_T02() ： EXIT
+2007-02-01 11:36:50,155 - Heartbeat-40.1 - INFO  - com.fitechlabs.dbind.impl.InvHeartbeat - Heartbeat-40.1 has stopped.
+@

@@ -1,0 +1,113 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.18;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-plugin-ejb.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<project name="make-ejb" default="all">
+
+  <!-- set global properties for this build -->
+  <property environment="env"/>
+  <property file="../build/build.properties"/>
+
+  <property name="source" value="."/>
+  <property name="build" value="${source}/build"/>
+  <property name="dist" value="${source}/dist"/>
+  <property name="stdjar" value="${PLUGIN_NAME}-std.jar"/>
+  <property name="ejbjar" value="${PLUGIN_NAME}-gateway.jar"/>
+  <property name="clientjar" value="${PLUGIN_NAME}-client.jar"/>
+  <property name="ejbclientjar" value="${PLUGIN_NAME}-gateway-ejb-client.jar"/>
+
+  <target name="all" depends="clean, init, compile_ejb, jar_ejb, ejbc, add_extension, client"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile
+    and copy the deployment descriptors into it-->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build}/META-INF"/>
+    <copy todir="${build}/META-INF">
+      <fileset dir="${source}">
+        <include name="*.xml"/>
+        <exclude name="build.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- Compile ejb classes into the build directory (jar preparation) -->
+  <target name="compile_ejb">
+    <javac srcdir="${source}" destdir="${build}">
+      <classpath>
+      	<fileset dir="${XTRADE_HOME}/build-results">
+        	<include name="**/jars/app-webstock.jar"/>
+      	</fileset>
+      	<pathelement path="${WL_HOME}/lib/weblogic_sp.jar;${WL_HOME}/lib/weblogic.jar"/>
+      </classpath>    	
+    </javac>
+  </target>
+
+  <!-- Make a standard ejb jar file, including XML deployment descriptors -->
+  <target name="jar_ejb" depends="compile_ejb">
+    <jar jarfile="${stdjar}"
+      basedir="${build}">
+    </jar>
+  </target>
+
+  <!-- Run ejbc to create the deployable jar file -->
+  <target name="ejbc" depends="jar_ejb">
+    <java classname="weblogic.ejbc" fork="yes">
+      <sysproperty key="weblogic.home" value="${WL_HOME}"/>
+      <arg line="-compiler javac ${stdjar} ${ejbjar}"/>
+      <classpath>
+      	<fileset dir="${XTRADE_HOME}/build-results">
+        	<include name="**/jars/app-webstock.jar"/>
+      	</fileset>      
+        <pathelement path="${WL_HOME}/lib/weblogic_sp.jar;${WL_HOME}/lib/weblogic.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  <!-- Add referenced jar files -->  
+  <target name="add_extension" depends="ejbc">
+    <jar jarfile="${ejbjar}" update="true">
+    	<manifest>
+    		<attribute name="Class-Path" value="app-webstock.jar log4j-1.2.8.jar"/>
+      	</manifest>
+    </jar>
+  </target>
+  
+  <target name="client">
+  	<unjar src="../client/${clientjar}" dest="${build}"/>
+  	<jar jarfile="${ejbclientjar}" basedir="${build}" excludes="**/*Bean.class"/>
+  </target>  
+
+  <target name="clean">
+    <delete dir="${build}"/>
+  	<delete>
+    	<fileset dir="." includes="*.jar"/>
+  	</delete>
+  </target>
+</project>
+@

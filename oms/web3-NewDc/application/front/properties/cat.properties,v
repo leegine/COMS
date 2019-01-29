@@ -1,0 +1,80 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.27.48;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2144d9046833db9;
+filename	cat.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#==========================================================================
+#
+# Categories property file for use with debugging environments.
+#
+#==========================================================================
+#
+#------------------------------------------------------------------------------
+# Kernel properties
+#
+#
+
+# bootstrap processing
+#com.fitechlabs.xtrade.kernel.boot=DEBUG
+
+# communications
+#com.fitechlabs.xtrade.kernel.comm=DEBUG
+
+# data layer
+#com.fitechlabs.xtrade.kernel.data=DEBUG
+
+# message layer
+#com.fitechlabs.xtrade.kernel.message=DEBUG
+
+# handlers
+#com.fitechlabs.xtrade.kernel.handler=DEBUG
+
+# errors
+#com.fitechlabs.xtrade.kernel.error=DEBUG
+
+# db binding layer
+#com.fitechlabs.dbind=DEBUG
+
+#
+# These values cause the server to echo all requests and responses.
+#
+#com.fitechlabs.xtrade.kernel.comm.XmlRequestHandler=DEBUG
+#com.fitechlabs.xtrade.kernel.comm.XmlRequestHandler.messages=DEBUG
+
+#
+# These values result in more details filled in for error messages.
+#
+#com.fitechlabs.xtrade.kernel.error.ErrorResponseRegistry=DEBUG
+#com.fitechlabs.xtrade.kernel.error.ErrorResponseRegistry.stacktraces=DEBUG
+
+jp.co.stacktraces=DEBUG
+
+#
+# Invlaidation messages, can be helpful to observer caching behavior.
+#
+#com.fitechlabs.xtrade.kernel.data.cache.InvalidationCoordinator=DEBUG
+
+
+@

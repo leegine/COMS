@@ -1,0 +1,387 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.28.14;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2144d9046833db9;
+filename	web.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+<web-app>
+	<servlet>
+		<servlet-name>XTradeServlet</servlet-name>
+		<display-name>XTrade Servlet</display-name>
+		<servlet-class>com.fitechlabs.xtrade.kernel.comm.xmlhttp.XTradeServlet</servlet-class>
+
+		<!-- System Plug-ins -->
+		<init-param>
+			<param-name>PLUGIN_CLASS_001</param-name>
+			<param-value>com.fitechlabs.xtrade.kernel.boot.KernelPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_003</param-name>
+			<param-value>com.fitechlabs.xtrade.kernel.boot.ServerConnectorPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_010</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.security.oplogin.OpLoginPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_011</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.util.queries.QueryRequestPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_012</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.util.jobs.UtilJobsPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_013</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_014</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_015</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_016</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_017</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_018</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_019</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin</param-value>
+		</init-param>
+
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_020</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.xbbd.BondTradingPlugin</param-value>
+
+		</init-param>
+
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_050</param-name>
+			<param-value>webbroker3.system.tune.threadpool.WEB3ThreadPoolPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_051</param-name>
+			<param-value>webbroker3.servlet.WEB3HttpServletPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_052</param-name>
+			<param-value>webbroker3.mqgateway.WEB3MQGatewayPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_053</param-name>
+			<param-value>webbroker3.mqgateway.manager.WEB3MQGatewayManagerPlugin</param-value>
+		</init-param>
+
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_054</param-name>
+			<param-value>webbroker3.gentrade.WEB3GentradeAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_055</param-name>
+			<param-value>webbroker3.login.WEB3LoginAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_056</param-name>
+			<param-value>webbroker3.tradingpower.WEB3TPLibPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_057</param-name>
+			<param-value>webbroker3.ifodeposit.WEB3IfoDepositPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_058</param-name>
+			<param-value>webbroker3.triggerorder.base.WEB3ToSuccBaseAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_059</param-name>
+			<param-value>webbroker3.rlsgateway.WEB3RlsGatewayPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_060</param-name>
+			<param-value>webbroker3.slebase.SleBasedMarketAdapterBasePlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_100</param-name>
+			<param-value>webbroker3.equity.WEB3EquityAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_101</param-name>
+			<param-value>webbroker3.tradingpower.WEB3TPAssetTradingPowerPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_102</param-name>
+			<param-value>webbroker3.ipo.WEB3IpoAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_103</param-name>
+			<param-value>webbroker3.xbruito.WEB3RuitoAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_104</param-name>
+			<param-value>webbroker3.ifo.WEB3IfoAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_105</param-name>
+			<param-value>webbroker3.aio.WEB3AioAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_106</param-name>
+			<param-value>webbroker3.mailinfo.WEB3AdminMailInfoAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_107</param-name>
+			<param-value>webbroker3.tradingpoweradmin.WEB3AdminTPPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_108</param-name>
+			<param-value>webbroker3.mf.WEB3MutualFundAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_109</param-name>
+			<param-value>webbroker3.pvinfo.WEB3PvInfoAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_110</param-name>
+			<param-value>webbroker3.adminmc.WEB3AdminMCAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_111</param-name>
+			<param-value>webbroker3.srvregi.WEB3SrvRegiAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_112</param-name>
+			<param-value>webbroker3.tradehistory.WEB3TradeHistoryAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_113</param-name>
+			<param-value>webbroker3.tradehistory.WEB3PlsbvsAppPlugin</param-value>
+		</init-param>
+		<init-param>
+			<param-name>PLUGIN_CLASS_114</param-name>
+			<param-value>webbroker3.accountopen.WEB3AccOpenAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_115</param-name>
+			<param-value>webbroker3.accountinfo.WEB3AccInfoAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_116</param-name>
+			<param-value>webbroker3.faq.WEB3FaqAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_117</param-name>
+			<param-value>webbroker3.point.WEB3PointAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_118</param-name>
+			<param-value>webbroker3.inform.WEB3InformAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_119</param-name>
+		   	<param-value>webbroker3.trialcalc.WEB3TrialCalcAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_120</param-name>
+			<param-value>webbroker3.trademanagement.WEB3TradeManagementAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_121</param-name>
+			<param-value>webbroker3.adminorderexecinquiry.WEB3AdminOrderExecInquiryAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_122</param-name>
+			<param-value>webbroker3.eqtypeadmin.WEB3EqtypeAdminAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_123</param-name>
+			<param-value>webbroker3.bd.WEB3XbbdAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_124</param-name>
+			<param-value>webbroker3.feq.WEB3FeqAppPlugin</param-value>
+		</init-param>
+
+                <init-param>
+                        <param-name>PLUGIN_CLASS_125</param-name>
+                        <param-value>webbroker3.triggerorder.WEB3ToSuccAppPlugin</param-value>
+                </init-param>
+
+                <init-param>
+                        <param-name>PLUGIN_CLASS_126</param-name>
+                        <param-value>webbroker3.omsadaptor.WEB3RlsOmsAdaptorPlugin</param-value>
+                </init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_127</param-name>
+			<param-value>webbroker3.rcp.WEB3RichPushPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_128</param-name>
+			<param-value>webbroker3.admintriggerorder.WEB3AdminToAppPlugin</param-value>
+		</init-param>
+
+                <init-param>
+                        <param-name>PLUGIN_CLASS_129</param-name>
+                        <param-value>webbroker3.dirsec.WEB3AdminDirSecAppPlugin</param-value>
+                </init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_130</param-name>
+			<param-value>webbroker3.syncclt.WEB3SyncCltPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_131</param-name>
+			<param-value>webbroker3.slegateway.WEB3SleBasedMarketAdapterBasePlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_190</param-name>
+			<param-value>webbroker3.eqtypeadmin.WEB3EqtypeAdminAppPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_200</param-name>
+			<param-value>webbroker3.quoteadaptor.stdimpls.WEB3QuotePlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_500</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.util.rac.RacPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_600</param-name>
+			<param-value>webbroker3.system.tune.affinity.WEB3AffinityPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_700</param-name>
+			<param-value>webbroker3.preloader.WEB3PreLoaderPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_710</param-name>
+			<param-value>webbroker3.cachestat.WEB3CacheStatPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>PLUGIN_CLASS_999</param-name>
+			<param-value>com.fitechlabs.xtrade.kernel.comm.sockpool.SocketPoolPlugin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>DEFAULT_URL</param-name>
+			<param-value>jdbc:weblogic:jts:PL_WBRK31</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DEFAULT_DRIVER</param-name>
+			<param-value>weblogic.jdbc.jts.Driver</param-value>
+		</init-param>
+
+		<load-on-startup>1</load-on-startup>
+
+	</servlet>
+
+<!--  Servlet definition for web3-servlet plugin  -->
+
+	<servlet>
+		<servlet-name>WEB3Servlet</servlet-name>
+		<display-name>WEB3Servlet</display-name>
+		<servlet-class>webbroker3.servlet.WEB3HttpServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>XTradeServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+  <servlet-mapping>
+	<servlet-name>WEB3Servlet</servlet-name>
+	<url-pattern>/servlet/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+@

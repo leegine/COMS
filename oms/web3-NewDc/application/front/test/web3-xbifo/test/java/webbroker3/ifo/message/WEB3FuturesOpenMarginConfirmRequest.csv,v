@@ -1,0 +1,51 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.04.07.01.25.37;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5444d9d078c63f4;
+filename	WEB3FuturesOpenMarginConfirmRequest.csv;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@フィールド日本語名称,フィールド変数名称,case0001,case0002,case0003,case0004,case0005,case0006,case0007,case0008,case0009,case0010,case0011,case0012,case0013,case0014,case0015,case0016,case0017,case0020,case0021,case0022,case0023,case0024,case0025,case0026,case0027,case0028,case0029,case0030,case0031,case0032
+注文数量,futOrderQuantity,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,#99999,null,,a,!,#0,#-1,#100000,#1
+注文単価区分,orderPriceDiv,null,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
+注文単価,limitPrice,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+執行条件,execCondType,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1
+注文期限区分,expirationDateType,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1
+注文有効期限,expirationDate,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+発注条件区分,orderCondType,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
+逆指値用発注条件単価,stopOrderCondPrice,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+逆指値用発注条件演算子,stopOrderCondOperator,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+W指値用発注条件単価,wlimitOrderCondPrice,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+W指値用発注条件演算子,wlimitOrderCondOperator,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+W指値用注文単価区分,wLimitOrderPriceDiv,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+W指値用注文単価,wLimitPrice,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+W指値用執行条件,wlimitExecCondType,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+W指値用有効状態区分,wlimitEnableStatusDiv,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+銘柄コード,futProductCode,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+建区分,contractType,#1,null,,#0,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#2
+取引市場,marketCode,#1,#1,#1,#1,null,,#0,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#1,#2
+指数種別,targetProductCode,#0018,#0018,#0018,#0018,#0018,#0018,#0018,null,,a,!,#123,#12345,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018,#0018
+限月,delivaryMonth,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805,null,,#2008-05,#2008/05,#000005,200a05,2008a5,#0805,#20080501,#200805,#200805,#200805,#200805,#200805,#200805,#200805,#200805
+ERROR_CODE,,BUSINESS_ERROR_00184,BUSINESS_ERROR_00263,BUSINESS_ERROR_00263,BUSINESS_ERROR_00264,BUSINESS_ERROR_00265,BUSINESS_ERROR_00265,BUSINESS_ERROR_01087,BUSINESS_ERROR_00266,BUSINESS_ERROR_00266,BUSINESS_ERROR_02441,BUSINESS_ERROR_02441,BUSINESS_ERROR_02442,BUSINESS_ERROR_02442,BUSINESS_ERROR_00267,BUSINESS_ERROR_00267,BUSINESS_ERROR_00268,BUSINESS_ERROR_00268,BUSINESS_ERROR_00268,BUSINESS_ERROR_00268,BUSINESS_ERROR_00268,BUSINESS_ERROR_00268,BUSINESS_ERROR_00268,BUSINESS_ERROR_00074,BUSINESS_ERROR_00074,BUSINESS_ERROR_00075,BUSINESS_ERROR_00075,BUSINESS_ERROR_00076,BUSINESS_ERROR_00076,BUSINESS_ERROR_00077,OK
+ERROR_MESSAGE,,注文単価区分がnullの値である,銘柄コードがnullの値でかつ、建区分がnullの値である,銘柄コードがnullの値でかつ、建区分がnullの値である,建区分が”1：買建”、”2：売建”以外である,取引市場がnullである,取引市場がnullである,取引市場の値は規定枚挙値の範囲ではないです。,指数種別がnullである,指数種別がnullである,指数種別が数字以外の値です。,指数種別が数字以外の値です。,指数種別のサイズが不正です。,指数種別のサイズが不正です。,銘柄コードがnullの値でかつ、限月がnullの値である,銘柄コードがnullの値でかつ、限月がnullの値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,銘柄コードがnullの値でかつ、.限月がＹＹＹＹＭＭ形式の値以外の値である,注文数量を入力してください。,注文数量を入力してください。,注文数量が数字以外の値である。,注文数量が数字以外の値である。,注文数量が0以下の値である。,注文数量が0以下の値である。,注文数量が５桁を超えました。,OK
+@

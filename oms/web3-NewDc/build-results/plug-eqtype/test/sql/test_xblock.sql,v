@@ -1,0 +1,182 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.04.32.44;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7284d803d575ff6;
+filename	test_xblock.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@create or replace package test_xblock
+as
+
+  PROCEDURE init_master_data ;
+  
+  PROCEDURE clear_master_data ;
+  
+  PROCEDURE init_account_data ;
+  
+  PROCEDURE clear_account_data ;
+  
+end test_xblock;
+/
+show errors
+
+create or replace package body test_xblock
+as
+
+  PROCEDURE init_master_data 
+  IS
+  BEGIN
+  
+		insert into institution (institution_id, institution_code, institution_name)
+			values(8699, 'institution_code8699', 'institution_name');
+		
+		insert into branch (branch_id, branch_code, branch_name, branch_type, institution_id)
+			values(86991, 'branch_code86991', 'branch_name', 0, 8699);
+		
+		insert into trader (trader_id, trader_code, trader_type, login_id, branch_code, family_name, given_name)
+			values(869911, 'trader_code3300', 0, 3300, 'branch_code86991', 'trader_family_name', 'trader_given_name');
+			
+		insert into market(market_id, market_code, market_name, open_time, close_time)
+			values(501, 'TSE', 'TSE', '09:00', '15:00');
+		insert into market(market_id, market_code, market_name, open_time, close_time)
+			values(601, 'OSE', 'OSE', '09:00', '15:00');
+			
+		INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+			VALUES (501,'accepts_limit_order',1,'true');
+		INSERT INTO market_preferences(MARKET_ID,NAME,NAME_SERIAL_NO,VALUE)
+			VALUES (601,'accepts_limit_order',1,'true');
+			
+		insert into market_calendar(market_id, holiday)
+			values(501, to_date('20030228','yyyymmdd'));
+		insert into market_calendar(market_id, holiday)
+			values(501, to_date('20030227','yyyymmdd'));
+		insert into market_calendar(market_id, holiday)
+			values(601, to_date('20030101','yyyymmdd'));
+		
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(10, 501, 2000, 1);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(20, 501, 3000, 5);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(30, 501, 30000, 10);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(40, 501, 50000, 50);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(50, 501, 100000, 100);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(60, 501, 1000000, 1000);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(70, 501, 20000000, 10000);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(80, 501, 30000000, 50000);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(90, 501, 999999999999.999999, 100000);
+		
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(11, 601, 2000, 1);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(21, 601, 3000, 5);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(31, 601, 30000, 10);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(41, 601, 50000, 50);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(51, 601, 100000, 100);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(61, 601, 1000000, 1000);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(71, 601, 20000000, 10000);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(81, 601, 30000000, 50000);
+		insert into eqtype_tick_values_defs (tick_values_defs_id, market_id, cap_price, tick_value)
+			values(91, 601, 999999999999.999999, 100000);
+		commit;	
+		
+  END init_master_data;
+
+  PROCEDURE clear_master_data 
+  IS
+  BEGIN
+		delete from traded_product;
+		delete from product;
+		delete from eqtype_tick_values_defs;
+		delete from eqtype_limit_price_range_defs;
+		delete from market_calendar;
+		delete from market_preferences;
+		delete from market;
+		delete from trader;
+		delete from branch;
+		delete from institution;  
+		commit;
+  END clear_master_data;
+  
+  PROCEDURE init_account_data 
+  IS
+  BEGIN
+  
+		insert into main_account (account_id, institution_id, account_code, family_name, given_name, address_line1, zip_code, trading_password, account_status, account_type, branch_id, branch_code)
+			values(0, 8699, 'account_code0', 'account_family_name', 'account_given_name', 'address_line1', '94104', 'trading_password', 0, 0, 86991, 'branch_code86991');
+		insert into sub_account (account_id, sub_account_id, sub_account_type, sub_account_status, cash_balance)
+			values(0, 0, 0, 0, 10000000);
+			
+		insert into main_account (account_id, institution_id, account_code, family_name, given_name, address_line1, zip_code, trading_password, account_status, account_type, branch_id, branch_code)
+			values(9999, 8699, 'account_code9999', 'account_family_name', 'account_given_name', 'address_line1', '94104', 'trading_password', 0, 0, 86991, 'branch_code86991');
+		insert into sub_account (account_id, sub_account_id, sub_account_type, sub_account_status, cash_balance)
+			values(9999, 0, 0, 0, 10000000);
+			
+		insert into main_account (account_id, institution_id, account_code, family_name, given_name, address_line1, zip_code, trading_password, account_status, account_type, branch_id, branch_code)
+			values(8888, 8699, 'account_code8888', 'account_family_name', 'account_given_name', 'address_line1', '94104', 'trading_password', 0, 0, 86991, 'branch_code86991');
+		insert into sub_account (account_id, sub_account_id, sub_account_type, sub_account_status, cash_balance)
+			values(8888, 0, 0, 0, 10000000);			
+		commit;
+			
+  END init_account_data;
+  
+  PROCEDURE clear_account_data 
+  IS
+  BEGIN
+		delete from gen_fin_transaction;
+		delete from eqtype_fin_transaction;
+		delete from eqtype_order_execution;
+		delete from eqtype_closing_contract_spec;
+		delete from eqtype_order_action;
+		delete from eqtype_order_unit;
+		delete from eqtype_order;
+		delete from eqtype_locked_contract_details;
+		delete from eqtype_contract;
+		delete from eqtype_asset_unit_sales;
+		delete from eqtype_asset_unit;
+		delete from eqtype_locked_asset_details;
+		delete from eqtype_asset;
+		delete from sub_account_preferences;
+		delete from sub_account;
+		delete from participant;
+		delete from account_preferences;
+		delete from main_account;  
+		commit;
+  END clear_account_data;
+      
+end test_xblock;
+/
+show errors
+@

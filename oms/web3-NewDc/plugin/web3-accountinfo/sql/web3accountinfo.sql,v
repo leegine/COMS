@@ -1,0 +1,487 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.22.43;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8ac4d7ee96709de;
+filename	web3accountinfo.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--お客様情報／暗証番号管理
+-------------------------------------------------------------------------------
+
+--1. 委託手数料コースマスタ
+CREATE TABLE commission_course_master (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    comm_product_code           VARCHAR2(2)         NOT NULL,
+    commission_course_div       VARCHAR2(2)         NOT NULL,
+    standard_name               VARCHAR2(64)        NOT NULL,
+    regist_end_day_spec         VARCHAR2(2)         NOT NULL,
+    regist_end_time             VARCHAR2(6)         NOT NULL,
+    appli_start_date_div        VARCHAR2(1)         NOT NULL,
+    appli_start_day_count       NUMBER(6)               NULL,
+    appli_start_end_time        VARCHAR2(6)         NOT NULL,
+    appli_term_div              VARCHAR2(1)             NULL,
+    appli_term_date_count       NUMBER(6)               NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL,
+    commission_div              VARCHAR2(1)             Null
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcommission_course_master ON commission_course_master
+(
+    institution_code,
+    comm_product_code,
+    commission_course_div
+);
+
+--Primary Key
+ALTER TABLE commission_course_master
+        ADD  (PRIMARY KEY (institution_code, comm_product_code, commission_course_div));
+
+
+--2. 委託手数料コース変更申込
+CREATE TABLE commission_course_regist (
+    commission_course_regist_id     NUMBER(18)                  NOT NULL,
+    institution_code                VARCHAR2(3)                 NOT NULL,
+    branch_id                       NUMBER(18)                  NOT NULL,
+    account_id                      NUMBER(18)                  NOT NULL,
+    comm_product_code               VARCHAR2(2)                 NOT NULL,
+    appli_start_datetime            DATE                        NOT NULL,
+    appli_end_datetime              DATE                        NOT NULL,
+    commission_course_div           VARCHAR2(2)                 NOT NULL,
+    regist_timestamp                DATE                        NOT NULL,
+    regist_end_timestamp            DATE                        NOT NULL,
+    download_flag                   NUMBER(1)       DEFAULT 0   NOT NULL,
+    delete_flag                     NUMBER(1)       DEFAULT 0   NOT NULL,
+    last_updater                    VARCHAR2(20)                NOT NULL,
+    created_timestamp               DATE                        NOT NULL,
+    last_updated_timestamp          DATE                        NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcommission_course_regist ON commission_course_regist
+(
+    commission_course_regist_id
+);
+
+CREATE INDEX XIEcommission_course_regist ON commission_course_regist
+(
+    institution_code,
+    branch_id,
+    account_id,
+    comm_product_code,
+    appli_start_datetime
+);
+
+--Primary Key
+ALTER TABLE commission_course_regist
+        ADD  (PRIMARY KEY (commission_course_regist_id));
+
+
+--3. 携帯番号.勤務先情報変更申込
+CREATE TABLE mobile_office_info_regist (
+    mobile_office_info_regist_id    NUMBER(18)                  NOT NULL,
+    institution_code                VARCHAR2(3)                 NOT NULL,
+    branch_id                       NUMBER(18)                  NOT NULL,
+    account_id                      NUMBER(18)                  NOT NULL,
+    account_code                    VARCHAR2(7)                 NOT NULL,
+    mobile                          VARCHAR2(16)                    NULL,
+    office                          VARCHAR2(50)                    NULL,
+    office_zip_code                 VARCHAR2(10)                    NULL,
+    office_address                  VARCHAR2(100)                   NULL,
+    office_telephone                VARCHAR2(16)                    NULL,
+    post                            VARCHAR2(36)                    NULL,
+    regist_updater                  VARCHAR2(20)                NOT NULL,
+    decision_flag                   NUMBER(1)       DEFAULT 0       NULL,
+    decision                        NUMBER(1)                       NULL,
+    decision_updater                VARCHAR2(20)                    NULL,
+    decision_timestamp              DATE                            NULL,
+    delete_flag                     NUMBER(1)       DEFAULT 0   NOT NULL,
+    last_updater                    VARCHAR2(20)                NOT NULL,
+    created_timestamp               DATE                        NOT NULL,
+    last_updated_timestamp          DATE                        NOT NULL,
+    contact_priority1               VARCHAR2(2)                     NULL,
+    contact_priority2               VARCHAR2(2)                     NULL,
+    contact_priority3               VARCHAR2(2)                     NULL,
+    real_name1                      VARCHAR2(66)                    NULL,
+    real_name2                      VARCHAR2(66)                    NULL,
+    occupation_div                  VARCHAR2(2)                     NULL,
+    department                      VARCHAR2(50)                    NULL,
+    nationality                     VARCHAR2(1)                     NULL,
+    nationality_other               VARCHAR2(50)                    NULL,
+    represent_family_name           VARCHAR2(50)                    NULL,
+    represent_given_name            VARCHAR2(50)                    NULL,
+    represent_family_name_alt1      VARCHAR2(50)                    NULL,
+    represent_given_name_alt1       VARCHAR2(50)                    NULL,
+    represent_power                 VARCHAR2(50)                    NULL, 
+    director_family_name            VARCHAR2(50)                    NULL,
+    director_given_name             VARCHAR2(50)                    NULL,
+    director_family_name_alt1       VARCHAR2(50)                    NULL,
+    director_given_name_alt1        VARCHAR2(50)                    NULL,
+    director_department             VARCHAR2(50)                    NULL,
+    director_post                   VARCHAR2(50)                    NULL,
+    director_zip_code               VARCHAR2(7)                     NULL,
+    director_address1               VARCHAR2(50)                    NULL,
+    director_address2               VARCHAR2(50)                    NULL,
+    director_address3               VARCHAR2(50)                    NULL,
+    director_era_born               VARCHAR2(1)                     NULL,
+    director_born_date              VARCHAR2(6)                     NULL,
+    director_corp_telephone         VARCHAR2(16)                    NULL,
+    other_contact                   VARCHAR2(16)                    NULL, 
+    fax                             VARCHAR2(16)                    NULL,
+    annual_income_div               VARCHAR2(4)                     NULL,
+    asset_value_div                 VARCHAR2(4)                     NULL,
+    fund_budget_amount_div          VARCHAR2(4)                     NULL,
+    invest_purpose_div              VARCHAR2(4)                     NULL,
+    invest_plan_period_div          VARCHAR2(4)                     NULL,
+    experience_flag1                NUMBER(1)                       NULL,
+    experience_flag2                NUMBER(1)                       NULL,
+    experience_flag3                NUMBER(1)                       NULL,
+    experience_flag4                NUMBER(1)                       NULL,
+    experience_flag5                NUMBER(1)                       NULL,
+    experience_flag6                NUMBER(1)                       NULL,
+    experience_flag7                NUMBER(1)                       NULL,
+    experience_flag8                NUMBER(1)                       NULL,
+    experience_flag9                NUMBER(1)                       NULL,
+    experience_flag10               NUMBER(1)                       NULL,
+    experience_div1                 VARCHAR2(4)                     NULL,
+    experience_div2                 VARCHAR2(4)                     NULL,
+    experience_div3                 VARCHAR2(4)                     NULL,
+    experience_div4                 VARCHAR2(4)                     NULL,
+    experience_div5                 VARCHAR2(4)                     NULL,
+    experience_div6                 VARCHAR2(4)                     NULL,
+    experience_div7                 VARCHAR2(4)                     NULL,
+    experience_div8                 VARCHAR2(4)                     NULL,
+    experience_div9                 VARCHAR2(4)                     NULL,
+    experience_div10                VARCHAR2(4)                     NULL,
+    interest_flag1                  NUMBER(1)                       NULL,
+    interest_flag2                  NUMBER(1)                       NULL,
+    interest_flag3                  NUMBER(1)                       NULL,
+    interest_flag4                  NUMBER(1)                       NULL,
+    interest_flag5                  NUMBER(1)                       NULL,
+    interest_flag6                  NUMBER(1)                       NULL,
+    interest_flag7                  NUMBER(1)                       NULL,
+    interest_flag8                  NUMBER(1)                       NULL,
+    interest_flag9                  NUMBER(1)                       NULL,
+    interest_flag10                 NUMBER(1)                       NULL,
+    appli_motivat_div               VARCHAR2(4)                     NULL,
+    appli_motivat_div_detail        VARCHAR2(50)                    NULL,
+    use_institution_div             VARCHAR2(4)                     NULL,
+    internet_trade_div              VARCHAR2(4)                     NULL,
+    introduce_branch_code           VARCHAR2(3)                     NULL,
+    accept_status                   VARCHAR2(1)                     NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKmobile_office_info_regist ON mobile_office_info_regist
+(
+    mobile_office_info_regist_id
+);
+
+CREATE INDEX XIEmobile_office_info_regist ON mobile_office_info_regist
+(
+    institution_code,
+    branch_id,
+    account_id
+);
+
+--Primary Key
+ALTER TABLE mobile_office_info_regist
+        ADD  (PRIMARY KEY (mobile_office_info_regist_id));
+
+
+--4. 案内メール配信指示
+CREATE TABLE information_mail_request (
+    information_mail_request_id     NUMBER(18)      NOT NULL,
+    institution_code                VARCHAR2(3)     NOT NULL,
+    sendmail_dev                    VARCHAR2(4)     NOT NULL,
+    discernment_id                  VARCHAR2(4)     NOT NULL,
+    all_account_flag                NUMBER(1)       DEFAULT 0       NOT NULL,
+    account_count                   NUMBER(18)      NOT NULL,
+    request_timestamp               DATE            NOT NULL,
+    status                          VARCHAR2(1)     NOT NULL,
+    last_updater                    VARCHAR2(20)    NOT NULL,
+    created_timestamp               DATE            NOT NULL,
+    last_updated_timestamp          DATE            NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKinformation_mail_request ON information_mail_request
+(
+    information_mail_request_id
+);
+
+CREATE INDEX XIEinformation_mail_request ON information_mail_request
+(
+    institution_code,
+    sendmail_dev,
+    request_timestamp
+);
+
+--Primary Key
+ALTER TABLE information_mail_request
+        ADD  (PRIMARY KEY (information_mail_request_id));
+
+
+--5. ロック客Y客登録解除キューテーブル
+CREATE TABLE host_lock_regist (
+    request_code                    VARCHAR2(5)     NULL,
+    institution_code                VARCHAR2(3)     NULL,
+    branch_code                     VARCHAR2(3)     NULL,
+    account_code                    VARCHAR2(7)     NULL,
+    trader_code                     VARCHAR2(5)     NULL,
+    order_request_number            VARCHAR2(9)     NULL,
+    before_mng_lock_start_date      DATE            NULL,
+    before_mng_lock_end_date        DATE            NULL,
+    before_branch_lock              VARCHAR2(1)     NULL,
+    before_order_permission         VARCHAR2(1)     NULL,
+    before_lock_regist_reason       VARCHAR2(40)    NULL,
+    before_yellow_customer          VARCHAR2(1)     NULL,
+    mng_lock_cancel_div             VARCHAR2(1)     NULL,
+    mng_lock_cancel_start_date      DATE            NULL,
+    mng_lock_cancel_end_date        DATE            NULL,
+    branch_lock                     VARCHAR2(1)     NULL,
+    order_permission                VARCHAR2(1)     NULL,
+    lock_registration_reason        VARCHAR2(40)    NULL,
+    attribute                       VARCHAR2(1)     NULL,
+    regi_erase_div                  VARCHAR2(1)     NULL,
+    status                          VARCHAR2(1)     NULL,
+    created_timestamp               DATE            NULL,
+    last_updated_timestamp          DATE            NULL
+);
+
+--Index
+CREATE INDEX XIE1host_lock_regist ON host_lock_regist
+(
+    request_code                    ,
+    institution_code                ,
+    branch_code                     ,
+    account_code                    ,
+    last_updated_timestamp          
+);
+
+CREATE INDEX XIE2host_lock_regist ON host_lock_regist
+(
+    request_code                    ,
+    institution_code                ,
+    branch_code                     ,
+    account_code                    ,
+    order_request_number            
+);
+
+
+--6. ロック客Y客登録解除受付キューテーブル
+CREATE TABLE host_lock_regi_accept (
+    request_code                    VARCHAR2(5)     NOT NULL,
+    institution_code                VARCHAR2(2)     NOT NULL,
+    branch_code                     VARCHAR2(3)     NOT NULL,
+    account_code                    VARCHAR2(7)     NOT NULL,
+    order_request_number            VARCHAR2(9)     NOT NULL,
+    accept_status                   VARCHAR2(1)     NULL,
+    error_code                      VARCHAR2(4)     NULL,
+    status                          VARCHAR2(1)     NULL
+);
+
+--7. 手数料顧客条件送信用
+CREATE TABLE comm_account_send (
+    institution_code                VARCHAR2(3)     NOT NULL,
+    operations_date                 VARCHAR2(8)     NOT NULL,
+    branch_code                     VARCHAR2(3)     NOT NULL,
+    account_code                    VARCHAR2(7)     NOT NULL,
+    comm_product_code               VARCHAR2(2)     NOT NULL,
+    appli_start_date                VARCHAR2(8)     NOT NULL,
+    commission_no                   VARCHAR2(2)     NOT NULL,
+    account_charge_ratio            DECIMAL(8,5)    NOT NULL,
+    appli_end_date                  VARCHAR2(8)     NOT NULL,
+    last_updater                    VARCHAR2(20)    NOT NULL,
+    created_timestamp               DATE            NOT NULL,
+    last_updated_timestamp          DATE            NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcomm_account_send ON comm_account_send
+(
+    institution_code                ,
+    branch_code                     ,
+    account_code                    ,
+    comm_product_code               ,
+    appli_start_date
+);
+
+--Primary Key
+ALTER TABLE comm_account_send
+        ADD  (PRIMARY KEY (institution_code, branch_code,
+        	account_code, comm_product_code, appli_start_date));
+
+--8. 手数料割引キャンペーン条件マスタ
+CREATE TABLE comm_campaign_cond_mst (
+    campaign_id                     NUMBER(18)      NOT NULL,
+    comm_campaign_name              VARCHAR2(100)       NULL,
+    institution_code                VARCHAR2(3)     NOT NULL,
+    branch_code                     VARCHAR2(3)         NULL,
+    account_code                    VARCHAR2(7)         NULL,
+    family_name                     VARCHAR2(40)        NULL,
+    acc_open_pass_month             VARCHAR2(2)         NULL,
+    acc_open_pass_date              VARCHAR2(2)         NULL,
+    appli_start_date                DATE                NULL,
+    appli_end_date                  DATE                NULL,
+    account_charge_ratio            DECIMAL(8,5)    NOT NULL,
+    sonar_trader_code               VARCHAR2(5)         NULL,
+    acc_open_kind_div               VARCHAR2(1)         NULL,
+    acc_open_date_from              DATE                NULL,
+    acc_open_date_to                DATE                NULL,
+    regist_type                     VARCHAR2(1)         NULL,
+    delete_flag                     VARCHAR2(1)         NULL,
+    status                          VARCHAR2(1)         NULL,
+    last_updater                    VARCHAR2(20)    NOT NULL,
+    created_timestamp               DATE            NOT NULL,
+    last_updated_timestamp          DATE            NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcomm_campaign_cond_mst ON comm_campaign_cond_mst
+(
+    campaign_id
+);
+
+CREATE INDEX XIE1comm_campaign_cond_mst ON comm_campaign_cond_mst
+(
+    institution_code,
+    regist_type
+);
+
+--Primary Key
+ALTER TABLE comm_campaign_cond_mst
+        ADD  (PRIMARY KEY (campaign_id));
+
+--9. 手数料割引キャンペーン商品マスタ
+CREATE TABLE comm_campaign_product_mst (
+    campaign_id                     NUMBER(18)     NOT NULL,
+    comm_product_code               VARCHAR2(2)    NOT NULL,
+    last_updater                    VARCHAR2(20)   NOT NULL,
+    created_timestamp               DATE           NOT NULL,
+    last_updated_timestamp          DATE           NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcomm_campaign_product_mst ON comm_campaign_product_mst
+(
+    campaign_id,
+    comm_product_code
+);
+
+CREATE INDEX XIE1comm_campaign_product_mst ON comm_campaign_product_mst
+(
+    comm_product_code
+);
+
+--Primary Key
+ALTER TABLE comm_campaign_product_mst
+        ADD  (PRIMARY KEY (campaign_id, comm_product_code));
+
+--10. 手数料割引キャンペーン顧客履歴
+CREATE TABLE comm_campaign_acc_history (
+    account_id                      NUMBER(18)     NOT NULL,
+    campaign_id                     NUMBER(18)     NOT NULL,
+    comm_campaign_name              VARCHAR2(100)      NULL,
+    institution_code                VARCHAR2(3)    NOT NULL,
+    branch_code                     VARCHAR2(20)       NULL,
+    account_code                    VARCHAR2(7)    NOT NULL,
+    family_name                     VARCHAR2(40)       NULL,
+    sonar_trader_code               VARCHAR2(5)        NULL,
+    acc_open_kind_div               VARCHAR2(1)        NULL,
+    account_charge_ratio            DECIMAL (8,5)  NOT NULL,
+    appli_start_date                DATE               NULL,
+    appli_end_date                  DATE               NULL,
+    regist_type                     VARCHAR2(1)        NULL,
+    valid_div                       VARCHAR2(1)        NULL,
+    last_updater                    VARCHAR2(20)   NOT NULL,
+    created_timestamp               DATE           NOT NULL,
+    last_updated_timestamp          DATE           NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcomm_campaign_acc_history ON comm_campaign_acc_history
+(
+    account_id,
+    campaign_id
+);
+
+CREATE INDEX XIE1comm_campaign_acc_history ON comm_campaign_acc_history
+(
+    campaign_id
+);
+
+CREATE INDEX XIE2comm_campaign_acc_history ON comm_campaign_acc_history
+(
+    appli_end_date
+);
+
+CREATE INDEX XIE3comm_campaign_acc_history ON comm_campaign_acc_history
+(
+    last_updated_timestamp
+);
+
+CREATE INDEX XIE4comm_campaign_acc_history ON comm_campaign_acc_history
+(
+    appli_start_date
+);
+
+CREATE INDEX XIE5comm_campaign_acc_history ON comm_campaign_acc_history
+(
+    account_code
+);
+
+CREATE INDEX XIE6comm_campaign_acc_history ON comm_campaign_acc_history
+(
+    acc_open_kind_div
+);
+
+--Primary Key
+ALTER TABLE comm_campaign_acc_history
+        ADD  (PRIMARY KEY (account_id, campaign_id));
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--1. Table名: 委託手数料コース変更申込
+ALTER TABLE commission_course_regist
+        ADD  (FOREIGN KEY (branch_id) REFERENCES branch);
+
+ALTER TABLE commission_course_regist
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account) ;
+
+--2. Table名: 携帯番号.勤務先情報変更申込
+ALTER TABLE mobile_office_info_regist
+        ADD  (FOREIGN KEY (branch_id) REFERENCES branch);
+
+ALTER TABLE mobile_office_info_regist
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account) ;
+
+ALTER TABLE comm_campaign_product_mst
+       ADD  ( FOREIGN KEY (campaign_id) REFERENCES comm_campaign_cond_mst) ;
+
+ALTER TABLE comm_campaign_acc_history
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account) ;
+@

@@ -1,0 +1,31 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.23.05.03.30;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	3dc4d897f211ab1;
+filename	org.eclipse.jdt.ui.prefs;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#Mon Jan 10 09:45:59 CST 2011
+eclipse.preferences.version=1
+internal.default.compliance=default
+@

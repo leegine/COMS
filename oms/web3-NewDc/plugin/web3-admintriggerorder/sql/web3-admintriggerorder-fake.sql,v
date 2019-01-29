@@ -1,0 +1,201 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.32.03;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7504d7eebab1144;
+filename	web3-admintriggerorder-fake.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@--Table名: 先物OP注文単位テーブルVIEWの仮テーブル
+CREATE TABLE  adminto_ifo_order_unit (
+        order_unit_id                  NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        branch_id                      NUMBER(18)          NOT NULL,
+        trader_id                      NUMBER(18)          NULL,
+        order_id                       NUMBER(18)          NOT NULL,
+        order_type                     NUMBER(6)           NOT NULL,
+        order_categ                    NUMBER(6)           NOT NULL,
+        last_order_action_serial_no    NUMBER(8)           DEFAULT 0 NOT NULL,
+        last_execution_serial_no       NUMBER(8)           DEFAULT 0 NOT NULL,
+        product_type                   NUMBER(6)           NOT NULL,
+        --
+        future_option_div              VARCHAR2(1)         NULL,
+        --
+        market_id                      NUMBER(18)          NULL,
+        quantity                       DECIMAL(18,6)       NOT NULL,
+        limit_price                    DECIMAL(18,6)       NULL,
+        execution_condition_type       NUMBER(6)           NULL,
+        --
+        order_condition_type           VARCHAR2(1)         NULL,
+        order_cond_operator            VARCHAR2(1)         NULL,
+        stop_price_type                VARCHAR2(1)         NULL,
+        stop_order_price               DECIMAL(18,6)       NULL,
+        w_limit_price                  DECIMAL(18,6)       NULL,
+        --
+        delivery_date                  DATE                NOT NULL,
+        expiration_date                DATE                NULL,
+        confirmed_quantity             DECIMAL(18,6)       NULL,
+        confirmed_price                DECIMAL(18,6)       NULL,
+        executed_quantity              DECIMAL(18,6)       NULL,
+        executed_amount                DECIMAL(18,6)       NULL,
+        order_status                   NUMBER(6)           DEFAULT 1 NOT NULL,
+        order_open_status              NUMBER(6)           DEFAULT 1 NOT NULL,
+        expiration_status              NUMBER(6)           NOT NULL,
+        tax_type                       NUMBER(6)           NOT NULL,
+        biz_date                       VARCHAR2(8)         NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        --
+        order_chanel                   VARCHAR2(1)           NULL,
+        received_date_time             DATE                NULL,
+        voucher_no                     VARCHAR2(4)         NULL,
+        comm_tbl_no                    VARCHAR2(2)           NULL,
+        comm_tbl_sub_no                VARCHAR2(1)           NULL,
+        sonar_trader_code              VARCHAR2(5)           NULL,
+        price                          DECIMAL(18,6)       NULL,
+        order_request_number           VARCHAR2(9)           NULL,
+        estimated_price                DECIMAL(18,6)       NULL,
+        sonar_traded_code              VARCHAR2(2)           NULL,
+        sonar_market_code              VARCHAR2(1)           NULL,
+        comm_product_code              VARCHAR2(2)           NULL,
+        modify_cancel_type             VARCHAR2(1)           NULL,
+        order_root_div                 VARCHAR2(1)           NULL,
+        confirmed_order_price          DECIMAL(18,6)       NULL,
+        confirmed_estimated_price      DECIMAL(18,6)       NULL,
+        confirmed_exec_condition_type  NUMBER(6)           NULL,
+        closing_order                  VARCHAR2(1)           NULL,
+        error_reason_code              VARCHAR2(4)           NULL,
+        request_type                   VARCHAR2(1)           NULL,
+        first_order_unit_id            NUMBER(18)           NULL,
+        --
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL,
+        org_order_condition_type       VARCHAR2(1)           NULL,
+        org_order_cond_operator        VARCHAR2(1)           NULL,
+        org_stop_price_type            VARCHAR2(1)           NULL,
+        org_stop_order_price           DECIMAL(18,6)         NULL,
+        org_w_limit_price              DECIMAL(18,6)         NULL,
+        org_w_limit_exec_cond_type     NUMBER(6)             NULL,
+        w_limit_exec_cond_type         NUMBER(6)             NULL,
+        w_limit_before_limit_price     DECIMAL(18,6)         NULL,
+        w_limit_before_exec_cond_type  NUMBER(6)             NULL,
+        submit_order_delay_flag        NUMBER(1) DEFAULT 0   NULL,
+        submit_order_route_div         VARCHAR2(1)           NULL,
+        confirmed_order_rev            VARCHAR2(2) DEFAULT '00' NULL,
+        order_rev                      VARCHAR2(2) DEFAULT '00' NULL,
+        evening_session_carryover_flag NUMBER(1)   DEFAULT 0    NULL,
+        session_type                   VARCHAR2(1)           NULL,
+        day_trade_type                 VARCHAR2(1)           NULL
+);
+
+--PK
+ALTER TABLE  adminto_ifo_order_unit
+        ADD  (PRIMARY KEY (order_unit_id));
+
+
+--Table名: 株式注文単位テーブルVIEWの仮テーブル
+CREATE TABLE adminto_eqtype_order_unit (
+    order_unit_id                   NUMBER(18)                                      NOT NULL,
+    account_id                      NUMBER(18)                                      NOT NULL,
+    sub_account_id                  NUMBER(18)                                      NOT NULL,
+    branch_id                       NUMBER(18)                                      NOT NULL,
+    trader_id                       NUMBER(18)                                      NULL    ,
+    order_id                        NUMBER(18)                                      NOT NULL,
+    order_type                      NUMBER(6)                                       NOT NULL,
+    order_categ                     NUMBER(6)                                       NOT NULL,
+    last_order_action_serial_no     NUMBER(8)               DEFAULT 0               NOT NULL,
+    last_execution_serial_no        NUMBER(8)               DEFAULT 0               NOT NULL,
+    product_type                    NUMBER(6)                                       NOT NULL,
+    market_id                       NUMBER(18)                                      NULL    ,
+    quantity                        DECIMAL(18,6)                                   NOT NULL,
+    limit_price                     DECIMAL(18,6)                                   NULL    ,
+    execution_condition_type        NUMBER(6)                                       NULL    ,
+    price_condition_type	    VARCHAR2(1)					    NULL    ,
+    order_condition_type            VARCHAR2(1)                                     NULL    ,
+    order_cond_operator             VARCHAR2(1)                                     NULL    ,
+    stop_order_price                DECIMAL(18,6)                                  NULL    ,
+    w_limit_price                   DECIMAL(18,6)                                  NULL    ,
+    delivery_date                   DATE                                            NOT NULL,
+    expiration_date                 DATE                                            NULL    ,
+    confirmed_quantity              DECIMAL(18,6)                                   NULL    ,
+    confirmed_price                 DECIMAL(18,6)                                   NULL    ,
+    executed_quantity               DECIMAL(18,6)                                   NULL    ,
+    executed_amount                 DECIMAL(18,6)                                   NULL    ,
+    order_status                    NUMBER(6)               DEFAULT 1               NOT NULL,
+    order_open_status               NUMBER(6)               DEFAULT 1               NOT NULL,
+    expiration_status               NUMBER(6)                                       NOT NULL,
+    tax_type                        NUMBER(6)                                       NOT NULL,
+    swap_tax_type                   NUMBER(6)                                       NOT NULL,
+    repayment_type                  VARCHAR2(1)                                     NULL    ,
+    repayment_num                   NUMBER(7)                                       NULL    ,
+    sonar_repayment_type            VARCHAR2(1)                                     NULL    ,
+    biz_date                        VARCHAR2(8)                                     NOT NULL,
+    product_id                      NUMBER(18)                                      NOT NULL,
+    quantity_type                   NUMBER(6)               DEFAULT 1               NOT NULL,
+    order_chanel                    VARCHAR2(1)                                     NULL    ,
+    received_date_time              DATE                                            NULL    ,
+    voucher_no                      VARCHAR2(4)                                     NULL    ,
+    comm_tbl_no                     VARCHAR2(2)                                     NULL    ,
+    comm_tbl_sub_no                 VARCHAR2(1)                                     NULL    ,
+    sonar_trader_code               VARCHAR2(5)                                     NULL    ,
+    price                           DECIMAL(18,6)                                   NULL    ,
+    order_request_number            VARCHAR2(9)                                     NULL    ,
+    estimated_price                 DECIMAL(18,6)                                   NULL    ,
+    capital_gain                    DECIMAL(18,6)           DEFAULT 0               NULL    ,
+    capital_gain_tax                DECIMAL(18,6)           DEFAULT 0               NULL    ,
+    sonar_traded_code               VARCHAR2(2)                                     NULL    ,
+    sonar_market_code               VARCHAR2(1)                                     NULL    ,
+    comm_product_code               VARCHAR2(2)                                     NULL    ,
+    short_sell_order_flag            VARCHAR2(1)                                    NULL    ,
+    modify_cancel_type              VARCHAR2(1)                                     NULL    ,
+    order_root_div                  VARCHAR2(1)                                     NULL    ,
+    submit_order_route_div          VARCHAR2(1)                                     NULL    ,
+    confirmed_order_price           DECIMAL(18,6)                                   NULL    ,
+    confirmed_estimated_price       DECIMAL(18,6)                                   NULL    ,
+    confirmed_exec_condition_type   NUMBER(6)                                       NULL    ,
+    confirmed_price_condition_type  VARCHAR2(1)                                     NULL    ,
+    closing_order_type              VARCHAR2(1)                                     NULL    ,
+    error_reason_code               VARCHAR2(4)                                     NULL    ,
+    request_type                    VARCHAR2(1)                                     NULL    ,
+    first_order_unit_id             NUMBER(18)                                      NULL    ,
+    created_timestamp               DATE                    DEFAULT sysdate         NOT NULL,
+    last_updated_timestamp          DATE                    DEFAULT sysdate         NOT NULL,
+    confirmed_order_rev             VARCHAR2(2)             DEFAULT '00'            NULL    ,
+    order_rev                       VARCHAR2(2)             DEFAULT '00'            NULL    ,
+    reserve_order_exist_flag        VARCHAR2(1)             DEFAULT '0'             NULL    ,
+    original_quantity               DECIMAL(18,6)           DEFAULT '0'             NULL    ,
+    stop_order_ordered_timestamp    DATE                                            NULL,
+    org_order_condition_type       VARCHAR2(1)                                      NULL,
+    org_order_cond_operator        VARCHAR2(1)                                      NULL,
+    org_stop_order_price           DECIMAL(18,6)                                    NULL,
+    org_w_limit_price              DECIMAL(18,6)                                    NULL,
+    org_w_limit_exec_cond_type     NUMBER(6)                                        NULL,
+    w_limit_exec_cond_type         NUMBER(6)                                        NULL,
+    w_limit_before_limit_price     DECIMAL(18,6)                                    NULL,
+    w_limit_before_exec_cond_type  NUMBER(6)                                        NULL,
+    submit_order_delay_flag        NUMBER(1)                DEFAULT 0               NULL        
+);
+
+--PK
+ALTER TABLE  adminto_eqtype_order_unit
+       ADD  ( PRIMARY KEY (order_unit_id) ) ;
+@

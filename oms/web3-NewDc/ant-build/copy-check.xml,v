@@ -1,0 +1,72 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.00;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	copy-check.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Copy file checking that it exists            -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 03/20/2002                             -->
+<!--                                              -->
+<!-- Properties:                                  -->
+<!--                                              -->
+<!-- FILENAME - file to copy                      -->
+<!-- NEWNAME or TOFILE - new file name            -->
+<!-- TODIR - new file location                    -->
+<!-- ============================================ -->
+<project name="copy-check" default="build" basedir=".">
+	<!-- ============================================ -->
+	<target name="check">
+		<available file="${FILENAME}" property="copy-check-file-available"/>
+	</target>
+	<!-- ============================================ -->
+	<target name="check2" depends="check" if="TOFILE">
+		<property name="NEWNAME" value="${TOFILE}"/>
+	</target>
+	<!-- ============================================ -->
+	<target name="todir" depends="check2" if="TODIR">
+		<condition property="COPY-TODIR">
+			<equals arg1="${copy-check-file-available}" arg2="true"/>
+		</condition>
+	</target>
+	<!-- ============================================ -->
+	<target name="tofile" depends="todir" if="NEWNAME">
+		<condition property="COPY-TOFILE">
+			<equals arg1="${copy-check-file-available}" arg2="true"/>
+		</condition>
+	</target>
+	<!-- ============================================ -->
+	<target name="copy-todir" depends="tofile" if="COPY-TODIR">
+		<copy file="${FILENAME}" todir="${TODIR}" overwrite="yes"/>
+	</target>
+	<!-- ============================================ -->
+	<target name="copy-tofile" depends="copy-todir" if="COPY-TOFILE">
+		<copy file="${FILENAME}" tofile="${NEWNAME}" overwrite="yes"/>
+	</target>
+	<!-- ============================================ -->
+	<target name="build" depends="copy-tofile"/>
+</project>
+@

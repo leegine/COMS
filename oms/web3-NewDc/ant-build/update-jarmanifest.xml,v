@@ -1,0 +1,64 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.52;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	update-jarmanifest.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Update ${XTRADE_TEMP_DIR}/MANIFEST.MF ANT file                  -->
+<!-- Author: mikasa                               -->
+<!-- Date: 03/20/2009                             -->
+<!--                                              -->
+<!-- Input Properties:                            -->
+<!-- M_FILE                     ex. xtrade.jar    -->
+<!-- M_IMPLEMENTATION_TITLE     ex. xTrade CORE   -->
+<!-- M_IMPLEMENTATION_VERSION   ex. 3.8.6         -->
+<!-- M_IMPLEMENTATION_VENDER    ex. Fitech        -->
+<!-- M_IMPLEMENTATION_VENDER_ID ex. com.fitech    -->
+<!-- M_SPECIFICATION_TITLE      ex. xTrade Spec   -->
+<!-- M_SPECIFICATION_VERSION    ex. 3.8.6         -->
+<!-- M_SPECIFICATION_VENDER     ex. Fitech        -->
+<!-- ============================================ -->
+<project name="update-jarmanifest" default="build">
+	<!-- ===================================================================== -->
+	<tstamp>
+    		<format property="DATE_STAMP" pattern="E MMM dd HH:mm:ss yyyy" locale="en"/>
+  	</tstamp>
+
+	<target name="build">
+		<delete file="${XTRADE_TEMP_DIR}/MANIFEST.MF" quiet="true"/>
+
+		<copy file="MANIFEST.MF" tofile="${XTRADE_TEMP_DIR}/MANIFEST.MF" overwrite="yes"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%IMPLEMENTATION_TITLE%" value="${M_IMPLEMENTATION_TITLE}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%IMPLEMENTATION_VERSION%" value="${M_IMPLEMENTATION_VERSION}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%IMPLEMENTATION_VENDER%" value="${M_IMPLEMENTATION_VENDER}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%IMPLEMENTATION_VENDER_ID%" value="${M_IMPLEMENTATION_VENDER_ID}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%DATE_STAMP%" value="${DATE_STAMP}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%SPECIFICATION_TITLE%" value="${M_SPECIFICATION_TITLE}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%SPECIFICATION_VERSION%" value="${M_SPECIFICATION_VERSION}"/>
+		<replace file="${XTRADE_TEMP_DIR}/MANIFEST.MF" token="%SPECIFICATION_VENDER%" value="${M_SPECIFICATION_VENDER}"/>
+	</target>
+</project>
+@

@@ -10,6 +10,7 @@ import co.fin.intellioms.quote.QuoteFeederAdaptor;
 import co.fin.intellioms.quote.QuoteProcessor;
 import co.fin.intellioms.util.ServiceState;
 import co.fin.intellioms.util.Startable;
+import com.fitechlabs.xtier.threads.SysThread;
 
 
 // Referenced classes of package com.com.fin.intellioms.quote.impl:
@@ -168,7 +169,7 @@ public class MultiThreadQuoteProcessor
     private Worker worker[];
     private ServiceState state;
     private final int maxQueueSize;
-    static final boolean $assertionsDisabled = !com/ com /fin/intellioms/quote/impl/MultiThreadQuoteProcessor.desiredAssertionStatus();
+    static final boolean $assertionsDisabled =false;
 
 
 

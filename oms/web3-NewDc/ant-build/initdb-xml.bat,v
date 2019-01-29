@@ -1,0 +1,113 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.48.34;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	initdb-xml.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@:: *******************************************************
+:: * (c) Fitech Laboratories 2002. All Rights Reserved
+:: * 
+:: * This script adds initial data to an xTrade application's 
+:: * database. It runs ANT with initdb-top-xml.xml.
+:: * it requires an instance of xTrade running to run its
+:: * XML messages against. It reads the URL for the database
+:: * to use from the app-${APP_NAME}-web.properties file.
+:: *
+:: * $History: $
+:: *******************************************************
+
+@@echo off
+::INITDB WITH XML SCRIPT
+::This script runs from the root directory
+@@setlocal
+set INSTALL_HOME=%~dp0
+set DEPLOY_HOME=%INSTALL_HOME%
+
+set DEBUG=
+set FULL_DEBUG=-quiet
+set ECHOCMD=
+set TEST=-DNO_DB_CREATION=true
+set INSTALL=-DINSTALL_HOME="%INSTALL_HOME%\"
+set DEPLOY=-DDEPLOY_HOME="%DEPLOY_HOME%\"
+set X_ERROR_TOKEN_FILE=
+
+:: classpath for using the server accessor
+set CLASSPATH=%DEPLOY_HOME%\lib\xtrade.jar;%DEPLOY_HOME%\jars\xtrade.jar
+
+:: results of the xml test filr
+set OUTFILE=-DOUTFILE="%INSTALL_HOME%\initdb-results.txt"
+
+:LOCAL_LOOP
+	if %1a==a goto FINISHED_LOCAL
+	if "%1"=="-d" set DEBUG=-d
+	if "%1"=="-fd" (
+		set FULL_DEBUG=-verbose
+		set DEBUG=-DDEBUG=1
+	)
+	if "%1"=="-echo" set ECHOCMD=-echo
+	if "%1"=="-error_token_file" set X_ERROR_TOKEN_FILE=-DX_ERROR_TOKEN_FILE=%2
+	if "%1"=="-output" set OUTFILE=-DOUTFILE=%2
+	shift
+	goto LOCAL_LOOP
+:FINISHED_LOCAL
+
+:: set ant is available
+if exist "ant\bin\ant.bat" goto LOCAL_ANT
+if exist "..\..\ant\bin\ant.bat" goto GLOBAL_ANT
+goto ERROR
+
+:LOCAL_ANT
+set XTRADE_HOME=%INSTALL_HOME%
+cd ant
+call set-ant.bat
+goto WORK
+
+
+:GLOBAL_ANT
+cd ..\..\ant
+call set-ant.bat
+cd ..
+call set-xtrade.bat
+goto WORK
+
+
+:WORK
+set ANT_BUILD=%XTRADE_HOME%\ant-build
+cd %ANT_BUILD%
+
+
+if not "%ECHOCMD%"=="" echo call ..\ant\bin\ant.bat -logger com.fitechlabs.ant.XLogger -DMAIN_ANT_FILE=initdb-top-xml.xml %DEBUG% %FULL_DEBUG% %TEST% %X_ERROR_TOKEN_FILE% %OUTFILE% 
+	call ..\ant\bin\ant.bat -logger com.fitechlabs.ant.XLogger -DMAIN_ANT_FILE=initdb-top-xml.xml %DEBUG% %FULL_DEBUG% %TEST% %X_ERROR_TOKEN_FILE% %OUTFILE% 
+
+goto ENDPROC
+
+:ERROR
+echo.
+echo ***************************************************
+echo           ERROR:  NO ANT INSTALLATION DETECTED!
+echo ***************************************************
+
+:ENDPROC
+
+@@endlocal@

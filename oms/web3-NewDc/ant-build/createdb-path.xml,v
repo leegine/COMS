@@ -1,0 +1,77 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.10;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	createdb-path.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Add/remove tables for a Plugin ANT file      -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 5/23/02                                -->
+<!--                                              -->
+<!-- This script is run in the plugin application -->
+<!--    installation area                         -->
+<!-- ============================================ -->
+<project name="createdb-path" default="build" basedir=".">
+	<taskdef name="WriteFile" classname="com.fitechlabs.ant.WriteFile"/>
+	<taskdef name="WriteClassPath" classname="com.fitechlabs.ant.WriteClassPath"/>
+	<!-- ===================================================================== -->
+	<target name="set-props">
+		<property name="CLASSPATH_FILE_WINDOWS" value="${DEPLOY_HOME}/deployment/create_classpath.bat"/>
+		<property name="CLASSPATH_FILE_UNIX" value="${DEPLOY_HOME}/deployment/create_classpath.sh"/>
+		<path id="classpath-all">
+			<fileset dir="${DEPLOY_HOME}">
+				<include name="lib/*.jar"/>
+				<include name="jars/xtrade.jar"/>
+			</fileset>
+		</path>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-windows" if="WINDOWS-OS" depends="set-props">
+		<!--		<pathconvert targetos="windows" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="windows" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.COMPUTERNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to unix -->
+	<target name="set-unix" if="UNIX-OS" depends="set-props">
+		<!--		<pathconvert targetos="unix" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="unix" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.HOSTNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="dofile-WINDOWS" depends="set-unix, set-windows" if="WINDOWS-OS">
+		<WriteClassPath file="${CLASSPATH_FILE_WINDOWS}" classpath="${CLASSPATH}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="dofile-UNIX" depends="dofile-WINDOWS" if="UNIX-OS">
+		<WriteFile file="${CLASSPATH_FILE_UNIX}" line="#!bash"/>
+		<WriteFile file="${CLASSPATH_FILE_UNIX}" line="#" append="true"/>
+		<WriteFile file="${CLASSPATH_FILE_UNIX}" line="echo ${CLASSPATH}" append="true"/>
+	</target>
+	<target name="build" depends="dofile-UNIX"/>
+</project>
+@

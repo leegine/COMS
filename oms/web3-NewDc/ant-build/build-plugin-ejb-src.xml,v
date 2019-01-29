@@ -1,0 +1,94 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.38;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-plugin-ejb-src.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<project name="make-ejb-src" default="all">
+
+  <!-- set global properties for this build -->
+  <property environment="env"/>
+  <property file="../build/build.properties"/>
+  
+  <property name="template" value="c:/xtrade3/ant-build/template"/>
+  <property name="build" value="./ejb"/>
+        
+  <!--property name="package" value="com.fitechlabs.xtrade.plugin.trading.product.ejb"/-->
+  <!--property name="name" value="Product"/-->
+  <property name="ejb-name" value="${name}Gateway"/>
+  <!--property name="PLUGIN_PATH" value="plugin\trading\product"/-->
+  <property name="java_source" value="com\fitechlabs\xtrade\${PLUGIN_PATH}\ejb"/>
+
+  <target name="all" depends="clean, init, make_ejb_src"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile
+    and copy the deployment descriptors into it-->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <!-- Compile ejb classes into the build directory (jar preparation) -->
+  <target name="make_ejb_src">
+  	<copy file="${template}/convert.properties.tpl" toFile="${build}/convert.properties">
+  		<filterset>
+    		<filter token="package" value="${package}"/>
+    		<filter token="name" value="${name}"/>
+    		<filter token="ejb-name" value="${ejb-name}"/>
+  		</filterset>
+	</copy>
+	<copy file="${template}/IHome.java.tpl" toFile="${build}/java/${java_source}/${ejb-name}Home.java">
+  		<filterset>
+			<filtersfile file="${build}/convert.properties"/>
+   		</filterset>
+	</copy>
+	<copy file="${template}/IRemote.java.tpl" toFile="${build}/java/${java_source}/${ejb-name}.java">
+  		<filterset>
+			<filtersfile file="${build}/convert.properties"/>
+   		</filterset>
+	</copy>
+	<copy file="${template}/Bean.java.tpl" toFile="${build}/java/${java_source}/${ejb-name}Bean.java">
+  		<filterset>
+			<filtersfile file="${build}/convert.properties"/>
+   		</filterset>
+	</copy>
+	<copy file="${template}/ejb-jar.xml.tpl" toFile="${build}/ejb-jar.xml">
+  		<filterset>
+			<filtersfile file="${build}/convert.properties"/>
+   		</filterset>
+	</copy>
+	<copy file="${template}/weblogic-ejb-jar.xml.tpl" toFile="${build}/weblogic-ejb-jar.xml">
+  		<filterset>
+			<filtersfile file="${build}/convert.properties"/>
+   		</filterset>
+	</copy>
+	<!--delete file="${build}/convert.properties"/-->						
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+</project>
+@

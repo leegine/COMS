@@ -1,0 +1,392 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.50.58;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3f04d912cd82de4;
+filename	job_details_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="jobs_errors_ja.jsp" %>
+<%@@page import="com.fitechlabs.xtrade.plugin.util.jobs.*,com.fitechlabs.xtrade.plugin.util.jobs.data.*,com.fitechlabs.xtrade.kernel.data.*,java.util.*" %>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>ジョブ詳細設定</title>
+</head>
+
+<body>
+<%! // class initialization
+  String safely(String s) {
+    return s!=null? s: "";
+  }
+  Integer toInteger(String s) {
+    if ( s == null ) return null;
+    try { return Integer.valueOf(s); }
+    catch ( Exception e ) { return null; }
+  }
+  long toLong(String s,long onNull) {
+    if ( s == null ) return onNull;
+    try { return Long.parseLong(s); }
+    catch ( Exception e ) { return onNull; }
+  }
+  int toInt(String s, int onnull) {
+    if ( s == null ) return onnull;
+    try { return Integer.parseInt(s); }
+    catch ( Exception e ) { return onnull; }
+  }
+%>
+<%
+  // parameters
+  request.setCharacterEncoding( "Shift_JIS" );
+  String jobid         = request.getParameter("jobid");
+  String name          = request.getParameter("name");
+  String type          = request.getParameter("type");
+  String freq          = request.getParameter("freq");
+  String hours         = request.getParameter("hours");
+  String last          = null;
+  String next          =  "onetime".equals(type) ? request.getParameter("next") : null;
+  String schedule      = request.getParameter("schedule");
+  String retrycount    = request.getParameter("retrycount");
+  String retryinterval = request.getParameter("retryinterval");
+  String maxduration   = request.getParameter("maxduration");
+  String threadcount   = request.getParameter("threadcount");
+  String maxpernode    = request.getParameter("maxpernode");
+  String priority      = request.getParameter("priority");
+  String maxhist       = request.getParameter("maxhist");
+  String requestxml    = request.getParameter("requestxml");
+
+  // variables
+  boolean isCreate = (request.getParameter("create") != null);
+  boolean isUpdate = (request.getParameter("update") != null);
+  boolean isViewRequest = false;
+  String hoursError = null;
+  String dateTimeError = null;
+  String scheduleError = null;
+
+  // for a cancel, we go back to the overview
+  if ( request.getParameter("cancel") != null )
+    response.sendRedirect("jobs_overview_ja.jsp");
+
+  // for a delete, we delete the item with the input job id
+  else if ( request.getParameter("delete") != null ) {
+    JobsUIHelper.deleteJob( jobid );
+    response.sendRedirect("jobs_overview_ja.jsp");
+  }
+
+  // when updating or creating, the details come from the request itself
+  else if ( isCreate || isUpdate ) {
+    JobScheduleParams params;
+    if ( isCreate ) {
+      params = new JobScheduleParams();
+      params.setStatus ("enabled");
+    } else {
+      JobScheduleRow row = JobsUIHelper.findJob(jobid);
+      params = new JobScheduleParams( row );
+    }
+    params.setJobName(name);
+    params.setSchedType(type);
+    params.setFrequencySecs(toInteger(freq));
+    params.setRetryCount(toInteger(retrycount));
+    params.setRetryAfterSecs(toInteger(retryinterval));
+    params.setMaxDurationSecs(toInteger(maxduration));
+    params.setThreadCount(toInteger(threadcount));
+    params.setMaxPerNode(toInteger(maxpernode));
+    params.setThreadPriority(priority);
+    params.setMaxHistory(toInt(maxhist,10));
+    params.setRequestXml(requestxml);
+
+    // normalize hours, schedule fields
+    try {
+      hours = JobsDateTimeHelper.validateHours( hours );
+      params.setHours(hours);
+    } catch ( Exception e ) {
+      hoursError = e.getMessage();
+    }
+    try {
+      next = JobsDateTimeHelper.validateDateTime( next );
+      params.setNextDateTime(JobsDateTimeHelper.toDateTime( next ));
+    } catch ( Exception e ) {
+      dateTimeError = e.getMessage();
+    }
+    try {
+      schedule = JobsDateTimeHelper.validateSchedule( schedule );
+      params.setSchedule(schedule);
+    } catch ( Exception e ) {
+      scheduleError = e.getMessage();
+    }
+
+    // when there are no errors, try to create the record and redirect
+    if ( hoursError==null && dateTimeError==null && scheduleError==null ) {
+      // for create command, jobid is from the creation step itself.
+      if ( isCreate ) {
+        jobid = JobsUIHelper.createJob( params );
+      } else {
+        JobsUIHelper.updateJob( params );
+      }
+      response.sendRedirect("jobs_overview_ja.jsp");
+    }
+  }
+
+  // when jobid is specified, we view the details
+  else if ( jobid != null ) {
+    JobScheduleRow job = JobsUIHelper.findJob( jobid );
+    name = job.getJobName();
+    type = job.getSchedType();
+    freq = String.valueOf( job.getFrequencySecs() );
+    hours = job.getHours();
+    last = JobsDateTimeHelper.toString( job.getLastDateTime() );
+	next = "onetime".equals(type) ?  JobsDateTimeHelper.toString( job.getNextDateTime() ) : null;
+    schedule = job.getSchedule();
+    retrycount    = (job.getRetryCountIsNull()?      null: String.valueOf( job.getRetryCount() ));
+    retryinterval = (job.getRetryAfterSecsIsNull()?  null: String.valueOf( job.getRetryAfterSecs() ));
+    maxduration   = (job.getMaxDurationSecsIsNull()? null: String.valueOf( job.getMaxDurationSecs() ));
+    threadcount   = (job.getThreadCountIsNull()?     null: String.valueOf( job.getThreadCount() ));
+    maxpernode    = (job.getMaxPerNodeIsNull()?      null: String.valueOf( job.getMaxPerNode() ));
+    priority      = job.getThreadPriority();
+    maxhist       = String.valueOf( Math.max( 1, job.getMaxHistory() ) );
+    requestxml    = job.getRequestXml();
+  }
+
+  // otherwise, it is a simple fill-in create request,
+  // and we provide reasonable default values.
+  else {
+    isViewRequest = true;
+  }
+  if(name==null) name = "unnamed-job-"+System.currentTimeMillis();
+  if(type==null) type = "regular";
+  if(freq==null) freq = "60";
+  if(next==null) next = JobsDateTimeHelper.toString( new java.sql.Timestamp( System.currentTimeMillis() ) );
+  if(retrycount==null) retrycount = "1";
+  if(retryinterval==null) retryinterval = "60";
+  if(maxduration==null) maxduration = "10";
+  if(threadcount==null) threadcount = "1";
+  if(maxpernode==null) maxpernode = "1";
+  if(priority==null) priority = "medium";
+  if(maxhist==null) maxhist = "10";
+  if(requestxml==null) requestxml = "<request p_type=\"SOME_P_TYPE\">\n\t<!-- request body -->\n</request>";
+%>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#99CCFF">
+  <tr>
+    <td width="100%">
+      <h1><%=safely(name)%>ジョブ詳細設定</h1>
+    </td>
+  </tr>
+</table>
+<br><A href="jobs_overview_ja.jsp">ジョブ一覧・管理</A>
+<br><A href="job_attempt_history_ja.jsp?jobid=<%=jobid%>">ジョブ実行履歴</A>
+
+<form method="POST">
+
+  <!-- state variables -->
+  <input type="hidden" name="jobid" value="<%=safely(jobid)%>">
+  <input type="hidden" name="last" value="<%=safely(last)%>">
+
+  <table border="0" width="861" cellpadding="8" cellspacing="0">
+    <tr>
+      <td width="818" colspan="2"><b>ジョブ名:</b> <input type="text" name="name" value="<%=safely(name)%>" size="32"></td>
+    </tr>
+    <tr>
+      <td width="818" colspan="2"><b>ジョブスケジュール詳細</b>
+        <table border="1" width="838" height="100" cellspacing="0">
+          <tr>
+            <td nowrap><input type="radio" value="regular" name="type" <%=("regular".equals(type)?"checked":"")%> >定期</td>
+            <td nowrap>
+              <table border="0" width="100%">
+                <tr>
+                  <td  nowrap align="right">実行間隔：</td>
+                  <td  nowrap><input type="text" name="freq" value="<%=safely(freq)%>" size="8">秒</td>
+                </tr>
+                <tr>
+                  <td  nowrap align="right" valign="top">実行スケジュール:</td>
+                  <td  nowrap><input type="text" name="hours" value="<%=safely(hours)%>" size="60"><br>
+                    <font size="2">
+                    <% if ( hoursError != null ) { %>
+                      <font color="#AA0000">format error - <%=hoursError%> - not saved</font><br>
+                    <% } %>
+                    指定形式: (M,Tu,W,Th,F,Sa,Su,*) @@ hh:mm-hh:mm[,...]<br>
+                    例: M-Th,Sa@@9:00-12:30,14:00-16:35</font></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td  nowrap><input type="radio" value="onetime" name="type" <%=("onetime".equals(type)?"checked":"")%>>一回のみ</td>
+            <td  nowrap>
+              <table border="0" width="100%">
+                <tr>
+                  <td  nowrap align="right">前回実行日時:</td>
+                  <td  nowrap><%=(last==null?"---":"&nbsp;")%></td>
+                </tr>
+                <tr>
+                  <td  nowrap align="right" valign="top">次回実行日時:</td>
+                  <td  nowrap><input type="text" name="next" value="<%=safely(next)%>" size="24"><br>
+                    <font size="2">
+                    <% if ( dateTimeError != null ) { %>
+                      <font color="#AA0000">format error - <%=dateTimeError%> - not saved</font><br>
+                    <% } %>
+                    指定形式: yy-mm-dd @@ hh:mm[:ss]<br>
+                    例: 02-12-25@@9:00 </font></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td  nowrap><input type="radio" value="scheduled" name="type" <%=("scheduled".equals(type)?"checked":"")%>>指定スケジュールに従う</td>
+            <td  nowrap>
+              <table border="0" width="100%">
+                <tr>
+                  <td  nowrap align="right" valign="top">スケジュール：</td>
+                  <td  nowrap><input type="text" name="schedule" value="<%=safely(schedule)%>" size="60"><br>
+                    <font size="2">
+                    <% if ( scheduleError != null ) { %>
+                      <font color="#AA0000">エラー： <%=scheduleError%> - not saved</font><br>
+                    <% } %>
+                    指定形式: (M,Tu,W,Th,F,Sa,Su,*) @@ hh:mm[,...]<br>
+                    例: M,W-Su@@10:00,11:00,12:00,13:00</font></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td  nowrap><input type="radio" value="manual" name="type" <%=("manual".equals(type)?"checked":"")%>>手動</td>
+            <td  nowrap>
+              <table border="0" width="100%">
+                <tr>
+                  <td  colspan="2" nowrap align="left"><%=(last!=null?last:"手動で実行する。")%></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td  nowrap><b>リトライ及びエラー回復詳細設定</b>
+        <table border="1" cellspacing="0">
+          <tr>
+            <td>
+              <div align="left">
+                <table border="0">
+                  <tr>
+                    <td align="right">最大リトライ回数</td>
+                    <td><input type="text" name="retrycount" value="<%=safely(retrycount)%>" size="8">回</td>
+                  </tr>
+                  <tr>
+                    <td align="right">リトライ間隔</td>
+                    <td><input type="text" name="retryinterval" value="<%=safely(retryinterval)%>" size="8"> 秒</td>
+                  </tr>
+                  <tr>
+                    <td align="right">MAX許す実行時間</td>
+                    <td><input type="text" name="maxduration" value="<%=safely(maxduration)%>" size="8"> 秒</td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td nowrap rowspan="2" valign="top" align="left">
+
+	    <table width="100%" border="0">
+          <tr>
+            <td><b>ジョブリクエストXML定義内容：</b></td>
+          </tr>
+          <tr>
+            <td>
+			  <textarea rows="14" name="requestxml" cols="64"><%=JobsUIHelper.expandHtml(requestxml)%></textarea>
+			</td>
+		  </tr>
+		</table>
+	</td>
+    </tr>
+    <tr>
+      <td  nowrap><b>スレッド及び優先順位詳細設定</b>
+        <table border="1" cellspacing="0">
+          <tr>
+            <td>
+              <div align="left">
+                <table border="0">
+                  <tr>
+                    <td>
+                      <div align="left">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="right">スレッド数:</td><td><input type="text" name="threadcount" size="8" value="<%=safely(threadcount)%>"></td>
+                          </tr>
+                          <tr>
+                            <td align="right">MAX/ノード:</td><td><input type="text" name="maxpernode" size="8" value="<%=safely(maxpernode)%>"></td>
+                          </tr>
+                          <tr>
+                            <td align="right">履歴記録最大件数:</td><td><input type="text" name="maxhist" size="8" value="<%=safely(maxhist)%>"></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>優先順位: <select size="1" name="priority">
+                        <option value="maximum"  <%=( "maximum".equals(priority)? "selected": "")%>>Maximun</option>
+                        <option value="veryhigh" <%=("veryhigh".equals(priority)? "selected": "")%>>Very High</option>
+                        <option value="high"     <%=(    "high".equals(priority)? "selected": "")%>>High</option>
+                        <option value="medium"   <%=(  "medium".equals(priority)? "selected": "")%>>Medium</option>
+                        <option value="low"      <%=(     "low".equals(priority)? "selected": "")%>>Low</option>
+                        <option value="verylow"  <%=( "verylow".equals(priority)? "selected": "")%>>Very Low</option>
+                        <option value="minimum"  <%=( "minimum".equals(priority)? "selected": "")%>>Minimum</option>
+                      </select></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td width="818" colspan="2">
+        <div align="center">
+          <center>
+          <table border="0" cellpadding="2" cellspacing="0">
+            <tr>
+              <% if ( isViewRequest ) { %>
+                <td><input type="Submit" value="新規作成" name="create"></td>
+              <% } else { %>
+                <td><input type="Submit" value="更新" name="update"></td>
+                <td><input type="Submit" value="削除" name="delete"></td>
+                <td><input type="Submit" value="クローン" name="create"></td>
+              <% } %>
+              <td><input type="Submit" value="キャンセル" name="cancel"></td>
+            </tr>
+          </table>
+          </center>
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+
+</body>
+
+</html>
+@

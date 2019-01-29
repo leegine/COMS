@@ -1,0 +1,86 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.06.58;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	gtl-index.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE INDEX XIE1account_preferences ON account_preferences
+(
+       account_id                     
+);
+
+CREATE UNIQUE INDEX XAK1branch ON branch
+(
+       branch_code                    
+);
+
+CREATE INDEX XIE1gen_fin_transaction ON gen_fin_transaction
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE UNIQUE INDEX XAK1institution ON institution
+(
+       institution_code               
+);
+
+CREATE UNIQUE INDEX XAK1main_account ON main_account
+(
+       account_code                   
+);
+
+CREATE INDEX XIE1main_account ON main_account
+(
+       branch_id                      
+);
+
+CREATE INDEX XIE2main_account ON main_account
+(
+       branch_code                    
+);
+
+CREATE UNIQUE INDEX XAK1market ON market
+(
+       market_code                    
+);
+
+CREATE INDEX XIE1sub_account_preferences ON sub_account_preferences
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE UNIQUE INDEX XAK1trader_code ON trader
+(
+       trader_code                    ,
+       branch_code                    
+);
+
+CREATE UNIQUE INDEX XAK2trader ON trader
+(
+       login_id                       
+);
+
+@

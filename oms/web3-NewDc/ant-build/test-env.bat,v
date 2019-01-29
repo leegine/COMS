@@ -1,0 +1,68 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.47.14;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	test-env.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@@echo off
+::
+::XTRADE ENVIRONMENT TESTER
+::Author: Charny
+::Date: 09/22/01
+::
+
+set XTRADE_ERROR=0
+
+:: Check for java
+if "%JAVA_HOME%"=="" goto NOJAVA
+
+:: Check that java is set correctly
+if not exist "%JAVA_HOME%\bin\java.exe" goto BADJAVA
+
+goto ENDSCRIPT
+
+:NOJAVA 
+echo.
+echo ***************************************************
+echo ERROR: 
+echo   You need to set-up JAVA_HOME environmental variable
+echo ***************************************************
+echo.
+set XTRADE_ERROR=1
+goto ENDSCRIPT
+
+:BADJAVA 
+echo.
+echo ***************************************************
+echo ERROR: Java is badly installed:
+echo   JAVA_HOME points to %JAVA_HOME%
+echo   yet %JAVA_HOME%\bin\java.exe does not exist
+echo ***************************************************
+echo.
+set XTRADE_ERROR=1
+goto ENDSCRIPT
+
+:ENDSCRIPT
+
+@

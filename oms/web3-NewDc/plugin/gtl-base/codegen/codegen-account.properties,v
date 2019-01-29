@@ -1,0 +1,102 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.02.42;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of account data --------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.gentrade.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/gtl.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=GenTradeAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/gtl_account_triggers.sql
+
+#
+# define enum
+#
+enums=\
+  gen_fin_transaction.transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  gen_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  sub_account.sub_account_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.SubAccountTypeEnum \
+  sub_account.sub_account_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.SubAccountStatusEnum \
+  participant.participant_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ParticipantTypeEnum \
+  asset.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  asset.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  asset_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  account_preferences:inv=?.account_id \
+  participant:inv=?.account_id \
+  sub_account:inv=?.account_id \
+  sub_account_preferences:inv=?.account_id \
+  gen_fin_transaction:inv=?.account_id \
+  asset:inv=?.account_id \
+  asset_unit:inv=?.account_id \
+  asset_unit_sales:inv=?.account_id \
+  locked_asset_details:inv=?.account_id \
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+
+
+
+@

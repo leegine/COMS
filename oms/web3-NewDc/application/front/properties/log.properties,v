@@ -1,0 +1,169 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.27.56;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2144d9046833db9;
+filename	log.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# Priorties: ERROR, WARN, INFO, DEBUG
+############################################################################
+# This file is only for use by developers
+#
+# All entries higer than this (EMERG is highest)will be logged.
+# For example:
+# if DefaultPriority is set to ERROR, only log.ERROR(...) calls will be logged.
+# However, if the category com.fitechlabs.auth.Login is set to INFO, then all
+# calls to log.info(...), log.warn(...), and log.error(...) will
+# be logged.
+############################################################################
+
+#####################################################################
+# This section should have definitions of all appenders used.
+# The Conversion Pattern syntax:
+# %d... - date and time
+# %t - thread name
+# %5p - priority with spaces padded at the end for the total length of 5 characters.
+# %c - category name (most of the cases, the same as class name)
+# %m - actual logging message
+# %n - new line
+# Any characters could be added between predefined above symbols to change logging output.
+#####################################################################
+log4j.appender.ConsoleAppender=org.apache.log4j.ConsoleAppender
+log4j.appender.FileAppender=org.apache.log4j.FileAppender
+
+#Configure options for ConsoleAppener
+log4j.appender.ConsoleAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.ConsoleAppender.layout.ConversionPattern=%d{ISO8601} - %t - %-5p - %c - %m%n
+log4j.appender.ConsoleAppender.target=System.err
+
+#Configure options for FileAppender
+log4j.appender.FileAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.FileAppender.layout.ConversionPattern=%d{ISO8601} - %t - %-5p - %c - %m%n
+log4j.appender.FileAppender.File=/opt/wb3/logs/xtrade.log
+log4j.appender.FileAppender.Append=true
+
+#####################################################################
+# Defines default priority and appenders.
+# If, for example a FileAppender was to be added then the following
+# line will look like this:
+# log4j.rootCategory=INFO, ConsoleAppender, FileAppender
+#####################################################################
+log4j.rootCategory=ERROR, ConsoleAppender, FileAppender
+#log4j.rootCategory=INFO, ConsoleAppender
+
+#CategoryFile=cat.properties
+
+####################################################################
+# the following are optional. If not specified
+# the following default values are used.
+####################################################################
+# acessLogPrinting      = true
+# useDefaultEncoding    = true
+# encoding              = SJIS
+
+#####################################################################
+#All following properties should remain commented out, untill
+#we move to log4j properties naming convention.
+#Currently category properties are read from CategoryFile.
+#####################################################################
+# bootstrap processing
+#log4j.category.com.fitechlabs.xtrade.kernel.boot=DEBUG
+
+# communications
+#log4j.category.com.fitechlabs.xtrade.kernel.comm=DEBUG
+
+# data layer
+#log4j.category.com.fitechlabs.xtrade.kernel.data=DEBUG
+
+# error management
+#log4j.category.com.fitechlabs.xtrade.kernel.error=DEBUG
+
+# message layer
+#log4j.category.com.fitechlabs.xtrade.kernel.message=DEBUG
+
+# handlers
+#log4j.category.com.fitechlabs.xtrade.kernel.handler=DEBUG
+
+# db binding layer
+#log4j.category.com.fitechlabs.dbind=DEBUG
+
+#
+# These values cause the server to echo all requests and responses.
+#
+#log4j.category.com.fitechlabs.xtrade.kernel.comm.XmlRequestHandler=DEBUG
+#log4j.category.com.fitechlabs.xtrade.kernel.comm.XmlRequestHandler.messages=DEBUG
+
+#
+# These values result in more details filled in for error messages.
+#
+#log4j.category.com.fitechlabs.xtrade.kernel.error.ErrorResponseRegistry=DEBUG
+#log4j.category.com.fitechlabs.xtrade.kernel.error.ErrorResponseRegistry.stacktraces=DEBUG
+
+#
+# Invlaidation messages, can be helpful to observe caching invalidation behavior details.
+#
+#log4j.category.com.fitechlabs.xtrade.kernel.data.cache.InvServer=DEBUG
+#log4j.category.com.fitechlabs.xtrade.kernel.data.cache.InvHeartbeat=DEBUG
+#log4j.category.com.fitechlabs.xtrade.kernel.data.cache.InvWorker=DEBUG
+#log4j.category.com.fitechlabs.xtrade.kernel.data.cache.InvRouter=DEBUG
+
+#log4j.category.TestXTradeCore=INFO
+
+
+#####################################################################
+#All following properties should remain commented out, untill
+#we move to log4j properties naming convention.
+#Currently category properties are read from CategoryFile.
+#####################################################################
+#CategoryFile=cat.properties
+
+# xtrade kernel
+log4j.category.com.fitechlabs.xtrade.kernel=INFO
+
+#
+# Trading components.
+#
+#log4j.category.com.fitechlabs.xtrade.plugin.tc=DEBUG
+
+#
+# Webbroker3 system packages
+#
+#log4j.category.webbroker3.common=DEBUG
+#log4j.category.webbroker3.equity=DEBUG
+#log4j.category.webbroker3.gentrade=DEBUG
+#log4j.category.webbroker3.util=DEBUG
+
+#log4j.category.webbroker3.ifo=DEBUG
+#log4j.category.webbroker3.ifodeposit=DEBUG
+#log4j.category.webbroker3.tradingpower=DEBUG
+#log4j.category.webbroker3.ruito=DEBUG
+#log4j.category.webbroker3.mf=DEBUG
+#log4j.category.webbroker3.aio=DEBUG
+#log4j.category.webbroker3.mqgateway=DEBUG
+
+#log4j.category.com.fitechlabs.xtrade.plugin.util.rac=DEBUG
+
+#log4j.category.com.fitechlabs.xtrade.kernel.comm.sockpool.SocketPoolServer.profile=DEBUG
+log4j.category.webbroker3.quoteadaptor=INFO
+log4j.category.webbroker3.preloader=DEBUG
+@

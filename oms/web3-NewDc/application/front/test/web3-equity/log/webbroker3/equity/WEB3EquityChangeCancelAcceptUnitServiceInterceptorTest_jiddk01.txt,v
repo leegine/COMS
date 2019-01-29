@@ -1,0 +1,409 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.04.07.02.39.11;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5444d9d078c63f4;
+filename	WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01.txt;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Logit: starting, will look for log.properties
+||||||||||||| PropertiesFileFinder: loaded as resource: /log.properties
+||||||||||||| PropertiesFileFinder: loaded as resource: /cat.properties
+2007-02-01 15:11:36,774 - main - INFO  - TestBase - Initializing the plugin
+2007-02-01 15:11:36,790 - main - INFO  - TestBase - *** Plugin will use JDBC driver :oracle.jdbc.driver.OracleDriver
+2007-02-01 15:11:36,790 - main - INFO  - TestBase - *** >>>>>>> Plugin will use JDBC URL: jdbc:oracle:thin:web3csh/web3csh@@10.253.111.77:1521:daiwa7
+||||||||||||| PropertiesFileFinder: not found: license.properties
+||||||||||||| PropertiesFileFinder: not found: config.properties
+2007-02-01 15:11:36,915 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor license use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:38,196 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.core-061201-2527 from server_license
+2007-02-01 15:11:38,196 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.dbind-061201-9465 from server_license
+2007-02-01 15:11:38,196 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-ifo-pdbt-040917-7297 from server_license
+2007-02-01 15:11:38,196 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-aio-pdbt-040917-7433 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-feq-pdbt-040917-7940 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.core-040917-8136 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.dbind-040917-3329 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-ruito-pdbt-040917-9209 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.ov-041018-2917 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.gtl-041018-4762 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.basic-041018-2924 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.mini-041018-5320 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-mf-pdbt-041018-5481 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.eqtype.margin-041018-9111 from server_license
+2007-02-01 15:11:38,227 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.core-050117-2924 from server_license
+2007-02-01 15:11:38,243 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xtrade.dbind-050117-3802 from server_license
+2007-02-01 15:11:38,243 - main - INFO  - com.fitechlabs.xtrade.kernel.license.LicensingPlugin - installed license lic-xblocks.xb-bd-pdbt-061201-2823 from server_license
+2007-02-01 15:11:38,571 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor config use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:38,571 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'config' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:38,649 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor session use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:38,649 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'session' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:38,665 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor master use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:38,665 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'master' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:38,680 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor account use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:38,680 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'account' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:38,712 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor default use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:38,712 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'default' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFDefaultImpl
+2007-02-01 15:11:38,790 - main - INFO  - com.fitechlabs.dbind.DBindConfig - xTrade dbind layer will use PreparedStatement.setCharacterStream method for binding a String if its length is bigger than 1024
+2007-02-01 15:11:38,977 - main - INFO  - TestBase - KernelPlugin bootstrap succeeded !!!
+2007-02-01 15:11:39,024 - main - INFO  - TestBase - QueryRequestPlugin bootstrap succeeded !!!
+2007-02-01 15:11:39,165 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor login-master use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:39,165 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-master' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:39,165 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor login-account use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:39,165 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-account' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:39,180 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor login-session use dataSource=DataSources.DataSourceWrapper: URL=null;DriverClass=null;Properties=null;dataSourceJndiName=null
+2007-02-01 15:11:39,180 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-session' factory set to com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl
+2007-02-01 15:11:39,180 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'login-account' factory replaced with com.fitechlabs.xtrade.plugin.security.oplogin.impl.QPFOpLoginImpl
+2007-02-01 15:11:40,571 - main - INFO  - TestBase - OpLoginPlugin bootstrap succeeded !!!
+2007-02-01 15:11:40,602 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.gtl License Available = true
+2007-02-01 15:11:43,165 - main - WARN  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.TradingSystemImpl - !!! system timestamp shifting is ON !!!
+2007-02-01 15:11:43,212 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Registered FinApp Service.
+2007-02-01 15:11:43,321 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum
+2007-02-01 15:11:43,337 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg
+2007-02-01 15:11:43,337 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType
+2007-02-01 15:11:43,337 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.MainAccountTypeEnum
+2007-02-01 15:11:43,337 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.MainAccountStatusEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.SubAccountTypeEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.SubAccountStatusEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.BranchTypeEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.ParticipantTypeEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.TraderTypeEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum
+2007-02-01 15:11:43,352 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.SideEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.ContractTypeEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum
+2007-02-01 15:11:43,368 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum
+2007-02-01 15:11:43,852 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin - Done plugging in class com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin
+2007-02-01 15:11:43,852 - main - INFO  - TestBase - GenericTradingPlugin bootstrap succeeded !!!
+2007-02-01 15:11:43,899 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.eqtype.basic License Available = true
+2007-02-01 15:11:45,133 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Installing TradingModule : eqtype
+2007-02-01 15:11:45,227 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:eqtype is turned on
+2007-02-01 15:11:45,227 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EqTypeMarketAdapterImpl - Wrapped EqTypeMarketResponseReceiverCallbackService with interceptor : com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor
+2007-02-01 15:11:45,430 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.eqtype.margin License Available = true
+2007-02-01 15:11:45,446 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.eqtype.mini License Available = true
+2007-02-01 15:11:45,493 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : eqtype
+2007-02-01 15:11:45,493 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : eqtype
+2007-02-01 15:11:45,493 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : eqtype registered to handle product types : EQUITY,CASH
+2007-02-01 15:11:45,493 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Installed TradingModule : eqtype
+2007-02-01 15:11:45,493 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType
+2007-02-01 15:11:45,493 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin - Done plugging in class com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin
+2007-02-01 15:11:45,493 - main - INFO  - TestBase - EqTypeTradingPlugin bootstrap succeeded !!!
+2007-02-01 15:11:45,524 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:11:45,524 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:11:52,555 - main - WARN  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ******* Overriding account manager
+2007-02-01 15:11:52,586 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - **** Overriding FinObjectManager
+2007-02-01 15:11:53,243 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - **** Overriding GlobalBizLogicProvider with class:class webbroker3.gentrade.WEB3GentradeBizLogicProvider
+2007-02-01 15:11:53,274 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:11:53,274 - main - DEBUG - webbroker3.gentrade.WEB3GentradeAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:11:53,274 - main - INFO  - TestBase - WEB3GentradeAppPlugin bootstrap succeeded !!!
+2007-02-01 15:11:53,289 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:11:53,289 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:11:53,289 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - KernelPlugin bootstrap succeeded !!!
+2007-02-01 15:11:53,289 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - QueryRequestPlugin bootstrap succeeded !!!
+2007-02-01 15:11:53,289 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - OpLoginPlugin bootstrap succeeded !!!
+2007-02-01 15:11:53,289 - main - INFO  - webbroker3.login.WEB3LoginAppPlugin - GenericTradingPlugin bootstrap succeeded !!!
+2007-02-01 15:11:54,368 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:11:54,368 - main - DEBUG - webbroker3.login.WEB3LoginAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:11:54,368 - main - INFO  - TestBase - WEB3LoginAppPlugin bootstrap succeeded !!!
+2007-02-01 15:11:54,477 - main - INFO  - webbroker3.servlet.WEB3HttpServletPlugin - WEB3HttpServletPlugin bootstrap succeeded.
+2007-02-01 15:11:54,477 - main - INFO  - TestBase - WEB3HttpServletPlugin bootstrap succeeded !!!
+2007-02-01 15:11:54,539 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:11:54,539 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:11:56,274 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : eqtype
+2007-02-01 15:11:56,305 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:eqtype is turned on
+2007-02-01 15:11:56,305 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EqTypeMarketAdapterImpl - Wrapped EqTypeMarketResponseReceiverCallbackService with interceptor : com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor
+2007-02-01 15:11:56,321 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : eqtype
+2007-02-01 15:11:56,321 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : eqtype
+2007-02-01 15:11:56,321 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : eqtype registered to handle product types : EQUITY,CASH
+2007-02-01 15:11:56,602 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.equity.marketadaptor.WEB3EquityMarketRequestSenderServiceImpl
+2007-02-01 15:11:57,524 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EquityProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.EquityProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.equity.WEB3EquityTypeOrderManagerReusableValidations
+2007-02-01 15:12:07,274 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:07,274 - main - DEBUG - webbroker3.equity.WEB3EquityAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:07,274 - main - INFO  - TestBase - WEB3EquityAppPlugin bootstrap succeeded !!!
+2007-02-01 15:12:07,320 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-ifo-pdbt License Available = true
+2007-02-01 15:12:08,742 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installing TradingModule : xb-ifo-pdbt
+2007-02-01 15:12:08,789 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-ifo-pdbt is turned on
+2007-02-01 15:12:08,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-ifo-pdbt
+2007-02-01 15:12:08,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-ifo-pdbt
+2007-02-01 15:12:08,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-ifo-pdbt registered to handle product types : IFO
+2007-02-01 15:12:08,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installed TradingModule : xb-ifo-pdbt
+2007-02-01 15:12:08,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum
+2007-02-01 15:12:08,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.IfoTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType
+2007-02-01 15:12:09,039 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:09,039 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:09,039 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : xb-ifo-pdbt
+2007-02-01 15:12:09,039 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - Installing TradingModule : web3-xbifo
+2007-02-01 15:12:09,086 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-ifo-pdbt is turned on
+2007-02-01 15:12:09,164 - main - DEBUG - webbroker3.ifo.WEB3IfoFinTransactionManagerImpl - ------- >>>>>>>> WEB3IfoPositionManagerImpl Has Intializtion Successed !!!
+2007-02-01 15:12:09,164 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-ifo-pdbt
+2007-02-01 15:12:09,164 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-ifo-pdbt
+2007-02-01 15:12:09,164 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-ifo-pdbt registered to handle product types : IFO
+2007-02-01 15:12:09,164 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - Installed TradingModule : web3-xbifo
+2007-02-01 15:12:09,789 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.stdimpls.IfoProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.xbifo.stdimpls.IfoProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.ifo.WEB3IfoOrderManagerReusableValidations
+2007-02-01 15:12:09,789 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - XBIFO: 市場Adapterの登録
+2007-02-01 15:12:09,820 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:09,820 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:09,820 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - XBIFO: 市場リクエスト送信サービスをインストール
+2007-02-01 15:12:09,852 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.ifo.marketadaptor.WEB3IfoMarketRequestSenderServiceImpl
+2007-02-01 15:12:09,852 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:09,867 - main - DEBUG - webbroker3.ifo.marketadaptor.WEB3IfoMarketAdaptorAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:17,711 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:17,711 - main - DEBUG - webbroker3.ifo.WEB3IfoAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:17,758 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-ruito-pdbt License Available = true
+2007-02-01 15:12:18,726 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin - Installing TradingModule : xb-ruito-pdbt
+2007-02-01 15:12:18,773 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-ruito-pdbt is turned on
+2007-02-01 15:12:18,836 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-ruito-pdbt
+2007-02-01 15:12:18,836 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-ruito-pdbt
+2007-02-01 15:12:18,836 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-ruito-pdbt registered to handle product types : RUITO
+2007-02-01 15:12:18,836 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin - Installed TradingModule : xb-ruito-pdbt
+2007-02-01 15:12:18,836 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbruito.RuitoTypeEnum
+2007-02-01 15:12:18,883 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-feq-pdbt License Available = true
+2007-02-01 15:12:19,804 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Installing TradingModule : xb-feq-pdbt
+2007-02-01 15:12:19,836 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-feq-pdbt is turned on
+2007-02-01 15:12:19,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-feq-pdbt
+2007-02-01 15:12:19,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-feq-pdbt
+2007-02-01 15:12:19,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-feq-pdbt registered to handle product types : FOREIGN_EQUITY
+2007-02-01 15:12:19,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Installed TradingModule : xb-feq-pdbt
+2007-02-01 15:12:19,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqExecutionConditionType
+2007-02-01 15:12:19,898 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin - Done plugging in class com.fitechlabs.xtrade.plugin.tc.xbfeq.FeqTradingPlugin
+2007-02-01 15:12:19,992 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： plug() ： ENTER
+2007-02-01 15:12:19,992 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： onPlug() ： ENTER
+2007-02-01 15:12:19,992 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - Installing TradingModule : web3-ipo: ENTER
+2007-02-01 15:12:20,226 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : web3-ipo
+2007-02-01 15:12:20,226 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : web3-ipo
+2007-02-01 15:12:20,226 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : web3-ipo registered to handle product types : IPO
+2007-02-01 15:12:20,226 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - Installed TradingModule : web3-ipo: END
+2007-02-01 15:12:23,695 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： onPlug() ： EXIT
+2007-02-01 15:12:23,695 - main - DEBUG - webbroker3.ipo.WEB3IpoAppPlugin - メソッド名： plug() ： EXIT
+2007-02-01 15:12:23,726 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-aio-pdbt License Available = true
+2007-02-01 15:12:24,382 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin - Installing TradingModule : xb-aio-pdbt
+2007-02-01 15:12:24,429 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-aio-pdbt is turned on
+2007-02-01 15:12:24,476 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-aio-pdbt
+2007-02-01 15:12:24,476 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-aio-pdbt
+2007-02-01 15:12:24,476 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-aio-pdbt registered to handle product types : AIO
+2007-02-01 15:12:24,476 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin - Installed TradingModule : xb-aio-pdbt
+2007-02-01 15:12:24,476 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.AioTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbaio.AssetTransferTypeEnum
+2007-02-01 15:12:24,695 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:24,695 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:24,695 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : xb-aio-pdbt
+2007-02-01 15:12:24,695 - main - INFO  - webbroker3.aio.WEB3AioAppPlugin - Installing TradingModule : web3-aio
+2007-02-01 15:12:24,726 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-aio-pdbt is turned on
+2007-02-01 15:12:24,726 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-aio-pdbt
+2007-02-01 15:12:24,726 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-aio-pdbt
+2007-02-01 15:12:24,726 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-aio-pdbt registered to handle product types : AIO
+2007-02-01 15:12:24,726 - main - INFO  - webbroker3.aio.WEB3AioAppPlugin - Installed TradingModule : web3-aio
+2007-02-01 15:12:25,023 - main - DEBUG - webbroker3.aio.WEB3AioProductTypeOrderManagerReusableValidations - メソッド名：register() ： ENTER
+2007-02-01 15:12:25,023 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbaio.stdimpls.AioProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.xbaio.stdimpls.AioProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.aio.WEB3AioProductTypeOrderManagerReusableValidations
+2007-02-01 15:12:25,023 - main - DEBUG - webbroker3.aio.WEB3AioProductTypeOrderManagerReusableValidations - メソッド名：register() ： EXIT
+2007-02-01 15:12:25,054 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:25,054 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:25,054 - main - INFO  - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - XBAIO: 市場リクエスト送信サービスをインストール........
+2007-02-01 15:12:25,086 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.aio.marketadaptor.WEB3AioMarketRequestSenderServiceImpl
+2007-02-01 15:12:25,086 - main - INFO  - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - XBAIO: 市場リクエスト送信サービスをインストール........OK
+2007-02-01 15:12:25,086 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:25,086 - main - DEBUG - webbroker3.aio.marketadaptor.WEB3AioMarketAdaptorAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:29,679 - main - DEBUG - webbroker3.servlet.WEB3HttpServiceMappingsImpl - New entry registered. ServiceName=web3-aio, ServiceInterface=webbroker3.aio.service.delegate.WEB3AioMultiBankTelegramProcessService
+2007-02-01 15:12:39,570 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:39,570 - main - DEBUG - webbroker3.aio.WEB3AioAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:39,648 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： plug() ： ENTER
+2007-02-01 15:12:39,663 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： onPlug() ： ENTER
+2007-02-01 15:12:45,710 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： onPlug() ： EXIT
+2007-02-01 15:12:45,710 - main - DEBUG - webbroker3.accountinfo.WEB3AccInfoAppPlugin - メソッド名： plug() ： EXIT
+2007-02-01 15:12:45,866 - main - INFO  - TestBase - WEB3ThreadPoolPlugin bootstrap succeeded !!!
+2007-02-01 15:12:45,929 - main - INFO  - com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl - QueryProcessor rac-config use dataSource=oracle.jdbc.pool.OracleConnectionCacheImpl@@2c6f70
+||||||||||||| PropertiesFileFinder: loaded as resource: /dbind.properties
+2007-02-01 15:12:46,007 - InvServer-44 - INFO  - com.fitechlabs.dbind.impl.InvServer - InvServer-44 has started at chai-shuanghong:2121.
+2007-02-01 15:12:46,054 - Heartbeat-44.1 - INFO  - com.fitechlabs.dbind.impl.InvHeartbeat - Heartbeat-44.1 has started on jdbc:oracle:thin:web3csh/web3csh@@10.253.111.77:1521:daiwa7, interval=6.0, duration=20
+2007-02-01 15:12:46,054 - Heartbeat-44.1 - INFO  - com.fitechlabs.dbind.impl.InvHeartbeat - Heartbeat will use new Connection object from oracle.jdbc.pool.OracleConnectionCacheImpl@@2c6f70
+2007-02-01 15:12:46,054 - main - INFO  - com.fitechlabs.xtrade.kernel.data.Processors - 'rac-config' factory set to webbroker3.system.tune.affinity.WEB3AffinityTestPlugin$QPFRacImpl
+2007-02-01 15:12:46,882 - main - INFO  - TestBase - WEB3AffinityPlugin bootstrap succeeded !!!
+2007-02-01 15:12:46,913 - main - INFO  - TestBase - WEB3AffinityTestPlugin bootstrap succeeded !!!
+2007-02-01 15:12:47,210 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.eqtype.stdimpls.TradingModuleImpl - Installed QuoteDataSupplierService provided by webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService
+2007-02-01 15:12:47,210 - main - INFO  - webbroker3.quoteadaptor.prototype.WEB3ProtoQuotePlugin - QuoteDataSupplierService installed to EqType TradingModule.
+2007-02-01 15:12:47,210 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbifo.stdimpls.IfoTradingModuleImpl - Installed QuoteDataSupplierService provided by class webbroker3.quoteadaptor.prototype.WEB3ProtoQuoteDataSupplierService
+2007-02-01 15:12:47,210 - main - INFO  - webbroker3.quoteadaptor.prototype.WEB3ProtoQuotePlugin - QuoteDataSupplierService installed to IFO TradingModule.
+2007-02-01 15:12:47,210 - main - INFO  - TestBase - WEB3ProtoQuotePlugin bootstrap succeeded !!!
+2007-02-01 15:12:47,335 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositCalcService registered.
+2007-02-01 15:12:47,351 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositCalcServiceInterceptor added to WEB3IfoDepositCalcService
+2007-02-01 15:12:47,351 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - TransactionalInterceptor added to WEB3IfoDepositCalcService
+2007-02-01 15:12:47,429 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceService registered.
+2007-02-01 15:12:47,444 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceServiceInterceptor added to WEB3IfoDepositTransitionReferenceService
+2007-02-01 15:12:47,444 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - TransactionalInterceptor added to WEB3IfoDepositTransitionReferenceService
+2007-02-01 15:12:47,460 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceRequest registered.
+2007-02-01 15:12:47,460 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceResponse registered.
+2007-02-01 15:12:47,476 - main - DEBUG - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositTransitionReferenceHandler registered.
+2007-02-01 15:12:47,476 - main - INFO  - webbroker3.ifodeposit.WEB3IfoDepositPlugin - WEB3IfoDepositPlugin bootstrap succeeded.
+2007-02-01 15:12:47,522 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:47,522 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:48,647 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerService registered.
+2007-02-01 15:12:48,647 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerService
+2007-02-01 15:12:48,647 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerService
+2007-02-01 15:12:48,679 - main - DEBUG - webbroker3.tradingpower.WEB3TPTradingPowerReCalcServiceImpl - メソッド名：WEB3TPTradingPowerReCalcServiceImpl() ： ENTER
+2007-02-01 15:12:48,679 - main - DEBUG - webbroker3.tradingpower.WEB3TPTradingPowerReCalcServiceImpl - メソッド名：WEB3TPTradingPowerReCalcServiceImpl() ： EXIT
+2007-02-01 15:12:48,679 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerReCalcService registered.
+2007-02-01 15:12:48,679 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerReCalcService
+2007-02-01 15:12:48,679 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerReCalcService
+2007-02-01 15:12:48,757 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerAfterRepayService registered.
+2007-02-01 15:12:48,757 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerAfterRepayService
+2007-02-01 15:12:48,757 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerAfterRepayService
+2007-02-01 15:12:48,788 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerSettlementService registered.
+2007-02-01 15:12:48,788 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPTradingPowerServiceInterceptor added to WEB3TPTradingPowerSettlementService
+2007-02-01 15:12:48,788 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPTradingPowerSettlementService
+2007-02-01 15:12:48,819 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPReCalcNotifyService registered.
+2007-02-01 15:12:48,819 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPReCalcNotifyService
+2007-02-01 15:12:48,851 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPReCalcNotifyUnitService registered.
+2007-02-01 15:12:48,866 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPReCalcNotifyUnitServiceInterceptor added to WEB3TPReCalcNotifyUnitService
+2007-02-01 15:12:48,866 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPReCalcNotifyUnitService
+2007-02-01 15:12:48,882 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPDescendRacCtxInterceptor added to WEB3TPReCalcNotifyUnitService
+2007-02-01 15:12:48,960 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - WEB3TPOrixVantiveService registered.
+2007-02-01 15:12:48,960 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - TransactionalInterceptor added to WEB3TPOrixVantiveService
+2007-02-01 15:12:49,038 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:49,038 - main - DEBUG - webbroker3.tradingpower.WEB3TPLibPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:49,257 - main - INFO  - webbroker3.mqgateway.WEB3MQGatewayPlugin - WEB3MQGatewayPlugin was plugged.
+2007-02-01 15:12:49,288 - main - INFO  - webbroker3.mqgateway.stdimpls.WEB3MQGatewayForTestPlugin - WEB3MQGatewayService was orverrided by WEB3MQMessageGatewayServiceForTestImpl
+2007-02-01 15:12:49,288 - main - INFO  - webbroker3.mqgateway.stdimpls.WEB3MQGatewayForTestPlugin - WEB3MQGatewayForTestPlugin was plugged.
+2007-02-01 15:12:50,179 - main - INFO  - webbroker3.rlsgateway.WEB3RlsGatewayTestPlugin - WEB3RlsGatewayTestPlugin was plugged.
+2007-02-01 15:12:50,210 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:50,210 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:50,319 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : web3-bond
+2007-02-01 15:12:50,319 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : web3-bond
+2007-02-01 15:12:50,319 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : web3-bond registered to handle product types : BOND
+2007-02-01 15:12:50,444 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:50,444 - main - DEBUG - webbroker3.bond.WEB3BondAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:12:50,444 - main - INFO  - TestBase - WEB3BondAppPlugin bootstrap succeeded !!!
+2007-02-01 15:12:50,476 - main - DEBUG - webbroker3.triggerorder.base.WEB3ToSuccBaseAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:51,101 - main - DEBUG - webbroker3.triggerorder.base.WEB3ToSuccBaseAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:52,272 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GtlComponentLicenseCheckerUtil - ::::::: Component Name : xblocks.xb-mf-pdbt License Available = true
+2007-02-01 15:12:54,335 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin - Installing TradingModule : xblocks.xb-mf-pdbt
+2007-02-01 15:12:54,413 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-mf-pdbt is turned on
+2007-02-01 15:12:54,554 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-mf-pdbt
+2007-02-01 15:12:54,554 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-mf-pdbt
+2007-02-01 15:12:54,554 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-mf-pdbt registered to handle product types : MUTUAL_FUND
+2007-02-01 15:12:54,554 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin - Installed TradingModule : xblocks.xb-mf-pdbt
+2007-02-01 15:12:54,569 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTradingPlugin - Installing Enumerated : class com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTypeEnum
+2007-02-01 15:12:54,757 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:54,757 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:54,757 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - ::::::: uninstalling trading module with name : xb-mf-pdbt
+2007-02-01 15:12:54,757 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - Installing TradingModule : web3-mf
+2007-02-01 15:12:54,850 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.GenericMarketResponseReceiverCallbackServiceInterceptor - SubAccount/MainAccount serialization in MarketResponseReceiverCallbackService of TradingModule:xb-mf-pdbt is turned on
+2007-02-01 15:12:54,850 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installing trading module : xb-mf-pdbt
+2007-02-01 15:12:54,850 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Installed trading module : xb-mf-pdbt
+2007-02-01 15:12:54,850 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.FinAppImpl - Trading module : xb-mf-pdbt registered to handle product types : MUTUAL_FUND
+2007-02-01 15:12:54,850 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - Installed TradingModule : web3-mf
+2007-02-01 15:12:55,069 - main - DEBUG - webbroker3.mf.WEB3MutualFundOrderManagerReusableValidationsCheck - メソッド名：register() ： ENTER
+2007-02-01 15:12:55,069 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.xbmf.stdimpls.MutualFundProductTypeOrderManagerReusableValidations - Replacing default class com.fitechlabs.xtrade.plugin.tc.xbmf.stdimpls.MutualFundProductTypeOrderManagerReusableValidations default impl with new implementation : class webbroker3.mf.WEB3MutualFundOrderManagerReusableValidationsCheck
+2007-02-01 15:12:55,069 - main - DEBUG - webbroker3.mf.WEB3MutualFundOrderManagerReusableValidationsCheck - メソッド名：register() ： EXIT
+2007-02-01 15:12:55,100 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：plug() ： ENTER
+2007-02-01 15:12:55,100 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：onPlug() ： ENTER
+2007-02-01 15:12:55,100 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - XBMF: 市場リクエスト送信サービスをインストール........
+2007-02-01 15:12:55,147 - main - INFO  - com.fitechlabs.xtrade.plugin.tc.gentrade.stdimpls.BaseMarketAdapterImpl - Installing MarketSenderService :class webbroker3.mf.marketadaptor.WEB3MutualFundMarketRequestService
+2007-02-01 15:12:55,147 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - XBMF: 市場リクエスト送信サービスをインストール........OK
+2007-02-01 15:12:55,147 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:12:55,147 - main - DEBUG - webbroker3.mf.marketadaptor.WEB3MutualFundMarketAdaptorAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:13:06,397 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：onPlug() ： EXIT
+2007-02-01 15:13:06,397 - main - DEBUG - webbroker3.mf.WEB3MutualFundAppPlugin - メソッド名：plug() ： EXIT
+2007-02-01 15:13:06,413 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - メソッド名：testOnCall_T01() ： ENTER
+2007-02-01 15:13:06,413 - main - INFO  - TestBase - doLogin(): ENTER
+2007-02-01 15:13:06,413 - main - DEBUG - webbroker3.login.handler.WEB3AcceptLoginHandler - メソッド名：acceptLoginRequest(WEB3AcceptLoginRequest) ： ENTER
+2007-02-01 15:13:06,428 - main - INFO  - webbroker3.login.service.delegate.WEB3AcceptLoginService - メソッド名 ： webbroker3.login.service.delegate.WEB3AcceptLoginService.execute業務処理開始時刻 ： Thu Feb 01 15:13:06 GMT+08:00 2007
+2007-02-01 15:13:06,428 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - メソッド名：execute(WEB3GenRequest) ： ENTER
+2007-02-01 15:13:06,428 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... inst = 60, brch = 624, user = 1606246000283
+2007-02-01 15:13:06,506 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isLoginStop() ： ENTER
+2007-02-01 15:13:06,506 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - isLoginStop() .... LOGIN_STOP_DIV = 1
+2007-02-01 15:13:06,506 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isLoginStop() ： EXIT
+2007-02-01 15:13:06,506 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkOrderChannel(String) ： ENTER
+2007-02-01 15:13:06,506 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkOrderChannel(String) ： EXIT
+2007-02-01 15:13:06,506 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkAcceptCode(String) ： ENTER
+2007-02-01 15:13:07,631 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：checkCode(int, int, String, String) ： ENTER
+2007-02-01 15:13:07,631 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：checkCode(int, int, String, String) ： EXIT
+2007-02-01 15:13:07,631 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：checkAcceptCode(String) ： EXIT
+2007-02-01 15:13:07,647 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：WEB3PasswordUtility(long) ： ENTER
+2007-02-01 15:13:07,663 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：WEB3PasswordUtility(long) ： EXIT
+2007-02-01 15:13:07,678 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... inst = 信用アルファ@証券株式会社, brch = 関東支店, user = 1606246000283
+2007-02-01 15:13:07,678 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isEnabledUser() ： ENTER
+2007-02-01 15:13:07,694 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：isEnabledUser() ： EXIT
+2007-02-01 15:13:07,803 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... sessionID = 606246000283:606246000283:86001:7025q7egs8q5mm7t5o3ij17rhf0
+2007-02-01 15:13:07,803 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：setSessionAttribute(String, WEB3SetSessionRequest) ： ENTER
+2007-02-01 15:13:07,803 - main - WARN  - com.fitechlabs.xtrade.plugin.security.oplogin.impl.DevelopmentOpLoginSecurityServiceImpl - DevelopmentOpLoginSecurityServiceImpl is in use. This should only happen in test environment.
+2007-02-01 15:13:07,850 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - メソッド名：setSessionRequest(WEB3SetSessionRequest) ： ENTER
+2007-02-01 15:13:07,866 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = orderRootDiv, value = 2
+2007-02-01 15:13:07,866 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = institutionID, value = 60
+2007-02-01 15:13:07,881 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = branchID, value = 60624
+2007-02-01 15:13:07,897 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = orderChannel, value = 1
+2007-02-01 15:13:07,897 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - setSessionRequest(WEB3SetSessionRequest) .... key = sessionID, value = 86001
+2007-02-01 15:13:07,897 - main - DEBUG - webbroker3.login.handler.WEB3SetSessionHandler - メソッド名：setSessionRequest(WEB3SetSessionRequest) ： EXIT
+2007-02-01 15:13:07,897 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：setSessionAttribute(String, WEB3SetSessionRequest) ： EXIT
+2007-02-01 15:13:07,944 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - execute(WEB3GenRequest) .... user = インター２８３　@梅子
+2007-02-01 15:13:07,944 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getAcceptInfo(String) ： ENTER
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - getAcceptInfo(String) .... lastLogin = Thu Feb 01 15:04:23 GMT+08:00 2007
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： ENTER
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：isIfoAccountOpen(String) ： EXIT
+2007-02-01 15:13:08,006 - main - DEBUG - webbroker3.gentrade.WEB3GentradeOrderValidator - メソッド名：validateAccountForTrading(WEB3GentradeMainAccount) ： ENTER
+2007-02-01 15:13:08,194 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：getOrderBizDate() ： ENTER
+2007-02-01 15:13:08,209 - main - INFO  - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - ThreadLocalSystemAttributesRegistryより、取引カレンダコンテキストを取得ない
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getAcceptInfo(String) ： EXIT
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getInstitutionInfo() ： ENTER
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getInstitutionInfo() ： EXIT
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getBranchInfo() ： ENTER
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getBranchInfo() ： EXIT
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getServiceImpState() ： ENTER
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：getServiceImpState() ： EXIT
+2007-02-01 15:13:08,209 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：isChangeNecessity() ： ENTER
+2007-02-01 15:13:08,225 - main - DEBUG - webbroker3.gentrade.WEB3PasswordUtility - メソッド名：isChangeNecessity() ： EXIT
+2007-02-01 15:13:08,225 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：updateLastLoginTime(long) ： ENTER
+2007-02-01 15:13:08,334 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3LoginServiceBaseImpl - メソッド名：updateLastLoginTime(long) ： EXIT
+2007-02-01 15:13:08,334 - main - DEBUG - webbroker3.login.service.delegate.stdimpls.WEB3AcceptLoginServiceImpl - メソッド名：execute(WEB3GenRequest) ： EXIT
+2007-02-01 15:13:08,334 - main - INFO  - webbroker3.login.service.delegate.WEB3AcceptLoginService - メソッド名 ： webbroker3.login.service.delegate.WEB3AcceptLoginService.execute業務処理終了時刻 ： Thu Feb 01 15:13:08 GMT+08:00 2007
+2007-02-01 15:13:08,334 - main - DEBUG - webbroker3.login.handler.WEB3AcceptLoginHandler - メソッド名：acceptLoginRequest(WEB3AcceptLoginRequest) ： EXIT
+2007-02-01 15:13:08,334 - main - WARN  - com.fitechlabs.xtrade.plugin.security.oplogin.impl.DevelopmentOpLoginSecurityServiceImpl - DevelopmentOpLoginSecurityServiceImpl is in use. This should only happen in test environment.
+2007-02-01 15:13:08,350 - main - INFO  - TestBase - doLogin(): EXIT
+2007-02-01 15:13:08,413 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - メソッド名：insertOrder() ： ENTER
+2007-02-01 15:13:08,413 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - メソッド名：insertOrder() ： EXIT
+2007-02-01 15:13:08,413 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - メソッド名：insertOrderUnit() ： ENTER
+2007-02-01 15:13:08,413 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - メソッド名：insertOrderUnit() ： EXIT
+2007-02-01 15:13:08,428 - main - INFO  - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - get params ----------------------ok
+2007-02-01 15:13:08,428 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptor - メソッド名：onCall(Method , Object[]) ： ENTER
+2007-02-01 15:13:08,600 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setTimestamp() ： ENTER
+2007-02-01 15:13:08,709 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - 取引カレンダキー：[証券会社=60, 部店=624, 市場=null, 取引時間タイプ=01, 営業日タイプ=1, 開始時間=090000]
+2007-02-01 15:13:08,709 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - 営業日ロール:[0]
+2007-02-01 15:13:08,709 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setTimestamp() ： EXIT
+2007-02-01 15:13:08,709 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getOrderUnit(String, String, ProductTypeEnum, String) ： ENTER
+2007-02-01 15:13:08,756 - main - DEBUG - webbroker3.equity.WEB3EquityOrderManager - メソッド名：getOrderUnit(String, String, ProductTypeEnum, String) ： EXIT
+2007-02-01 15:13:08,756 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setBaseTimestampForOrderBizDate(Timestamp) ： ENTER
+2007-02-01 15:13:08,756 - main - DEBUG - webbroker3.gentrade.WEB3GentradeTradingTimeManagement - メソッド名：setBaseTimestampForOrderBizDate(Timestamp) ： EXIT
+2007-02-01 15:13:08,756 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptor - 拡張アカウントマネージャの口座をロックします。
+2007-02-01 15:13:08,756 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：lockAccount(String, String, String) ： ENTER
+2007-02-01 15:13:08,803 - main - DEBUG - webbroker3.gentrade.WEB3GentradeMainAccount - メソッド名：lockAccount(String, String, String) ： EXIT
+2007-02-01 15:13:08,803 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptor - メソッド名：onCall(Method , Object[]) ： EXIT
+2007-02-01 15:13:08,803 - main - DEBUG - webbroker3.equity.WEB3EquityChangeCancelAcceptUnitServiceInterceptorTest_jiddk01 - メソッド名：testOnCall_T01() ： EXIT
+2007-02-01 15:13:08,897 - Heartbeat-44.1 - INFO  - com.fitechlabs.dbind.impl.InvHeartbeat - Heartbeat-44.1 has stopped.
+@

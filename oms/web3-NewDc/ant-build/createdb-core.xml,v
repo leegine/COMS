@@ -1,0 +1,186 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.48.56;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	createdb-core.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- tables for the Core ANT file              -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/25/2001                             -->
+<!--                                              -->
+<!-- Optional Input Properties:                   -->
+<!--    ROOT - installation root                  -->
+<!--    CORE - relative loc of the core           -->
+<!--    ORACLE_ROOT - loc of ORACLE/lib files     -->
+<!-- ============================================ -->
+<project name="createdb-core" default="build" basedir=".">
+	<!-- ===================================================================== -->
+	<!-- ========================= -->
+	<!-- Check target database     -->
+	<!-- ========================= -->
+	<target name="check-target-database">
+	  <condition property="is-oracle">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="oracle" />
+	    </and>
+	  </condition> 
+	  <condition property="is-postgresql">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="postgresql" />
+	    </and>
+	  </condition>
+	  <condition property="is-db2">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="db2" />
+	    </and>
+	  </condition>
+	</target>
+	<!-- ============================== -->
+	<!-- check pre-set properties       -->
+	<!-- ============================== -->
+	<target name="build-oracle" if="is-oracle" depends="check-target-database">
+		<!-- <property name="DB_DRIVER" value="oracle.jdbc.driver.OracleDriver"/> -->
+		<property name="DB_DRIVER" value="oracle.jdbc.OracleDriver"/>
+		<property name="URL" value="jdbc:oracle:thin"/>
+		<property name="DB_CONNECT" value="${DB_USERNAME}/${DB_PASSWORD}@@${DB_HOST}:${DB_PORT_NUMBER}:${DB_SID}"/>
+		<property name="DB_URL" value="${URL}:${DB_CONNECT}"/>
+		<property name="DB_SYS_USER" value="${DB_SYS_USERNAME}"/>
+		<property name="DB_SYS_URL" value="${URL}:${DB_SYS_USER}/${DB_SYS_PASSWORD}@@${DB_HOST}:${DB_PORT_NUMBER}:${DB_SID}"/>
+
+		<echo message=" Dropping old Oracle Database"/>
+		<echo message=" DB_DRIVER: ${DB_DRIVER}"/>
+		<echo message=" DB_SYS_URL: ${DB_SYS_URL}"/>
+		<echo message=" DB_SYS_USER: ${DB_SYS_USER}"/>
+
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USER}" password="${DB_SYS_PASSWORD}"  onerror="continue">
+			-- drop user
+			drop user ${DB_USERNAME} cascade;
+		</sql>
+		<echo message=" Creating new Database"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USER}" password="${DB_SYS_PASSWORD}" >
+			-- create user
+			create user ${DB_USERNAME} identified by ${DB_PASSWORD}
+			default   tablespace users
+			temporary tablespace temp;
+			-- assign roles to the user
+			grant connect, resource to ${DB_USERNAME};
+			-- allow user free reign over java
+			grant JAVAUSERPRIV to ${DB_USERNAME};
+			grant CREATE VIEW to ${DB_USERNAME};
+		</sql>
+	</target>
+
+	<target name="build-postgresql" if="is-postgresql" depends="check-target-database">
+		<property name="DB_DRIVER" value="org.postgresql.Driver"/>
+		<property name="DB_SYS_URL" value="jdbc:postgresql://${DB_HOST}/"/>
+		
+		<echo message=" Dropping old PostgreSQL Database ${DB_NAME}"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}" onerror="continue">
+			-- drop database
+			drop database ${DB_NAME};
+		</sql>
+		<echo message=" Dropping old PostgreSQL Role ${DB_USERNAME}"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" classpath=".;${CLASSPATH}" onerror="continue">
+			-- drop role
+			drop role ${DB_USERNAME};
+		</sql>
+		<echo message=" Creating new PostgreSQL Role ${DB_USERNAME}"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" classpath=".;${CLASSPATH}" onerror="continue">
+			-- create role
+			create role ${DB_USERNAME} LOGIN SUPERUSER PASSWORD '${DB_PASSWORD}'
+			createdb;
+		</sql>
+		<echo message=" Creating new PostgreSQL Database ${DB_NAME} use template ${DB_TEMPLATE}"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}">
+			-- create database
+			CREATE DATABASE ${DB_NAME}
+			  WITH OWNER=${DB_USERNAME}  ENCODING='SQL_ASCII' TABLESPACE=pg_default TEMPLATE=${DB_TEMPLATE};
+		</sql>
+
+	</target>
+			
+	<target name="build-db2" if="is-db2" depends="check-target-database">
+		<property name="DB_DRIVER" value="com.ibm.db2.jcc.DB2Driver"/>
+		<property name="DB_SYS_URL" value="jdbc:db2://${DB_HOST}:${DB_PORT_NUMBER}/${DB_NAME}"/>
+
+		<echo message=" Dropping old DB2 ErrorTable"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}" delimiter="${DELIM}" onerror="continue">
+--			BEGIN ATOMIC
+--				IF EXISTS ( SELECT * FROM SYSCAT.TABLES WHERE TABSCHEMA=UPPER('${DB_SYS_USERNAME}') and TABNAME='ERRORTABLE' ) THEN
+--					CALL SYSPROC.ADMIN_CMD('DROP TABLE ${DB_SYS_USERNAME}.ERRORTABLE');
+--				END IF;
+--			END
+--			@@
+			DROP TABLE ${DB_SYS_USERNAME}.ERRORTABLE
+			@@
+		</sql>
+
+<!--
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}" delimiter="${DELIM}" onerror="continue">
+			CREATE SCHEMA ${DB_SYS_USERNAME}
+			@@
+		</sql>
+-->
+		<echo message=" Dropping old DB2 Database Schema ${DB_USERNAME}"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}" delimiter="${DELIM}" onerror="continue">
+			BEGIN ATOMIC
+				DECLARE es  VARCHAR(128);
+				DECLARE et  VARCHAR(128);
+				SET es = UPPER('${DB_SYS_USERNAME}');
+				SET et = 'ERRORTABLE';
+				IF EXISTS ( SELECT * FROM SYSCAT.SCHEMATA WHERE SCHEMANAME=UPPER('${DB_USERNAME}') ) THEN
+					CALL SYSPROC.ADMIN_DROP_SCHEMA(UPPER('${DB_USERNAME}'), NULL, es, et);
+				END IF;
+			END
+			@@
+		</sql>
+
+		<echo message=" Grant rights to db2 user ${DB_USERNAME} "/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}">
+			GRANT DBADM,BINDADD,CONNECT,CREATE_NOT_FENCED_ROUTINE, 
+			IMPLICIT_SCHEMA,LOAD,CREATE_EXTERNAL_ROUTINE,QUIESCE_CONNECT ON DATABASE TO USER ${DB_USERNAME};
+		</sql>
+
+		<echo message=" Creating new DB2 Database Schema ${DB_USERNAME}"/>
+		<sql driver="${DB_DRIVER}" url="${DB_SYS_URL}" userid="${DB_SYS_USERNAME}" password="${DB_SYS_PASSWORD}" autocommit="true" classpath=".;${CLASSPATH}" delimiter="${DELIM}" onerror="continue">
+--			BEGIN ATOMIC
+--				IF NOT EXISTS ( SELECT * FROM SYSCAT.SCHEMATA WHERE SCHEMANAME=UPPER('${DB_USERNAME}') ) THEN
+--					CALL ${DB_SYS_USERNAME}.CREATE_SCHEMA('${DB_USERNAME}');
+--				END IF;
+--			END
+--			@@
+			CREATE SCHEMA ${DB_USERNAME}
+			@@
+		</sql>
+
+	</target>
+
+	<target name="build" depends="build-oracle,build-postgresql,build-db2">
+	</target>
+
+</project>
+@

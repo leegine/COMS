@@ -1,0 +1,84 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.23.12;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8ac4d7ee96709de;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file for generating data bind layer
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.accountinfo.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3accountinfo.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3AccInfoAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3accountinfo_account_triggers.sql
+
+enums=\
+  commission_course_regist.download_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  commission_course_regist.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  mobile_office_info_regist.decision_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  mobile_office_info_regist.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  commission_course_regist:inv=?.account_id \
+  mobile_office_info_regist:inv=?.account_id \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@

@@ -1,0 +1,222 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.50.45;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3f04d912cd82de4;
+filename	job_attempt_history_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="jobs_errors_ja.jsp" %>
+<%@@page import="
+    com.fitechlabs.dbind.*,
+    com.fitechlabs.xtrade.plugin.util.jobs.*,
+    com.fitechlabs.xtrade.plugin.util.jobs.data.*,
+    com.fitechlabs.xtrade.kernel.boot.KernelPlugin,
+    com.fitechlabs.xtrade.kernel.data.*,
+	java.text.*,
+    java.util.*"
+%>
+<%
+  // parameters
+  String jobid         = request.getParameter("jobid");
+  int dayshistory      = toInt( request.getParameter("days"),  7 );
+  int itemsperpage     = toInt( request.getParameter("pgsz"), 20 );
+  int pagenumber       = toInt( request.getParameter("pg"),    0 );
+%>
+<META HTTP-EQUIV="Refresh" CONTENT="60;URL=job_attempt_history_ja.jsp?jobid=<%= jobid %>">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title><%=JobsUIHelper.findJob(jobid).getJobName()%>ジョブの実行履歴</title>
+</head>
+
+<body>
+<%! // class initialization
+  int toInt( String s, int onNull ) {
+    if ( s == null )
+      return onNull;
+    try {
+      return Integer.parseInt(s);
+    } catch ( Exception e ) {
+      return onNull;
+    }
+  }
+  Object safely(Object s) {
+    if ( s == null || s == "" )
+      return "&nbsp;";
+    return s;
+  }
+%>
+<%
+//  // parameters
+//  String jobid         = request.getParameter("jobid");
+//  int dayshistory      = toInt( request.getParameter("days"),  7 );
+//  int itemsperpage     = toInt( request.getParameter("pgsz"), 20 );
+//  int pagenumber       = toInt( request.getParameter("pg"),    0 );
+
+  // attempt to run any job that is on the command line
+  String runid = request.getParameter("run");
+  if ( runid != null ){
+
+%>
+
+
+<%
+	JobsUIHelper.runJob( runid );
+
+	//
+	// Redirect to the same page with job id query param string
+	// and without run Job id to avoid accidental refresh action using the browser
+	// that would make the same job run again.
+	//
+	final String uri          = request.getRequestURI();
+	response.sendRedirect(uri + "?jobid=" + jobid);
+  }
+
+  // query for the schedule and history items
+  final JobScheduleRow job = JobsUIHelper.findJob( jobid );
+  ListPage hist = JobsUIHelper.listAttempts( jobid, dayshistory, itemsperpage, pagenumber );
+%>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#99CCFF">
+  <tr>
+    <td width="100%">
+      <h1><%=job.getJobName()%>ジョブの実行履歴</h1>
+    </td>
+  </tr>
+</table>
+
+<br><A href="job_attempt_history_ja.jsp?jobid=<%= jobid %>">リフレッシュ</A>
+<br><A href="jobs_overview_ja.jsp">ジョブ一覧・管理</A>
+<br><A href="job_details_ja.jsp?jobid=<%=safely(jobid)%>">ジョブ詳細設定</A>
+<br><A href="job_attempt_history_ja.jsp?jobid=<%=safely(jobid)%>&run=<%=safely(jobid)%>"
+	  onClick='return confirm("<%=job.getJobName()%> ジョブを実行してよろしいですか？")'>直ちに実行する</A>
+
+<h2> 実行履歴</h2>
+
+<!-- pagination -->
+<% if ( hist.totalPages() > 1 ) { %>
+  <p>ページ
+  <font size="2">
+  <% for ( int i=0; i<hist.totalPages(); i++ ) {
+    if ( i == hist.pageNumber() ) {
+      %> <%=i%> &nbsp; <%
+    } else {
+      %> <A href="job_attempt_history_ja.jsp?pg=<%=i%>&jobid=<%=jobid%>&days=<%=dayshistory%>&pgsz=<%=itemsperpage%>"><%=i%></A> &nbsp; <%
+    }
+  } %>
+  </font>
+  </p>
+<% } %>
+
+<form method="POST">
+  <input type="hidden" name="jobid" value="<%=safely(jobid)%>">
+
+  <table border="1" cellpadding="2" cellspacing="0" width="100%">
+    <tr>
+      <th valign="top" colspan="5" nowrap>実行詳細情報</th>
+      <th valign="center" align="center" rowspan="2" nowrap>経過時間<br>(秒)</th>
+      <th valign="center" align="center" rowspan="2" nowrap>結果</th>
+      <th colspan="3" valign="top" align="center" nowrap>エラー詳細</th>
+    </tr>
+    <tr>
+      <th valign="top" align="center" nowrap><font size="2">エージェント</font></th>
+      <th valign="top" align="center" nowrap><font size="2">サーバー名</font></th>
+      <th valign="top" align="center" nowrap><font size="2">スレッド名</font></th>
+      <th valign="top" align="center" nowrap><font size="2">実行開始日時</font></th>
+      <th valign="top" align="center" nowrap><font size="2">実行終了日時</font></th>
+      <th valign="top" align="center" nowrap><font size="2">エラーコード</font></th>
+      <th valign="top" align="center" nowrap><font size="2">エラータグ</font></th>
+      <th valign="top" align="center" nowrap><font size="2">詳細エラーメッセージ</font></th>
+    </tr>
+
+  <!-- One row for each job in the activity result -->
+    <% for ( Iterator it=hist.iterator(); it.hasNext(); ) {
+        JobAttemptRow attempt = (JobAttemptRow) it.next();
+    %>
+    <tr>
+      <td width="3%" valign="top"><font size="2"><%=safely(attempt.getInvokingAgent())%></font></td>
+      <td width="3%" valign="top"><font size="2"><%=attempt.getServerId()%></font></td>
+      <td width="3%" valign="top"><font size="2"><%=safely(attempt.getThreadName()+"."+attempt.getRetryNumber())%></font></td>
+      <td width="6%" valign="top" align="right"><font size="2"><%=safely(JobsDateTimeHelper.toString(attempt.getStartTime()))%></font></td>
+      <td width="5%" valign="top" align="right"><font size="2"><%=safely(JobsDateTimeHelper.toString(attempt.getEndTime()))%></font></td>
+      <td width="4%" valign="top" align="right"><font size="2"><%=(!attempt.getDurationSecsIsNull()? String.valueOf(attempt.getDurationSecs()): "&nbsp;")%></font></td>
+      <td width="5%" valign="top" align="center"
+
+
+		<%
+		  if("failed".equals(attempt.getStatus())){
+		%>
+			bgcolor="#FF0000"
+		<%
+		  }
+		%>
+	  >
+		<font size="2" >
+		<%=safely(attempt.getStatus())%>
+		</font>
+
+		</td>
+
+      <td width="2%" valign="top" align="center"><font size="2"><%=(attempt.getErrorCode()!=0? String.valueOf(attempt.getErrorCode()): "&nbsp;")%></font></td>
+      <td width="9%" valign="top" align="center"><font size="2"><%=safely(attempt.getErrorTag())%></font></td>
+      <td width="4%" valign="top" align="center"><font size="2">
+        <% if ( attempt.getErrorCode()!=0 && attempt.getErrorDebugInfo()!=null && attempt.getErrorDebugInfo().length()>0 ) { %>
+          <a href="job_attempt_error_ja.jsp?attemptid=<%=attempt.getAttemptId()%>">詳細情報</a>
+        <% } else { %>
+          &nbsp;
+        <% } %>
+      </font></td>
+    </tr>
+    <% } %>
+  </table>
+
+  <p>
+  <div align="left">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th align="right">検索履歴のMAX日数:</th>
+        <td align="center"><input type="text" name="days" value="<%=dayshistory%>" size="5"></td>
+      </tr>
+      <tr>
+        <th align="right">一ページ当たりの行数:</th>
+        <td align="center"><input type="text" name="pgsz" value="<%=itemsperpage%>" size="5"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2" align="center"><font size="2"><input type="submit" value="検索する" name="search"></font></td>
+      </tr>
+    </table>
+  </div>
+</form>
+<p>
+※備考）<br>
+  &nbsp;&nbsp;本ページは６０秒毎に自動的にリフレッシュされます。
+<p>
+<em>最終更新時刻：</em><%=DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(new Date())%>
+</body>
+
+</html>
+@

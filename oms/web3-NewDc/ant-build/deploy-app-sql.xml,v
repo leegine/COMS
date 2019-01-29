@@ -1,0 +1,182 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.40;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	deploy-app-sql.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Add/remove tables for an Application ANT file-->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/29/2001                             -->
+<!--                                              -->
+<!-- This script is run in the plugin application -->
+<!--    installation area                         -->
+<!--                                              -->
+<!-- Optional Input Properties:                   -->
+<!--    UNPACK - unpacking flag                   -->
+<!--    INSTALL_HOME - installation HOME          -->
+<!-- ============================================ -->
+<project name="deploy-app-sql" default="build" basedir=".">
+	<property name="APP_NAME_FILE" value="${DEPLOY_HOME}/deployment/app_name.txt"/>
+	<!-- ===================================================================== -->
+	<!-- ============================== -->
+	<!-- check pre-set properties       -->
+	<!-- ============================== -->
+	<!-- ===================================================================== -->
+	<!-- ******************************************************************************** -->
+	<!-- determine the os type -->
+	<target name="set-props">
+		<path id="classpath-all">
+			<fileset dir="${DEPLOY_HOME}">
+				<include name="lib/*.jar"/>
+				<include name="lib/*.zip"/>
+				<include name="jars/xtrade.jar"/>
+			</fileset>
+		</path>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-windows" if="WINDOWS-OS" depends="set-props">
+		<!--		<pathconvert targetos="windows" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="windows" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.COMPUTERNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to unix -->
+	<target name="set-unix" if="UNIX-OS" depends="set-props">
+		<!--		<pathconvert targetos="unix" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="unix" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.HOSTNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to a specific op system -->
+	<target name="set-os-env" depends="set-windows, set-unix">
+		<property file="${APP_NAME_FILE}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read and verify all properties and report them -->
+	<target name="verify-env" depends="set-os-env" if="DEBUG">
+		<echo message="">
+ ===============================================
+ Properties:
+ ===============================================
+ CLASSPATH=${CLASSPATH}
+ ===============================================
+		</echo>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- set property file name -->
+	<target name="set-prop-file-name" depends="verify-env">
+		<property name="DB_PROPERTY_FILE" value="${DEPLOY_HOME}/createdb-${SUFFIX}.properties"/>
+	</target>
+
+	<!-- ========================= -->
+	<!-- Check target database     -->
+	<!-- ========================= -->
+	<target name="check-target-database" depends="set-prop-file-name">
+	  <condition property="is-oracle">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="oracle" />
+	    </and>
+	  </condition>
+	  <condition property="is-postgresql">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="postgresql" />
+	    </and>
+	  </condition>
+		  <condition property="is-db2">
+		    <and>
+		        <equals arg1="${DATABASE}" arg2="db2" />
+		    </and>
+		  </condition>
+	</target>
+	
+	<!-- ================================ -->
+	<!-- read properties file for oracle  -->
+	<!-- ================================ -->
+	<target name="read-props-oracle" if="is-oracle" depends="check-target-database">
+		<echo message="Reading db properties for oracle"/>
+		<property file="${DB_PROPERTY_FILE}"/>
+		<!-- change war deployment descrtiptor file -->
+		<property name="DB_DRIVER" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="URL" value="jdbc:oracle:thin"/>
+		<property name="DB_CONNECT" value="${DB_USERNAME}/${DB_PASSWORD}@@${DB_HOST}:${DB_PORT_NUMBER}:${DB_SID}"/>
+		<property name="DB_URL" value="${URL}:${DB_CONNECT}"/>
+		<property name="install" value="${INSTALL_HOME}"/>
+		<property name="ROOT" value="${INSTALL_HOME}"/>
+		<property name="ORACLE_ROOT" value="${DEPLOY_HOME}/lib"/>
+		<available property="EDIATBLE_WAR" file="${DEPLOY_HOME}/war/web.xml"/>
+	</target>
+
+	<target name="read-props-postgresql" if="is-postgresql" depends="check-target-database">
+		<echo message="Reading db properties for postgresql"/>
+		<property file="${DB_PROPERTY_FILE}"/>
+		<!-- change war deployment descrtiptor file -->
+		<property name="DB_DRIVER" value="org.postgresql.Driver"/>
+		<property name="URL" value="jdbc:postgresql"/>
+		<property name="DB_CONNECT" value="//${DB_HOST}/${DB_NAME}"/>
+		<property name="DB_USER_NAME" value="${DB_USERNAME}"/>
+		<property name="DB_PASSWORD" value="${DB_PASSWORD}"/>
+		<property name="DB_SYS_USERNAME" value="${DB_SYS_USERNAME}"/>
+		<property name="DB_SYS_PASSWORD" value="${DB_SYS_PASSWORD}"/>
+		<property name="DB_URL" value="${URL}:${DB_CONNECT}"/>
+		<property name="install" value="${INSTALL_HOME}"/>
+		<property name="ROOT" value="${INSTALL_HOME}"/>
+		<property name="ORACLE_ROOT" value="${DEPLOY_HOME}/lib"/>
+		<available property="EDIATBLE_WAR" file="${DEPLOY_HOME}/war/web.xml"/>
+	</target>
+
+	<target name="read-props-db2" if="is-db2" depends="check-target-database">
+		<echo message="Reading db properties for db2"/>
+		<property file="${DB_PROPERTY_FILE}"/>
+		<!-- change war deployment descrtiptor file -->
+		<property name="DB_DRIVER" value="com.ibm.db2.jcc.DB2Driver"/>
+		<property name="URL" value="jdbc:db2"/>
+		<property name="DB_CONNECT" value="//${DB_HOST}:${DB_PORT_NUMBER}/${DB_NAME}"/>
+		<property name="DB_USER_NAME" value="${DB_USERNAME}"/>
+		<property name="DB_PORT_NUMBER" value="${DB_PORT_NUMBER}"/>
+		<property name="DELIM" value="@@"/>
+		<property name="DB_PASSWORD" value="${DB_PASSWORD}"/>
+		<property name="DB_SYS_USERNAME" value="${DB_SYS_USERNAME}"/>
+		<property name="DB_SYS_PASSWORD" value="${DB_SYS_PASSWORD}"/>
+		<property name="DB_URL" value="${URL}:${DB_CONNECT}"/>
+		<property name="install" value="${INSTALL_HOME}"/>
+		<property name="ROOT" value="${INSTALL_HOME}"/>
+		<property name="ORACLE_ROOT" value="${DEPLOY_HOME}/lib"/>
+		<available property="EDIATBLE_WAR" file="${DEPLOY_HOME}/war/web.xml"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- upload sql -->
+	<target name="do-sql" depends="read-props-oracle,read-props-postgresql,read-props-db2">
+		<echo message="Deploying SQL"/>
+		<delete quiet="true">
+			<fileset dir="${INSTALL_HOME}/sql" includes="*.temp, *.sql"/>
+		</delete>
+		<property name="TEST_SUFFIX" value=""/>
+		<ant antfile="${INSTALL_HOME}/sql/deploy-sql-${TEST_SUFFIX}app.xml"/>
+	</target>
+	<target name="build" depends="do-sql"/>
+</project>
+@

@@ -1,0 +1,183 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.45.58;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	xbuild.sh;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#!sh
+# 
+# XTRADE COMPONENT-BASED BUILD FRAMEOWRK
+# UNIVERSAL BUILD SCRIPT
+# Author: L.Charny
+# Date: 11/02/01
+# Revised: 08/29/02
+# 
+
+#ant-build environment
+ANT_BUILD=`pwd | sed -e 's#/cygdrive/#//#'`
+XTRADE_HOME=${ANT_BUILD}/../
+ANT_HOME=${XTRADE_HOME}/ant
+PATH=${ANT_HOME}/bin:${PATH}
+JIKES_HOME=${ANT_HOME}/bin
+
+export ANT_BUILD 
+export XTRADE_HOME
+export ANT_HOME
+export JIKES_HOME
+export JAVA_HOME
+
+COMPONENT=" "
+COMPONENT_FULL_TYPE=" "
+DOAPP=" "
+
+#  Component's home
+COMP_HOME=" "
+HOME=" "
+
+#  Build control
+BUILD=" "
+BUILD_FILE=" "
+LATEST=" "
+DOC=" "
+ZIPAPP=" "
+UNZIPAPP=" "
+
+#  Debug controls
+DEBUG=" "
+FULL_DEBUG=-quiet
+ECHOCMD=" "
+
+NOJAVA=${JAVA_HOME}
+
+if [ $# -eq 0 -o "$1" = "help" ]; then
+	echo " "
+	echo "***************************************************"
+	echo " "
+	echo "Usage:"
+	echo "    xbuild -core or -plugin or -app"
+	echo "           -b build or -latest or -bf build_file"
+	echo "           -h component_home_dir"
+	echo "           -fd"
+	echo "     where -fd is a full debug option"
+	echo " "
+	echo "***************************************************"
+	echo " "
+	exit
+fi
+
+if [ "${NOJAVA}" = " " ]; then
+	echo " "                                           
+	echo "***************************************************"
+	echo "You need to set-up JAVA_HOME environmental variable"
+	echo "   so that ${JAVA_HOME}/bin/java would sh the JVM"
+	echo "***************************************************"
+	echo " "
+	exit
+fi
+
+#get command-line arguments
+while [ $# -gt 0 ]
+do
+	if [ "$1" = "-core" ]; 	then  COMPONENT=core; fi
+	if [ "$1" = "-plugin" ];then  COMPONENT=plugin; fi
+	if [ "$1" = "-app" ]; 	then  COMPONENT=app; fi
+
+	if [ "$1" = "-b" ]; 	then  BUILD="-DBUILD=$2"; fi
+	if [ "$1" = "-bf" ]; 	then  BUILD_FILE="-DBUILD_FILE=$2"; fi
+	if [ "$1" = "-latest" ];then  LATEST="-DLATEST=1"; fi
+	if [ "$1" = "-doc" ];	then  DOC="-DDOC=1"; fi
+	if [ "$1" = "-zipapp" ];then  ZIPAPP="-DZIPAPP=1"; fi
+	if [ "$1" = "-unzipapp" ];then  UNZIPAPP="-DUNZIPAPP=1"; fi
+	
+	if [ "$1" = "-h" ]; 	then  COMP_HOME="-DCOMP_HOME=$2"; HOME="$2"; fi
+	
+	if [ "$1" = "-d" ]; 	then  DEBUG="-DDEBUG=1"; fi
+	if [ "$1" = "-fd" ]; 	then  FULL_DEBUG="-verbose -DDEBUG=1"; fi
+	if [ "$1" = "-echo" ]; 	then  ECHOCMD=1; fi
+
+    shift
+done
+
+# # # # # # # # # # # # # # # # # # # # # # 
+if [ "${COMP_HOME}" = " " -a "${COMPONENT}" != "core" ]; then
+  echo "Need to supply component's home directory: -h component_home_dir"
+  exit
+fi
+
+if [ "${COMPONENT}" = " " ]; then
+  echo "Need to supply component's type: -core or -plugin or -app"
+  exit
+fi
+
+if [ "${COMPONENT}" = "plugin" ]; then
+	COMPONENT_FULL_TYPE="PLUGIN" 
+	MAIN_ANT_FILE="-DMAIN_ANT_FILE=build-plugin.xml"
+	echo " "
+	echo "***************************************************"
+	echo "     BUILDING PLUGIN IN ${HOME}"
+	echo "***************************************************"
+	echo " "
+fi
+
+if [ "${COMPONENT}" = "app" ]; then
+	COMPONENT_FULL_TYPE="APPLICATION"
+	DOAPP="-DDOAPP=1"
+	MAIN_ANT_FILE="-DMAIN_ANT_FILE=build-app.xml"
+	echo " "
+	echo "***************************************************"
+	echo "     BUILDING APPLICATION IN ${HOME}"
+	echo "***************************************************"
+	echo " "
+fi
+
+if [ "${COMPONENT}" = "core" ]; then
+	COMPONENT_FULL_TYPE="CORE"
+	MAIN_ANT_FILE="-DMAIN_ANT_FILE=build-core.xml"
+	echo " "
+	echo "***************************************************"
+	echo "     BUILDING CORE"
+	echo "***************************************************"
+	echo " "
+fi
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # 
+#  Run build
+# # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+echo ...................................................
+echo ...................................................
+
+#  
+if [ "${ECHOCMD}" != " " ]; then 
+ echo "sh ${ANT_HOME}/bin/ant  -logger com.fitechlabs.ant.XLogger ${MAIN_ANT_FILE} ${BUILD} ${BUILD_FILE} ${LATEST} ${COMP_HOME} ${DEBUG} ${FULL_DEBUG} ${APP_HOME} ${DOAPP} ${ZIPAPP} ${UNZIPAPP}"
+fi
+ sh ${ANT_HOME}/bin/ant  -logger com.fitechlabs.ant.XLogger ${MAIN_ANT_FILE} ${BUILD} ${BUILD_FILE} ${LATEST} ${COMP_HOME} ${DEBUG} ${FULL_DEBUG} ${APP_HOME} ${DOAPP} -Dbuild.compiler=classic  ${ZIPAPP} ${UNZIPAPP}
+# 
+
+echo " "
+echo "..................................................."
+echo "     FINISHED BUILDING ${COMPONENT_FULL_TYPE}" 
+echo "..................................................."
+echo " "
+@

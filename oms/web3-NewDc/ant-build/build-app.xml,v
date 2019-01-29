@@ -1,0 +1,361 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.52;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-app.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by LC (R&D) -->
+<!-- ============================================ -->
+<!-- App build ANT file                           -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 11/30/2001                             -->
+<!-- ============================================ -->
+<project name="build-app" default="build">
+	<taskdef name="ExpandPluginsInfo" classname="com.fitechlabs.ant.ExpandPluginsInfo"/>
+	<taskdef name="WriteFile" classname="com.fitechlabs.ant.WriteFile"/>
+	<taskdef name="VerifyBases" classname="com.fitechlabs.ant.VerifyBases"/>
+	<property name="logdir" value="${XTRADE_HOME}/build-results/logs"/>
+	<taskdef name="VerifyProperties" classname="com.fitechlabs.ant.VerifyProperties"/>
+	<!-- ===================================================================== -->
+
+	<target	name="set-defaults-ABSPATH"	if="USE.ABSPATH" >
+		<property name="COMP_ABS_HOME" value="${COMP_HOME}"/>
+	</target>
+
+	<target	name="set-defaults-RELPATH"	unless="USE.ABSPATH" >
+		<property name="COMP_ABS_HOME" value="${XTRADE_HOME}${COMP_HOME}"/>
+	</target>
+
+	<target name="set-defaults"  depends="set-defaults-ABSPATH,set-defaults-RELPATH" >
+
+		<property name="COMP_TYPE" value="application"/>
+
+		<!--
+		<property name="COMP_ABS_HOME" value="${XTRADE_HOME}${COMP_HOME}"/>
+		-->
+
+		<property name="PLUGINS_ROOT" value="${XTRADE_HOME}"/>
+		<property name="PLUGINS" value="_bad_directory_"/>
+		<property name="COMP_PROPERTY_FILE" value="${COMP_ABS_HOME}/build/build.properties"/>
+		<property file="${COMP_PROPERTY_FILE}"/>
+		<property name="BUILD_FILE_NAME" value="${COMP_ABS_HOME}/build/official-build.properties"/>
+		<property name="install" value="${INSTALL_DIR_STEM}/${APP_NAME}"/>
+		<property name="working-token-file" value="${install}/incomplete"/>
+		<property name="PREBUILT_BASE" value="prebuilt"/>
+		<VerifyBases base="${XTRADE_HOME}/build-results" myname="${APP_NAME}" property="bad-base-plugins" plugins="${PLUGINS_NAMES}" basePrebuilt="${XTRADE_HOME}/${PREBUILT_BASE}"/>
+		<VerifyProperties propertyFileName="${COMP_PROPERTY_FILE}"/>
+		<ant antfile="verify_app_env.xml"/>
+		<delete dir="${install}" quiet="true"/>
+		<mkdir dir="${install}"/>
+		<WriteFile file="${working-token-file}"/>
+		<!--  fix UNIX CRLF -->
+		<fixcrlf srcdir="${COMP_ABS_HOME}" eol="lf" eof="remove" includes="**/*.sh"/>
+		<fixcrlf srcdir="${XTRADE_HOME}/ant" eol="lf" eof="remove" includes="**/*.sh, **/ant, **/antRun"/>
+		<fixcrlf srcdir="${XTRADE_HOME}/ant-build" eol="lf" eof="remove" includes="**/*.sh"/>
+		<fixcrlf srcdir="${XTRADE_HOME}/ant-build" eol="${OS_END_OF_LINE_SYMBOL}" includes="tables-plugin.xml"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="check-bases" if="bad-base-plugins" depends="set-defaults">
+		<fail message="Cannot build since ${bad-base-plugins} not properly built."/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- OFFICIAL BUILDER STUFF -->
+	<!-- ===================================================================== -->
+	<target name="set-official" if="OFFICIAL_BUILD" depends="check-bases">
+		<echo message="">
+ ===============================================
+ Official Build
+ ===============================================
+		</echo>
+		<!-- names -->
+		<property name="VSS_XTRADE_HOME" value="/xtrade"/>
+		<property file="${ANT_BUILD}/properties/${COMPUTER_NAME}-official-builder.properties"/>
+		<property name="VSS_COMP_ABS_HOME" value="${VSS_XTRADE_HOME}/${COMP_HOME}"/>
+		<property name="VSS_BUILD_FILE_NAME" value="${VSS_COMP_ABS_HOME}/build/official-build.properties"/>
+		<property name="VSS_BUILD_TOKEN_NAME" value="${VSS_COMP_ABS_HOME}/build/official-build-token"/>
+		<property name="BUILD_TOKEN_NAME" value="${COMP_ABS_HOME}/build/official-build-token"/>
+		<property name="VSS_LOGIN" value="${user.name}"/>
+		<property name="VSS_COMP_PROPERTY_FILE" value="${VSS_COMP_ABS_HOME}/build/build.properties"/>
+		<!-- get build token -->
+		<delete file="${BUILD_TOKEN_NAME}" quiet="true"/>
+		<echo message=" Getting build token"/>
+		<vssget vsspath="${VSS_BUILD_TOKEN_NAME}" ssdir="${VSS_DIR}" localPath="${COMP_ABS_HOME}/build" login="${VSS_LOGIN}"/>
+		<!-- delete build token -->
+		<echo message=" Locking official build"/>
+		<exec executable="cmd.exe" dir="${VSS_DIR}" output="${XTRADE_TEMP_DIR}/deltoken.txt">
+			<arg value="/c"/>
+			<arg value="ss"/>
+			<arg value="Remove"/>
+			<arg value="$$${VSS_BUILD_TOKEN_NAME}"/>
+			<arg value="-I-Y"/>
+			<arg value="-Y${VSS_LOGIN}"/>
+		</exec>
+		<!-- erasing earlier version -->
+		<echo message=" Erasing earlier versions"/>
+		<delete quiet="true">
+			<fileset dir="${COMP_ABS_HOME}" excludes="build/official-build-token"/>
+		</delete>
+		<!-- get property file -->
+		<echo message=" Getting property file"/>
+		<vssget vsspath="${VSS_COMP_PROPERTY_FILE}" ssdir="${VSS_DIR}" localPath="${COMP_ABS_HOME}/build" login="${VSS_LOGIN}" autoresponse="Y"/>
+		<property file="${COMP_PROPERTY_FILE}"/>
+		<!-- check out build file -->
+		<echo message=" Getting build record"/>
+		<vsscheckout vsspath="${VSS_BUILD_FILE_NAME}" localpath="${COMP_ABS_HOME}/build" ssdir="${VSS_DIR}" serverPath="${VSERVER_PATH}" recursive="false" login="${VSS_LOGIN}"/>
+		<!-- increment build number -->
+		<echo message=" Incrementing build number"/>
+		<propertyfile file="${BUILD_FILE_NAME}">
+			<entry key="BUILT_BY" value="${user.name}"/>
+			<entry key="BUILD" type="int" operation="+" value="1"/>
+		</propertyfile>
+		<!-- check build file in -->
+		<echo message=" Checking in build record"/>
+		<vsscheckin vsspath="${VSS_BUILD_FILE_NAME}" localpath="${COMP_ABS_HOME}/build" ssdir="${VSS_DIR}" serverPath="${VSERVER_PATH}" login="${VSS_LOGIN}" comment="Modified by automatic build"/>
+		<!-- read build number -->
+		<property file="${BUILD_FILE_NAME}"/>
+		<property name="build-label" value="${APP_NAME}-build-${BUILD}"/>
+		<!-- label current stuff -->
+		<echo message=" Labeling ${COMP_TYPE}: ${build-label}"/>
+		<exec executable="cmd.exe" dir="${VSS_DIR}" output="${XTRADE_TEMP_DIR}/label.txt">
+			<arg value="/c"/>
+			<arg value="ss"/>
+			<arg value="Label"/>
+			<arg value="$$${VSS_COMP_ABS_HOME}"/>
+			<arg value="-C-"/>
+			<arg value="-I-"/>
+			<arg value="-L${build-label}"/>
+			<arg value="-Y${VSS_LOGIN}"/>
+		</exec>
+		<!-- get labeled stuff -->
+		<echo message=" Getting ${COMP_TYPE} sources for build ${BUILD}"/>
+		<vssget vsspath="${VSS_COMP_ABS_HOME}" ssdir="${VSS_DIR}" localPath="${COMP_ABS_HOME}" recursive="true" label="${build-label}" login="${VSS_LOGIN}"/>
+		<echo message=" Got all sources for build ${BUILD}"/>
+		<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+		<property name="REPORTED_BUILD" value="${BUILD}"/>
+		<property name="LATEST" value="true"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- END OF OFFICIAL BUILDER STUFF -->
+	<!-- ===================================================================== -->
+	<!--                                                                       -->
+	<!-- ===================================================================== -->
+	<!-- read property file -->
+	<target name="read-properties" depends="set-official">
+		<property file="${COMP_PROPERTY_FILE}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read build number -->
+	<target name="read-build-number" depends="read-properties" if="LATEST">
+		<property file="${BUILD_FILE_NAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-build2" unless="BUILD" depends="read-build-number">
+		<property name="BUILD" value="${TIME_XX}"/>
+		<property name="REPORTED_VERSION" value="Build ${BUILD}"/>
+		<property name="LATEST" value="true"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-app-def" depends="set-build2">
+		<property file="${COMP_PROPERTY_FILE}"/>
+		<!-- expand plugins definitions -->
+		<ExpandPluginsInfo plugins="${PLUGINS_NAMES}" file="${TEMP_PROPERTY_FILE}" myname="${APP_NAME}" prebuiltBase="${PREBUILT_BASE}"/>
+		<property file="${TEMP_PROPERTY_FILE}"/>
+		<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+		<property name="REPORTED_BUILD" value="${BUILD}"/>
+		<echo message="">
+ Assembling Application ${APP_NAME}:
+ ${REPORTED_VERSION}
+		</echo>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- set suffix -->
+	<target name="set-suffix" depends="set-app-def" unless="LATEST">
+		<property name="SUFFIX" value="${APP_NAME}.${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD}"/>
+		<property name="VERSION_SUFFIX" value="${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD}"/>
+		<property name="REPORTED_VERSION" value="Major Version ${MAJOR_VERSION} Minor Version ${MINOR_VERSION} Build ${BUILD}"/>
+	</target>
+	<target name="set-suffix2" depends="set-suffix" if="LATEST">
+		<property name="SUFFIX" value="${APP_NAME}.${BUILD}"/>
+		<property name="VERSION_SUFFIX" value="${BUILD}"/>
+		<property name="REPORTED_VERSION" value="Latest Version"/>
+		<property name="VSUFFIX" value="${BUILD}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- init build -->
+	<!-- define basic global properties -->
+	<target name="init" depends="set-suffix2">
+		<property name="VSUFFIX" value="${MAJOR_VERSION}.${MINOR_VERSION}.${BUILD}"/>
+		<property name="COMP_NAME" value="${APP_NAME}.${VSUFFIX}"/>
+		<property name="COMP_NAME_SHORT" value="${APP_NAME}"/>
+		<property name="install" value="${INSTALL_DIR_STEM}/${SUFFIX}"/>
+		<!-- verification directories -->
+		<property name="instal-test-sql-dir" value="${install}/sql"/>
+		<property name="instal-test-xml-dir" value="${install}/xml"/>
+		<!-- xml db initialization directory -->
+		<property name="instal-initdb-xml-dir" value="${install}/xml"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!-- separate app     -->
+	<target name="separate-app" depends="init">
+		<ant antfile="${ANT_BUILD}/separate-app.xml"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!-- war app     -->
+	<target name="war-app" depends="separate-app">
+		<!-- war app      -->
+		<property name="WAR_JARS" value="*"/>
+		<property name="WAR_LIBS" value="log4*"/>
+		<property name="WAR_PROPERTIES" value="*"/>
+		<property name="WARNAME" value="${APP_NAME}.${BUILD}.war"/>
+		<WriteFile file="${install}/war/warname.txt" line="WARNAME=${WARNAME}"/>
+		<war warfile="${install}/war/${WARNAME}" webxml="${COMP_ABS_HOME}/${WEBXML}">
+			<classes dir="${install}/properties" includes="${WAR_PROPERTIES}"/>
+			<lib dir="${install}/lib" includes="${WAR_LIBS}"/>
+			<lib dir="${install}/jars" includes="${WAR_JARS}"/>
+			<fileset dir="${install}/jsp" includes="*"/>
+		</war>
+		<!-- update manifest -->
+		<ant antfile="${ANT_BUILD}/update-manifest.xml">
+			<property name="M_COMP_NAME" value="${APP_NAME}'s WAR FILE"/>
+			<property name="M_TYPE" value="WAR"/>
+			<property name="M_FILENAME" value="${WARNAME}"/>
+			<property name="M_NOTE" value="${DATABASE} version"/>
+			<property name="M_WAR" value="true"/>
+			<property name="M_WEBXML" value="${COMP_ABS_HOME}/${WEBXML}"/>
+			<property name="M_FILE" value="${install}/war/${WARNAME}"/>
+		</ant>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- add editable xml capability -->
+	<target name="add-xml" depends="war-app" if="EDITABLE_XML">
+		<copy file="${COMP_ABS_HOME}/${WEBXML}" tofile="${install}/war/web.xml"/>
+		<move file="${install}/war/${WARNAME}" tofile="${install}/war/UNCONFIGURED.${WARNAME}"/>
+		<copy file="${XTRADE_HOME}/ant-build/configure-app.bat" tofile="${install}/configure-${COMP_NAME_SHORT}.bat" overwrite="yes"/>
+		<copy file="${XTRADE_HOME}/ant-build/configure-app.sh" tofile="${install}/configure-${COMP_NAME_SHORT}.sh" overwrite="yes"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!--set zip app     -->
+	<target name="set-zip-app" depends="add-xml">
+		<!-- zip app      -->
+		<property name="FUNC" value="${COMP_NAME_SHORT}.${VSUFFIX}_app"/>
+		<property name="VERIF" value="${COMP_NAME_SHORT}.${VSUFFIX}_ver"/>
+		<property name="APPL" value="${COMP_NAME_SHORT}.${VSUFFIX}"/>
+		<property name="zipfile-fc" value="${install}/zip/${FUNC}.zip"/>
+		<property name="zipfile-tc" value="${install}/zip/${VERIF}.zip"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!-- zip app     -->
+	<target name="zip-app" depends="set-zip-app" if="ZIPAPP">
+		<!-- zip app      -->
+		<property name="FUNC" value="${COMP_NAME_SHORT}.${VSUFFIX}_app"/>
+		<property name="VERIF" value="${COMP_NAME_SHORT}.${VSUFFIX}_ver"/>
+		<property name="APPL" value="${COMP_NAME_SHORT}.${VSUFFIX}"/>
+		<property name="zipfile-fc" value="${install}/zip/${FUNC}.zip"/>
+		<property name="zipfile-tc" value="${install}/zip/${VERIF}.zip"/>
+		<ant antfile="${ANT_BUILD}/zip-plugin.xml"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!-- instead of zip app: replace some tags    -->
+	<target name="no-zip-app" depends="zip-app" unless="ZIPAPP">
+		<property name="testdb.bat" value="testdb-${COMP_NAME_SHORT}.bat"/>
+		<property name="testdb.sh" value="testdb-${COMP_NAME_SHORT}.sh"/>
+		<property name="testxml.bat" value="test-${COMP_NAME_SHORT}-xml.bat"/>
+		<property name="testxml.sh" value="test-${COMP_NAME_SHORT}-xml.sh"/>
+		<replace dir="${install}" token="..\%APPLICATION_HOME%\" value="" includes="${testdb.bat}, ${testxml.bat}"/>
+		<replace dir="${install}" token="/../%APPLICATION_HOME%" value="" includes="${testdb.sh}, ${testxml.sh}"/>
+		<replace dir="${install}" token="%SQL_FILE_ENCODING%" value="${SQL_FILE_ENCODING}" includes="${testdb.bat}, ${testdb.sh}"/>
+	</target>
+	<!-- unzip app component -->
+	<!-- ******************************************************************************** -->
+	<target name="unzip-app" depends="no-zip-app" if="UNZIPAPP">
+		<!-- unzip the app -->
+		<echo message=" Installing Functional Component"/>
+		<unzip src="${zipfile-fc}" dest="${XTRADE_HOME}/build-results"/>
+		<property name="application-dir" value="${XTRADE_HOME}/build-results/${FUNC}"/>
+		<available property="zipfile-tc-available" file="${zipfile-tc}"/>
+	</target>
+	<!-- unzip verification component -->
+	<!-- ******************************************************************************** -->
+	<target name="unzip-verification" depends="unzip-app" if="zipfile-tc-available">
+		<echo message=" Installing Verification Component"/>
+		<unzip src="${zipfile-tc}" dest="${XTRADE_HOME}/build-results"/>
+		<property name="verification-dir" value="${XTRADE_HOME}/build-results/${VERIF}"/>
+	</target>
+	<!-- createdb-available -->
+	<!-- ******************************************************************************** -->
+	<target name="createdb-available" depends="unzip-verification" if="MACHINE_DB_PROPERTIES_OK__VOID__">
+		<property name="createdb.bat" value="${application-dir}/createdb-${COMP_NAME_SHORT}.bat"/>
+		<available property="createdb-available" file="${createdb.bat}"/>
+	</target>
+	<!-- testdb-available -->
+	<!-- ******************************************************************************** -->
+	<target name="testdb-available" depends="createdb-available" if="MACHINE_DB_PROPERTIES_OK__VOID__">
+		<property name="testdb.bat" value="${verification-dir}/testdb-${COMP_NAME_SHORT}.bat"/>
+		<available property="testdb-available" file="${testdb.bat}"/>
+	</target>
+	<!-- ========== -->
+	<!-- install db -->
+	<!-- ========== -->
+	<!-- ******************************************************************************** -->
+	<target name="create-db" depends="testdb-available" if="testdb-available">
+		<property name="createdblog" value="${logdir}/createdb-${TIME_XX}.txt"/>
+		<echo message="">
+ Creating db in ${application-dir}
+ Sending results to ${createdblog}
+		</echo>
+		<exec dir="${application-dir}" executable="cmd.exe" output="${createdblog}">
+			<arg value="/c"/>
+			<arg value="${createdb.bat}"/>
+		</exec>
+	</target>
+	<!-- ========== -->
+	<!-- test    db -->
+	<!-- ========== -->
+	<!-- ******************************************************************************** -->
+	<target name="test-db" depends="create-db" if="testdb-available">
+		<property name="testdblog" value="${logdir}/testdb-${TIME_XX}.txt"/>
+		<echo message="">
+ Loading test data in ${verification-dir}
+ Sending results to ${testdblog}
+		</echo>
+		<exec dir="${verification-dir}" executable="cmd.exe" output="${testdblog}">
+			<arg value="/c"/>
+			<arg value="${testdb.bat}"/>
+		</exec>
+	</target>
+	<!-- mail the results -->
+	<!-- ******************************************************************************** -->
+	<target name="mail" depends="test-db" if="MAILSERVER__VOID__">
+		<mail from="${FROM_ACCOUNT}" tolist="${MAIL_RECEPIENTS}" subject="Results of ${COMP_NAME_SHORT}-build.${VSUFFIX} data base runs" mailhost="${MAILSERVER}" files="${createdblog},${testdblog}"/>
+	</target>
+	<!-- ========= -->
+	<!-- build all -->
+	<!-- ========= -->
+	<!-- ******************************************************************************** -->
+	<target name="build" depends="mail">
+		<delete file="${working-token-file}" quiet="true"/>
+	</target>
+</project>
+@

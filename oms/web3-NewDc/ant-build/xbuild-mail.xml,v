@@ -1,0 +1,66 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.23;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	xbuild-mail.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- xbuild-mail ANT file                         -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 12/03/2001                             -->
+<!-- ============================================ -->
+<project name="xbuild-mail" default="mail" basedir=".">
+	<target name="build">
+		<echo message=" Starting build in ${HOME}"/>
+		<property name="xbuildout" value="${XTRADE_TEMP_DIR}/xbuild.txt"/>
+		<exec dir="." executable="cmd.exe" output="${xbuildout}">
+			<arg value="/c"/>
+			<arg value="xbuild.bat"/>
+			<arg line="${ARGS}"/>
+		</exec>
+		<property file="${XTRADE_HOME}/${HOME}/build/build.properties"/>
+		<property file="${XTRADE_HOME}/${HOME}/build/official-build.properties"/>
+		<property name="BUILD" value="n/a (build errors)"/>
+		<property name="MAJOR_VERSION" value="n/a (build errors)"/>
+		<property name="MINOR_VERSION" value="n/a (build errors)"/>
+		<echo message="">
+ Finished build ${BUILD} of component in ${HOME}.
+ Major Version ${MAJOR_VERSION}. Minor Version ${MINOR_VERSION}.
+		</echo>
+	</target>
+	<!--
+	<target name="mail" depends="build" if="BUILD_TYPE"> 
+-->
+	<target name="mail" depends="build">
+		<!-- mail the results -->
+		<property name="BUILD_TYPE" value="Local"/>
+		<!-- builder properties -->
+		<property file="${ANT_BUILD}/properties/${COMPUTER_NAME}-official-builder.properties"/>
+		<!-- component properties -->
+		<property file="${XTRADE_HOME}${HOME}/build/official-build.properties"/>
+		<mail from="${FROM_ACCOUNT}" tolist="${MAIL_RECEPIENTS}" subject="${BUILD_TYPE} build results for ${HOME} - build ${BUILD}" mailhost="${MAILSERVER}" files="${xbuildout}"/>
+	</target>
+</project>
+@

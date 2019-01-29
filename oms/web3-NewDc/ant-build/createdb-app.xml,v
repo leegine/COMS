@@ -1,0 +1,125 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.46.03;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	createdb-app.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Add/remove tables for a Plugin ANT file      -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/24/2001                             -->
+<!--                                              -->
+<!-- This script is run in the plugin application -->
+<!--    installation area                         -->
+<!--                                              -->
+<!-- Optional Input Properties:                   -->
+<!--    UNPACK - unpacking flag                   -->
+<!--    INSTALL_HOME - installation HOME          -->
+<!-- ============================================ -->
+<project name="createdb-app" default="build" basedir=".">
+	<taskdef name="CreateDeplymentFile" classname="com.fitechlabs.ant.CreateDeplymentFile"/>
+	<property name="APP_NAME_FILE" value="${DEPLOY_HOME}/deployment/app_name.txt"/>
+	<!-- ===================================================================== -->
+	<!-- ============================== -->
+	<!-- check pre-set properties       -->
+	<!-- ============================== -->
+	<!-- ===================================================================== -->
+	<!-- ******************************************************************************** -->
+	<!-- determine the os type -->
+	<target name="set-props">
+		<path id="classpath-all">
+			<fileset dir="${DEPLOY_HOME}">
+				<include name="lib/*.jar"/>
+				<include name="lib/*.zip"/>
+			</fileset>
+		</path>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-windows" if="WINDOWS-OS" depends="set-props">
+		<!--		<pathconvert targetos="windows" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="windows" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.COMPUTERNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to unix -->
+	<target name="set-unix" if="UNIX-OS" depends="set-props">
+		<!--		<pathconvert targetos="unix" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="unix" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.HOSTNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to a specific op system -->
+	<target name="set-os-env" depends="set-windows, set-unix">
+		<available property="IS_APPLICATION" file="${APP_NAME_FILE}"/>
+	</target>
+	<!-- read this plugin's/app's name -->
+	<target name="get-name" depends="set-os-env" if="IS_APPLICATION">
+		<property file="${APP_NAME_FILE}"/>
+	</target>
+	<target name="get-name2" depends="get-name" unless="IS_APPLICATION">
+		<property file="${INSTALL_HOME}/deployment/myname.txt"/>
+	</target>
+	<target name="readdb-prop" depends="get-name2" if="DEPLOY_HOME">
+		<property file="${DEPLOY_HOME}/${SUFFIX}-DB.properties"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read and verify all properties and report them -->
+	<target name="verify-env" depends="get-name2" if="DEBUG">
+		<echo message="">
+ ===============================================
+ Properties:
+ ===============================================
+ CLASSPATH=${CLASSPATH}
+ ===============================================
+		</echo>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- set property file name -->
+	<target name="set-prop-file-name" depends="verify-env">
+		<property name="DB_PROPERTY_FILE" value="${DEPLOY_HOME}/createdb-${SUFFIX}.properties"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read properties file -->
+	<target name="read-props" depends="set-prop-file-name">
+		<echo message="Reading db properties"/>
+		<property file="${DB_PROPERTY_FILE}"/>
+		<!-- change war deployment descrtiptor file -->
+		<property name="DB_DRIVER" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="URL" value="jdbc:oracle:thin"/>
+		<property name="DB_CONNECT" value="${DB_USERNAME}/${DB_PASSWORD}@@${DB_HOST}:${DB_PORT_NUMBER}:${DB_SID}"/>
+		<property name="DB_URL" value="${URL}:${DB_CONNECT}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="dotables" depends="read-props">
+		<property name="install" value="${INSTALL_HOME}"/>
+		<property name="ROOT" value="${INSTALL_HOME}"/>
+		<property name="ORACLE_ROOT" value="${DEPLOY_HOME}/lib"/>
+		<echo message="Deploying SQL"/>
+		<ant antfile="${INSTALL_HOME}/sql/deploy-sql-app.xml"/>
+	</target>
+	<target name="build" depends="dotables"/>
+</project>
+@

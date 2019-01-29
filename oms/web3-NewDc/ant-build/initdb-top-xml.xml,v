@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.48.51;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	initdb-top-xml.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Test XML ANT file                            -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 11/16/2001                             -->
+<!-- ============================================ -->
+<project name="initdb-top-xml" default="build" basedir=".">
+	<target name="build">
+		<property file="${DEPLOY_HOME}/deployment/app_name.txt"/>
+		<property file="${DEPLOY_HOME}/${SUFFIX}-web.properties"/>
+		<echo message=" Running INITDB XML script"/>
+		<ant antfile="${DEPLOY_HOME}/xml/initdb-xml-app.xml"/>
+		<echo message="Completed initdb.  Output in file ${OUTFILE}"/>
+	</target>
+</project>
+@

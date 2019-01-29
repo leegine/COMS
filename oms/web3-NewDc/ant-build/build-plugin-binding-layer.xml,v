@@ -1,0 +1,89 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.02;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-plugin-binding-layer.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Build Plugin Binding Layer ANT file          -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/04/2001                             -->
+<!-- ============================================ -->
+<project name="build-plugin-binding-layer" default="build" basedir=".">
+	<!-- ******************************************************************************** -->
+	<!--  init properties -->
+	<target name="set-oracle-codegen-file" if="is-oracle" unless="DEBUG1">
+		<property name="CODEGEN_FILE" value="${XTRADE_HOME}/core/codegen/codegen-core.properties"/>
+	</target>
+	<target name="set-postgresql-codegen-file" if="is-postgensql" unless="DEBUG1">
+		<property name="CODEGEN_FILE" value="${XTRADE_HOME}/core/codegen-postgresql/codegen-core.properties"/>
+	</target>
+	<target name="set-db2-codegen-file" if="is-db2" unless="DEBUG1">
+		<property name="CODEGEN_FILE" value="${XTRADE_HOME}/core/codegen-db2/codegen-core.properties"/>
+	</target>
+	<!--  init properties -->
+	<target name="init">
+		<property file="${CODEGEN_FILE}"/>
+		<!--  derived paths -->
+		<property name="CLASSES_PATH" value="${dev}/../temp/classes_ant"/>
+		<property name="PACKAGE_DIR" value="${pkg}"/>
+		<property name="PACKAGE_PATH" value="${sql}/${PACKAGE_DIR}"/>
+		<!-- generator program and arguments -->
+		<property name="GEN_ARGS" value="-mx200m -ms200m"/>
+		<property name="GEN_CLASS" value="com.fitechlabs.dbind.gen.GenInterfaces"/>
+		<property name="GEN_IMPLS" value="com.fitechlabs.dbind.jdbc.gen.GenJdbcImpl"/>
+		<!--- TOKENS from other dependencies -->
+		<property name="INTERFACES_TOKEN" value="interfaces.token"/>
+	</target>
+	<!-- ******************************************************************************** -->
+	<!--  report path -->
+	<target name="report" depends="init" if="DEBUG">
+		<echo message="">
+===============================================
+Building binding layer:
+===============================================
+CLASSES_PATH=${CLASSES_PATH}
+PACKAGE_DIR=${PACKAGE_DIR}
+PACKAGE_PATH=${PACKAGE_PATH}
+GEN_ARGS=${GEN_ARGS}
+GEN_CLASS=${GEN_CLASS}
+GEN_IMPLS=${GEN_IMPLS}
+INTERFACES_TOKEN=${INTERFACES_TOKEN}
+===============================================
+		</echo>
+	</target>
+	<!-- ******************************************************************************** 			<jvmarg value="${GEN_ARGS}"/>
+-->
+	<target name="build" depends="report" if="CODEGEN_FILE">
+		<java classname="${GEN_CLASS}" fork="true">
+			<arg value="${CODEGEN_FILE}"/>
+			<arg value="-dir"/>
+			<arg value="${COMP_ABS_HOME}"/>
+			<classpath path="${CLASSPATH}"/>
+		</java>
+	</target>
+</project>
+@

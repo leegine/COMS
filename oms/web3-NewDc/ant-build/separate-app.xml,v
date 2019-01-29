@@ -1,0 +1,336 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.48.13;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	separate-app.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Separate app   ANT file                      -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/26/2001                             -->
+<!-- ============================================ -->
+<project name="install-app" default="build" basedir=".">
+	<taskdef name="WriteFile" classname="com.fitechlabs.ant.WriteFile"/>
+	<taskdef name="CreateDeplymentFile" classname="com.fitechlabs.ant.CreateDeplymentFile"/>
+	<taskdef name="WriteDirectoryToken" classname="com.fitechlabs.ant.WriteDirectoryToken"/>
+	<taskdef name="CopyConcat" classname="com.fitechlabs.ant.CopyConcat"/>
+	<taskdef name="CreateUnFile" classname="com.fitechlabs.ant.CreateUnFile"/>
+	<property name="app-test-sql-dir" value="${COMP_ABS_HOME}/test/sql"/>
+	<property name="app-test-xml-dir" value="${COMP_ABS_HOME}/test/xml"/>
+	<property name="app-initdb-xml-dir" value="${COMP_ABS_HOME}/xml"/>
+
+	<property name="SQL_FILE_ENCODING" value="ASCII"/>
+	<!-- default libs/zip to include in the functional zip -->
+	<property name="ZIP_LIBS" value="aurora*,oracle*,translator* "/>
+	<!-- copy jar files -->
+	<!-- ========================= -->
+	<!-- Check target database     -->
+	<!-- ========================= -->
+	<target name="check-target-database">
+	  <condition property="is-oracle">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="oracle" />
+	    </and>
+	  </condition>
+	  <condition property="is-postgresql">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="postgresql" />
+	    </and>
+	  </condition>
+	  <condition property="is-db2">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="db2" />
+	    </and>
+	  </condition>
+	</target>
+	<target name="init-oracle" if="is-oracle" depends="check-target-database" unless="DEBUG1">
+		<property name="app-sql-dir" value="${COMP_ABS_HOME}/sql"/>
+		<property name="DB_PROPERTIES" value="XTRADE-DB.properties"/>
+		<property name="DB_BAT" value="createdb-app"/>
+	</target>
+	<target name="init-postgresql" if="is-postgresql" depends="check-target-database" unless="DEBUG1">
+		<property name="app-sql-dir" value="${COMP_ABS_HOME}/sql-${DATABASE}"/>
+		<property name="DB_PROPERTIES" value="XTRADE-DB-POSTGRESQL.properties"/>
+		<property name="DB_BAT" value="createdb-app-${DATABASE}"/>
+	</target>
+	<target name="init-db2" if="is-db2" depends="check-target-database" unless="DEBUG1">
+		<property name="app-sql-dir" value="${COMP_ABS_HOME}/sql-${DATABASE}"/>
+		<property name="DB_PROPERTIES" value="XTRADE-DB-DB2.properties"/>
+		<property name="DB_BAT" value="createdb-app-${DATABASE}"/>
+	</target>
+
+	<target name="install" depends="init-oracle,init-postgresql,init-db2">
+		<property name="DEPLOY-EXT" value="dd.txt"/>
+		<mkdir dir="${install}/deployment"/>
+		<mkdir dir="${install}/sql"/>
+		<!--
+		<mkdir dir="${install}/test/sql"/>
+		<mkdir dir="${install}/test/xml"/>
+-->
+		<mkdir dir="${install}/xml"/>
+		<mkdir dir="${install}/properties"/>
+		<mkdir dir="${install}/lib"/>
+		<mkdir dir="${install}/jars"/>
+		<mkdir dir="${install}/jsp"/>
+		<mkdir dir="${install}/src"/>
+		<mkdir dir="${install}/war"/>
+		<mkdir dir="${install}/zip"/>
+		<!-- app sql properties -->
+		<WriteDirectoryToken dir="${app-sql-dir}" token="nonempty"/>
+		<available property="app-sql-needed" file="${app-sql-dir}/nonempty"/>
+		<delete file="${app-sql-dir}/nonempty" quiet="yes"/>
+		<!-- copy properties -->
+		<property name="app-temp-prop" value="${XTRADE_HOME}/build-results/temp/properties"/>
+		<mkdir dir="${app-temp-prop}"/>
+		<copy todir="${app-temp-prop}" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="properties/*.properties"/>
+		</copy>
+		<CopyConcat baseDir="${XTRADE_HOME}/build-results" dirs="${PLUGINS_NAMES}, temp" subDir="properties" extension="properties" todir="${install}/properties" oneliner="${ANT_BUILD}/oneliner"/>
+		<delete dir="${app-temp-prop}" quiet="true"/>
+		<!-- copy source files -->
+		<copy todir="${install}/src" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_SRC}"/>
+		</copy>
+		<!-- copy lib files -->
+		<property name="EXCLUDE_LIBS" value="dont_delete_anything"/>
+		<copy todir="${install}/lib" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_LIB}"/>
+			<!--
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_JAR}"/>
+-->
+		</copy>
+		<delete quiet="true">
+			<fileset dir="${install}/lib" includes="${EXCLUDE_LIBS}"/>
+		</delete>
+		<!-- copy sql files -->
+		<property name="EXCLUDE_SQLS" value="dont_delete_anything"/>
+		<copy todir="${install}/sql" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_SQL}"/>
+		</copy>
+		<delete quiet="true">
+			<fileset dir="${install}/sql" includes="${EXCLUDE_SQLS}"/>
+		</delete>
+		<!-- copy other test files -->
+		<copy todir="${install}/sql" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_TEST_SQL}"/>
+		</copy>
+		<copy todir="${install}/xml" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_TEST_XML}"/>
+		</copy>
+		<copy todir="${install}/deployment" flatten="true">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_DEPL}"/>
+		</copy>
+		<copy todir="${install}/jars" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_JAR}"/>
+		</copy>
+		<copy todir="${install}/jsp" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_JSP}"/>
+		</copy>
+		<delete file="${app-test-sql-dir}/nonempty" quiet="true"/>
+		<delete file="${app-test-xml-dir}/nonempty" quiet="true"/>
+		<delete file="${app-initdb-xml-dir}/nonempty" quiet="true"/>
+		<WriteDirectoryToken dir="${app-test-sql-dir}" token="nonempty"/>
+		<WriteDirectoryToken dir="${app-test-xml-dir}" token="nonempty"/>
+		<WriteDirectoryToken dir="${app-initdb-xml-dir}" token="nonempty"/>
+		<available property="app-test-sql-needed" file="${app-test-sql-dir}/nonempty"/>
+		<available property="app-test-xml-needed" file="${app-test-xml-dir}/nonempty"/>
+		<available property="app-xml-initdb-needed" file="${app-initdb-xml-dir}/nonempty"/>
+		<delete file="${app-test-sql-dir}/nonempty" quiet="true"/>
+		<delete file="${app-test-xml-dir}/nonempty" quiet="true"/>
+		<delete file="${app-initdb-xml-dir}/nonempty" quiet="true"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- app sql files -->
+	<target name="install-app-sql" depends="install" if="app-sql-needed">
+		<property name="sql-zip-name" value="${install}/sql/sql-${APP_NAME}.zip"/>
+		<zip zipfile="${sql-zip-name}" update="yes">
+			<zipfileset dir="${app-sql-dir}" includes="*.sql, *.xml, *.class, *.zip" excludes="${sql-zip-name}"/>
+		</zip>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- app sql test files -->
+	<target name="install-app-sql-test" depends="install-app-sql" if="app-test-sql-needed">
+		<zip zipfile="${instal-test-sql-dir}/sql-test-${APP_NAME}.zip" update="yes">
+			<zipfileset dir="${app-test-sql-dir}" includes="**" excludes="*.zip"/>
+		</zip>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- xml test deployment file -->
+	<target name="install-app-xml-test" depends="install-app-sql-test" if="app-test-xml-needed">
+		<zip zipfile="${instal-test-xml-dir}/xml-test-${APP_NAME}.zip" update="yes">
+			<zipfileset dir="${app-test-xml-dir}" includes="**" excludes="*.zip"/>
+		</zip>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- copy -->
+	<target name="copy" depends="install-app-xml-test">
+		<!-- create sql deployment file -->
+		<echo message=" Creating SQL deployment scripts"/>
+		<WriteFile file="${install}/deployment/app_name.txt" line="SUFFIX=${APP_NAME}"/>
+		<WriteFile file="${install}/deployment/myname.txt" line="SUFFIX=${SUFFIX}"/>
+		<WriteFile file="${install}/deployment/version.txt" line="VERSION_SUFFIX=${VERSION_SUFFIX}"/>
+		<CreateDeplymentFile deploymentDir="${install}/deployment" sql="true" extension="dd.txt" appNameFile="app_name.txt" deploymentOrderFile="${install}/deployment/orderSQL.txt" xmlFile="${install}/sql/deploy-sql-app.xml"/>
+		<!-- copy sql generation files -->
+		<property name="dbprop-file" value="${install}/createdb-${COMP_NAME_SHORT}.properties"/>
+		<property name="createdb" value="${install}/createdb-${COMP_NAME_SHORT}"/>
+		<copy file="${XTRADE_HOME}/ant-build/${DB_BAT}.bat" tofile="${createdb}.bat" overwrite="yes"/>
+		
+		<copy file="${XTRADE_HOME}/ant-build/${DB_BAT}.sh" tofile="${createdb}.sh" overwrite="yes"/>
+		<replace file="${createdb}.bat" token="%SQL_FILE_ENCODING%" value="${SQL_FILE_ENCODING}"/>
+		<replace file="${createdb}.sh" token="%SQL_FILE_ENCODING%" value="${SQL_FILE_ENCODING}"/>
+		<copy file="${XTRADE_HOME}/ant-build/deploytomcat.bat" tofile="${install}/deploy-tomcat-${COMP_NAME_SHORT}.UNCONFIGURED.bat" overwrite="yes"/>
+		<copy file="${XTRADE_HOME}/ant-build/properties/XTRADE-TOMCAT.properties" tofile="${install}/deploy-tomcat-${COMP_NAME_SHORT}.properties" overwrite="yes"/>
+		<!--
+		<copy file="${XTRADE_HOME}/ant-build/deploy-app-sql.sh" tofile="${install}/createdb-${COMP_NAME_SHORT}.sh" overwrite="yes"/>
+-->
+
+		<copy file="${XTRADE_HOME}/ant-build/properties/${DB_PROPERTIES}" tofile="${dbprop-file}" overwrite="yes"/>
+
+		<replace file="${dbprop-file}" token="%PLUGIN%" value="${COMP_NAME_SHORT}"/>
+		<WriteDirectoryToken dir="${instal-test-sql-dir}" token="nonempty"/>
+		<WriteDirectoryToken dir="${instal-test-xml-dir}" token="nonempty"/>
+		<WriteDirectoryToken dir="${instal-initdb-xml-dir}" token="nonempty"/>
+		<available property="test-sql-needed" file="${instal-test-sql-dir}/nonempty"/>
+		<available property="test-xml-needed" file="${instal-test-xml-dir}/nonempty"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- sql test deployment file -->
+	<target name="create-sql-test-deployment-file" depends="copy" if="test-sql-needed">
+		<echo message=" Creating SQL test scripts"/>
+		<CreateDeplymentFile deploymentDir="${install}/deployment" sql="true" extension="dd.txt" appNameFile="app_name.txt" xmlFile="${instal-test-sql-dir}/deploy-sql-test-app.xml" isTest="true"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- xml test deployment file -->
+	<target name="create-xml-test-deployment-file" depends="create-sql-test-deployment-file" if="test-xml-needed">
+		<echo message=" Creating XML test scripts"/>
+		<CreateDeplymentFile deploymentDir="${install}/deployment" extension="dd.txt" appNameFile="app_name.txt" deploymentOrderFile="${install}/deployment/orderXML.txt" xml="true" xmlFile="${instal-test-xml-dir}/test-xml-app.xml" isTest="true"/>
+		<copy file="${XTRADE_HOME}/ant-build/test-app-xml.bat" tofile="${install}/test-${COMP_NAME_SHORT}-xml.bat" overwrite="yes"/>
+		<copy file="${XTRADE_HOME}/ant-build/test-app-xml.sh" tofile="${install}/test-${COMP_NAME_SHORT}-xml.sh" overwrite="yes"/>
+		<copy file="${XTRADE_HOME}/ant-build/properties/XTRADE-WEB.properties" tofile="${install}/${COMP_NAME_SHORT}-web.properties" overwrite="yes"/>
+		<replace file="${install}/${COMP_NAME_SHORT}-web.properties" token="%APPNAME%" value="${SUFFIX}"/>
+		<replace file="${install}/test-${COMP_NAME_SHORT}-xml.bat" token="%APPNAME%" value="${APP_NAME}"/>
+		<replace file="${install}/test-${COMP_NAME_SHORT}-xml.sh" token="%APPNAME%" value="${APP_NAME}"/>
+		<replace file="${install}/${COMP_NAME_SHORT}-web.properties" token="%APP_SERVER%" value="${APP_SERVER}"/>
+		<property name="web-properties-needed" value="true"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- xml initdb file -->
+	<target name="xml-initdb-file" depends="create-xml-test-deployment-file" if="app-xml-initdb-needed">
+		<zip zipfile="${install}/xml/xml-initdb-${APP_NAME}.zip" update="yes">
+			<zipfileset dir="${app-initdb-xml-dir}" includes="*.xml"/>
+		</zip>
+		<copy file="${XTRADE_HOME}/ant-build/initdb-xml.bat" tofile="${install}/xml-initdb-${COMP_NAME_SHORT}.bat" overwrite="yes"/>
+		<copy file="${XTRADE_HOME}/ant-build/initdb-xml.sh" tofile="${install}/xml-initdb-${COMP_NAME_SHORT}.sh" overwrite="yes"/>
+		<!--	
+		<replace file="${install}/xml-initdb-${COMP_NAME_SHORT}.bat" token="xtrade.jar" value="${COMP_NAME_SHORT}.jar"/>
+		<replace file="${install}/xml-initdb-${COMP_NAME_SHORT}.sh" token="xtrade.jar" value="${COMP_NAME_SHORT}.jar"/>
+-->
+		<copy file="${XTRADE_HOME}/ant-build/initdb-xml-app.xml" tofile="${install}/xml/initdb-xml-app.xml" overwrite="yes"/>
+		<replace file="${install}/xml/initdb-xml-app.xml" token="%APPNAME%" value="${APP_NAME}"/>
+		<condition property="initdb-and-test-xml">
+			<equals arg1="${test-xml-needed}" arg2="true"/>
+		</condition>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- copy initdb zip file to the test area -->
+	<target name="xml-initdb-file-copy" depends="xml-initdb-file" if="initdb-and-test-xml">
+		<copy file="${install}/xml/xml-initdb-${APP_NAME}.zip" todir="${install}/xml/" overwrite="yes"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- re-jar all jar files -->
+	<target name="re-jar" depends="xml-initdb-file-copy">
+		<!--  RE-JAR ALL PLUGIN JARS ===================================================== -->
+		<property name="UNJAR-FILE" value="unjar.xml"/>
+		<property name="NEW-JAR-FILE" value="${APP_NAME}.jar"/>
+		<CreateUnFile sourceDir="${install}/jars" destinationDir="${install}/jars" scriptFile="${install}/jars/${UNJAR-FILE}" overwrite="true" type="jar"/>
+		<!-- run the unjar task -->
+		<ant antfile="${install}/jars/${UNJAR-FILE}"/>
+		<!-- delete old jars -->
+		<delete quiet="true">
+			<fileset dir="${install}/jars" includes="*.jar"/>
+		</delete>
+		<!-- delete old manifests -->
+		<delete quiet="true" dir="${install}/jars/META-INF"/>
+		<!-- create new jar -->
+		<jar jarfile="${install}/jars/${NEW-JAR-FILE}">
+			<fileset dir="${install}/jars" excludes="*.jar, ${UNJAR-FILE}"/>
+		</jar>
+		<ant antfile="${ANT_BUILD}/update-manifest.xml">
+			<property name="M_COMP_NAME" value="${APP_NAME}"/>
+			<property name="M_TYPE" value="APPLICATION"/>
+			<property name="M_FILENAME" value="${APP_NAME}.jar"/>
+			<property name="M_NOTE" value="${DATABASE} version"/>
+			<property name="M_JAR" value="true"/>
+			<property name="M_FILE" value="${install}/jars/${NEW-JAR-FILE}"/>
+		</ant>
+		<!-- delete junk -->
+		<delete quiet="true">
+			<fileset dir="${install}/jars" includes="**" excludes="${NEW-JAR-FILE}"/>
+		</delete>
+		<delete quiet="true" dir="${install}/jars/com"/>
+		<!--  RE-JAR ALL ZIP-LIB JARS/ZIPS=================================================== -->
+		<property name="NEW-ZIP-LIB-JAR-FILE" value="${APP_NAME}_ZIP_LIB.jar"/>
+		<property name="REJARLIB" value="${XTRADE_TEMP_DIR}/rejarlib"/>
+		<mkdir dir="${REJARLIB}/old"/>
+		<mkdir dir="${REJARLIB}/new"/>
+		<!--  Unjar JARS -->
+		<copy todir="${REJARLIB}/old">
+			<fileset dir="${install}/lib" includes="${ZIP_LIBS}" excludes="*.zip"/>
+		</copy>
+		<CreateUnFile sourceDir="${REJARLIB}/old" destinationDir="${REJARLIB}/new" scriptFile="${REJARLIB}/old/${UNJAR-FILE}" overwrite="true" type="jar"/>
+		<!-- run the unjar task -->
+		<ant antfile="${REJARLIB}/old/${UNJAR-FILE}"/>
+		<!-- delete old jars -->
+		<delete quiet="true">
+			<fileset dir="${REJARLIB}/old" includes="*.*"/>
+		</delete>
+		<!--  Unzip ZIPS -->
+		<copy todir="${REJARLIB}/old">
+			<fileset dir="${install}/lib" includes="${ZIP_LIBS}" excludes="*.jar"/>
+		</copy>
+		<CreateUnFile sourceDir="${REJARLIB}/old" destinationDir="${REJARLIB}/new" scriptFile="${REJARLIB}/old/${UNJAR-FILE}" overwrite="true" type="zip"/>
+		<!-- run the unjar task -->
+		<ant antfile="${REJARLIB}/old/${UNJAR-FILE}"/>
+		<!-- delete old jars -->
+		<delete quiet="true">
+			<fileset dir="${REJARLIB}/old" includes="*.*"/>
+		</delete>
+		<!-- create new jar -->
+		<jar jarfile="${REJARLIB}/new/${NEW-ZIP-LIB-JAR-FILE}">
+			<fileset dir="${REJARLIB}/new" excludes="${NEW-ZIP-LIB-JAR-FILE}, ${UNJAR-FILE}"/>
+		</jar>
+		<!-- copy back to libs and delete -->
+		<copy todir="${install}/lib" file="${REJARLIB}/new/${NEW-ZIP-LIB-JAR-FILE}" overwrite="yes"/>
+		<delete quiet="true">
+			<fileset dir="${install}/lib" includes="${ZIP_LIBS}"/>
+		</delete>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- main build -->
+	<target name="build" depends="xml-initdb-file-copy">
+		<fixcrlf srcdir="${install}" eol="lf" includes="*.sh"/>
+	</target>
+</project>
+@

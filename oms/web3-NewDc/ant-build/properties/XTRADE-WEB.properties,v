@@ -1,0 +1,35 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.50.07;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	XTRADE-WEB.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@####################################################################
+#
+#   VARIABLES FOR RUNNING SAMPLE XML SCRIPTS
+#
+####################################################################
+
+URL=http://localhost:7001/%APPNAME%
+@

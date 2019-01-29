@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.08;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-dbind-tools.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Build Data Binding Layer tools ANT file      -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/04/2001                             -->
+<!-- ============================================ -->
+<project name="build-dbind-tools" default="build" basedir=".">
+	<!-- set global properties for this build -->
+	<target name="build">
+		<!--
+		<property name="JIKES" value="${env.JIKES_HOME}"/>
+		<property name="JIKES" value="${env.J2EE_HOME}"/>		
+		<echo message="Jikes=${JIKES}"/>
+-->
+		<mkdir dir="${classes}"/>
+		<javac srcdir="${src}" destdir="${classes}" includes="com/fitechlabs/dbind/*.java, com/fitechlabs/dbind/**/*.java" classpath="${CLASSPATH}" debug="on"/>
+	</target>
+</project>
+@

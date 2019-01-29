@@ -1,0 +1,141 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.46.19;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	addtables-core.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@::BUILD CORE SCRIPT
+@@echo off
+
+@@setlocal
+
+:: Check arguments
+:: Local loop to set flags
+set CORE=
+set ROOT=
+set DEBUG=
+set FULL_DEBUG=-quiet
+set ECHOCMD=
+
+set NOARGS=true
+
+:LOCAL_LOOP
+	if %1a==a goto FINISHED_LOCAL
+	set NOARGS=
+	if "%1"=="-c" goto SET_CORE
+	if "%1"=="-C" goto SET_CORE
+	if "%1"=="-r" goto SET_ROOT
+	if "%1"=="-R" goto SET_ROOT
+	if "%1"=="-d" goto SET_DEBUG
+	if "%1"=="-D" goto SET_DEBUG
+	if "%1"=="-fd" goto SET_FULL_DEBUG
+	if "%1"=="-FD" goto SET_FULL_DEBUG
+	if "%1"=="-echo" goto SET_ECHO
+	shift
+	goto LOCAL_LOOP
+:SET_CORE
+	shift
+	if %1a==a goto USAGE
+	set CORE=-DCORE=%1
+	shift
+	goto LOCAL_LOOP
+:SET_ROOT
+	shift
+	if %1a==a goto USAGE
+	set ROOT=-DROOT=%1
+	shift
+	goto LOCAL_LOOP
+:SET_DEBUG
+	set DEBUG=-DDEBUG=1
+	shift
+	goto LOCAL_LOOP
+:SET_FULL_DEBUG
+	if %1a==a goto USAGE
+	set FULL_DEBUG=-verbose
+	set DEBUG=-DDEBUG=1
+	shift
+	goto LOCAL_LOOP
+:SET_ECHO
+	set ECHOCMD=1
+	shift
+	goto LOCAL_LOOP
+:FINISHED_LOCAL
+
+if "%NOARGS%"=="true" goto USAGE
+
+:: Set ANT_HOME
+call ..\ant\set-ant.bat
+
+:: Set XTRADE
+call set-ant-build.bat
+cd ..
+call set-xtrade.bat
+cd %ANT_BUILD%
+
+:: TEST ENVIRONMENT FOR JAVA
+call test-env.bat
+if %XTRADE_ERROR%==1 goto ENDSCRIPT
+
+:BUILD
+:: Run build
+
+echo ...................................................
+echo ...................................................
+echo.
+echo ***************************************************
+echo           CREATING DB AND ADDING CORE TABLES
+echo ***************************************************
+
+::===============================================================
+if not "%ECHOCMD%"=="" echo call ..\ant\bin\ant.bat -VERSION_FILE createdb-core.xml %ROOT% %CORE% %DEBUG% %FULL_DEBUG%
+	call ..\ant\bin\ant.bat -VERSION_FILE createdb-core.xml %ROOT% %CORE% %DEBUG% %FULL_DEBUG%
+if not "%ECHOCMD%"=="" echo call ..\ant\bin\ant.bat -VERSION_FILE addtables-core.xml %ROOT% %CORE% %DEBUG% %FULL_DEBUG%
+	call ..\ant\bin\ant.bat -VERSION_FILE addtables-core.xml %ROOT% %CORE% %DEBUG% %FULL_DEBUG%
+::===============================================================
+
+del __properties__.txt
+
+echo.
+echo ***************************************************
+echo           FINISHED ADDING TABLES
+echo ***************************************************
+goto ENDSCRIPT
+
+:USAGE
+echo ***************************************************
+echo                                                   .
+echo Usage:
+echo     addtables-core -c core [-r root] [-d] [-fd] 
+echo     where
+echo            core - name of the core (e.g. core.1.2.23)
+echo            root - root location of the core
+echo                                                   .
+echo            -d - print debug information
+echo            -fd - print more debug information
+echo                                                   .
+echo ***************************************************
+
+:ENDSCRIPT
+@@endlocal
+@

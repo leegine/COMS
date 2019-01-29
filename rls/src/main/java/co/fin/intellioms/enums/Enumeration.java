@@ -17,7 +17,7 @@ public abstract class Enumeration
         public Value()
         {
             this$0 = Enumeration.this;
-            super();
+//            super();
         }
     }
 

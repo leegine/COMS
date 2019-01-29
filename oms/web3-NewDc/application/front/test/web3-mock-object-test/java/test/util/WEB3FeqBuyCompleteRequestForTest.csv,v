@@ -1,0 +1,34 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.04.07.02.26.10;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5444d9d078c63f4;
+filename	WEB3FeqBuyCompleteRequestForTest.csv;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@フィールド日本語名称,フィールド変数名称,case0001,case0002,case0003,,case0005
+注文ID,orderId,12,null,,,
+確認時単価,checkPrice,12,12,null,12,
+確認時発注日,checkDate,20060606,20060606,20060606,null,
+ERROR_CODE,,OK,,BUSINESS_ERROR_00206,,
+ERROR_MESSAGE,,ok,注文ID = null,確認時単価 = null,確認時発注日 = null,
+@

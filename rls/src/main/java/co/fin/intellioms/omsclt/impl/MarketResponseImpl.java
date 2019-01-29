@@ -6,7 +6,9 @@
 package co.fin.intellioms.omsclt.impl;
 
 import co.fin.intellioms.enums.MarketResponseType;
-import com.fitechlabs.fin.intellioms.omsclt.*;
+import co.fin.intellioms.omsclt.MarketResponse;
+import co.fin.intellioms.omsclt.OrderId;
+import co.fin.intellioms.omsclt.Quantity;
 
 public class MarketResponseImpl
     implements MarketResponse

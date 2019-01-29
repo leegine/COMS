@@ -1,0 +1,991 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.06.16;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	eqtype.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 株式取引銘柄マスタupdq
+CREATE TABLE eqtype_traded_product_updq (
+        traded_product_id               NUMBER(18)              NOT NULL,
+        institution_code                VARCHAR2(3)             NOT NULL,
+        product_id                      NUMBER(18)              NOT NULL,
+        market_id                       NUMBER(18)              NOT NULL,
+        valid_until_biz_date            VARCHAR2(8)             NOT NULL,
+        list_flag                       NUMBER(1)    DEFAULT 1  NOT NULL,
+        list_type                       VARCHAR2(2)             NOT NULL,
+	new_list_type			VARCHAR2(2)             NOT NULL,
+        listed_date                     DATE                    NOT NULL,
+        unlisted_date                   DATE                        NULL,
+        marginable_flag                 NUMBER(1)    DEFAULT 0  NOT NULL,
+        shortable_flag                  NUMBER(1)    DEFAULT 0  NOT NULL,
+        open_otc_div                    VARCHAR2(1)                 NULL,
+        margin_sys_product_type         VARCHAR2(1)                 NULL,
+        margin_gen_product_type         VARCHAR2(1)                 NULL,
+        mini_stock_can_dealt            VARCHAR2(1)             NOT NULL,
+        buy_cash_stop                   NUMBER(1)    DEFAULT 0      NULL,
+        sell_cash_stop                  NUMBER(1)    DEFAULT 0      NULL,
+        buy_spot_market_ord_des_stop    NUMBER(1)                   NULL,
+        sell_spot_market_ord_des_stop   NUMBER(1)                   NULL,
+        long_margin_sys_stop            NUMBER(1)    DEFAULT 0      NULL,
+        short_margin_sys_stop           NUMBER(1)    DEFAULT 0      NULL,
+        long_ms_market_ord_des_stop     NUMBER(1)                   NULL,
+        short_ms_market_ord_des_stop    NUMBER(1)                   NULL,
+        long_margin_gen_stop            NUMBER(1)    DEFAULT 0      NULL,
+        short_margin_gen_stop           NUMBER(1)    DEFAULT 0      NULL,
+        long_mg_market_ord_des_stop     NUMBER(1)                   NULL,
+        short_mg_market_ord_des_stop    NUMBER(1)                   NULL,
+        long_close_margin_sys_stop      NUMBER(1)    DEFAULT 0      NULL,
+        short_close_margin_sys_stop     NUMBER(1)    DEFAULT 0      NULL,
+        long_cms_market_ord_des_stop    NUMBER(1)                   NULL,
+        short_cms_market_ord_des_stop   NUMBER(1)                   NULL,
+        long_close_margin_gen_stop      NUMBER(1)    DEFAULT 0      NULL,
+        short_close_margin_gen_stop     NUMBER(1)    DEFAULT 0      NULL,
+        long_cmg_market_ord_des_stop    NUMBER(1)                   NULL,
+        short_cmg_market_ord_des_stop   NUMBER(1)                   NULL,
+        long_swap_margin_sys_stop       NUMBER(1)    DEFAULT 0      NULL,
+        short_swap_margin_sys_stop      NUMBER(1)    DEFAULT 0      NULL,
+        long_swap_margin_gen_stop       NUMBER(1)    DEFAULT 0      NULL,
+        short_swap_margin_gen_stop      NUMBER(1)    DEFAULT 0      NULL,
+        buy_mini_stock_stop             NUMBER(1)    DEFAULT 0      NULL,
+        sell_mini_stock_stop            NUMBER(1)    DEFAULT 0      NULL,
+        lot_size                        DECIMAL(18,6)           NOT NULL,
+        long_margin_deposit_rate        DECIMAL(18,6)               NULL,
+        short_margin_deposit_rate       DECIMAL(18,6)               NULL,
+        long_cash_margin_deposit_rate   DECIMAL(18,6)               NULL,
+        short_cash_margin_deposit_rate  DECIMAL(18,6)               NULL,
+        last_closing_price              DECIMAL(18,6)           NOT NULL,
+        price_range_type                VARCHAR2(1)                 NULL,
+        price_range_unit_type           VARCHAR2(1)                 NULL,
+        high_compulsive_price_range     DECIMAL(18,6)               NULL,
+        low_compulsive_price_range      DECIMAL(18,6)               NULL,
+        stop_high_price                 DECIMAL(18,6)               NULL,
+        stop_low_price                  DECIMAL(18,6)               NULL,
+        price_range_ratio               DECIMAL(18,6)               NULL,
+	compulsive_limited_unit		NUMBER(7)		    NULL,
+        mini_stock_flag                 NUMBER(6)               NOT NULL,
+	today_dep_fund_reg		NUMBER(1)    DEFAULT 0      NULL,
+	last_updater			VARCHAR2(20)		    NULL,
+        created_timestamp               DATE        DEFAULT sysdate  NOT NULL,
+        last_updated_timestamp          DATE        DEFAULT sysdate  NOT NULL,
+        base_price                      DECIMAL(18,6)           NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_traded_product_updq ON eqtype_traded_product_updq
+(
+       traded_product_id              ,
+       valid_until_biz_date
+);
+CREATE UNIQUE INDEX XAK1eqtype_traded_product_updq ON eqtype_traded_product_updq
+(
+       product_id                     ,
+       market_id                      ,
+       valid_until_biz_date
+);
+CREATE INDEX XIE1eqtype_traded_product_updq ON eqtype_traded_product_updq
+(
+       traded_product_id              ,
+       institution_code               ,
+       product_id                     ,
+       market_id
+);
+CREATE INDEX XIE2eqtype_traded_product_updq ON eqtype_traded_product_updq
+(
+       institution_code		      ,
+       product_id		      ,
+       valid_until_biz_date
+);
+
+--PK
+ALTER TABLE eqtype_traded_product_updq
+      ADD  (PRIMARY KEY (traded_product_id, valid_until_biz_date));
+
+
+--2. Table名: 株式取引銘柄マスター
+CREATE TABLE eqtype_traded_product (
+        traded_product_id               NUMBER(18)      NOT NULL,
+        institution_code                VARCHAR2(3)      NOT NULL,
+        product_id                      NUMBER(18)      NOT NULL,
+        market_id                       NUMBER(18)      NOT NULL,
+        valid_until_biz_date            VARCHAR2(8)      NULL,
+        list_flag                       NUMBER(1)      DEFAULT 1        NOT NULL,
+        list_type                       VARCHAR2(2)      NOT NULL,
+	new_list_type			VARCHAR2(2)	 NOT NULL,
+        listed_date                     DATE          NOT NULL,
+        unlisted_date                   DATE          NULL,
+        marginable_flag                 NUMBER(1)      DEFAULT 0        NOT NULL,
+        shortable_flag                  NUMBER(1)      DEFAULT 0        NOT NULL,
+        open_otc_div                    VARCHAR2(1)      NULL,
+        margin_sys_product_type         VARCHAR2(1)      NULL,
+        margin_gen_product_type         VARCHAR2(1)      NULL,
+        mini_stock_can_dealt            VARCHAR2(1)      NOT NULL,
+        buy_cash_stop                   NUMBER(1)      DEFAULT 0        NULL,
+        sell_cash_stop                  NUMBER(1)      DEFAULT 0        NULL,
+        buy_spot_market_ord_des_stop    NUMBER(1)      NULL,
+        sell_spot_market_ord_des_stop   NUMBER(1)      NULL,
+        long_margin_sys_stop            NUMBER(1)      DEFAULT 0        NULL,
+        short_margin_sys_stop           NUMBER(1)      DEFAULT 0        NULL,
+        long_ms_market_ord_des_stop     NUMBER(1)      NULL,
+        short_ms_market_ord_des_stop    NUMBER(1)      NULL,
+        long_margin_gen_stop            NUMBER(1)      DEFAULT 0        NULL,
+        short_margin_gen_stop           NUMBER(1)      DEFAULT 0        NULL,
+        long_mg_market_ord_des_stop     NUMBER(1)      NULL,
+        short_mg_market_ord_des_stop    NUMBER(1)      NULL,
+        long_close_margin_sys_stop      NUMBER(1)      DEFAULT 0        NULL,
+        short_close_margin_sys_stop     NUMBER(1)      DEFAULT 0        NULL,
+        long_cms_market_ord_des_stop    NUMBER(1)      NULL,
+        short_cms_market_ord_des_stop   NUMBER(1)      NULL,
+        long_close_margin_gen_stop      NUMBER(1)      DEFAULT 0        NULL,
+        short_close_margin_gen_stop     NUMBER(1)      DEFAULT 0        NULL,
+        long_cmg_market_ord_des_stop    NUMBER(1)      NULL,
+        short_cmg_market_ord_des_stop   NUMBER(1)      NULL,
+        long_swap_margin_sys_stop       NUMBER(1)      DEFAULT 0        NULL,
+        short_swap_margin_sys_stop      NUMBER(1)      DEFAULT 0        NULL,
+        long_swap_margin_gen_stop       NUMBER(1)      DEFAULT 0        NULL,
+        short_swap_margin_gen_stop      NUMBER(1)      DEFAULT 0        NULL,
+        buy_mini_stock_stop             NUMBER(1)      DEFAULT 0        NULL,
+        sell_mini_stock_stop            NUMBER(1)      DEFAULT 0        NULL,
+        lot_size                        DECIMAL(18,6)  NOT NULL,
+        long_margin_deposit_rate        DECIMAL(18,6)      NULL,
+        short_margin_deposit_rate       DECIMAL(18,6)      NULL,
+        long_cash_margin_deposit_rate   DECIMAL(18,6)      NULL,
+        short_cash_margin_deposit_rate  DECIMAL(18,6)      NULL,
+        last_closing_price              DECIMAL(18,6)      NOT NULL,
+        price_range_type                VARCHAR2(1)      NULL,
+        price_range_unit_type           VARCHAR2(1)      NULL,
+        high_compulsive_price_range     DECIMAL(18,6)      NULL,
+        low_compulsive_price_range      DECIMAL(18,6)      NULL,
+        stop_high_price                 DECIMAL(18,6)      NULL,
+        stop_low_price                  DECIMAL(18,6)      NULL,
+        price_range_ratio               DECIMAL(18,6)      NULL,
+	compulsive_limited_unit		NUMBER(7)	   NULL,
+        mini_stock_flag                 NUMBER(6)      NOT NULL,
+	today_dep_fund_reg		NUMBER(1)      DEFAULT 0        NULL,
+	last_updater			VARCHAR2(20)	   NULL,
+        created_timestamp               DATE          DEFAULT sysdate   NOT NULL,
+        last_updated_timestamp          DATE          DEFAULT sysdate   NOT NULL,
+        base_price                      DECIMAL(18,6)           NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_traded_product ON eqtype_traded_product
+(
+       traded_product_id
+);
+CREATE UNIQUE INDEX XAK1eqtype_traded_product ON eqtype_traded_product
+(
+       institution_code             ,
+       product_id                     ,
+       market_id                      ,
+       valid_until_biz_date
+);
+CREATE INDEX XIE1eqtype_traded_product ON eqtype_traded_product
+(
+       traded_product_id              ,
+       institution_code               ,
+       product_id                     ,
+       market_id
+);
+
+CREATE INDEX XIE2eqtype_traded_product ON eqtype_traded_product
+(
+       institution_code		      ,
+       product_id		      ,
+       valid_until_biz_date
+);
+
+--PK
+ALTER TABLE eqtype_traded_product
+       ADD  ( PRIMARY KEY (traded_product_id) ) ;
+
+
+--3. Table名: 株式銘柄テーブル
+CREATE TABLE eqtype_product (
+       product_id            NUMBER(18) NOT NULL,
+       institution_code                VARCHAR2(3) NOT NULL,
+       product_code                VARCHAR2(10) NOT NULL,
+       product_type                NUMBER(6) NOT NULL,
+       standard_name                VARCHAR2(50) NULL,
+       mini_stock_lot_size            DECIMAL(18,6) NULL,
+       yearly_books_closing_date    DATE NOT NULL,
+       trade_stop            NUMBER(1) NULL,
+       margin_sys_trade_stop            NUMBER(1)   NULL,
+       margin_gen_trade_stop            NUMBER(1)   NULL,
+       capital_gain_tax_dealings_reg    NUMBER(1) NULL,
+       last_updater			VARCHAR2(20)	NULL,
+       created_timestamp            DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp            DATE DEFAULT sysdate NOT NULL,
+       decimal_devide_flag              NUMBER(1) NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_product ON eqtype_product
+(
+       product_id
+);
+CREATE UNIQUE INDEX XAK1eqtype_product ON eqtype_product
+(
+       institution_code               ,
+       product_code
+);
+
+--PK
+ALTER TABLE eqtype_product
+       ADD  ( PRIMARY KEY (product_id) ) ;
+
+
+-------------------------------------------------------------------------------
+--注文・約定
+-------------------------------------------------------------------------------
+
+--4. Table名: トランザクション（株式顧客勘定明細）
+CREATE TABLE eqtype_fin_transaction (
+       fin_transaction_id               NUMBER(18)                      NOT NULL,
+       account_id                       NUMBER(18)                      NOT NULL,
+       sub_account_id                   NUMBER(18)                      NOT NULL,
+       product_id                       NUMBER(18)                      NOT NULL,
+       fin_transaction_type             NUMBER(6)                       NOT NULL,
+       fin_transaction_categ            NUMBER(6)                       NOT NULL,
+       fin_transaction_timestamp        DATE                            NOT NULL,
+       tax_type                         NUMBER(6)                       NOT NULL,
+       delivery_date                    DATE                            NOT NULL,
+       net_amount                       DECIMAL(18,6)                   NOT NULL,
+       product_type                     NUMBER(6)                      NOT NULL,
+       market_id                        NUMBER(18)                      NULL    ,
+       price                            DECIMAL(18,6)                   NULL    ,
+       quantity                         DECIMAL(18,6)                   NOT NULL,
+       order_id                         NUMBER(18)                      NULL    ,
+       order_unit_id                    NUMBER(18)                      NULL    ,
+       order_execution_id               NUMBER(18)                      NULL    ,
+       commission_fee                   DECIMAL(18,6)     DEFAULT 0       NOT NULL,
+       commission_fee_tax               DECIMAL(18,6)     DEFAULT 0    NOT NULL,
+       asset_id                         NUMBER (18)             NULL    ,
+       imported_paid_value              DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_setup_fee               DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_setup_fee_tax           DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_name_transfer_fee       DECIMAL(18,6)           NULL    ,
+       imported_name_transfer_fee_tax   DECIMAL(18,6)           NULL    ,
+       capital_gain                     DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       capital_gain_tax                 DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       contract_id                      NUMBER(18)              NULL    ,
+       imported_management_fee          DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_management_fee_tax      DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_interest_fee            DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_interest_fee_tax        DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+       imported_pay_interest_fee        DECIMAL(18,6)           NULL    ,
+       imported_pay_interest_fee_tax    DECIMAL(18,6)           NULL    ,
+       imported_loan_equity_fee         DECIMAL(18,6)           NULL    ,
+       imported_other                   DECIMAL(18,6)           NULL    ,
+       transfered_asset_mng_fee         DECIMAL(18,6)   DEFAULT 0    NULL    ,
+       transfered_asset_mng_fee_tax     DECIMAL(18,6)   DEFAULT 0    NULL    ,
+       transfered_asset_setup_fee       DECIMAL(18,6)   DEFAULT 0    NULL    ,
+       transfered_asset_setup_fee_tax   DECIMAL(18,6)   DEFAULT 0    NULL    ,
+       transfered_asset_book_value      DECIMAL(18,6)           NULL    ,
+       delete_flag                      NUMBER(1)       DEFAULT 0    NOT NULL,
+       accrued_interest                 DECIMAL(18,6)                   NULL    ,
+       created_timestamp                DATE                            NOT NULL,
+       last_updated_timestamp           DATE                            NOT NULL,
+       capital_gain_status              VARCHAR2(1)     DEFAULT 0    NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_fin_transaction ON eqtype_fin_transaction
+(
+       fin_transaction_id
+);
+CREATE INDEX XIE1eqtype_fin_transaction ON eqtype_fin_transaction
+(
+       account_id                     ,
+       sub_account_id
+);
+CREATE INDEX XIE2eqtype_fin_transaction ON eqtype_fin_transaction
+(
+       account_id                     ,
+       sub_account_id                 ,
+       product_id                     ,
+       order_unit_id                  ,
+       order_execution_id             ,
+       asset_id                    ,
+       contract_id
+);
+
+--PK
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( PRIMARY KEY (fin_transaction_id) ) ;
+
+
+--5. Table名: 注文テーブル（ヘッダ）
+CREATE TABLE eqtype_order (
+        order_id                NUMBER(18)                              NOT NULL,
+        account_id              NUMBER(18)                              NOT NULL,
+        sub_account_id          NUMBER(18)                              NOT NULL,
+        product_type            NUMBER(6)                               NOT NULL,
+        created_timestamp       DATE       DEFAULT sysdate        NOT NULL,
+        last_updated_timestamp  DATE       DEFAULT sysdate        NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_order ON eqtype_order
+(
+       order_id
+);
+CREATE INDEX XIE1eqtype_order ON eqtype_order
+(
+       account_id               ,
+       sub_account_id
+);
+CREATE INDEX XIE2eqtype_order ON eqtype_order
+(
+       order_id                 ,
+       account_id               ,
+       sub_account_id
+);
+
+--PK
+ALTER TABLE eqtype_order
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+
+--6. Table名: 株式注文単位テーブル
+CREATE TABLE eqtype_order_unit (
+    order_unit_id                   NUMBER(18)                                      NOT NULL,
+    account_id                      NUMBER(18)                                      NOT NULL,
+    sub_account_id                  NUMBER(18)                                      NOT NULL,
+    branch_id                       NUMBER(18)                                      NOT NULL,
+    trader_id                       NUMBER(18)                                      NULL    ,
+    order_id                        NUMBER(18)                                      NOT NULL,
+    order_type                      NUMBER(6)                                       NOT NULL,
+    order_categ                     NUMBER(6)                                       NOT NULL,
+    last_order_action_serial_no     NUMBER(8)               DEFAULT 0               NOT NULL,
+    last_execution_serial_no        NUMBER(8)               DEFAULT 0               NOT NULL,
+    product_type                    NUMBER(6)                                       NOT NULL,
+    market_id                       NUMBER(18)                                      NULL    ,
+    quantity                        DECIMAL(18,6)                                   NOT NULL,
+    limit_price                     DECIMAL(18,6)                                   NULL    ,
+    execution_condition_type        NUMBER(6)                                       NULL    ,
+    price_condition_type	    VARCHAR2(1)					    NULL    ,
+    order_condition_type            VARCHAR2(1)                                     NULL    ,
+    order_cond_operator             VARCHAR2(1)                                     NULL    ,
+    stop_order_price                DECIMAL(18,6)                                  NULL    ,
+    w_limit_price                   DECIMAL(18,6)                                  NULL    ,
+    delivery_date                   DATE                                            NOT NULL,
+    expiration_date                 DATE                                            NULL    ,
+    confirmed_quantity              DECIMAL(18,6)                                   NULL    ,
+    confirmed_price                 DECIMAL(18,6)                                   NULL    ,
+    executed_quantity               DECIMAL(18,6)                                   NULL    ,
+    executed_amount                 DECIMAL(18,6)                                   NULL    ,
+    order_status                    NUMBER(6)               DEFAULT 1               NOT NULL,
+    order_open_status               NUMBER(6)               DEFAULT 1               NOT NULL,
+    expiration_status               NUMBER(6)                                       NOT NULL,
+    tax_type                        NUMBER(6)                                       NOT NULL,
+    swap_tax_type                   NUMBER(6)                                       NOT NULL,
+    repayment_type                  VARCHAR2(1)                                     NULL    ,
+    repayment_num                   NUMBER(7)                                       NULL    ,
+    sonar_repayment_type            VARCHAR2(1)                                     NULL    ,
+    biz_date                        VARCHAR2(8)                                     NOT NULL,
+    product_id                      NUMBER(18)                                      NOT NULL,
+    quantity_type                   NUMBER(6)               DEFAULT 1               NOT NULL,
+    order_chanel                    VARCHAR2(1)                                     NULL    ,
+    received_date_time              DATE                                            NULL    ,
+    voucher_no                      VARCHAR2(4)                                     NULL    ,
+    comm_tbl_no                     VARCHAR2(2)                                     NULL    ,
+    comm_tbl_sub_no                 VARCHAR2(1)                                     NULL    ,
+    sonar_trader_code               VARCHAR2(5)                                     NULL    ,
+    price                           DECIMAL(18,6)                                   NULL    ,
+    order_request_number            VARCHAR2(9)                                     NULL    ,
+    estimated_price                 DECIMAL(18,6)                                   NULL    ,
+    capital_gain                    DECIMAL(18,6)           DEFAULT 0               NULL    ,
+    capital_gain_tax                DECIMAL(18,6)           DEFAULT 0               NULL    ,
+    sonar_traded_code               VARCHAR2(2)                                     NULL    ,
+    sonar_market_code               VARCHAR2(1)                                     NULL    ,
+    comm_product_code               VARCHAR2(2)                                     NULL    ,
+    short_sell_order_flag	    VARCHAR2(1)					    NULL    ,
+    modify_cancel_type              VARCHAR2(1)                                     NULL    ,
+    order_root_div                  VARCHAR2(1)                                     NULL    ,
+    submit_order_route_div	    VARCHAR2(1)                                     NULL    ,
+    confirmed_order_price           DECIMAL(18,6)                                   NULL    ,
+    confirmed_estimated_price       DECIMAL(18,6)                                   NULL    ,
+    confirmed_exec_condition_type   NUMBER(6)                                       NULL    ,
+    confirmed_price_condition_type  VARCHAR2(1)					    NULL    ,
+    closing_order_type              VARCHAR2(1)                                     NULL    ,
+    error_reason_code               VARCHAR2(4)                                     NULL    ,
+    request_type                    VARCHAR2(1)                                     NULL    ,
+    first_order_unit_id             NUMBER(18)                                      NULL    ,
+    created_timestamp               DATE                    DEFAULT sysdate         NOT NULL,
+    last_updated_timestamp          DATE                    DEFAULT sysdate         NOT NULL,
+    confirmed_order_rev             VARCHAR2(2)             DEFAULT '00'            NULL    ,
+    order_rev                       VARCHAR2(2)             DEFAULT '00'            NULL    ,
+    reserve_order_exist_flag        VARCHAR2(1)             DEFAULT '0'             NULL    ,
+    original_quantity               DECIMAL(18,6)           DEFAULT '0'             NULL    ,
+    stop_order_ordered_timestamp    DATE                                            NULL    ,
+    org_order_condition_type        VARCHAR2(1)                                     NULL    ,
+    org_order_cond_operator         VARCHAR2(1)                                     NULL    ,
+    org_stop_order_price            DECIMAL(18,6)                                   NULL    ,
+    org_w_limit_price               DECIMAL(18,6)                                   NULL    ,
+    org_w_limit_exec_cond_type      NUMBER(6)                                       NULL    ,
+    w_limit_exec_cond_type          NUMBER(6)                                       NULL    ,
+    w_limit_before_limit_price      DECIMAL(18,6)                                   NULL    ,
+    w_limit_before_exec_cond_type   NUMBER(6)                                       NULL    ,
+    submit_order_delay_flag         NUMBER(1)               DEFAULT 0               NULL    ,
+    forced_settle_reason_type       VARCHAR2(1)                                     NULL    ,
+    approve_status_type             VARCHAR2(1)                                     NULL    ,
+    approver_code                   VARCHAR2(20)                                    NULL    ,
+    approve_timestamp               DATE                                            NULL    ,
+    margin_maintenance_rate         DECIMAL(18,6)                                   NULL    ,
+    additional_margin_date          DATE                                            NULL    ,
+    additional_margin_accrued_days  NUMBER(18)                                      NULL    ,
+    forced_expire_type              VARCHAR2(1)             DEFAULT 0               NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_order_unit ON eqtype_order_unit
+(
+       order_unit_id
+);
+CREATE INDEX XIE1eqtype_order_unit ON eqtype_order_unit
+(
+       account_id                     ,
+       sub_account_id                 ,
+       order_open_status
+);
+CREATE INDEX XIE2eqtype_order_unit ON eqtype_order_unit
+(
+       order_id
+);
+CREATE INDEX XIE3eqtype_order_unit ON eqtype_order_unit
+(
+       order_unit_id                  ,
+       account_id                     ,
+       sub_account_id                 ,
+       branch_id                      ,
+       trader_id                      ,
+       order_id                       ,
+       product_type
+);
+
+CREATE INDEX XIE4eqtype_order_unit ON eqtype_order_unit
+(
+       order_request_number
+);
+
+CREATE INDEX XIE5eqtype_order_unit ON eqtype_order_unit
+(
+       first_order_unit_id
+);
+
+CREATE INDEX XIE6eqtype_order_unit ON eqtype_order_unit
+(
+       account_id,
+       sub_account_id,
+       product_type,
+       biz_date,
+       order_type,
+       sonar_traded_code,
+       product_id,
+       market_id
+);
+
+--PK
+ALTER TABLE eqtype_order_unit
+       ADD  ( PRIMARY KEY (order_unit_id) ) ;
+
+
+--7. Table名: 注文履歴テーブル
+CREATE TABLE eqtype_order_action (
+    order_action_id                 NUMBER(18)                      NOT NULL,
+    account_id                      NUMBER(18)                      NOT NULL,
+    sub_account_id                  NUMBER(18)                      NOT NULL,
+    trader_id			    NUMBER(18)                      NULL,
+    order_id                        NUMBER(18)                      NOT NULL,
+    order_unit_id                   NUMBER(18)                      NOT NULL,
+    market_id                       NUMBER(18)                      NULL    ,
+    order_type                      NUMBER(6)                       NOT NULL,
+    order_event_type                NUMBER(6)                       NOT NULL,
+    price                           DECIMAL(18,6)                   NULL    ,
+    execution_condition_type        NUMBER(6)                       NULL    ,
+    price_condition_type	    VARCHAR2(1)			    NULL    ,
+    order_condition_type            VARCHAR2(1)                     NULL    ,
+    order_cond_operator             VARCHAR2(1)                     NULL    ,
+    stop_order_price                DECIMAL(18,6)                   NULL    ,
+    w_limit_price                   DECIMAL(18,6)                   NULL    ,
+    expiration_date                 DATE                            NULL    ,
+    quantity                        DECIMAL(18,6)                   NOT NULL,
+    confirmed_price                 DECIMAL(18,6)                   NULL    ,
+    confirmed_quantity              DECIMAL(18,6)                   NULL    ,
+    executed_quantity               DECIMAL(18,6)                   NULL    ,
+    order_status                    NUMBER(6)                       NOT NULL,
+    expiration_status               NUMBER(6)                       NOT NULL,
+    order_action_serial_no          NUMBER(8)                       NOT NULL,
+    executed_price                  DECIMAL(18,6)                   NULL    ,
+    product_type                    NUMBER(6)                       NOT NULL,
+    product_id                      NUMBER(18)                      NOT NULL,
+    quantity_type                   NUMBER(6)    DEFAULT 1          NOT NULL,
+    estimated_price                 DECIMAL(18,6)                   NULL    ,
+    modify_cancel_type              VARCHAR2(1)                     NULL    ,
+    order_root_div		    VARCHAR2(1)                     NULL    ,
+    closing_order_type              VARCHAR2(1)                     NULL    ,
+    error_reason_code               VARCHAR2(4)                     NULL    ,
+    request_type                    VARCHAR2(1)                     NULL    ,
+    created_timestamp               DATE         DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp          DATE         DEFAULT sysdate    NOT NULL,
+    ip_address                      VARCHAR2(15)                    NULL    ,
+    org_order_condition_type        VARCHAR2(1)                     NULL    ,
+    org_order_cond_operator         VARCHAR2(1)                     NULL    ,
+    org_stop_order_price            DECIMAL(18,6)                   NULL    ,
+    org_w_limit_price               DECIMAL(18,6)                   NULL    ,
+    org_w_limit_exec_cond_type      NUMBER(6)                       NULL    ,
+    w_limit_exec_cond_type          NUMBER(6)                       NULL    ,
+    w_limit_before_limit_price      DECIMAL(18,6)                   NULL    ,
+    w_limit_before_exec_cond_type   NUMBER(6)                       NULL    ,
+    confirmed_exec_condition_type   NUMBER(6)                       NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_order_action ON eqtype_order_action
+(
+       order_action_id
+);
+CREATE INDEX XIE1eqtype_order_action ON eqtype_order_action
+(
+       account_id                     ,
+       sub_account_id
+);
+CREATE INDEX XIE2eqtype_order_action ON eqtype_order_action
+(
+       order_unit_id
+);
+CREATE INDEX XIE3eqtype_order_action ON eqtype_order_action
+(
+       order_action_id                ,
+       account_id                     ,
+       sub_account_id                 ,
+       order_id                       ,
+       order_unit_id                  ,
+       market_id                      ,
+       product_id
+);
+
+--PK
+ALTER TABLE eqtype_order_action
+       ADD  ( PRIMARY KEY (order_action_id) ) ;
+
+
+--8. Table名: 株式約定テーブル
+CREATE TABLE eqtype_order_execution (
+       order_execution_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       branch_id            NUMBER(18) NOT NULL,
+       trader_id            NUMBER(18) NULL,
+       order_id             NUMBER(18) NOT NULL,
+       order_unit_id        NUMBER(18) NOT NULL,
+       order_type           NUMBER(6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       delivery_date        DATE NULL,
+       exec_serial_no       NUMBER(8) NOT NULL,
+       exec_price           DECIMAL(18,6) NULL,
+       exec_quantity        DECIMAL(18,6) NOT NULL,
+       exec_timestamp       DATE NOT NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       biz_date             VARCHAR2(8) NOT NULL,
+       quantity_type        NUMBER(6) DEFAULT 1 NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       order_request_number VARCHAR2(9) NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_order_execution ON eqtype_order_execution
+(
+       order_execution_id
+);
+CREATE INDEX XIE1eqtype_order_execution ON eqtype_order_execution
+(
+       account_id                     ,
+       sub_account_id
+);
+CREATE INDEX XIE2eqtype_order_execution ON eqtype_order_execution
+(
+       order_unit_id
+);
+CREATE INDEX XIE3eqtype_order_execution ON eqtype_order_execution
+(
+       order_execution_id             ,
+       account_id                     ,
+       sub_account_id                 ,
+       branch_id                      ,
+       trader_id                      ,
+       order_id                       ,
+       order_unit_id                  ,
+       market_id                      ,
+       product_id                     ,
+       order_request_number      ,
+       product_type
+);
+
+--PK
+ALTER TABLE eqtype_order_execution
+       ADD  ( PRIMARY KEY (order_execution_id) ) ;
+
+
+-------------------------------------------------------------------------------
+--残高関連
+-------------------------------------------------------------------------------
+
+--9. Table名: ロック中の建株詳細
+CREATE TABLE eqtype_locked_contract_details (
+       contract_id            NUMBER(18)      NOT NULL,
+       account_id            NUMBER(18)      NOT NULL,
+       sub_account_id                NUMBER(18)      NOT NULL,
+       locked_quantity                DECIMAL(18,6)   NOT NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp            DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_locked_contract_deta ON eqtype_locked_contract_details
+(
+       contract_id,
+       account_id,
+       sub_account_id
+);
+
+--PK
+ALTER TABLE eqtype_locked_contract_details
+       ADD  ( PRIMARY KEY (contract_id) ) ;
+
+
+--10. Table名: 建株テーブル
+CREATE TABLE eqtype_contract (
+        contract_id                     NUMBER(18)                      NOT NULL,
+        account_id                      NUMBER(18)                      NOT NULL,
+        sub_account_id                  NUMBER(18)                      NOT NULL,
+        market_id                       NUMBER(18)                      NOT NULL,
+        original_quantity               DECIMAL(18,6)                   NOT NULL,
+        quantity                        DECIMAL(18,6)                   NOT NULL,
+        original_contract_price         DECIMAL(18,6)                   NOT NULL,
+        contract_price                  DECIMAL(18,6)                   NOT NULL,
+        contract_type                   NUMBER(6)                       NOT NULL,
+        open_date                       DATE                            NOT NULL,
+        close_date                      DATE                            NOT NULL,
+	original_setup_fee		DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        setup_fee                       DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+	original_setup_fee_tax		DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        setup_fee_tax                   DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        name_transfer_fee               DECIMAL(18,6)           NULL    ,
+        name_transfer_fee_tax           DECIMAL(18,6)           NULL    ,
+        management_fee                  DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        management_fee_tax              DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        interest_fee                    DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        interest_fee_tax                DECIMAL(18,6)   DEFAULT 0    NOT NULL,
+        pay_interest_fee                DECIMAL(18,6)                   NULL    ,
+        pay_interest_fee_tax            DECIMAL(18,6)                   NULL    ,
+        loan_equity_fee                 DECIMAL(18,6)                   NULL    ,
+        other                           DECIMAL(18,6)                   NULL    ,
+        margin_deposit_rate             DECIMAL(18,6)                   NULL    ,
+        cash_margin_deposit_rate        DECIMAL(18,6)                   NULL    ,
+	contract_asset_profit_loss	DECIMAL(18,6)                   NULL    ,
+        product_id                      NUMBER(18)                      NOT NULL,
+        product_type                    NUMBER(6)                       NOT NULL,
+        tax_type                        NUMBER(6)                       NULL    ,
+        repayment_type                  VARCHAR2(1)                     NULL    ,
+        repayment_num                   NUMBER(7)                       NULL    ,
+        created_timestamp               DATE                            NOT NULL,
+        last_updated_timestamp          DATE                            NOT NULL,
+        first_open_date                 DATE                            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_contract ON eqtype_contract
+(
+       contract_id
+);
+CREATE INDEX XIE1eqtype_contract ON eqtype_contract
+(
+       account_id                     ,
+       sub_account_id
+);
+CREATE INDEX XIE2eqtype_contract ON eqtype_contract
+(
+    account_id             ,
+    sub_account_id           ,
+    market_id                ,
+    contract_price           ,
+    contract_type            ,
+    open_date                ,
+    close_date               ,
+    product_id               ,
+    tax_type                 ,
+    repayment_type           ,
+    repayment_num            ,
+    first_open_date
+);
+
+--PK
+ALTER TABLE eqtype_contract
+       ADD  ( PRIMARY KEY (contract_id) ) ;
+
+
+--11. Table名: 建株返済指定情報ﾃｰﾌﾞﾙ
+CREATE TABLE eqtype_closing_contract_spec (
+       closing_contract_spec_id            NUMBER(18) NOT NULL,
+       account_id            NUMBER(18) NOT NULL,
+       sub_account_id                NUMBER(18) NOT NULL,
+       order_id                    NUMBER(18) NOT NULL,
+       order_unit_id                NUMBER(18) NOT NULL,
+       contract_id            NUMBER(18) NOT NULL,
+       closing_serial_no        NUMBER(8) NOT NULL,
+       quantity                    DECIMAL(18,6) NOT NULL,
+       confirmed_quantity            DECIMAL(18,6) NULL,
+       executed_quantity            DECIMAL(18,6) NULL,
+       created_timestamp            DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp            DATE DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_closing_contract_spe ON eqtype_closing_contract_spec
+(
+       closing_contract_spec_id
+);
+CREATE UNIQUE INDEX XAK1eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+       order_unit_id                  ,
+       contract_id
+);
+CREATE UNIQUE INDEX XAK2eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+       order_unit_id                  ,
+       closing_serial_no
+);
+CREATE INDEX XIE1eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+       order_unit_id
+);
+CREATE INDEX XIE2eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+    account_id                ,
+    sub_account_id           ,
+    order_id                      ,
+    order_unit_id               ,
+    contract_id
+);
+
+--PK
+ALTER TABLE eqtype_closing_contract_spec
+       ADD  ( PRIMARY KEY (closing_contract_spec_id) ) ;
+
+
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+--1. Table名: 株式取引銘柄マスタupdq
+
+ALTER TABLE eqtype_traded_product_updq
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product );
+ALTER TABLE eqtype_traded_product_updq
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+ALTER TABLE eqtype_traded_product_updq
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+
+--2. Table名: 株式取引銘柄マスター
+
+ALTER TABLE eqtype_traded_product
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product );
+ALTER TABLE eqtype_traded_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+ALTER TABLE eqtype_traded_product
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+
+--3. Table名: 株式銘柄テーブル
+
+ALTER TABLE eqtype_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product );
+
+--4. Table名: トランザクション（株式顧客勘定明細）
+
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES eqtype_order );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES eqtype_order_unit );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (order_execution_id)
+                             REFERENCES eqtype_order_execution );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (asset_id)
+                             REFERENCES asset );
+ALTER TABLE eqtype_fin_transaction
+       ADD  ( FOREIGN KEY (contract_id)
+                             REFERENCES eqtype_contract );
+
+--5. Table名: 注文テーブル（ヘッダ）
+
+ALTER TABLE eqtype_order
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+ALTER TABLE eqtype_order
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+
+--6. Table名: 株式注文単位テーブル
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch );
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES eqtype_order );
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+ALTER TABLE eqtype_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+
+--7. Table名: 注文履歴テーブル
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES eqtype_order );
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES eqtype_order_unit );
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+ALTER TABLE eqtype_order_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+
+--8. Table名: 株式約定テーブル
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES eqtype_order );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES eqtype_order_unit );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+ALTER TABLE eqtype_order_execution
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+
+--9. Table名: ロック中の建株詳細
+ALTER TABLE eqtype_locked_contract_details
+       ADD  ( FOREIGN KEY (contract_id)
+                             REFERENCES eqtype_contract );
+ALTER TABLE eqtype_locked_contract_details
+       ADD  ( FOREIGN KEY (account_id , sub_account_id)
+                             REFERENCES sub_account );
+
+--10. Table名: 建株テーブル
+ALTER TABLE eqtype_contract
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE eqtype_contract
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE eqtype_contract
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+ALTER TABLE eqtype_contract
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+
+--11. Table名: 建株返済指定情報ﾃｰﾌﾞﾙ
+ALTER TABLE eqtype_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE eqtype_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE eqtype_closing_contract_spec
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES eqtype_order );
+ALTER TABLE eqtype_closing_contract_spec
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES eqtype_order_unit );
+ALTER TABLE eqtype_closing_contract_spec
+       ADD  ( FOREIGN KEY (contract_id)
+                             REFERENCES eqtype_contract );
+
+
+@

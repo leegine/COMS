@@ -1,0 +1,39 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.46.15;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	MANIFEST.MF;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.6.1
+Created-By: 1.5.0_17-b04 (Sun Microsystems Inc.)
+Implementation-Title: %IMPLEMENTATION_TITLE%
+Implementation-Version: %IMPLEMENTATION_VERSION%
+Implementation-Vendor: %IMPLEMENTATION_VENDER%
+Implementation-Vendor-Id: %IMPLEMENTATION_VENDER_ID%
+Implementation-Time: %DATE_STAMP%
+Specification-Title: %SPECIFICATION_TITLE%
+Specification-Version: %SPECIFICATION_VERSION%
+Specification-Vender: %SPECIFICATION_VENDER%
+@

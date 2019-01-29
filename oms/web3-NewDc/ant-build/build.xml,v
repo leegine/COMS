@@ -1,0 +1,159 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.46.41;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Build ANT file                               -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/24/2001                             -->
+<!--                                              -->
+<!--   This is the main starting point for all    -->
+<!--   ant files.  It gets all properties from    -->
+<!--   a starting shell file and invokes a        -->
+<!--   specified building xml's                   -->
+<!--                                              -->
+<!-- Necessary Input Properties:                  -->
+<!--    MAIN_ANT_FILE - ant file that will do     -->
+<!--                    all the work              -->
+<!-- Optional Input Properties:                   -->
+<!--    MACHINE_PROPERTIES - machine properties   -->
+<!--    MACHINE_DB_PROPERTIES - db properties     -->
+<!-- ============================================ -->
+<project name="build" default="build">
+	<!-- ===================================================================== -->
+	<!-- ============================== -->
+	<!-- check pre-set properties       -->
+	<!-- ============================== -->
+	<!-- ===================================================================== -->
+	<target name="set-properties">
+		<tstamp>
+			<format property="DAY_X" pattern="MM-dd"/>
+			<format property="TIME_X" pattern="hh:mm:ss aa z"/>
+			<format property="TIME_XX" pattern="MMdd_HHmm"/>
+			<format property="TIME_DX" pattern="dd.HH.mm"/>
+		</tstamp>
+		<property environment="env"/>
+		<property name="XTRADE_HOME" value="${env.XTRADE_HOME}"/>
+		<property name="DATABASE" value="${env.DATABASE}"/>
+		<property name="ANT_BUILD" value="${env.ANT_BUILD}"/>
+		<property name="DEPLOY_HOME" value="${env.DEPLOY_HOME}"/>
+		<property name="INSTALL_HOME" value="${env.INSTALL_HOME}"/>
+	</target>
+	<target name="set-properties2" depends="set-properties" if="env.TMP">
+		<property name="XTRADE_TEMP_DIR_" value="${env.TMP}"/>
+	</target>
+	<target name="set-properties3" depends="set-properties2" if="env.TEMP">
+		<property name="XTRADE_TEMP_DIR_" value="${env.TEMP}"/>
+	</target>
+	<target name="set-properties4" depends="set-properties3" if="env.TEMPDIR">
+		<property name="XTRADE_TEMP_DIR_" value="${env.TEMPDIR}"/>
+	</target>
+	<target name="set-properties5" depends="set-properties4" if="env.TMPDIR">
+		<property name="XTRADE_TEMP_DIR_" value="${env.TMPDIR}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- load core machine properties -->
+	<!-- ========================================================================= -->
+	<!-- determine the os type -->
+	<target name="set-os" depends="set-properties5">
+		<property name="XTRADE_TEMP_DIR_" value="${XTRADE_HOME}/temp"/>
+		<property name="XTRADE_TEMP_DIR" value="${XTRADE_TEMP_DIR_}/_${DAY_X}_${TIME_XX}"/>
+		<mkdir dir="${XTRADE_TEMP_DIR}"/>
+		<property name="TEMP_PROPERTY_FILE" value="${XTRADE_TEMP_DIR}/_xtrade_properties_.txt"/>
+		<delete file="${TEMP_PROPERTY_FILE}" quiet="true"/>
+		<property name="X_MANIFEST" value="_MANIFEST.TXT"/>
+		<property name="XF_MANIFEST" value="${XTRADE_TEMP_DIR}/${X_MANIFEST}"/>
+		<condition property="WINDOWS-OS">
+			<and>
+				<os family="windows"/>
+			</and>
+		</condition>
+		<condition property="UNIX-OS">
+			<and>
+				<os family="unix"/>
+			</and>
+		</condition>
+	</target>
+	<!-- ========================================================================= -->
+	<!-- determine computer name -->
+	<target name="set-COMPUTER_NAME-windows" if="WINDOWS-OS" depends="set-os">
+		<property name="COMPUTER_NAME" value="${env.COMPUTERNAME}"/>
+		<property name="OS_END_OF_LINE_SYMBOL" value="crlf"/>
+	</target>
+	<!-- ========================================================================= -->
+	<target name="set-COMPUTER_NAME-unix" if="UNIX-OS" depends="set-os">
+		<property name="COMPUTER_NAME" value="${env.HOSTNAME}"/>
+		<property name="OS_END_OF_LINE_SYMBOL" value="lf"/>
+	</target>
+	<!-- ========================================================================= -->
+	<!-- get machine property file name -->
+	<target name="get-default-file-names" depends="set-COMPUTER_NAME-windows, set-COMPUTER_NAME-unix">
+		<property name="MACHINE_DB_PROPERTIES" value="properties/${COMPUTER_NAME}-DB.properties"/>
+		<!--		<available property="MACHINE_PROPERTIES_OK" file="${MACHINE_PROPERTIES}"/> -->
+		<available property="MACHINE_DB_PROPERTIES_OK" file="${MACHINE_DB_PROPERTIES}"/>
+		<property name="INSTALL_DIR_STEM" value="${XTRADE_HOME}/build-results"/>
+	</target>
+	<!-- ========================================================================= -->
+	<!-- read core properties from the files -->
+	<target name="read1" depends="get-default-file-names" if="MACHINE_PROPERTIES_OK">
+		<property file="${MACHINE_PROPERTIES}"/>
+	</target>
+	<target name="read2" depends="read1" if="MACHINE_DB_PROPERTIES_OK" unless="DEPLOY_HOME">
+		<property file="${MACHINE_DB_PROPERTIES}"/>
+		<property name="DB_SYS_USER" value="sys"/>
+	</target>
+	<!-- ========================================================================= -->
+	<target name="verify" depends="read2" if="DEBUG">
+		<echo message="">		
+ ===============================================
+ MACHINE:
+ ===============================================
+ DB_SID=${DB_SID}
+ DB_USERNAME=${DB_USERNAME}
+ DB_PASSWORD=${DB_PASSWORD}
+ DB_SYS_USER=${DB_SYS_USER}
+ DB_SYS_PASSWORD=${DB_SYS_PASSWORD}
+ DB_HOST=${DB_HOST}
+ DB_PORT_NUMBER=${DB_PORT_NUMBER}
+ ===============================================
+		</echo>
+	</target>
+	<!-- ========================================================================= -->
+	<!-- run the real thing -->
+	<target name="run" depends="verify" if="BUILD_TARGET">
+		<ant antfile="${MAIN_ANT_FILE}" target="${BUILD_TARGET}"/>
+	</target>
+	<target name="run2" depends="verify" unless="BUILD_TARGET">
+		<ant antfile="${MAIN_ANT_FILE}"/>
+	</target>	
+	<!-- ========================================================================= -->
+	<!-- run the real thing -->
+	<target name="build" depends="run, run2">
+		<delete dir="${XTRADE_TEMP_DIR}" quiet="true"/>
+	</target>
+</project>
+@

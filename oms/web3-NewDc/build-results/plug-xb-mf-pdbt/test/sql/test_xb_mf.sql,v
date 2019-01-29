@@ -1,0 +1,323 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.52.18;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5e44d904bc14ed7;
+filename	test_xb_mf.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@create or replace package test_xb_mf
+as
+
+  PROCEDURE init_master_data ;
+  
+  PROCEDURE clear_master_data ;
+  
+  PROCEDURE init_account_data ;
+  
+  PROCEDURE clear_account_data ;
+  
+end test_xb_mf;
+/
+show errors
+
+create or replace package body test_xb_mf
+as
+
+  PROCEDURE init_master_data 
+  IS
+  BEGIN
+  
+		
+		insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+			values(88810, 3, 'MF1', '501', 1000, 0.8, SYSDATE, SYSDATE);
+		insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+			values(88820, 3, 'MF2', '501', 1000, 0.8, SYSDATE, SYSDATE);
+		insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+			values(88830, 3, 'MF3', '501', 1000, 0.8, SYSDATE, SYSDATE);
+		
+		insert into mutual_fund_product(
+		       product_id,
+		       product_code,
+		       product_issue_code,
+		       fund_type ,
+		       created_timestamp,
+		       last_updated_timestamp ,
+		       init_purchase_min_qty,
+		       addtl_purchase_min_qty)
+			values(88810, '8881', '1', 1,  sysdate, sysdate,100,100);
+		insert into mutual_fund_product(
+		       product_id,
+		       product_code,
+		       product_issue_code,
+		       fund_type ,
+		       created_timestamp,
+		       last_updated_timestamp ,
+		       init_purchase_min_qty,
+		       addtl_purchase_min_qty)
+			values(88820, '8882', '2', 2, sysdate, sysdate,200,200);
+		
+		insert into mutual_fund_product(
+		       product_id,
+		       product_code,
+		       product_issue_code,
+		       fund_type ,
+		       created_timestamp,
+		       last_updated_timestamp ,
+		       init_purchase_min_qty,
+		       addtl_purchase_min_qty)
+			values(88830, '8883', '3', 3,  sysdate, sysdate,300,300);
+		
+					
+		insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)
+			values(888123, 88810, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+		insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)
+			values(888124, 88820, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+		insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)		
+			values(888125, 88830, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+		
+		
+		insert into mutual_fund_traded_product(
+		       traded_product_id,
+		       order_close_time ,
+		       created_timestamp,
+		       last_updated_timestamp,
+		       collateral_flag,
+		       market_id ,
+		       product_id )
+		 values(888123, '15:00',sysdate,sysdate,1, 501,88810);
+		
+		insert into mutual_fund_traded_product(
+		       traded_product_id,
+		       order_close_time ,
+		       created_timestamp,
+		       last_updated_timestamp,
+		       collateral_flag,
+		       market_id ,
+		       product_id )
+		 values(888124, '15:10',sysdate,sysdate,1, 501,88820);
+		
+		insert into mutual_fund_traded_product(
+		       traded_product_id,
+		       order_close_time ,
+		       created_timestamp,
+		       last_updated_timestamp,
+		       collateral_flag,
+		       market_id ,
+		       product_id )
+		 values(888125, '15:30',sysdate,sysdate,1, 501,88830);
+
+
+		commit;
+		
+  END init_master_data;
+
+  PROCEDURE clear_master_data 
+  IS
+  BEGIN
+		delete from mutual_fund_traded_product;
+		delete from mutual_fund_product;
+		commit;
+  END clear_master_data;
+  
+  PROCEDURE init_account_data 
+  IS
+  BEGIN
+ 
+ 		--orginal 2000, order to sell 2000, sold 1000  
+		insert into eqtype_asset(asset_id, product_id, product_type, 
+				account_id, sub_account_id, 
+				quantity, book_value, 
+				tax_type, created_timestamp, last_updated_timestamp)
+		values(88820001, 88820, 3, 
+				0, 0, 
+				1000, 450000, 
+				0, SYSDATE, SYSDATE);
+				
+		insert into eqtype_locked_asset_details(asset_id, 
+				account_id, sub_account_id, 
+				locked_quantity, 
+				created_timestamp, last_updated_timestamp)
+		values (88820001, 
+				0, 0, 
+				1000, 
+				SYSDATE, SYSDATE);
+				
+		insert into eqtype_asset_unit(asset_unit_id, 
+				account_id, sub_account_id, 
+				asset_id, product_id, product_type, 
+				market_id, 
+				original_quantity, quantity, 
+				acquired_price, acquired_timestamp, delivery_date, 
+				created_timestamp, last_updated_timestamp)
+		values(8882000101, 
+				0, 0, 
+				88820001, 88820, 3, 
+				501, 
+				2000, 1000, 
+				450, to_date('20020401','yyyymmdd'), to_date('20020401','yyyymmdd'), 
+				SYSDATE, SYSDATE);
+	
+		--equity sell order	
+		insert into eqtype_order(order_id, 
+				account_id, sub_account_id, 
+				created_timestamp, last_updated_timestamp)
+		values(30001, 
+				0, 0, 
+				SYSDATE, SYSDATE);
+				
+		insert into eqtype_order_unit(order_unit_id, 
+				account_id, sub_account_id, 
+				branch_id, trader_id, order_id,
+				order_type, order_categ, 
+				product_id, product_type, market_id, 
+				tax_type, execution_condition_type, 
+				delivery_date, expiration_date, 
+				quantity, limit_price, 
+				last_execution_serial_no, last_order_action_serial_no,
+				confirmed_quantity, confirmed_price, executed_quantity, executed_amount,
+				order_open_status, order_status, expiration_status, 
+				created_timestamp, last_updated_timestamp,biz_date )
+		values (30001001, 
+				0, 0, 
+				86991, 869911, 30001,
+				2, 1, 
+				88820, 3, 501, 
+				1, 0, 
+				to_date('20030113','yyyymmdd'), to_date('20030108','yyyymmdd'),
+				2000, 450,
+				1, 2,
+				2000, 450, 1000, 450000,
+				1, 3, 1, 
+				SYSDATE, SYSDATE,'20031212');
+				
+		insert into eqtype_order_action (order_action_id, 
+				account_id, sub_account_id, 
+				order_id, order_unit_id,
+				order_action_serial_no, order_type, order_event_type, 
+				product_id, market_id, 
+				execution_condition_type,
+				quantity, confirmed_quantity, confirmed_price, executed_quantity, price,
+				order_status, expiration_status, 
+				created_timestamp, last_updated_timestamp )
+		values (30001001001, 
+				0, 0, 
+				30001, 30001001,
+				1, 2, 1, 
+				88820, 501, 
+				0,
+				2000, null, null, null, 450,
+				1, 1, 
+				SYSDATE, SYSDATE);
+		
+		insert into eqtype_order_action (order_action_id, 
+				account_id, sub_account_id, 
+				order_id, order_unit_id,
+				order_action_serial_no, order_type, order_event_type, 
+				product_id, market_id, 
+				execution_condition_type,
+				quantity, confirmed_quantity, confirmed_price, executed_quantity, price,
+				order_status, expiration_status, 
+				created_timestamp, last_updated_timestamp )
+		values (30001001002,
+				0, 0, 
+				30001, 30001001,
+				2, 2, 91, 
+				88820, 501, 
+				0,
+				2000, 2000, 450, 1000, 450,
+				3, 1, 
+				SYSDATE, SYSDATE);
+		
+		insert into eqtype_order_execution (order_execution_id, 
+				account_id, sub_account_id, 
+				branch_id, trader_id, 
+				order_id, order_unit_id,
+				order_type, 
+				product_id, product_type, market_id, 
+				delivery_date,
+				exec_serial_no, exec_price, exec_quantity, exec_timestamp, 
+				created_timestamp, last_updated_timestamp,
+				biz_date)
+		values (3000100101, 
+				0, 0, 
+				86991, 869911, 
+				30001, 30001001,
+				2, 
+				88820, 3, 501, 
+				to_date('20030113','yyyymmdd'),
+				1, 450, 1000, to_date('20030108 09:30:00','yyyymmdd hh24:mi:ss'), 
+				SYSDATE, SYSDATE,
+				'20031212');
+		
+		insert into eqtype_fin_transaction (fin_transaction_id, account_id, sub_account_id, tax_type,
+				fin_transaction_type, fin_transaction_categ, fin_transaction_timestamp,
+				delivery_date, net_amount,
+				product_id, product_type, market_id, price, quantity,
+				order_id, order_unit_id, order_execution_id,
+				commission_fee, commission_fee_tax, asset_id, contract_id,
+				imported_paid_value,
+				imported_setup_fee,	imported_setup_fee_tax,
+				capital_gain, capital_gain_tax,
+				imported_management_fee, imported_management_fee_tax,
+				imported_interest_fee, imported_interest_fee_tax,
+				created_timestamp, last_updated_timestamp
+				)
+		values (3000100001, 0, 0, 0,
+				80, 20, to_date('20030108 09:30:00','yyyymmdd hh24:mi:ss'),
+				to_date('20030113','yyyymmdd'), 450000, 
+				88820, 3, 501, 450, 1000,
+				30001, 30001001, 3000100101,
+				0, 0, 88820001, null,
+				450000, 
+				0, 0, 
+				0, 0,
+				0, 0, 
+				0, 0, 
+				SYSDATE, SYSDATE);
+
+		insert into gen_fin_transaction (transaction_id,delivery_date, transaction_description, net_amount, 
+				account_id, sub_account_id, 
+				trade_module_name, 
+				transaction_date, transaction_type, 
+				created_timestamp, last_updated_timestamp, biz_date)
+		values (3000100001, to_date('20030113','yyyymmdd'), 'Sell 88820 1000 shares at 450 yen', 450000,
+				0, 0, 
+				'xb-mf',
+				to_date('20030108 09:30:00','yyyymmdd hh24:mi:ss'), 80, 
+				SYSDATE, SYSDATE,'20031212');
+		
+ 
+		commit;
+		
+  END init_account_data;
+  
+  PROCEDURE clear_account_data 
+  IS
+  BEGIN
+		commit;
+  END clear_account_data;
+      
+end test_xb_mf;
+/
+show errors
+@

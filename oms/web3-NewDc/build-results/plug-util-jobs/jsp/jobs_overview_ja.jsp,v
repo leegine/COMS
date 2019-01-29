@@ -1,0 +1,242 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.50.49;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3f04d912cd82de4;
+filename	jobs_overview_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="jobs_errors_ja.jsp" %>
+<%@@page import="com.fitechlabs.xtrade.plugin.util.jobs.*,com.fitechlabs.xtrade.plugin.util.jobs.data.*,com.fitechlabs.xtrade.kernel.data.*,com.fitechlabs.dbind.*,java.util.*" %>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>ジョブ一覧・管理</title>
+</head>
+
+<body>
+<table width="100%">
+  <tr>
+	<td align="right" width="100%">
+	  <a href="<%=request.getContextPath()%>">xTradeホームへ</a>
+	</td>
+  </tr>
+</table>
+<%! // class initialization
+  int toInt( String s, int onNull ) {
+    if ( s == null )
+      return onNull;
+    try {
+      return Integer.parseInt(s);
+    } catch ( Exception e ) {
+      return onNull;
+    }
+  }
+  Object safely(Object s) {
+    if ( s == null || s == "" )
+      return "&nbsp;";
+    return s;
+  }
+%>
+<%
+  // parameters
+  int itemsperjob         = toInt( request.getParameter("itemsperjob"),  10 );
+  int dayshistory         = toInt( request.getParameter("dayshistory"),   7 );
+  int itemsperpage        = toInt( request.getParameter("itemsperpage"), 50 );
+  int pagenumber          = toInt( request.getParameter("pagenumber"),    0 );
+
+  // indicates whether some kind of action is performed
+  // specified thru query parameter string.
+  // in such a case we redirect the page to
+  // the same URI without the query parameter string
+  // to avoid any accidental refresh thru the browser
+  // that trigger the same action again.
+  boolean actionPerformed = false;
+
+  // attempt to run any job that is on the command line
+  final String runid = request.getParameter("run");
+  if ( runid != null ){
+
+	JobsUIHelper.runJob( runid );
+	actionPerformed = true;
+  }else{
+
+	// disabling and enabling jobs
+	final String disid = request.getParameter("dis");
+	if ( disid != null ){
+
+	  JobsUIHelper.disableJob( disid );
+	  actionPerformed = true;
+	}else {
+
+	  final String enaid = request.getParameter("ena");
+	  if ( enaid != null ){
+
+		JobsUIHelper.enableJob( enaid );
+		actionPerformed = true;
+	  }
+	}
+  }
+
+  if(actionPerformed){
+
+	// redirect to the same page without query parameter string
+	// to avoid accidental refreshes from browser refresh action
+	final String uri = request.getRequestURI();
+	response.sendRedirect(uri);
+  }
+
+  // query for the schedule and history items
+  List jobs = JobsUIHelper.listJobs();
+%>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#99CCFF">
+  <tr>
+    <td width="100%">
+      <h1>ジョブ一覧・管理</h1>
+    </td>
+  </tr>
+</table>
+<h2>ジョブスケジュール</h2>
+<form method="POST">
+  <table border="1" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td width="14%" valign="top" align="center" rowspan="2"><b>ジョブ名</b></td>
+      <td width="6%" valign="top"  align = "center" rowspan="2"><b>状態</b></td>
+      <td width="10%" valign="top" rowspan="2"><p align="center"><b>処理一覧</b></td>
+      <td width="22%" colspan="2" valign="top" align="center"><b>スケジュール詳細</b></td>
+      <td width="14%" colspan="3" valign="top" align="center"><b>リトライ設定情報</b></td>
+      <td width="14%" colspan="2" valign="top" align="center"><b>スレッド設定情報</b></td>
+      <td width="20%" colspan="2" valign="top" align="center"><b>実行履歴</b></td>
+    </tr>
+    <tr>
+      <td width="8%" valign="top" align="center"><b><font size="2">タイプ</font></b></td>
+      <td width="14%" valign="top" align="center"><b><font size="2">詳細</font></b></td>
+      <td width="4%" valign="top">
+        <p align="center"><b><font size="2">回数</font></b></td>
+      <td width="5%" valign="top" align="center"><b><font size="2">間隔<br>
+       （秒）</font></b></td>
+      <td width="5%" valign="top" align="center"><b><font size="2">MAX実行可能時間<br>
+       （秒）</font></b></td>
+      <td width="7%" valign="top" align="center"><b><font size="2">実行数設定</font></b></td>
+      <td width="7%" valign="top" align="center"><b><font size="2">優先順位</font></b></td>
+      <td width="10%" valign="top" align="center"><b><font size="2">前回実行時間</font></b></td>
+      <td width="10%" valign="top" align="center"><b><font size="2">次回実行予定時間</font></b></td>
+    </tr>
+
+
+  <!-- One row for each job in the schedule -->
+    <% for ( Iterator it=jobs.iterator(); it.hasNext(); ) {
+        JobScheduleRow row = (JobScheduleRow) it.next();
+    %>
+      <tr>
+        <td width="14%" valign="top"><font size="2"><%=safely(row.getJobName())%></font></td>
+        <td width="6%" valign="top" align="center">
+        	<font size="2">
+        		<% if( safely(row.getStatus()).equals("enabled") ){ %>
+        			有効
+        		<% } else { %>
+        			無効
+        		<% } %>
+        		<% // =safely(row.getStatus())%>
+        	</font>
+        </td>
+        <td width="10%" valign="top" nowrap>
+        <font size="2">
+		<ul>
+			<li><A href="jobs_overview_ja.jsp?run=<%=row.getJobId()%>"
+				    onClick='return confirm("<%=row.getJobName()%> ジョブを実行してよろしいですか？")'>直ちに実行する</A></li>
+
+			<li><A href="job_details_ja.jsp?jobid=<%=row.getJobId()%>">編集</A></li>
+			<li><A href="job_attempt_history_ja.jsp?jobid=<%=row.getJobId()%>">履歴</A></li>
+          <% if ( "enabled".equals(row.getStatus()) ) { %>
+            		<li><A href="jobs_overview_ja.jsp?dis=<%=row.getJobId()%>"
+					onClick='return confirm("<%=row.getJobName()%> ジョブを無効にしてよろしいですか？")'>無効にする</A></li>
+          <% } else { %>
+            		<li><A href="jobs_overview_ja.jsp?ena=<%=row.getJobId()%>"
+					onClick='return confirm("<%=row.getJobName()%> ジョブを有効にしてよろしいですか？")'>有効にする</A></li>
+          <% } %>
+		</ul>
+        </font>
+        </td>
+		<%
+		  // get the schedule type string
+		  String schedType = row.getSchedType();
+		%>
+
+		<%
+		  String schedTypeUiString = null;
+		  if ( "regular".equals(schedType) ) {
+              schedTypeUiString = "定期";
+          } else if ( "onetime".equals(schedType) ) {
+			  schedTypeUiString = "一回のみ";
+          } else if ( "scheduled".equals(schedType) ) {
+              schedTypeUiString = "スケジュール";
+          } else if ( "manual".equals(schedType) ) {
+			schedTypeUiString = "手動";
+          }
+		%>
+
+        <td width="8%" valign="top" align="center"><font size="2"><%=safely(schedTypeUiString)%></font></td>
+        <td width="14%" valign="top" align="center"><font size="2">
+          <%
+            //String schedType = row.getSchedType();
+            if ( "regular".equals(schedType) ) {
+              out.print(row.getFrequencySecs() +"秒毎" );
+              if ( row.getHours() != null )
+                out.print( ", "+ row.getHours() );
+            } else if ( "onetime".equals(schedType) ) {
+              if ( row.getNextDateTime() != null )
+                out.print( "実行待ち" );
+              else if ( row.getLastDateTime() != null )
+                out.print( "実行済み" );
+              else
+                out.print( "未スケジュール" );
+            } else if ( "scheduled".equals(schedType) ) {
+              out.print( safely( row.getSchedule() ) );
+            } else if ( "manual".equals(schedType) ) {
+              out.print( safely( "手動で実行する" ) );
+            }
+          %>
+          </font></td>
+        <td width="4%" valign="top" align="right"><font size="2"><%=row.getRetryCount()%></font></td>
+        <td width="5%" valign="top" align="right"><font size="2"><%=row.getRetryAfterSecs()%></font></td>
+        <td width="5%" valign="top" align="right"><font size="2"><%=row.getMaxDurationSecs()%></font></td>
+        <td width="7%" valign="top" align="center"><font size="2"><%=row.getThreadCount()%>/cl <%=row.getMaxPerNode()%>/nd</font></td>
+        <td width="7%" valign="top" align="center"><font size="2"><%=safely(row.getThreadPriority())%></font></td>
+        <td width="10%" valign="top" align="center"><font size="2"><%=safely(JobsDateTimeHelper.toString(row.getLastDateTime()))%></font></td>
+        <td width="10%" valign="top" align="center"><font size="2"><%=safely(JobsDateTimeHelper.toString(row.getNextDateTime()))%></font></td>
+      </tr>
+    <% } %>
+
+
+  </table>
+  <A href="job_details_ja.jsp">ジョブ新規作成</A> &nbsp;
+</form>
+
+</body>
+
+</html>
+@

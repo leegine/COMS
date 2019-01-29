@@ -1,0 +1,131 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.04.40;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.eqtype.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/eqtype.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=EqTypeAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/eqtype_account_triggers.sql
+
+enums=\
+  eqtype_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  eqtype_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  eqtype_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  eqtype_order_unit.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_unit.confirmed_exec_condition_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  eqtype_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  eqtype_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  eqtype_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  eqtype_order_unit.swap_tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  eqtype_order_unit.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  eqtype_order_unit.org_w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_unit.w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_unit.w_limit_before_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_unit.submit_order_delay_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  eqtype_order_action.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  eqtype_order_action.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  eqtype_order_action.order_event_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum \
+  eqtype_order_action.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  eqtype_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  eqtype_order_action.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  eqtype_order_action.org_w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_action.w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_action.w_limit_before_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order_action.confirmed_exec_condition_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_fin_transaction.fin_transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  eqtype_fin_transaction.fin_transaction_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg \
+  eqtype_fin_transaction.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  eqtype_fin_transaction.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  eqtype_contract.contract_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ContractTypeEnum \
+  eqtype_contract.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  eqtype_contract.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  eqtype_order_execution.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  eqtype_order_execution.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  eqtype_order_execution.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  eqtype_order_action.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeExecutionConditionType \
+  eqtype_order.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  eqtype_order_execution.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  eqtype_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  eqtype_order:inv=?.account_id \
+  eqtype_order_unit:inv=?.account_id \
+  eqtype_order_action:inv=?.account_id \
+  eqtype_order_execution:inv=?.account_id \
+  eqtype_closing_contract_spec:inv=?.account_id \
+  eqtype_fin_transaction:inv=?.account_id \
+  eqtype_contract:inv=?.account_id \
+  eqtype_locked_contract_details:inv=?.account_id
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

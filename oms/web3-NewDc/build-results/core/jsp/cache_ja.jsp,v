@@ -1,0 +1,374 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.02.30.34;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7c44d7ecf0833c0;
+filename	cache_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="core_errors_ja.jsp" %>
+<%@@page import="java.util.*,java.text.*,com.fitechlabs.dbind.impl.*,com.fitechlabs.xtrade.kernel.data.*,com.fitechlabs.xtrade.kernel.util.log.*" %>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>キャッシュ統計情報</title>
+</head>
+
+<body>
+<%! // class initialization
+  Logit log = Logit.getInstance( "cache_ja.jsp" );
+  boolean DBG = log.ison();
+    
+  int toInt( String s, int onNull ) {
+    if ( s == null )
+      return onNull;
+    try {
+      return Integer.parseInt(s);
+    } catch ( Exception e ) {
+      return onNull;
+    }
+  }
+  Object safely(Object s) {
+    if ( s == null || s == "" )
+      return "&nbsp;";
+    return s;
+  }
+
+  NumberFormat _f_1 = new DecimalFormat("#.0");
+  NumberFormat _f_2 = new DecimalFormat("#.00");
+  NumberFormat _f_3 = new DecimalFormat("#.000");
+  NumberFormat _f_4 = new DecimalFormat("#.0000");
+  String f_0( double d ) { return String.valueOf((long)d); }
+  String f_1( double d ) { return _f_1.format(d); }
+  String f_2( double d ) { return _f_2.format(d); }
+  String f_3( double d ) { return _f_3.format(d); }
+  String f_4( double d ) { return _f_4.format(d); }
+
+  int recursiveSize( Map map ) {
+    int count = 0;
+    for ( Iterator it=map.values().iterator(); it.hasNext(); ) {
+      Object o = it.next();
+      if ( o instanceof Map )
+        count += recursiveSize( (Map) o );
+      else
+        count++;
+    }
+    return count;
+  }
+%>
+<%
+  // parameters
+  int collect = toInt( request.getParameter("collect"),  -1 );
+  int clear   = toInt( request.getParameter("clear"),    -1 );
+  int drop   = toInt( request.getParameter("drop"),    -1 );
+
+  // attempt to run any embedded request
+  if ( collect >= 0 ) {
+    CacheStatistics.setCollecting ( collect>0 );
+  }else if ( clear >= 0 ) {
+    CacheStatistics.clear ( );
+	response.sendRedirect(request.getRequestURI());
+  }else	if ( drop >= 0) {
+  	String remoteAddress = request.getRemoteAddr();
+  	String remoteHost = request.getRemoteHost();
+  	log.info("User from host " + remoteHost + "(" + remoteAddress + ") has requested cache clean up. All contents in cache will be dropped."); 
+  	InvHeartbeats.dropCache(DataSources.getDefaultDataSource());
+    CacheStatistics.clear ( );
+    log.info("Both cache and cache statistics have been cleaned up."); 
+	response.sendRedirect(request.getRequestURI());  	
+  }
+%>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#FFFF99">
+  <tr>
+    <td width="100%">
+      <h1>キャッシュ統計情報</h1>
+    </td>
+  </tr>
+</table>
+
+<!-- hyperlinks to this and related pages -->
+<table  border="0" cellpadding="5" cellspacing="0">
+  <tr>
+    <td>
+	  <strong>APPサーバー名（ポート番号）：</strong><%=request.getServerName()%>(<%=request.getServerPort()%>)
+	</td>
+    <td colspan="2">
+
+	  <% if(CacheStatistics.isCollecting()){ %>
+		 <em><b><font color="#AA0000" size="+1">統計情報収集が現在オンです。</font></b></em>
+		 &nbsp; <A href="cache_ja.jsp?collect=0">統計情報収集を終了する</A> &nbsp;
+	  <%}else{%>
+		 統計情報収集が現在オフです。
+		 &nbsp; <A href="cache_ja.jsp?collect=1">統計情報収集を開始する</A> &nbsp;
+	  <%
+	   }
+	  %>
+	</td>
+  </tr>
+  <tr>
+
+	<td>
+	  <a href="<%=request.getContextPath()%>">xTradeホームへ</a>
+	</td>
+	<td>
+	  <A href="cache_ja.jsp">ページをリフレッシュする</A>
+	</td>
+
+	<td>
+	  <A href="cache_ja.jsp?clear=1"
+	  onClick="return confirm('キャッシュ統計情報をクリアしてよろしいですか？')">
+	  収集済み統計情報をクリアする</A>
+	</td>
+  </tr>
+</table>
+
+<h2>サイズ</h2>
+<table border="1" cellpadding="0" cellspacing="0" width="60%">
+    <tr>
+      <td width="24%" valign="top" align="left">&nbsp;<b>テーブル名</b></td>
+      <td width="13%" valign="top" align="center"><b>タイプ</b></td>
+      <td width="13%" valign="top" align="center"><b>容量</b></td>
+      <td width="13%" valign="top" align="center"><b>平均</b></td>
+      <td width="13%" valign="top" align="center"><b>MAX</b></td>
+      <td width="13%" valign="top" align="center"><b>標準偏差</b></td>
+      <td width="13%" valign="top" align="center"><b>使用率</b></td>
+    </tr>
+
+    <%
+
+    // print the statistics
+    Map sizeInfoMapMap = CacheStatistics.getSizeInfoMapMap();
+    for ( Iterator it=sizeInfoMapMap.entrySet().iterator(); it.hasNext(); ) {
+      Map.Entry ie = (Map.Entry) it.next();
+      String table = (String) ie.getKey();
+      Map sizeInfoMap = (Map) ie.getValue();
+      boolean first = true;
+      int rowspan = sizeInfoMap.size();
+      for ( Iterator jt=sizeInfoMap.entrySet().iterator(); jt.hasNext(); first=false ) {
+        Map.Entry je = (Map.Entry) jt.next();
+        String type = (String) je.getKey();
+        CacheStatistics.SizeInfo sizeInfo = (CacheStatistics.SizeInfo) je.getValue();
+        %>
+          <tr>
+            <% if ( first ) { %>
+              <td valign="top" align="left" rowspan="<%=rowspan%>"><font size="2">&nbsp;<%=table%>&nbsp;</font></td>
+            <% } %>
+            <td valign="top" align="center"><font size="2">&nbsp;<%=type%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=sizeInfo.getCapacity()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_1(sizeInfo.getMean())%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_0(sizeInfo.getMaximum())%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_2(sizeInfo.getStandardDeviation())%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_0(100.*sizeInfo.getMean()/sizeInfo.getCapacity())%>%&nbsp;</font></td>
+          </tr>
+        <%
+      }
+    }
+    %>
+</table>
+
+
+<h2>ヒット率</h2>
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td width="12%" valign="top" align="left">&nbsp;<b>テーブル名</b></td>
+      <td width="8%" valign="top" align="center"><b>タイプ</b></td>
+      <td width="8%" valign="top" align="center"><b>トライ数</b></td>
+      <td width="8%" valign="top" align="center"><b>ヒット数</b></td>
+      <td width="8%" valign="top" align="center"><b>ミス数</b></td>
+      <td width="8%" valign="top" align="center"><b>ヒット率</b></td>
+      <td width="8%" valign="top" align="center"><b>ミス率</b></td>
+      <td width="44%" valign="top" align="center"><b>検索時指定の特別内容</b></td>
+    </tr>
+
+    <%
+    Map hitRatioMapMap = CacheStatistics.getHitRatioMapMap();
+    for ( Iterator it=hitRatioMapMap.entrySet().iterator(); it.hasNext(); ) {
+      Map.Entry ie = (Map.Entry) it.next();
+      String table = (String) ie.getKey();
+      Map hitRatioMap = (Map) ie.getValue();
+      boolean first = true;
+      int rowspan = hitRatioMap.size();
+      for ( Iterator jt=hitRatioMap.entrySet().iterator(); jt.hasNext(); first=false ) {
+        Map.Entry je = (Map.Entry) jt.next();
+        String type = (String) je.getKey();
+        CacheStatistics.Tally hitRatios = (CacheStatistics.Tally) je.getValue();
+        %>
+          <tr>
+            <% if ( first ) { %>
+              <td valign="top" align="left" rowspan="<%=rowspan%>"><font size="2">&nbsp;<%=table%>&nbsp;</font></td>
+            <% } %>
+            <td valign="top" align="center"><font size="2">&nbsp;<%=type%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=hitRatios.getAccessCount()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=hitRatios.getHitCount()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=hitRatios.getMissCount()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_1(100.*hitRatios.getHitRate())%>%&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_1(100.*hitRatios.getMissRate())%>%&nbsp;</font></td>
+            <td valign="top" align="left"><font size="2">&nbsp;<%=safely(hitRatios.getSpecialCases())%>&nbsp;</font></td>
+          </tr>
+        <%
+      }
+    }
+    %>
+</table>
+
+
+
+<h2>インバリデーション詳細</h2>
+<table border="1" cellpadding="0" cellspacing="0" width="85%">
+    <tr>
+      <td width="16%" valign="top" align="left" rowspan="2">&nbsp;<b>テーブル名</b></td>
+      <td width="10%" valign="top" align="center" rowspan="2"><b>タイプ</b></td>
+      <td width="10%" valign="top" align="center" rowspan="2"><b>カウント</b></td>
+      <td width="8%" valign="top" align="center" colspan="2"><b>キャッシュよりドロップ内容詳細</b></td>
+      <td width="10%" valign="top" align="center" rowspan="2"><b>平均<p><font size="2">(秒)</font></b></td>
+      <td width="10%" valign="top" align="center" rowspan="2"><b>MAX<p><font size="2">(秒)</font></b></td>
+      <td width="10%" valign="top" align="center" rowspan="2"><b>標準偏差<p><font size="2">(秒)</font></b></td>
+      <td width="12%" valign="top" align="center" rowspan="2"><b>累積時間<p><font size="2">(秒)</font></b></td>
+    </tr>
+    <tr>
+      <td width="8%" valign="top" align="center"><b><font size="2">レコード</font></b></td>
+      <td width="8%" valign="top" align="center"><b><font size="2">エナム</font></b></td>
+    </tr>
+
+    <%
+
+    // print the invalidation statistics
+    Map invalidationMapMap = CacheStatistics.getInvalidationMapMap();
+    for ( Iterator it=invalidationMapMap.entrySet().iterator(); it.hasNext(); ) {
+      Map.Entry ie = (Map.Entry) it.next();
+      String table = (String) ie.getKey();
+      Map invInfoMap = (Map) ie.getValue();
+      boolean first = true;
+      int rowspan = invInfoMap.size();
+      for ( Iterator jt=invInfoMap.entrySet().iterator(); jt.hasNext(); first=false ) {
+        Map.Entry je = (Map.Entry) jt.next();
+        String type = (String) je.getKey();
+        CacheStatistics.InvInfo invInfos = (CacheStatistics.InvInfo) je.getValue();
+        %>
+          <tr>
+            <% if ( first ) { %>
+              <td valign="top" align="left" rowspan="<%=rowspan%>"><font size="2"><%=table%></font></td>
+            <% } %>
+            <td valign="top" align="center"><font size="2">&nbsp;<%=type%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=invInfos.getCount()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=invInfos.getRowDrops()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=invInfos.getEnumDrops()%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(invInfos.getMean()/1000.)%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(invInfos.getMaximum()/1000.)%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(invInfos.getStandardDeviation()/1000.)%>&nbsp;</font></td>
+            <td valign="top" align="right"><font size="2">&nbsp;<%=f_1(invInfos.getCumulativeTotal()/1000.)%>&nbsp;</font></td>
+          </tr>
+        <%
+      }
+    }
+    %>
+</table>
+
+
+<h2>タイミング詳細</h2>
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td width="12%" valign="top" align="left">&nbsp;<b>テーブル名</b></td>
+      <td width="8%" valign="top" align="center"><b>タイプ</b></td>
+      <td width="28%" valign="top" align="center"><b>Where句内容</b></td>
+      <td width="14%" valign="top" align="center"><b>詳細</b></td>
+      <td width="8%" valign="top" align="center"><b>カウント</b></td>
+      <td width="8%" valign="top" align="center"><b>平均<p><font size="2">(秒)</font></b></td>
+      <td width="8%" valign="top" align="center"><b>MAX<p><font size="2">(秒)</font></b></td>
+      <td width="8%" valign="top" align="center"><b>標準偏差<p><font size="2">(秒)</font></b></td>
+      <td width="8%" valign="top" align="center"><b>累積時間<p><font size="2">(秒)</font></b></td>
+    </tr>
+
+    <%
+    Map timingMapMapMapMap = CacheStatistics.getTimingMapMapMapMap();
+    for ( Iterator it=timingMapMapMapMap.entrySet().iterator(); it.hasNext(); ) {
+      Map.Entry ie = (Map.Entry) it.next();
+      String table = (String) ie.getKey();
+      Map timingMapMapMap = (Map) ie.getValue();
+      boolean ifirst = true;
+      int irowspan = recursiveSize( timingMapMapMap );
+      for ( Iterator jt=timingMapMapMap.entrySet().iterator(); jt.hasNext(); ) {
+        Map.Entry je = (Map.Entry) jt.next();
+        String type = (String) je.getKey();
+        Map timingMapMap = (Map) je.getValue();
+        boolean jfirst = true;
+        int jrowspan = recursiveSize( timingMapMap );
+        for ( Iterator kt=timingMapMap.entrySet().iterator(); kt.hasNext(); ) {
+          Map.Entry ke = (Map.Entry) kt.next();
+          String sql = (String) ke.getKey();
+          Map timingMap = (Map) ke.getValue();
+          boolean kfirst = true;
+          int krowspan = timingMap.size();
+          for ( Iterator pt=timingMap.entrySet().iterator(); pt.hasNext(); ) {
+            Map.Entry pe = (Map.Entry) pt.next();
+            String detail = (String) pe.getKey();
+            CacheStatistics.Summary timing = (CacheStatistics.Summary) pe.getValue();
+            %>
+              <tr>
+                <% if ( ifirst ) { %>
+                  <td valign="top" align="left" rowspan="<%=irowspan%>"><font size="2">&nbsp;<%=table%>&nbsp;</font></td>
+                <% ifirst=false;
+                } %>
+                <% if ( jfirst ) { %>
+                  <td valign="top" align="center" rowspan="<%=jrowspan%>"><font size="2">&nbsp;<%=type%>&nbsp;</font></td>
+                <% jfirst=false;
+                } %>
+                <% if ( kfirst ) { %>
+                  <td valign="top" align="left" rowspan="<%=krowspan%>"><font size="2">&nbsp;<%=safely(sql)%>&nbsp;</font></td>
+                <% kfirst=false;
+                } %>
+                <td valign="top" align="left"><font size="2">&nbsp;<%=detail%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=timing.getCount()%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(timing.getMean()/1000.)%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(timing.getMaximum()/1000.)%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2"><%=f_3(timing.getStandardDeviation()/1000.)%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=f_1(timing.getCumulativeTotal()/1000.)%>&nbsp;</font></td>
+              </tr>
+            <%
+          }
+        }
+      }
+    }
+
+    %>
+</table>
+
+<!-- convenience buttons -->
+<br>
+<table  border="0" cellpadding="5" cellspacing="0" width=100%>
+	<tr>
+		<td> <A href="cache_ja.jsp">ページをリフレッシュする</A><td>
+		<td align="right">
+	  		<A href="cache_ja.jsp?drop=1"
+	  			onClick="return confirm('警告！\nこのまま実行するとサーバ内のキャッシュがすべて失われます。\n実行してよろしいですか？')">
+	  		<font color='red'>サーバ内のキャッシュをクリアする</font></A>
+		</td>
+</table>
+<em>最終更新時刻：</em><%=DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(new Date())%>
+</body>
+
+</html>
+@

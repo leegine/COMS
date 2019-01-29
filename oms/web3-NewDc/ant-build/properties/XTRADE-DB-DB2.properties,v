@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.50.02;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	XTRADE-DB-DB2.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@####################################################################
+#
+#   DataBase Configuration Properties for installing
+#   
+#       %PLUGIN% on computer %MACHINE%
+#
+####################################################################
+#
+#   CHANGE  THE  FOLLOWING  VARIABLES  
+#
+####################################################################
+DB_NAME=xtrade
+DB_USERNAME=xtrade2
+DB_PASSWORD=xtrade2
+DB_SYS_USERNAME=db2inst1
+DB_SYS_PASSWORD=fitech
+DB_HOST=192.168.39.202
+DB_PORT_NUMBER=50002
+@

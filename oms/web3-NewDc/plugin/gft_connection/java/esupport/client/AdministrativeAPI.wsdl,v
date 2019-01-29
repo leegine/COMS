@@ -1,0 +1,875 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.05.26;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	AdministrativeAPI.wsdl;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions xmlns:tns="http://soap-api.gftforex.com" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:s="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soap-api.gftforex.com">
+<wsdl:types>
+<s:schema elementFormDefault="qualified" targetNamespace="http://soap-api.gftforex.com">
+<s:simpleType name="String15">
+<s:restriction base="s:string">
+<s:minLength value="1">
+</s:minLength>
+<s:maxLength value="15">
+</s:maxLength>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="String32">
+<s:restriction base="s:string">
+<s:minLength value="1">
+</s:minLength>
+<s:maxLength value="32">
+</s:maxLength>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="String64">
+<s:restriction base="s:string">
+<s:minLength value="1">
+</s:minLength>
+<s:maxLength value="64">
+</s:maxLength>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="String128">
+<s:restriction base="s:string">
+<s:minLength value="1">
+</s:minLength>
+<s:maxLength value="128">
+</s:maxLength>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="String1024">
+<s:restriction base="s:string">
+<s:minLength value="1">
+</s:minLength>
+<s:maxLength value="1024">
+</s:maxLength>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="Currency">
+<s:restriction base="s:token">
+<s:pattern value="[A-Z]{3}">
+</s:pattern>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="CommandID">
+<s:restriction base="s:token">
+<s:minLength value="5">
+</s:minLength>
+<s:maxLength value="50">
+</s:maxLength>
+</s:restriction>
+</s:simpleType>
+<s:simpleType name="RoundSafeAmount">
+<s:restriction base="s:double">
+<s:minInclusive value="0">
+</s:minInclusive>
+<s:maxInclusive value="8796093022207">
+</s:maxInclusive>
+</s:restriction>
+</s:simpleType>
+<s:complexType name="RejectedCommand">
+<s:sequence>
+<s:element type="tns:CommandID" name="RejectedCommandId" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedShort" name="ErrorCode" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="ErrorMessage" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedShort" name="MajorErrorCode" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="MajorErrorMessage" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedShort" name="MinorErrorCode" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="MinorErrorMessage" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="CanTrade">
+<s:sequence>
+<s:element type="s:boolean" name="fx" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="fwd" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="cfd" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="futures" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="sb" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:element name="isOk">
+<s:complexType>
+</s:complexType>
+</s:element>
+<s:element name="isOkResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="s:boolean" name="isOkResult" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="sendRequest">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:CommandBase" name="commands" minOccurs="1" maxOccurs="unbounded">
+</s:element>
+<s:element type="tns:AuthToken" name="authToken" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="sendRequestResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:RejectedCommand" name="RejectedCommand" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="s:double" name="ResponseWaitTime" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="sendSyncRequest">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:CommandBase" name="command" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:AuthToken" name="authToken" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="sendSyncRequestResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:RejectedCommand" name="RejectedCommand" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:ResultInfoBase" name="sendSyncRequestResult" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="getResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="s:unsignedInt" name="maxCommands" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:AuthToken" name="authToken" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="getResponseResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:ResultInfoBase" name="getResponseResult" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="getResponseByCommandId">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:CommandID" name="commandId" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:AuthToken" name="authToken" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="getResponseByCommandIdResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="tns:ResultInfoBase" name="getResponseByCommandIdResult" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:complexType name="CommandBase">
+<s:sequence>
+<s:element type="tns:CommandID" name="CommandID" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="CommandCreateUser">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandBase">
+<s:sequence>
+<s:element type="tns:CreateUserInfo" name="UserInfo" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="CommandUpdateUser">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandBase">
+<s:sequence>
+<s:element type="tns:String32" name="Login" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:UpdateUserInfo" name="NewUserInfo" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="CommandLookupUser">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandBase">
+<s:sequence>
+<s:element type="tns:String32" name="Login" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="CommandTransferBase">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandBase">
+<s:sequence>
+<s:element type="s:unsignedInt" name="AccountID" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:RoundSafeAmount" name="Amount" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:Currency" name="Currency" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="CommandDeposit">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandTransferBase">
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="CommandWithdraw">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandTransferBase">
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="CommandAddAccount">
+<s:complexContent mixed="false">
+<s:extension base="tns:CommandBase">
+<s:sequence>
+<s:element type="s:string" name="Login" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:CreateAccountInfo" name="Account" minOccurs="1" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="ResultInfoBase">
+<s:sequence>
+<s:element type="tns:CommandID" name="CommandID" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedShort" name="StatusCode" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="StatusMessage" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedShort" name="MajorStatusCode" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="MajorStatusMessage" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedShort" name="MinorStatusCode" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="MinorStatusMessage" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="ResultInfoUpdateUser">
+<s:complexContent mixed="false">
+<s:extension base="tns:ResultInfoBase">
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="ResultInfoCreateUser">
+<s:complexContent mixed="false">
+<s:extension base="tns:ResultInfoBase">
+<s:sequence>
+<s:element type="tns:String32" name="Login" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="Password" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="AccountIds" minOccurs="1" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="ResultInfoLookupUser">
+<s:complexContent mixed="false">
+<s:extension base="tns:ResultInfoBase">
+<s:sequence>
+<s:element type="tns:LookupUserInfo" name="UserInfo" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="ResultInfoAddAccount">
+<s:complexContent mixed="false">
+<s:extension base="tns:ResultInfoBase">
+<s:sequence>
+<s:element type="s:unsignedInt" name="AccountId" minOccurs="1" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="ResultInfoDeposit">
+<s:complexContent mixed="false">
+<s:extension base="tns:ResultInfoBase">
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="ResultInfoWithdraw">
+<s:complexContent mixed="false">
+<s:extension base="tns:ResultInfoBase">
+</s:extension>
+</s:complexContent>
+</s:complexType>
+<s:complexType name="UserPersonalInfo">
+<s:sequence>
+<s:element type="tns:String64" name="FirstName" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String64" name="LastName" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String128" name="Email" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="MobilePhone" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="HomePhone" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="DayPhone" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="FaxNumber" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String128" name="StreetAdress" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="City" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="State" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="Country" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String15" name="ZipCode" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="BestTimeToCall" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="Course" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="HowDidYouFindOurWebsite" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="ILearnedOfGFTVia" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="IWasReferredBy" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="NotTraded" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="OtherReason" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="OtherServices" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="OtherWants" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="PleaseContactMeVia" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="Profession" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="ServiceExpected" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="TradedForex" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="TradedFutures" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="TradedStocks" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="TradedOptions" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="WebforexDemo" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="WhatDoYouWant" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="WhyForex" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="ForexTradingExperience" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="FuturesOptionsTradingExperience" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="OtherTradingExperience" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String1024" name="InternetConnection" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="UserSystemInfo">
+<s:sequence>
+<s:element type="tns:String32" name="Login" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String32" name="Password" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String64" name="Groups" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="s:unsignedInt" name="Profiles" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="s:date" name="ExpireDate" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="IsDisabled" minOccurs="0" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="CreateUserInfo">
+<s:sequence>
+<s:element type="s:string" name="UserTemplateId" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:UserPersonalInfo" name="UserPersonalInfo" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:UserSystemInfo" name="UserSystemInfo" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:CreateAccountInfo" name="Accounts" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="UpdateUserInfo">
+<s:sequence>
+<s:element type="tns:UserPersonalInfo" name="UserPersonalInfo" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String64" name="GroupsToRemoveFrom" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="tns:String64" name="GroupsToAddTo" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="tns:String32" name="Password" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:UpdateAccountInfo" name="Accounts" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="s:date" name="ExpireDate" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="IsDisabled" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="ProfilesToAdd" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="s:unsignedInt" name="ProfilesToRemove" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="LookupUserInfo">
+<s:sequence>
+<s:element type="tns:UserPersonalInfo" name="UserPersonalInfo" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:UserSystemInfo" name="UserSystemInfo" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:LookupAccountInfo" name="Accounts" minOccurs="1" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="CreateAccountInfo">
+<s:sequence>
+<s:element type="s:string" name="AccountTemplateId" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:CanTrade" name="CanTrade" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:RoundSafeAmount" name="InitialDeposit" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:Currency" name="BaseCurrency" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="LotSize" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String64" name="Label" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="IsDisabled" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="Profiles" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="UpdateAccountInfo">
+<s:sequence>
+<s:element type="tns:CanTrade" name="CanTrade" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="AccountId" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="IsDisabled" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="tns:String64" name="Label" minOccurs="0">
+</s:element>
+<s:element type="s:unsignedInt" name="ProfilesToAdd" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+<s:element type="s:unsignedInt" name="ProfilesToRemove" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="LookupAccountInfo">
+<s:sequence>
+<s:element type="s:unsignedInt" name="AccountId" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:CanTrade" name="CanTrade" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:Currency" name="BaseCurrency" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="LotSize" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:double" name="WithdrawableAmount" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="tns:String64" name="Label" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:boolean" name="IsDisabled" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:unsignedInt" name="Profiles" minOccurs="0" maxOccurs="unbounded">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:complexType name="AuthToken">
+<s:sequence>
+<s:element type="tns:String32" name="Login" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="Timestamp" minOccurs="1" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="Algorithm" minOccurs="0" maxOccurs="1">
+</s:element>
+<s:element type="s:string" name="Hash" minOccurs="1" maxOccurs="1">
+</s:element>
+</s:sequence>
+</s:complexType>
+<s:element type="s:string" name="AuthorizationFailedException">
+</s:element>
+<s:element type="s:string" name="InternalErrorException">
+</s:element>
+</s:schema>
+</wsdl:types>
+<wsdl:message name="isOkSoapIn">
+<wsdl:part name="parameters" element="tns:isOk">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="isOkSoapOut">
+<wsdl:part name="parameters" element="tns:isOkResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="sendRequestSoapIn">
+<wsdl:part name="parameters" element="tns:sendRequest">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="sendRequestSoapOut">
+<wsdl:part name="parameters" element="tns:sendRequestResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="sendSyncRequestSoapIn">
+<wsdl:part name="parameters" element="tns:sendSyncRequest">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="sendSyncRequestSoapOut">
+<wsdl:part name="parameters" element="tns:sendSyncRequestResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="getResponseSoapIn">
+<wsdl:part name="parameters" element="tns:getResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="getResponseSoapOut">
+<wsdl:part name="parameters" element="tns:getResponseResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="getResponseByCommandIdSoapIn">
+<wsdl:part name="parameters" element="tns:getResponseByCommandId">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="getResponseByCommandIdSoapOut">
+<wsdl:part name="parameters" element="tns:getResponseByCommandIdResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="AuthorizationFailedException">
+<wsdl:part name="msg" element="tns:AuthorizationFailedException">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="InternalErrorException">
+<wsdl:part name="msg" element="tns:InternalErrorException">
+</wsdl:part>
+</wsdl:message>
+<wsdl:portType name="AdministrativeAPIPort">
+<wsdl:operation name="isOk">
+<wsdl:input message="tns:isOkSoapIn">
+</wsdl:input>
+<wsdl:output message="tns:isOkSoapOut">
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="sendRequest">
+<wsdl:input message="tns:sendRequestSoapIn">
+</wsdl:input>
+<wsdl:output message="tns:sendRequestSoapOut">
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException" message="tns:AuthorizationFailedException">
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException" message="tns:InternalErrorException">
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="sendSyncRequest">
+<wsdl:input message="tns:sendSyncRequestSoapIn">
+</wsdl:input>
+<wsdl:output message="tns:sendSyncRequestSoapOut">
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException" message="tns:AuthorizationFailedException">
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException" message="tns:InternalErrorException">
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getResponse">
+<wsdl:input message="tns:getResponseSoapIn">
+</wsdl:input>
+<wsdl:output message="tns:getResponseSoapOut">
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException" message="tns:AuthorizationFailedException">
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException" message="tns:InternalErrorException">
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getResponseByCommandId">
+<wsdl:input message="tns:getResponseByCommandIdSoapIn">
+</wsdl:input>
+<wsdl:output message="tns:getResponseByCommandIdSoapOut">
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException" message="tns:AuthorizationFailedException">
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException" message="tns:InternalErrorException">
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding type="tns:AdministrativeAPIPort" name="AdministrativeAPIBinding">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http">
+</soap:binding>
+<wsdl:operation name="isOk">
+<soap:operation style="document" soapAction="http://soap-api.gftforex.com/isOk">
+</soap:operation>
+<wsdl:input>
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="sendRequest">
+<soap:operation style="document" soapAction="http://soap-api.gftforex.com/sendRequest">
+</soap:operation>
+<wsdl:input>
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap:fault name="AuthorizationFailedException" use="literal">
+</soap:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap:fault name="InternalErrorException" use="literal">
+</soap:fault>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="sendSyncRequest">
+<soap:operation style="document" soapAction="http://soap-api.gftforex.com/sendSyncRequest">
+</soap:operation>
+<wsdl:input>
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap:fault name="AuthorizationFailedException" use="literal">
+</soap:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap:fault name="InternalErrorException" use="literal">
+</soap:fault>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getResponse">
+<soap:operation style="document" soapAction="http://soap-api.gftforex.com/getResponse">
+</soap:operation>
+<wsdl:input>
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap:fault name="AuthorizationFailedException" use="literal">
+</soap:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap:fault name="InternalErrorException" use="literal">
+</soap:fault>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getResponseByCommandId">
+<soap:operation style="document" soapAction="http://soap-api.gftforex.com/getResponseByCommandId">
+</soap:operation>
+<wsdl:input>
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap:fault name="AuthorizationFailedException" use="literal">
+</soap:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap:fault name="InternalErrorException" use="literal">
+</soap:fault>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding type="tns:AdministrativeAPIPort" name="AdministrativeAPIBinding12">
+<soap12:binding transport="http://schemas.xmlsoap.org/soap/http">
+</soap12:binding>
+<wsdl:operation name="isOk">
+<soap12:operation style="document" soapAction="http://soap-api.gftforex.com/isOk">
+</soap12:operation>
+<wsdl:input>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="sendRequest">
+<soap12:operation style="document" soapAction="http://soap-api.gftforex.com/sendRequest">
+</soap12:operation>
+<wsdl:input>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap12:fault name="AuthorizationFailedException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap12:fault name="InternalErrorException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="sendSyncRequest">
+<soap12:operation style="document" soapAction="http://soap-api.gftforex.com/sendSyncRequest">
+</soap12:operation>
+<wsdl:input>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap12:fault name="AuthorizationFailedException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap12:fault name="InternalErrorException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getResponse">
+<soap12:operation style="document" soapAction="http://soap-api.gftforex.com/getResponse">
+</soap12:operation>
+<wsdl:input>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap12:fault name="AuthorizationFailedException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap12:fault name="InternalErrorException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getResponseByCommandId">
+<soap12:operation style="document" soapAction="http://soap-api.gftforex.com/getResponseByCommandId">
+</soap12:operation>
+<wsdl:input>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal">
+</soap12:body>
+</wsdl:output>
+<wsdl:fault name="AuthorizationFailedException">
+<soap12:fault name="AuthorizationFailedException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+<wsdl:fault name="InternalErrorException">
+<soap12:fault name="InternalErrorException" use="literal">
+</soap12:fault>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+
+<wsdl:service name="AdministrativeAPI">
+
+     <wsdl:port name="AdministrativeAPI" binding="tns:AdministrativeAPIBinding">
+          <soap:address location="https://honban.com/xxx/AdministrativeAPI"></soap:address>
+     </wsdl:port>
+
+     <wsdl:port name="TEST_URL_HTTPS" binding="tns:AdministrativeAPIBinding">
+          <soap:address location="https://test.com/xxx/AdministrativeAPI"></soap:address>
+     </wsdl:port>
+
+     <wsdl:port name="TEST_URL_HTTP" binding="tns:AdministrativeAPIBinding">
+          <soap:address location="http://test.com/xxx/AdministrativeAPI"></soap:address>
+     </wsdl:port>
+
+</wsdl:service>
+
+</wsdl:definitions>
+@

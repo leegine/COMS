@@ -1,0 +1,227 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.02.30.26;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7c44d7ecf0833c0;
+filename	sql_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="core_errors_ja.jsp" %>
+<%@@page import="java.util.*,java.text.*,com.fitechlabs.dbind.impl.SqlStatistics" %>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>SQL統計情報</title>
+</head>
+
+<body>
+<%! // class initialization
+  int toInt( String s, int onNull ) {
+    if ( s == null )
+      return onNull;
+    try {
+      return Integer.parseInt(s);
+    } catch ( Exception e ) {
+      return onNull;
+    }
+  }
+  Object safely(Object s) {
+    if ( s == null || s == "" )
+      return "&nbsp;";
+    return s;
+  }
+
+  NumberFormat _f_1 = new DecimalFormat("#.0");
+  NumberFormat _f_2 = new DecimalFormat("#.00");
+  NumberFormat _f_3 = new DecimalFormat("#.000");
+  NumberFormat _f_4 = new DecimalFormat("#.0000");
+  String f_0( double d ) { return String.valueOf((long)d); }
+  String f_1( double d ) { return _f_1.format(d); }
+  String f_2( double d ) { return _f_2.format(d); }
+  String f_3( double d ) { return _f_3.format(d); }
+  String f_4( double d ) { return _f_4.format(d); }
+
+  int recursiveSize( Map map ) {
+    int count = 0;
+    for ( Iterator it=map.values().iterator(); it.hasNext(); ) {
+      Object o = it.next();
+      if ( o instanceof Map )
+        count += recursiveSize( (Map) o );
+      else
+        count++;
+    }
+    return count;
+  }
+%>
+<%
+  // parameters
+  int collect = toInt( request.getParameter("collect"),  -1 );
+  int clear   = toInt( request.getParameter("clear"),    -1 );
+
+  // attempt to run any embedded request
+  if ( collect >= 0 ) {
+    SqlStatistics.setCollecting ( collect>0 );
+  }else  if ( clear >= 0 ) {
+    SqlStatistics.clear ( );
+	response.sendRedirect(request.getRequestURI());
+  }
+%>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#FFFF99">
+  <tr>
+    <td width="100%">
+      <h1>SQL統計情報</h1>
+    </td>
+  </tr>
+</table>
+
+<!-- hyperlinks to this and related pages -->
+<table  border="0" cellpadding="5" cellspacing="0">
+  <tr>
+    <td>
+	  <strong>APPサーバー名（ポート番号）：</strong><%=request.getServerName()%>(<%=request.getServerPort()%>)
+	</td>
+    <td colspan="2">
+
+	  <% if(SqlStatistics.isCollecting()){ %>
+		 <em><b><font color="#AA0000" size="+1">統計情報収集が現在オンです。</font></b></em>
+		 &nbsp; <A href="sql_ja.jsp?collect=0">統計情報収集を終了する</A> &nbsp;
+	  <%}else{%>
+		 統計情報収集が現在オフです。
+		 &nbsp; <A href="sql_ja.jsp?collect=1">統計情報収集を開始する</A> &nbsp;
+	  <%
+	   }
+	  %>
+	</td>
+  </tr>
+  <tr>
+
+	<td>
+	  <a href="<%=request.getContextPath()%>">xTradeホームへ</a>
+	</td>
+	<td>
+	  <A href="sql_ja.jsp">ページをリフレッシュする</A>
+	</td>
+
+	<td>
+	  <A href="sql_ja.jsp?clear=1"
+	  onClick="return confirm('SQL統計情報をクリアしてよろしいですか？')">
+	  収集済み統計情報をクリアする</A>
+	</td>
+  </tr>
+</table>
+
+<%--
+&nbsp;<a href="admin_ja.jsp">xTradeの管理へ</a>&nbsp;
+&nbsp; <A href="sql_ja.jsp">ページをリフレッシュする</A> &nbsp;
+
+<!-- start / stop collection of statistics -->
+<% if ( SqlStatistics.isCollecting() ) { %>
+  &nbsp; <em><b><font color="#AA0000" size="+1">統計情報収集が現在オンです。</font></b></em> &nbsp;
+  &nbsp; <A href="sql_ja.jsp?collect=0">収集を終了する</A> &nbsp;
+<% } else { %>
+  &nbsp; 統計情報収集が現在オフです。 &nbsp;
+  &nbsp; <A href="sql_ja.jsp?collect=1">収集を開始する</A> &nbsp;
+<% } %>
+
+&nbsp; <A href="sql_ja.jsp?clear=1">収集済み統計情報をクリアする</A> &nbsp;
+--%>
+
+<h2>タイミング詳細</h2>
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td width="12%" valign="top" align="left">&nbsp;<b>テーブル名</b></td>
+      <td width="8%" valign="top" align="center"><b>タイプ</b></td>
+      <td width="28%" valign="top" align="center"><b>SQL文内容</b></td>
+      <td width="14%" valign="top" align="center"><b>詳細</b></td>
+      <td width="8%" valign="top" align="center"><b>カウント</b></td>
+      <td width="8%" valign="top" align="center"><b>平均<p><font size="2">(秒)</font></b></td>
+      <td width="8%" valign="top" align="center"><b>MAX<p><font size="2">(秒)</font></b></td>
+      <td width="8%" valign="top" align="center"><b>標準偏差<p><font size="2">(秒)</font></b></td>
+      <td width="8%" valign="top" align="center"><b>累積時間<p><font size="2">(秒)</font></b></td>
+    </tr>
+
+    <%
+    Map timingMapMapMapMap = SqlStatistics.getTimingMapMapMapMap();
+    for ( Iterator it=timingMapMapMapMap.entrySet().iterator(); it.hasNext(); ) {
+      Map.Entry ie = (Map.Entry) it.next();
+      String table = (String) ie.getKey();
+      Map timingMapMapMap = (Map) ie.getValue();
+      boolean ifirst = true;
+      int irowspan = recursiveSize( timingMapMapMap );
+      for ( Iterator jt=timingMapMapMap.entrySet().iterator(); jt.hasNext(); ) {
+        Map.Entry je = (Map.Entry) jt.next();
+        String type = (String) je.getKey();
+        Map timingMapMap = (Map) je.getValue();
+        boolean jfirst = true;
+        int jrowspan = recursiveSize( timingMapMap );
+        for ( Iterator kt=timingMapMap.entrySet().iterator(); kt.hasNext(); ) {
+          Map.Entry ke = (Map.Entry) kt.next();
+          String sql = (String) ke.getKey();
+          Map timingMap = (Map) ke.getValue();
+          boolean kfirst = true;
+          int krowspan = timingMap.size();
+          for ( Iterator pt=timingMap.entrySet().iterator(); pt.hasNext(); ) {
+            Map.Entry pe = (Map.Entry) pt.next();
+            String detail = (String) pe.getKey();
+            SqlStatistics.Summary timing = (SqlStatistics.Summary) pe.getValue();
+            %>
+              <tr>
+                <% if ( ifirst ) { %>
+                  <td valign="top" align="left" rowspan="<%=irowspan%>"><font size="2">&nbsp;<%=table%>&nbsp;</font></td>
+                <% ifirst=false;
+                } %>
+                <% if ( jfirst ) { %>
+                  <td valign="top" align="center" rowspan="<%=jrowspan%>"><font size="2">&nbsp;<%=type%>&nbsp;</font></td>
+                <% jfirst=false;
+                } %>
+                <% if ( kfirst ) { %>
+                  <td valign="top" align="left" rowspan="<%=krowspan%>"><font size="2">&nbsp;<%=safely(sql)%>&nbsp;</font></td>
+                <% kfirst=false;
+                } %>
+                <td valign="top" align="left"><font size="2">&nbsp;<%=detail%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=timing.getCount()%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(timing.getMean()/1000.)%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=f_3(timing.getMaximum()/1000.)%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2"><%=f_3(timing.getStandardDeviation()/1000.)%>&nbsp;</font></td>
+                <td valign="top" align="right"><font size="2">&nbsp;<%=f_1(timing.getCumulativeTotal()/1000.)%>&nbsp;</font></td>
+              </tr>
+            <%
+          }
+        }
+      }
+    }
+
+    %>
+</table>
+
+<!-- convenience buttons -->
+<br>
+<A href="sql_ja.jsp">ページをリフレッシュする</A>  <br>
+<em>最終更新時刻：</em><%=DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(new Date())%>
+</body>
+
+</html>
+@

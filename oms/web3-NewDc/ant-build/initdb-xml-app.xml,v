@@ -1,0 +1,48 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.48.39;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	initdb-xml-app.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- InitDB xml ANT file                          -->
+<!-- Author: L.Charny                             -->
+<!-- ============================================ -->
+<project name="initdb-xml-app" default="initdb" basedir=".">
+	<taskdef name="XTest" classname="com.fitechlabs.ant.XTest"/>
+	<target name="flags">
+		<available property="file-xml-initdb-%APPNAME%.zip" file="${INSTALL_HOME}/xml/xml-initdb-%APPNAME%.zip"/>
+	</target>
+	<!-- initdb -->
+	<target name="initdb" depends="flags" if="file-xml-initdb-%APPNAME%.zip">
+		<unzip src="${INSTALL_HOME}/xml/xml-initdb-%APPNAME%.zip" dest="${INSTALL_HOME}/xml"/>
+		<fixcrlf srcdir="${INSTALL_HOME}/xml" eol="${OS_END_OF_LINE_SYMBOL}" includes="*.xml"/>
+		<XTest url="${URL}" workingDir="${INSTALL_HOME}/xml" debugRequests="true" debugResponses="true" requestsOnly="true" allXMLfiles="true" outFile="${OUTFILE}"/>
+		<delete quiet="true">
+			<fileset dir="${INSTALL_HOME}/xml" includes="*.xml, *.class, *.xml, *.properties" excludes="initdb-xml-app.xml,test-xml-app.xml"/>
+		</delete>
+	</target>
+</project>
+@

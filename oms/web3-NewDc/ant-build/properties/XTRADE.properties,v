@@ -1,0 +1,47 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.57;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	XTRADE.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@####################################################################
+#
+# Properties for developing plugins on %MACHINE%
+#
+####################################################################
+#
+#   CHANGE  THE  FOLLOWING  VARIABLES  
+#
+####################################################################
+
+#
+# The location of the WebLogic installation
+#
+WEBLOGIC_BUILD_HOME=C:/weblogic51
+
+#
+# The location of installed core
+#
+INSTALL_DIR_STEM=c:/ftl.xtrade
+@

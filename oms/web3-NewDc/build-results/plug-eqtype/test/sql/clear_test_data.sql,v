@@ -1,0 +1,33 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.04.32.35;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7284d803d575ff6;
+filename	clear_test_data.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@exec test_eqtype.clear_account_data;
+exec test_xblock.clear_account_data;
+exec test_eqtype.clear_master_data;
+exec test_xblock.clear_master_data;
+
+@

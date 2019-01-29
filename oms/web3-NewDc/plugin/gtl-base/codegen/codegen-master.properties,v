@@ -1,0 +1,126 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.02.46;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.gentrade.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/gtl.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=GenTradeMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/gtl_master_triggers.sql
+
+#
+# set enum of fields to the enum class
+#
+enums=\
+product.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+traded_product.suspension_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+traded_product.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+traded_product.collateral_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+traded_product_updq.suspension_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+traded_product_updq.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+traded_product_updq.collateral_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.account_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.MainAccountTypeEnum \
+main_account.equity_order_exe_mail_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.equity_order_unexec_mail_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.ifo_order_exec_mail_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.ifo_order_unexec_mail_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.information_mail_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.account_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.MainAccountStatusEnum \
+main_account.mng_lock_flag_advance:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.mng_lock_flag_unpay_margin:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.mng_lock_flag_short_security:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.mng_lock_flag_unsubstit_depo:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+main_account.tax_type_next:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+main_account.margin_tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+main_account.margin_tax_type_next:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+main_account.certificate_deposit_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+main_account.account_statement_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+branch.branch_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BranchTypeEnum \
+trader.trader_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TraderTypeEnum \
+market_calendar.holiday_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+traded_product_calendar.holiday_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+tick_values_defs.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  product:inv=0 \
+  traded_product:inv=0 \
+  market:inv=0 \
+  market_preferences:inv=0 \
+  market_calendar:inv=0 \
+  institution:inv=0 \
+  branch:inv=0 \
+  system_preferences:inv=0 \
+  trader:inv=0 \
+  main_account:inv=0 \
+  traded_product_calendar:inv=0 \
+  traded_product_updq:inv=0 \
+  limit_price_range_defs:inv=0 \
+  tick_values_defs:inv=0
+
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

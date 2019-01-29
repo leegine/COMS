@@ -1,0 +1,420 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.05.22;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	AdministrativeAPI.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<wsdd:type-mapping  xmlns:wsdd="http://www.bea.com/servers/wls70"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandBase"
+   type="lcl0:CommandBase"
+   serializer="com.gftforex.soap.api.CommandBaseCodec"
+   deserializer="com.gftforex.soap.api.CommandBaseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandTransferBase"
+   type="lcl0:CommandTransferBase"
+   serializer="com.gftforex.soap.api.CommandTransferBaseCodec"
+   deserializer="com.gftforex.soap.api.CommandTransferBaseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.SendRequestResponse"
+   type="lcl0:sendRequestResponse"
+   serializer="com.gftforex.soap.api.SendRequestResponseCodec"
+   deserializer="com.gftforex.soap.api.SendRequestResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.SendSyncRequest"
+   type="lcl0:sendSyncRequest"
+   serializer="com.gftforex.soap.api.SendSyncRequestCodec"
+   deserializer="com.gftforex.soap.api.SendSyncRequestCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CreateAccountInfo[]"
+   type="lcl0:CommandAddAccount__account__ArrayAnonType"
+   serializer="com.gftforex.soap.api.CommandAddAccountAccountArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.CommandAddAccountAccountArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CreateAccountInfo[]"
+   type="lcl0:CreateUserInfo__accounts__ArrayAnonType"
+   serializer="com.gftforex.soap.api.CreateUserInfoAccountsArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.CreateUserInfoAccountsArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.SendSyncRequestResponse"
+   type="lcl0:sendSyncRequestResponse"
+   serializer="com.gftforex.soap.api.SendSyncRequestResponseCodec"
+   deserializer="com.gftforex.soap.api.SendSyncRequestResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:String1024"
+   serializer="com.gftforex.soap.api.String1024Serializer"
+   deserializer="com.gftforex.soap.api.String1024Deserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:CommandID"
+   serializer="com.gftforex.soap.api.CommandIDSerializer"
+   deserializer="com.gftforex.soap.api.CommandIDDeserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:UpdateAccountInfo__profilesToRemove__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateAccountInfoProfilesToRemoveArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateAccountInfoProfilesToRemoveArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoWithdraw"
+   type="lcl0:ResultInfoWithdraw"
+   serializer="com.gftforex.soap.api.ResultInfoWithdrawCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoWithdrawCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.UpdateAccountInfo"
+   type="lcl0:UpdateAccountInfo"
+   serializer="com.gftforex.soap.api.UpdateAccountInfoCodec"
+   deserializer="com.gftforex.soap.api.UpdateAccountInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String[]"
+   type="lcl0:UserSystemInfo__groups__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UserSystemInfoGroupsArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UserSystemInfoGroupsArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandCreateUser"
+   type="lcl0:CommandCreateUser"
+   serializer="com.gftforex.soap.api.CommandCreateUserCodec"
+   deserializer="com.gftforex.soap.api.CommandCreateUserCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CreateUserInfo"
+   type="lcl0:CreateUserInfo"
+   serializer="com.gftforex.soap.api.CreateUserInfoCodec"
+   deserializer="com.gftforex.soap.api.CreateUserInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.UpdateUserInfo"
+   type="lcl0:UpdateUserInfo"
+   serializer="com.gftforex.soap.api.UpdateUserInfoCodec"
+   deserializer="com.gftforex.soap.api.UpdateUserInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.IsOkResponse"
+   type="lcl0:isOkResponse"
+   serializer="com.gftforex.soap.api.IsOkResponseCodec"
+   deserializer="com.gftforex.soap.api.IsOkResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandLookupUser"
+   type="lcl0:CommandLookupUser"
+   serializer="com.gftforex.soap.api.CommandLookupUserCodec"
+   deserializer="com.gftforex.soap.api.CommandLookupUserCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandDeposit"
+   type="lcl0:CommandDeposit"
+   serializer="com.gftforex.soap.api.CommandDepositCodec"
+   deserializer="com.gftforex.soap.api.CommandDepositCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandUpdateUser"
+   type="lcl0:CommandUpdateUser"
+   serializer="com.gftforex.soap.api.CommandUpdateUserCodec"
+   deserializer="com.gftforex.soap.api.CommandUpdateUserCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.UserSystemInfo"
+   type="lcl0:UserSystemInfo"
+   serializer="com.gftforex.soap.api.UserSystemInfoCodec"
+   deserializer="com.gftforex.soap.api.UserSystemInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.GetResponseByCommandIdResponse"
+   type="lcl0:getResponseByCommandIdResponse"
+   serializer="com.gftforex.soap.api.GetResponseByCommandIdResponseCodec"
+   deserializer="com.gftforex.soap.api.GetResponseByCommandIdResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:ResultInfoCreateUser__accountIds__ArrayAnonType"
+   serializer="com.gftforex.soap.api.ResultInfoCreateUserAccountIdsArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoCreateUserAccountIdsArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:ResultInfoAddAccount__accountId__ArrayAnonType"
+   serializer="com.gftforex.soap.api.ResultInfoAddAccountAccountIdArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoAddAccountAccountIdArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:UpdateAccountInfo__profilesToAdd__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateAccountInfoProfilesToAddArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateAccountInfoProfilesToAddArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CreateAccountInfo"
+   type="lcl0:CreateAccountInfo"
+   serializer="com.gftforex.soap.api.CreateAccountInfoCodec"
+   deserializer="com.gftforex.soap.api.CreateAccountInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:LookupAccountInfo__profiles__ArrayAnonType"
+   serializer="com.gftforex.soap.api.LookupAccountInfoProfilesArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.LookupAccountInfoProfilesArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoLookupUser"
+   type="lcl0:ResultInfoLookupUser"
+   serializer="com.gftforex.soap.api.ResultInfoLookupUserCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoLookupUserCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.LookupAccountInfo"
+   type="lcl0:LookupAccountInfo"
+   serializer="com.gftforex.soap.api.LookupAccountInfoCodec"
+   deserializer="com.gftforex.soap.api.LookupAccountInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.LookupUserInfo"
+   type="lcl0:LookupUserInfo"
+   serializer="com.gftforex.soap.api.LookupUserInfoCodec"
+   deserializer="com.gftforex.soap.api.LookupUserInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.AuthToken"
+   type="lcl0:AuthToken"
+   serializer="com.gftforex.soap.api.AuthTokenCodec"
+   deserializer="com.gftforex.soap.api.AuthTokenCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:String15"
+   serializer="com.gftforex.soap.api.String15Serializer"
+   deserializer="com.gftforex.soap.api.String15Deserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoBase[]"
+   type="lcl0:getResponseResponse"
+   serializer="com.gftforex.soap.api.GetResponseResponseSequenceCodec"
+   deserializer="com.gftforex.soap.api.GetResponseResponseSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandBase[]"
+   type="lcl0:sendRequest__commands__ArrayAnonType"
+   serializer="com.gftforex.soap.api.SendRequestCommandsArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.SendRequestCommandsArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.RejectedCommand[]"
+   type="lcl0:sendRequestResponse__rejectedCommand__ArrayAnonType"
+   serializer="com.gftforex.soap.api.SendRequestResponseRejectedCommandArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.SendRequestResponseRejectedCommandArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoCreateUser"
+   type="lcl0:ResultInfoCreateUser"
+   serializer="com.gftforex.soap.api.ResultInfoCreateUserCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoCreateUserCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoAddAccount"
+   type="lcl0:ResultInfoAddAccount"
+   serializer="com.gftforex.soap.api.ResultInfoAddAccountCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoAddAccountCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:String128"
+   serializer="com.gftforex.soap.api.String128Serializer"
+   deserializer="com.gftforex.soap.api.String128Deserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.LookupAccountInfo[]"
+   type="lcl0:LookupUserInfo__accounts__ArrayAnonType"
+   serializer="com.gftforex.soap.api.LookupUserInfoAccountsArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.LookupUserInfoAccountsArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoBase"
+   type="lcl0:ResultInfoBase"
+   serializer="com.gftforex.soap.api.ResultInfoBaseCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoBaseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandWithdraw"
+   type="lcl0:CommandWithdraw"
+   serializer="com.gftforex.soap.api.CommandWithdrawCodec"
+   deserializer="com.gftforex.soap.api.CommandWithdrawCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CanTrade"
+   type="lcl0:CanTrade"
+   serializer="com.gftforex.soap.api.CanTradeCodec"
+   deserializer="com.gftforex.soap.api.CanTradeCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String[]"
+   type="lcl0:UpdateUserInfo__groupsToRemoveFrom__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateUserInfoGroupsToRemoveFromArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateUserInfoGroupsToRemoveFromArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:UpdateUserInfo__profilesToAdd__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateUserInfoProfilesToAddArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateUserInfoProfilesToAddArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:UpdateUserInfo__profilesToRemove__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateUserInfoProfilesToRemoveArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateUserInfoProfilesToRemoveArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoUpdateUser"
+   type="lcl0:ResultInfoUpdateUser"
+   serializer="com.gftforex.soap.api.ResultInfoUpdateUserCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoUpdateUserCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String[]"
+   type="lcl0:UpdateUserInfo__groupsToAddTo__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateUserInfoGroupsToAddToArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateUserInfoGroupsToAddToArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:Currency"
+   serializer="com.gftforex.soap.api.CurrencySerializer"
+   deserializer="com.gftforex.soap.api.CurrencyDeserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.RejectedCommand"
+   type="lcl0:RejectedCommand"
+   serializer="com.gftforex.soap.api.RejectedCommandCodec"
+   deserializer="com.gftforex.soap.api.RejectedCommandCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="double"
+   type="lcl0:RoundSafeAmount"
+   serializer="com.gftforex.soap.api.RoundSafeAmountSerializer"
+   deserializer="com.gftforex.soap.api.RoundSafeAmountDeserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.IsOk"
+   type="lcl0:isOk"
+   serializer="com.gftforex.soap.api.IsOkCodec"
+   deserializer="com.gftforex.soap.api.IsOkCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   class-name="java.lang.String"
+   type="xsd:string"
+   serializer="weblogic.xml.schema.binding.internal.builtin.XSDStringSerializer"
+   deserializer="weblogic.xml.schema.binding.internal.builtin.XSDStringDeserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.GetResponseByCommandId"
+   type="lcl0:getResponseByCommandId"
+   serializer="com.gftforex.soap.api.GetResponseByCommandIdCodec"
+   deserializer="com.gftforex.soap.api.GetResponseByCommandIdCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.CommandAddAccount"
+   type="lcl0:CommandAddAccount"
+   serializer="com.gftforex.soap.api.CommandAddAccountCodec"
+   deserializer="com.gftforex.soap.api.CommandAddAccountCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:InternalErrorException"
+   serializer="weblogic.xml.schema.binding.internal.builtin.XSDStringSerializer"
+   deserializer="weblogic.xml.schema.binding.internal.builtin.XSDStringDeserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:String64"
+   serializer="com.gftforex.soap.api.String64Serializer"
+   deserializer="com.gftforex.soap.api.String64Deserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:UserSystemInfo__profiles__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UserSystemInfoProfilesArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UserSystemInfoProfilesArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.SendRequest"
+   type="lcl0:sendRequest"
+   serializer="com.gftforex.soap.api.SendRequestCodec"
+   deserializer="com.gftforex.soap.api.SendRequestCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.ResultInfoDeposit"
+   type="lcl0:ResultInfoDeposit"
+   serializer="com.gftforex.soap.api.ResultInfoDepositCodec"
+   deserializer="com.gftforex.soap.api.ResultInfoDepositCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.UpdateAccountInfo[]"
+   type="lcl0:UpdateUserInfo__accounts__ArrayAnonType"
+   serializer="com.gftforex.soap.api.UpdateUserInfoAccountsArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.UpdateUserInfoAccountsArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:String32"
+   serializer="com.gftforex.soap.api.String32Serializer"
+   deserializer="com.gftforex.soap.api.String32Deserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.GetResponse"
+   type="lcl0:getResponse"
+   serializer="com.gftforex.soap.api.GetResponseCodec"
+   deserializer="com.gftforex.soap.api.GetResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="java.lang.String"
+   type="lcl0:AuthorizationFailedException"
+   serializer="weblogic.xml.schema.binding.internal.builtin.XSDStringSerializer"
+   deserializer="weblogic.xml.schema.binding.internal.builtin.XSDStringDeserializer">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="com.gftforex.soap.api.UserPersonalInfo"
+   type="lcl0:UserPersonalInfo"
+   serializer="com.gftforex.soap.api.UserPersonalInfoCodec"
+   deserializer="com.gftforex.soap.api.UserPersonalInfoCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://soap-api.gftforex.com"
+   class-name="long[]"
+   type="lcl0:CreateAccountInfo__profiles__ArrayAnonType"
+   serializer="com.gftforex.soap.api.CreateAccountInfoProfilesArrayAnonTypeSequenceCodec"
+   deserializer="com.gftforex.soap.api.CreateAccountInfoProfilesArrayAnonTypeSequenceCodec">
+ </wsdd:type-mapping-entry>
+</wsdd:type-mapping>@

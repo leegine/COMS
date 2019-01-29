@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.04.07.01.57.57;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5444d9d078c63f4;
+filename	WEB3AdminMutualTPAdjustCommonRequest.csv;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@フィールド日本語名称,フィールド変数名称,case0001,case0002,case0003,case0004,case0005,case0006,case0007,case0008,case0009,case0010,case0011
+顧客コード,accountCode,null,123,123,123,123,123,123,123,,,
+銘柄コード,mutualProductCode,123,null,123,123,123,123,123,123,,,
+精算金額,settlePrice,100,100,null,1320000000000,120,120,120,120,,,
+発注日,orderBizDate,20081010,20081010,20081010,20081010,null,20081010,20081010,20081010,,,
+約定日,executionTimestamp,20081011,20081011,20081011,20081011,20081011,null,20081011,20081011,,,
+受渡日,deliveryDate,20081012,20081012,20081012,20081012,20081012,20081012,null,20081012,,,
+ERROR_CODE,,BUSINESS_ERROR_00835,BUSINESS_ERROR_01252,BUSINESS_ERROR_02334,BUSINESS_ERROR_02335,BUSINESS_ERROR_00406,BUSINESS_ERROR_02184,BUSINESS_ERROR_01079,OK,,,
+ERROR_MESSAGE,,顧客コードが未指定です。,銘柄コードの指定がありません。,精算金額が未指定です。,精算金額が11桁を超えました。,発注日が未指定です。,約定日時が未入力です。,受渡日が未指定です。,OK,,,
+@

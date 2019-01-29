@@ -24,7 +24,7 @@ public class MarketResponseType extends Enumeration
         public Value()
         {
             this$0 = MarketResponseType.this;
-            super();
+//            super();
         }
     }
 

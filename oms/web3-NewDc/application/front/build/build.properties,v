@@ -1,0 +1,145 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2011.03.29.01.36.26;	author zhang-tengyu;	state Exp;
+branches;
+next	1.1;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	3f04d9137995102;
+filename	build.properties;
+
+1.1
+date	2011.03.28.08.28.09;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2144d9046833db9;
+filename	build.properties;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@##############################################################
+#
+# APPLICATION Build Propety File
+#
+# Build properties file for web3 application
+#
+##############################################################
+
+
+# Application unique name
+#
+APP_NAME=app-web3-front
+
+
+# Versioning info
+#
+MAJOR_VERSION=1
+MINOR_VERSION=0
+
+# List of other plugins, including the core, this applications depend on
+PLUGINS_NAMES=\
+    core,\
+    plug-security-oplogin,\
+    plug-util-queries,\
+    plug-util-jobs,\
+    plug-util-rac,\
+    plug-gtl,\
+    plug-gtl-base,\
+    plug-eqtype,\
+    plug-eqtype-base,\
+    plug-xb-mf-pdbt,\
+    plug-xb-mf-pdbt-base,\
+    plug-xb-ifo-pdbt,\
+    plug-xb-ifo-pdbt-base,\
+    plug-xb-ruito-pdbt,\
+    plug-xb-ruito-pdbt-base,\
+    plug-xb-aio-pdbt,\
+    plug-xb-aio-pdbt-base,\
+    plug-xb-feq-pdbt,\
+    plug-xb-feq-pdbt-base,\
+    plug-xb-bd-pdbt,\
+    plug-xb-bd-pdbt-base,\
+    plug-web3-common,\
+    plug-web3-gentrade,\
+    plug-web3-system,\
+    plug-web3-login,\
+    plug-web3-quote,\
+    plug-web3-servlet,\
+    plug-web3-tplib,\
+    plug-web3-mq-gateway,\
+    plug-web3-triggerorder-base,\
+    plug-web3-rls-gateway,\
+    plug-web3-sle-base,\
+    plug-web3-sle-gateway,\
+    plug-web3-equity,\
+    plug-web3-xbifo,\
+    plug-web3-triggerorder,\
+    plug-web3-rls-omsadaptor,\
+    plug-web3-tpinfo,\
+    plug-web3-xbruito,\
+    plug-web3-xbmf,\
+    plug-web3-ipo-base,\
+    plug-web3-ipo,\
+    plug-web3-xbaio,\
+    plug-web3-xbfeq,\
+    plug-web3-mailinfo,\
+    plug-web3-tp-admin,\
+    plug-web3-pvinfo,\
+    plug-web3-adminmc,\
+    plug-web3-srvregi,\
+    plug-web3-tradehistory,\
+    plug-web3-inform-base,\
+    plug-web3-accountopen,\
+    plug-web3-point,\
+    plug-web3-faq,\
+    plug-web3-accountinfo,\
+    plug-web3-inform,\
+    plug-web3-trialcalc,\
+    plug-web3-adminorderexecinquiry,\
+    plug-web3-eqtypeadmin,\
+    plug-web3-trademanagement,\
+    plug-web3-preloader,\
+    plug-web3-rich-push,\
+    plug-web3-admintriggerorder,\
+    plug-web3-dirsec,\
+    plug-web3-xbbd,\
+    plug-web3-ifoadmin,\
+    plug-web3-docadmin,\
+    plug-web3-sync-clt,\
+    plug-web3-cache-stat
+
+# Warfile contents
+WEBXML=build/web.xml
+WAR_JARS=xtrade.jar,plug-*.jar,web3-app.jar
+WAR_LIBS=log4*,crimson*,*.jar
+
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@a86 1
+    plug-web3-compliance,\
+@
+

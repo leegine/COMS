@@ -1,0 +1,108 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.46.53;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	update-manifest.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- by LC (R&D)                                  -->
+<!-- ============================================ -->
+<!-- Update Manifest ANT file                     -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/31/2001                             -->
+<!--                                              -->
+<!-- Input Properties:                            -->
+<!--    M_COMP_NAME - component name              -->
+<!--    M_TYPE - component type                   -->
+<!--    M_FILENAME - file name                    -->
+<!--    M_NOTE - free-hand note                   -->
+<!--    M_FILE - file to insert manifest into     -->
+<!--       either one of the following:           -->
+<!--    M_JAR - insert into a jar file            -->
+<!--    M_ZIP - insert into a zip file            -->
+<!--    M_WAR - insert into a war file            -->
+<!--    M_PREFIX - zip-file prefix                -->
+<!-- ============================================ -->
+<project name="update-manifest" default="build">
+	<!-- ===================================================================== -->
+	<tstamp>
+    		<format property="DATE_STAMP" pattern="yyyy-MM-dd" locale="en"/>
+  	</tstamp>
+  		
+	<target name="update-manifest">
+		<copy file="manifest.txt" tofile="${XF_MANIFEST}" overwrite="yes"/>
+		<replace file="${XF_MANIFEST}" token="%COMPONENT%" value="${M_COMP_NAME}"/>
+		<replace file="${XF_MANIFEST}" token="%TYPE%" value="${M_TYPE}"/>
+		<replace file="${XF_MANIFEST}" token="%FILE%" value="${M_FILENAME}"/>
+		<replace file="${XF_MANIFEST}" token="%NOTE%" value="${M_NOTE}"/>
+		<replace file="${XF_MANIFEST}" token="%MAJOR_VERSION%" value="${MAJOR_VERSION}"/>
+		<replace file="${XF_MANIFEST}" token="%MINOR_VERSION%" value="${MINOR_VERSION}"/>
+		<replace file="${XF_MANIFEST}" token="%BUILD%" value="${REPORTED_BUILD}"/>
+		<replace file="${XF_MANIFEST}" token="%DATE%" value="${DATE_STAMP}"/>
+		<replace file="${XF_MANIFEST}" token="%NAME%" value="${user.name}"/>
+	</target>
+
+	<target name="add-user-version" if="ENV.XTRADE_APP_BUILD_VERSION">
+		<echo file="${XF_MANIFEST}" append="true">
+================================================================================
+xTrade(TM) based application build version: ${ENV.XTRADE_APP_BUILD_VERSION}
+		</echo>
+	</target>
+	
+	<target name="add-user-note" if="ENV.XTRADE_APP_BUILD_NOTES">
+		<echo file="${XF_MANIFEST}" append="true">
+================================================================================
+${ENV.XTRADE_APP_BUILD_NOTES}
+		</echo>
+	</target>
+	
+	<target name="finish-jar-manifest">
+		<echo file="${XF_MANIFEST}" append="true">
+================================================================================
+		</echo>
+	</target>		
+
+	<!-- ===================================================================== -->
+	<target name="buildJAR" depends="update-manifest, add-user-version, add-user-note, finish-jar-manifest" if="M_JAR">
+		<jar jarfile="${M_FILE}" update="yes">
+			<metainf dir="${XTRADE_TEMP_DIR}" includes="*${X_MANIFEST}"/>
+		</jar>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="buildZIP" depends="update-manifest" if="M_ZIP">
+		<copy todir="${M_FILE}" overwrite="yes">
+			<fileset dir="${XTRADE_TEMP_DIR}" includes="*${X_MANIFEST}"/>
+		</copy>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="buildWAR" depends="update-manifest" if="M_WAR">
+		<war warfile="${M_FILE}" webxml="${M_WEBXML}" update="yes">
+			<metainf dir="${XTRADE_TEMP_DIR}" includes="*${X_MANIFEST}"/>
+		</war>
+	</target>
+	<target name="build" depends="buildJAR, buildZIP, buildWAR">
+		<delete file="${XF_MANIFEST}" quiet="true"/>
+	</target>
+</project>
+@

@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.31.55;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7504d7eebab1144;
+filename	web3-admintriggerorder-view.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE OR REPLACE VIEW adminto_ifo_order_unit
+AS
+SELECT * FROM IFO_ORDER_UNIT
+;
+  
+CREATE OR REPLACE VIEW adminto_eqtype_order_unit
+AS
+SELECT * FROM EQTYPE_ORDER_UNIT
+;  
+@

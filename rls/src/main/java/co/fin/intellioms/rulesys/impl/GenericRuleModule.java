@@ -5,6 +5,12 @@
 
 package co.fin.intellioms.rulesys.impl;
 
+import co.fin.intellioms.enums.CondOrderType;
+import co.fin.intellioms.enums.EventType;
+import co.fin.intellioms.rulesys.*;
+import co.fin.intellioms.util.InitializationException;
+import co.fin.intellioms.util.Log;
+import co.fin.intellioms.util.Startable;
 import com.fitechlabs.fin.intellioms.enums.*;
 import co.fin.intellioms.event.Event;
 import co.fin.intellioms.event.EventException;
@@ -23,7 +29,7 @@ public class GenericRuleModule
         this.evtTypes = evtTypes == null ? new EventType[0] : evtTypes;
         this.name = name;
         this.ordTypes = ordTypes;
-        log = Log.getLogger((new StringBuilder()).append(com/ com /fin/intellioms/rulesys/impl/GenericRuleModule.getName()).append("#").append(name).toString());
+        log = Log.getLogger((new StringBuilder()).append(GenericRuleModule.class.getName()).append("#").append(name).toString());
         Arrays.sort(this.evtTypes, new Comparator() {
 
             public int compare(Object o1, Object o2)

@@ -1,0 +1,1859 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.28.06;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8e04d7eeaac0e03;
+filename	web3accountopen.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--口座開設見込客
+-------------------------------------------------------------------------------
+
+--Table: 口座開設見込客
+CREATE TABLE exp_account_open (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    institution_id              NUMBER(18)          NOT NULL,
+    branch_id                   NUMBER(18)          NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    account_code                VARCHAR2(7)             NULL,
+    sonar_trader_code           VARCHAR2(5)             NULL,
+    ex_account_flag             VARCHAR2(1)         NOT NULL,
+    ex_branch_name              VARCHAR2(32)            NULL,
+    ex_account_code             VARCHAR2(7)             NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    order_div                   VARCHAR2(1)         NOT NULL,
+    infomation_claim_datetime   DATE                    NULL,
+    account_open_date           DATE                    NULL,
+    initial_password            VARCHAR2(48)            NULL,
+    family_name                 VARCHAR2(40)        NOT NULL,
+    given_name                  VARCHAR2(40)        NOT NULL,
+    family_name_alt1            VARCHAR2(40)        NOT NULL,
+    given_name_alt1             VARCHAR2(40)        NOT NULL,
+    sex                         VARCHAR2(1)         NOT NULL,
+    era_born                    VARCHAR2(1)             NULL,
+    born_date                   VARCHAR2(6)             NULL,
+    email_address               VARCHAR2(100)           NULL,
+    email_address_alt1          VARCHAR2(100)           NULL,
+    zip_code                    VARCHAR2(7)         NOT NULL,
+    address_line1               VARCHAR2(34)        NOT NULL,
+    address_line2               VARCHAR2(34)            NULL,
+    address_line3               VARCHAR2(34)            NULL,
+    address_line1_kana          VARCHAR2(60)        NOT NULL,
+    address_line2_kana          VARCHAR2(60)            NULL,
+    address_line3_kana          VARCHAR2(60)            NULL,
+    telephone                   VARCHAR2(16)            NULL,
+    mobile                      VARCHAR2(16)            NULL,
+    fax                         VARCHAR2(16)            NULL,
+    occupation_div              VARCHAR2(2)             NULL,
+    office                      VARCHAR2(50)            NULL,
+    office_zip_code             VARCHAR2(7)             NULL,
+    office_address              VARCHAR2(100)           NULL,
+    office_telephone            VARCHAR2(16)            NULL,
+    office_fax                  VARCHAR2(16)            NULL,
+    department                  VARCHAR2(50)            NULL,
+    post                        VARCHAR2(36)            NULL,
+    contact_address             VARCHAR2(100)           NULL,
+    contact_telephone           VARCHAR2(16)            NULL,
+    family_relationship         VARCHAR2(1)             NULL,
+    family_relationship_etc     VARCHAR2(40)            NULL,
+    householder                 VARCHAR2(40)            NULL,
+    householder_kana            VARCHAR2(40)            NULL,
+    householder_occupation_div  VARCHAR2(2)             NULL,
+    householder_office          VARCHAR2(50)            NULL,
+    householder_office_address  VARCHAR2(100)           NULL,
+    householder_department      VARCHAR2(50)            NULL,
+    householder_office_tel      VARCHAR2(16)            NULL,
+    householder_office_fax      VARCHAR2(16)            NULL,
+    householder_post            VARCHAR2(36)            NULL,
+    resident                    VARCHAR2(1)             NULL,
+    transfer_div                VARCHAR2(1)             NULL,
+    fin_institution_code        VARCHAR2(4)             NULL,
+    fin_institution_name        VARCHAR2(32)            NULL,
+    fin_branch_code             VARCHAR2(5)             NULL,
+    fin_branch_name             VARCHAR2(32)            NULL,
+    fin_save_div                VARCHAR2(1)             NULL,
+    fin_account_no              VARCHAR2(8)             NULL,
+    postal_save_code            VARCHAR2(5)             NULL,
+    postal_save_no              VARCHAR2(8)             NULL,
+    fin_account_name            VARCHAR2(60)            NULL,
+    trans_commission            VARCHAR2(1)             NULL,
+    experience_div_equity       VARCHAR2(1)         NOT NULL,
+    experience_div_margin       VARCHAR2(1)         NOT NULL,
+    experience_div_bond         VARCHAR2(1)         NOT NULL,
+    experience_div_wt           VARCHAR2(1)         NOT NULL,
+    experience_div_fund_sk      VARCHAR2(1)         NOT NULL,
+    experience_div_fund_bd      VARCHAR2(1)         NOT NULL,
+    experience_div_fo           VARCHAR2(1)         NOT NULL,
+    experience_div_f_equity     VARCHAR2(1)         NOT NULL,
+    experience_div_etc          VARCHAR2(1)         NOT NULL,
+    experience_flag_equity      NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_margin      NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_bond        NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_wt          NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_fund_sk     NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_fund_bd     NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_fo          NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_f_equity    NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_flag_etc         NUMBER(1)           DEFAULT 0       NOT NULL,
+    experience_from             VARCHAR2(2)             NULL,
+    experience_to               VARCHAR2(2)             NULL,
+    interest_flag_equity        NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_ministock     NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_margin        NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_bond          NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_fund          NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_fo            NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_f_equity      NUMBER(1)           DEFAULT 0       NOT NULL,
+    interest_flag_etc           NUMBER(1)           DEFAULT 0       NOT NULL,
+    invest_purpose_div          VARCHAR2(1)             NULL,
+    appli_motivat_div           VARCHAR2(1)             NULL,
+    annual_income_div           VARCHAR2(1)             NULL,
+    annual_income_from          VARCHAR2(6)             NULL,
+    annual_income_to            VARCHAR2(6)             NULL,
+    asset_value_div             VARCHAR2(1)             NULL,
+    asset_value_from            VARCHAR2(6)             NULL,
+    asset_value_to              VARCHAR2(6)             NULL,
+    fund_budget_amount_div      VARCHAR2(1)             NULL,
+    fund_budget_div             VARCHAR2(1)             NULL,
+    fund_budget_etc             VARCHAR2(40)            NULL,
+    id_confirm_flag             NUMBER(1)           DEFAULT 0           NULL,
+    id_confirm_doc_div          VARCHAR2(2)             NULL,
+    id_confirm_doc_etc          VARCHAR2(40)            NULL,
+    special_acc                 VARCHAR2(1)             NULL,
+    special_acc_margin          VARCHAR2(1)             NULL,
+    insider_flag                NUMBER(1)           DEFAULT 0       NOT NULL,
+    product_name                VARCHAR2(50)            NULL,
+    send_zip_code               VARCHAR2(7)             NULL,
+    send_address_line1          VARCHAR2(34)            NULL,
+    send_address_line2          VARCHAR2(34)            NULL,
+    send_address_line3          VARCHAR2(34)            NULL,
+    ext_item_div1               VARCHAR2(4)             NULL,
+    ext_item_div2               VARCHAR2(4)             NULL,
+    ext_item_div3               VARCHAR2(4)             NULL,
+    ext_item_div4               VARCHAR2(4)             NULL,
+    ext_item_div5               VARCHAR2(4)             NULL,
+    ext_item_div6               VARCHAR2(4)             NULL,
+    ext_item_div7               VARCHAR2(4)             NULL,
+    ext_item_div8               VARCHAR2(4)             NULL,
+    ext_item_div9               VARCHAR2(4)             NULL,
+    ext_item_div10              VARCHAR2(4)             NULL,
+    ext_item_flag1              NUMBER(1)               NULL,
+    ext_item_flag2              NUMBER(1)               NULL,
+    ext_item_flag3              NUMBER(1)               NULL,
+    ext_item_flag4              NUMBER(1)               NULL,
+    ext_item_flag5              NUMBER(1)               NULL,
+    ext_item_flag6              NUMBER(1)               NULL,
+    ext_item_flag7              NUMBER(1)               NULL,
+    ext_item_flag8              NUMBER(1)               NULL,
+    ext_item_flag9              NUMBER(1)               NULL,
+    ext_item_flag10             NUMBER(1)               NULL,
+    ext_item_text1              VARCHAR2(50)            NULL,
+    ext_item_text2              VARCHAR2(50)            NULL,
+    ext_item_text3              VARCHAR2(50)            NULL,
+    ext_item_text4              VARCHAR2(50)            NULL,
+    ext_item_text5              VARCHAR2(50)            NULL,
+    ext_item_text6              VARCHAR2(50)            NULL,
+    ext_item_text7              VARCHAR2(50)            NULL,
+    ext_item_text8              VARCHAR2(50)            NULL,
+    ext_item_text9              VARCHAR2(50)            NULL,
+    ext_item_text10             VARCHAR2(50)            NULL,
+    last_updater                VARCHAR2(20)            NULL,
+    created_timestamp           DATE                DEFAULT sysdate     NOT NULL,
+    last_updated_timestamp      DATE                DEFAULT sysdate     NOT NULL,
+    creator                     VARCHAR2(20)             NULL,
+    exclusive_use_account_no    VARCHAR2(20)             NULL,
+    send_timestamp              DATE                     NULL,
+    real_name_voucher_div       VARCHAR2(1)              NULL,
+    real_name1                  VARCHAR2(40)             NULL,
+    real_name2                  VARCHAR2(40)             NULL,
+    insider_voucher_div         VARCHAR2(1)              NULL,
+    insider_product_code        VARCHAR2(5)              NULL,
+    insider_relation_div        VARCHAR2(1)              NULL,
+    insider_officer_name        VARCHAR2(18)             NULL,
+    insider_post_code           VARCHAR2(2)              NULL,
+    insider_post_name           VARCHAR2(20)             NULL,
+    gp_voucher_div              VARCHAR2(1)              NULL,
+    gp_course                   VARCHAR2(1)              NULL,
+    gp_plan                     VARCHAR2(1)              NULL,
+    gp_target_figure            VARCHAR2(4)              NULL,
+    gp_target_year              VARCHAR2(2)              NULL,
+    gp_target_month             VARCHAR2(2)              NULL,
+    gp_installment_figure       VARCHAR2(7)              NULL,
+    gp_deposit_cycle            VARCHAR2(1)              NULL,
+    gp_payment_root             VARCHAR2(1)              NULL,
+    gp_reinvest_div             VARCHAR2(1)              NULL,
+    gp_tax_div                  VARCHAR2(1)              NULL,
+    gp_taxfree_limit            VARCHAR2(3)              NULL,
+    gp_special_taxfree_limit    VARCHAR2(3)              NULL,
+    gp_subscr_summary           VARCHAR2(1)              NULL,
+    gp_product_code             VARCHAR2(1)              NULL,
+    gp_mortgage_customer        VARCHAR2(1)              NULL,
+    gp_mix_customer             VARCHAR2(1)              NULL,
+    gp_contract                 VARCHAR2(1)              NULL,
+    stk_voucher_div             VARCHAR2(1)              NULL,
+    stk_taxation_tran_div       VARCHAR2(1)              NULL,
+    stk_address_line_kana       VARCHAR2(70)             NULL,
+    stk_transfer_div            VARCHAR2(1)              NULL,
+    stk_fin_institution_code    VARCHAR2(4)              NULL,
+    stk_fin_branch_code         VARCHAR2(3)              NULL,
+    stk_fin_save_div            VARCHAR2(1)              NULL,
+    stk_fin_account_no          VARCHAR2(7)              NULL,
+    brokerage_trader_code       VARCHAR2(5)              NULL,
+    ext_item_div11              VARCHAR2(10)             NULL,
+    ext_item_div12              VARCHAR2(10)             NULL,
+    ext_item_div13              VARCHAR2(10)             NULL,
+    ext_item_div14              VARCHAR2(10)             NULL,
+    ext_item_div15              VARCHAR2(10)             NULL,
+    foreign_account_no          VARCHAR2(20)             NULL,
+    foreign_account_name        VARCHAR2(60)             NULL,
+    foreign_account_name_eng    VARCHAR2(30)             NULL,
+    foreign_save_div            VARCHAR2(1)              NULL,
+    delete_flag                 NUMBER(1)                NULL,
+    delete_timestamp            DATE                     NULL,
+    print_flag                  VARCHAR2(1)              NULL,
+    receipt_flag                NUMBER(1)                NULL,
+    agreement_flag              NUMBER(1)                NULL,
+    foreign_flag                NUMBER(1)                NULL,
+    agency_acc_name_kana1       VARCHAR2(120)             NULL,
+    agency_acc_name_kana2       VARCHAR2(120)             NULL,
+    agency_acc_name1            VARCHAR2(120)             NULL,
+    agency_acc_name2            VARCHAR2(60)             NULL,
+    agency_address_line1        VARCHAR2(96)             NULL,
+    agency_address_line2        VARCHAR2(48)             NULL,
+    agency_rep_post             VARCHAR2(40)             NULL,
+    agency_rep_name_kana1       VARCHAR2(120)             NULL,
+    agency_rep_name_kana2       VARCHAR2(120)             NULL,
+    agency_rep_name1            VARCHAR2(60)             NULL,
+    agency_rep_name2            VARCHAR2(60)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKexp_account_open ON exp_account_open
+(
+    institution_code,
+    acc_open_request_number
+);
+
+CREATE INDEX XIE1exp_account_open ON exp_account_open
+(
+    institution_code,
+    branch_code     ,
+    account_code
+);
+
+CREATE INDEX XIE2exp_account_open ON exp_account_open
+(
+    branch_code
+);
+
+CREATE INDEX XIE3exp_account_open ON exp_account_open
+(
+    acc_open_request_number
+);
+
+CREATE INDEX XIE4exp_account_open ON exp_account_open
+(
+    account_code
+);
+
+CREATE INDEX XIE5exp_account_open ON exp_account_open
+(
+    account_div
+);
+
+CREATE INDEX XIE6exp_account_open ON exp_account_open
+(
+    infomation_claim_datetime
+);
+
+CREATE INDEX XIE7exp_account_open ON exp_account_open
+(
+    account_open_date
+);
+
+CREATE INDEX XIE8exp_account_open ON exp_account_open
+(
+    family_name_alt1
+);
+
+CREATE INDEX XIE9exp_account_open ON exp_account_open
+(
+    given_name_alt1
+);
+
+--Primary Key
+ALTER TABLE exp_account_open
+        ADD  (PRIMARY KEY (institution_code, acc_open_request_number));
+
+
+--Table: 口座開設項目マスタ
+CREATE TABLE acc_open_item_master (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    validate_type               VARCHAR2(1)         NOT NULL,
+    item_symbol_name            VARCHAR2(30)        NOT NULL,
+    item_name                   VARCHAR2(50)            NULL,
+    necessary_flag              NUMBER(1)           DEFAULT 0       NOT NULL,
+    item_min                    NUMBER(6)               NULL,
+    item_max                    NUMBER(6)               NULL,
+    item_check_mode             VARCHAR2(2)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_item_master ON acc_open_item_master
+(
+    institution_code,
+    branch_code,
+    account_div,
+    validate_type,
+    item_symbol_name
+);
+
+--Primary Key
+ALTER TABLE acc_open_item_master
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_div, validate_type, item_symbol_name));
+
+
+--Table: 口座開設項目属性
+CREATE TABLE acc_open_item_attribute (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    item_symbol_name            VARCHAR2(30)        NOT NULL,
+    attribute_name              VARCHAR2(64)        NOT NULL,
+    attribute_value             VARCHAR2(4)         NOT NULL,
+    range_from                  DECIMAL(18,6)           NULL,
+    range_to                    DECIMAL(18,6)           NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_item_attribute ON acc_open_item_attribute
+(
+    institution_code,
+    branch_code,
+    account_div,
+    item_symbol_name,
+    attribute_value
+);
+
+--Primary Key
+ALTER TABLE acc_open_item_attribute
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_div, item_symbol_name, attribute_value));
+
+
+--Table: 口座開設申込ＤＬフォームマスタ
+CREATE TABLE acc_open_dl_form_master (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    column_number               NUMBER(6)           NOT NULL,
+    column_label                VARCHAR2(64)            NULL,
+    column_type                 NUMBER(6)           NOT NULL,
+    date_format                 VARCHAR2(30)            NULL,
+    input_item_symbol_name      VARCHAR2(30)        NOT NULL,
+    cat_delimitter              VARCHAR2(1)             NULL,
+    section_number              NUMBER(6)               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_dl_form_master ON acc_open_dl_form_master
+(
+    institution_code,
+    account_div,
+    column_number
+);
+
+--Primary Key
+ALTER TABLE acc_open_dl_form_master
+        ADD  (PRIMARY KEY (institution_code, account_div, column_number));
+
+
+--Table: 口座開設不備テーブル
+CREATE TABLE acc_open_invalid_values (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    item_name1                  VARCHAR2(30)            NULL,
+    comment1                    VARCHAR2(50)            NULL,
+    comp_flag1                  NUMBER(1)               NULL,
+    item_name2                  VARCHAR2(30)            NULL,
+    comment2                    VARCHAR2(50)            NULL,
+    comp_flag2                  NUMBER(1)               NULL,
+    item_name3                  VARCHAR2(30)            NULL,
+    comment3                    VARCHAR2(50)            NULL,
+    comp_flag3                  NUMBER(1)               NULL,
+    item_name4                  VARCHAR2(30)            NULL,
+    comment4                    VARCHAR2(50)            NULL,
+    comp_flag4                  NUMBER(1)               NULL,
+    item_name5                  VARCHAR2(30)            NULL,
+    comment5                    VARCHAR2(50)            NULL,
+    comp_flag5                  NUMBER(1)               NULL,
+    item_name6                  VARCHAR2(30)            NULL,
+    comment6                    VARCHAR2(50)            NULL,
+    comp_flag6                  NUMBER(1)               NULL,
+    item_name7                  VARCHAR2(30)            NULL,
+    comment7                    VARCHAR2(50)            NULL,
+    comp_flag7                  NUMBER(1)               NULL,
+    item_name8                  VARCHAR2(30)            NULL,
+    comment8                    VARCHAR2(50)            NULL,
+    comp_flag8                  NUMBER(1)               NULL,
+    item_name9                  VARCHAR2(30)            NULL,
+    comment9                    VARCHAR2(50)            NULL,
+    comp_flag9                  NUMBER(1)               NULL,
+    item_name10                 VARCHAR2(30)            NULL,
+    comment10                   VARCHAR2(50)            NULL,
+    comp_flag10                 NUMBER(1)               NULL,
+    note1                       VARCHAR2(240)           NULL,
+    note2                       VARCHAR2(240)           NULL,
+    last_updater                VARCHAR2(20)            NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_invalid_values ON acc_open_invalid_values
+(
+    institution_code,
+    acc_open_request_number
+);
+
+--Primary Key
+ALTER TABLE acc_open_invalid_values
+        ADD  (PRIMARY KEY (institution_code, acc_open_request_number));
+
+-------------------------------------------------------------------------------
+--その他
+-------------------------------------------------------------------------------
+
+--Table: 口座開設識別コード
+CREATE TABLE acc_open_request_number (
+    institution_code                VARCHAR2(3)         NOT NULL,
+    last_acc_open_request_number    VARCHAR2(13)        NOT NULL,
+    created_timestamp               DATE                NOT NULL,
+    last_updated_timestamp          DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_request_number ON acc_open_request_number
+(
+    institution_code
+);
+
+--Primary Key
+ALTER TABLE acc_open_request_number
+        ADD  (PRIMARY KEY (institution_code));
+
+--Table: Ｙ客マスタ
+CREATE TABLE y_customer (
+    y_customer_id              NUMBER(18)          NOT NULL,
+    control_branch_code        VARCHAR2(3)         NOT NULL,
+    operation_div              VARCHAR2(2)         NOT NULL,
+    control_number             NUMBER(7)           NOT NULL,
+    institution_code           VARCHAR2(3)         NOT NULL,
+    era_born                   VARCHAR2(1)         NULL,
+    born_date                  VARCHAR2(6)         NULL,
+    name_kana                  VARCHAR2(42)        NOT NULL,
+    name                       VARCHAR2(42)        NOT NULL,
+    account_name_kana          VARCHAR2(42)        NULL,
+    account_name               VARCHAR2(42)        NULL,
+    address_kana               VARCHAR2(104)       NULL,
+    address                    VARCHAR2(104)       NULL,
+    zip_code                   VARCHAR2(7)         NULL,
+    telephone                  VARCHAR2(14)        NULL,
+    office_kana                VARCHAR2(52)        NULL,
+    office                     VARCHAR2(52)        NULL,
+    post_kana                  VARCHAR2(102)       NULL,
+    post                       VARCHAR2(102)       NULL,
+    comment_kana               VARCHAR2(52)        NULL,
+    comment_kanji              VARCHAR2(52)        NULL,
+    sonar_created_branch       VARCHAR2(3)         NULL,
+    sonar_created_date         VARCHAR2(6)         NULL,
+    sonar_updated_branch       VARCHAR2(3)         NULL,
+    sonar_updated_date         VARCHAR2(6)         NULL,
+    disclosure_div             VARCHAR2(1)         NULL,
+    sonar_check_div            VARCHAR2(1)         NULL,
+    created_timestamp          DATE                NOT NULL,
+    last_updated_timestamp     DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKy_customer ON y_customer
+(
+    y_customer_id
+);
+
+CREATE UNIQUE INDEX XAKy_custmer ON y_customer
+(
+    control_branch_code   ,
+    operation_div         ,
+    control_number        ,
+    institution_code
+);
+
+CREATE INDEX XIEy_custmer ON y_customer
+(
+    institution_code      ,
+    era_born              ,
+    born_date             ,
+    name_kana             ,
+    name
+);
+
+--Primary Key
+ALTER TABLE y_customer
+        ADD  (PRIMARY KEY (y_customer_id));
+
+
+-------------------------------------------------------------------------------
+--口座開設申込伝票
+-------------------------------------------------------------------------------
+
+--Table: 暗証番号伝票(G5511)テーブル
+CREATE TABLE password_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_delete_div           VARCHAR2(1)             NULL,
+    data_class                  VARCHAR2(2)             NULL,
+    voucher_name                VARCHAR2(4)             NULL,
+    regist_date                 VARCHAR2(6)             NULL,
+    password                    VARCHAR2(48)            NULL,
+    pub_reason_div              VARCHAR2(1)             NULL,
+    ref_number                  VARCHAR2(5)             NULL,
+    modified_name               VARCHAR2(19)            NULL,
+    card_type                   VARCHAR2(1)             NULL,
+    online_batch_div            VARCHAR2(1)             NULL,
+    seq_no                      VARCHAR2(4)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpassword_voucher ON password_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE password_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 口座開設伝票マスタ
+CREATE TABLE acc_open_voucher_master (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    serial_no                   VARCHAR2(3)         NOT NULL,
+    create_voucher_column       VARCHAR2(30)            NULL,
+    create_voucher_value        VARCHAR2(4)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_voucher_master ON acc_open_voucher_master
+(
+    institution_code,
+    branch_code,
+    account_div,
+    request_code,
+    serial_no
+);
+
+--Primary Key
+ALTER TABLE acc_open_voucher_master
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_div, request_code, serial_no));
+
+
+--Table: 口座開設伝票項目マスタ
+CREATE TABLE acc_open_voucher_item (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    serial_no                   VARCHAR2(3)         NOT NULL,
+    output_item_symbol_name     VARCHAR2(30)        NOT NULL,
+    edit_way_div                VARCHAR2(1)         NOT NULL,
+    fixed_value                 VARCHAR2(128)           NULL,
+    input_item_symbol_name1     VARCHAR2(30)            NULL,
+    input_item_symbol_name2     VARCHAR2(30)            NULL,
+    input_item_symbol_name3     VARCHAR2(30)            NULL,
+    cat_delimitter              VARCHAR2(4)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_voucher_item ON acc_open_voucher_item
+(
+    institution_code,
+    branch_code,
+    account_div,
+    request_code,
+    serial_no,
+    output_item_symbol_name
+);
+
+--Primary Key
+ALTER TABLE acc_open_voucher_item
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_div, request_code, serial_no, output_item_symbol_name));
+
+
+--Table: 口座開設伝票作成ステータス
+CREATE TABLE acc_open_voucher_status (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    serial_no                   VARCHAR2(3)         NOT NULL,
+    voucher_status              VARCHAR2(1)         NOT NULL,
+    send_timestamp              DATE                    NULL,
+    recv_timestamp              DATE                    NULL,
+    error_code                  VARCHAR2(4)             NULL,
+    last_updater                VARCHAR2(20)            NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_voucher_status ON acc_open_voucher_status
+(
+    institution_code,
+    acc_open_request_number,
+    request_code,
+    serial_no
+);
+
+CREATE INDEX XIE1acc_open_voucher_status ON acc_open_voucher_status
+(
+    institution_code
+);
+
+CREATE INDEX XIE2acc_open_voucher_status ON acc_open_voucher_status
+(
+    acc_open_request_number
+);
+
+CREATE INDEX XIE3acc_open_voucher_status ON acc_open_voucher_status
+(
+    request_code
+);
+
+CREATE INDEX XIE4acc_open_voucher_status ON acc_open_voucher_status
+(
+    send_timestamp
+);
+
+--Primary Key
+ALTER TABLE acc_open_voucher_status
+        ADD  (PRIMARY KEY (institution_code, acc_open_request_number, request_code, serial_no));
+
+
+--Table: 取残・電子交付・特定口座伝票（GI311）
+CREATE TABLE trade_condition_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    data_class                  VARCHAR2(2)             NULL,
+    trading_e_report_div        VARCHAR2(1)             NULL,
+    inv_e_report_div            VARCHAR2(1)             NULL,
+    refund_e_report_div         VARCHAR2(1)             NULL,
+    e_report_div1               VARCHAR2(1)             NULL,
+    e_report_div2               VARCHAR2(1)             NULL,
+    e_report_div3               VARCHAR2(1)             NULL,
+    pos_report_term_div         VARCHAR2(1)             NULL,
+    pos_report_cycle_div        VARCHAR2(1)             NULL,
+    pos_report_certif_depo_div  VARCHAR2(1)             NULL,
+    pos_report_acc_state_div    VARCHAR2(1)             NULL,
+    equity_tax_div              VARCHAR2(1)             NULL,
+    equity_tax_div_next         VARCHAR2(1)             NULL,
+    equity_sp_acc_open_dat      VARCHAR2(6)             NULL,
+    margin_tax_div              VARCHAR2(1)             NULL,
+    margin_tax_div_next         VARCHAR2(1)             NULL,
+    margin_sp_acc_open_dat      VARCHAR2(6)             NULL,
+    sp_mng_acc_open_div         VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL,
+    occupation_div              VARCHAR2(2)             NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    mobile_office_info_regist_id NUMBER(18)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKtrade_condition_voucher ON trade_condition_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE trade_condition_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 重要事項確認書伝票(G1159)テーブル
+CREATE TABLE imp_confirm_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    data_class                  VARCHAR2(2)             NULL,
+    category_no                 VARCHAR2(2)             NULL,
+    confirm_div                 VARCHAR2(3)             NULL,
+    note                        VARCHAR2(9)             NULL,
+    correct_date                DATE                    NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKimp_confirm_voucher ON imp_confirm_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE imp_confirm_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 本人確認伝票(G1175)テーブル
+CREATE TABLE id_confirm_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    data_class                  VARCHAR2(2)             NULL,
+    id_attribute_div            VARCHAR2(1)             NULL,
+    trading_div                 VARCHAR2(1)             NULL,
+    confirm_way_div             VARCHAR2(1)             NULL,
+    confirm_doc_div             VARCHAR2(2)             NULL,
+    address_confirm_doc         VARCHAR2(1)             NULL,
+    confirm_date                DATE                    NULL,
+    appli_motivat_div           VARCHAR2(1)             NULL,
+    invest_purpose_div          VARCHAR2(1)             NULL,
+    experience_equity           VARCHAR2(1)             NULL,
+    experience_margin           VARCHAR2(1)             NULL,
+    experience_bond             VARCHAR2(1)             NULL,
+    experience_fund             VARCHAR2(1)             NULL,
+    experience_fo               VARCHAR2(1)             NULL,
+    experience_f_equity         VARCHAR2(1)             NULL,
+    experience_etc              VARCHAR2(1)             NULL,
+    experience_from             VARCHAR2(2)             NULL,
+    experience_to               VARCHAR2(2)             NULL,
+    equity_trade_div            VARCHAR2(1)             NULL,
+    margin_trade_div            VARCHAR2(1)             NULL,
+    bond_trade_div              VARCHAR2(1)             NULL,
+    fund_trade_div              VARCHAR2(1)             NULL,
+    fo_trade_div                VARCHAR2(1)             NULL,
+    f_equity_trade_div          VARCHAR2(1)             NULL,
+    etc_trade_div               VARCHAR2(1)             NULL,
+    annual_income_from          VARCHAR2(6)             NULL,
+    annual_income_to            VARCHAR2(6)             NULL,
+    asset_value_from            VARCHAR2(6)             NULL,
+    asset_value_to              VARCHAR2(6)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL,
+    div                         VARCHAR2(1)             NULL,
+    relation                    VARCHAR2(1)             NULL,
+    confirm_way                 VARCHAR2(1)             NULL,
+    confirm_doc                 VARCHAR2(2)             NULL,
+    add_confirm_doc             VARCHAR2(1)             NULL,
+    charge_confirm_date         DATE                    NULL,
+    charge_name                 VARCHAR2(18)            NULL,
+    born_date                   DATE                    NULL,
+    telephone1                  VARCHAR2(16)             NULL,
+    telephone2                  VARCHAR2(4)             NULL,
+    telephone3                  VARCHAR2(4)             NULL,
+    zip_code1                   VARCHAR2(7)             NULL,
+    zip_code2                   VARCHAR2(4)             NULL,
+    address_line1               VARCHAR2(32)            NULL,
+    address_line2               VARCHAR2(32)            NULL,
+    address_line3               VARCHAR2(32)            NULL,
+    address_line1_kana          VARCHAR2(16)            NULL,
+    address_line2_kana          VARCHAR2(27)            NULL,
+    address_line3_kana          VARCHAR2(27)            NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKid_confirm_voucher ON id_confirm_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE id_confirm_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+--Table: 口座開設審査待ちテーブル
+CREATE TABLE acc_open_waiting (
+    institution_code               VARCHAR2(3)            NOT NULL,
+    acc_open_request_number        VARCHAR2(13)           NOT NULL,
+    serial_no                      VARCHAR2(3)            NOT NULL,
+    branch_code                    VARCHAR2(3)            NULL,
+    account_code                   VARCHAR2(7)            NULL,
+    review_code                    VARCHAR2(2)            NOT NULL,
+    duplication_div                VARCHAR2(2)            NULL,
+    diplo_branch_code              VARCHAR2(3)            NULL,
+    diplo_account_code             VARCHAR2(7)            NULL,
+    y_customer_id                  NUMBER(18)             NULL,
+    control_branch_code            VARCHAR2(3)            NULL,
+    operation_div                  VARCHAR2(2)            NULL,
+    control_number                 NUMBER(7)              NULL,
+    check_div                      VARCHAR2(1) DEFAULT 0  NOT NULL,
+    checker_code                   VARCHAR2(20)           NULL,
+    created_timestamp              DATE                   NOT NULL,
+    last_updated_timestamp         DATE                   NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_waiting ON acc_open_waiting
+(
+    institution_code,
+    acc_open_request_number,
+    serial_no
+);
+
+CREATE INDEX XIE1acc_open_waiting ON acc_open_waiting
+(
+    check_div
+);
+
+--Primary Key
+ALTER TABLE acc_open_waiting
+        ADD  (PRIMARY KEY (institution_code, acc_open_request_number, serial_no));
+
+-------------------------------------------------------------------------------
+--SONAR連携関連
+-------------------------------------------------------------------------------
+
+--Table: MRF口座伝票（GI601)伝票キュー
+CREATE TABLE host_mrf_acc_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    auto_product_code           VARCHAR2(1)             NULL,
+    mrf_product_code            VARCHAR2(1)             NULL,
+    taxfree_limit               VARCHAR2(3)             NULL,
+    suspended_auto_buy_div      VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_mrf_acc_voucher ON host_mrf_acc_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_mrf_acc_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 契約書徴収伝票（G1151）キュー
+CREATE TABLE host_cont_mrg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    trading_account_no          VARCHAR2(2)             NULL,
+    account_open_div            VARCHAR2(1)             NULL,
+    cont_mrg_div                VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_cont_mrg_voucher ON host_cont_mrg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_cont_mrg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 顧客登録伝票(G11)キューテーブル
+CREATE TABLE host_acc_reg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    account_name_kana           VARCHAR2(19)            NULL,
+    account_name                VARCHAR2(18)            NULL,
+    zip_code                    VARCHAR2(7)             NULL,
+    address_line1               VARCHAR2(32)            NULL,
+    address_line1_kana          VARCHAR2(30)            NULL,
+    address_line2               VARCHAR2(32)            NULL,
+    address_line2_kana          VARCHAR2(30)            NULL,
+    address_line3               VARCHAR2(32)            NULL,
+    address_line3_kana          VARCHAR2(30)            NULL,
+    telephone                   VARCHAR2(16)            NULL,
+    contact_address             VARCHAR2(36)            NULL,
+    contact_telephone           VARCHAR2(16)            NULL,
+    ex_branch_name              VARCHAR2(3)             NULL,
+    ex_account_code             VARCHAR2(7)             NULL,
+    occupation_div              VARCHAR2(2)             NULL,
+    era_born                    VARCHAR2(1)             NULL,
+    born_date                   VARCHAR2(6)             NULL,
+    sex                         VARCHAR2(1)             NULL,
+    document                    VARCHAR2(1)             NULL,
+    unknown_address             VARCHAR2(1)             NULL,
+    report                      VARCHAR2(1)             NULL,
+    resident                    VARCHAR2(1)             NULL,
+    taxation_div                VARCHAR2(1)             NULL,
+    forign_taxation_div         VARCHAR2(1)             NULL,
+    account_div                 VARCHAR2(1)             NULL,
+    account_open_div1           VARCHAR2(1)             NULL,
+    account_open_div2           VARCHAR2(1)             NULL,
+    account_open_div3           VARCHAR2(1)             NULL,
+    account_open_div4           VARCHAR2(1)             NULL,
+    account_open_div5           VARCHAR2(1)             NULL,
+    account_open_div6           VARCHAR2(1)             NULL,
+    account_open_div7           VARCHAR2(1)             NULL,
+    account_open_div8           VARCHAR2(1)             NULL,
+    account_open_div9           VARCHAR2(1)             NULL,
+    account_open_div10          VARCHAR2(1)             NULL,
+    account_open_div11          VARCHAR2(1)             NULL,
+    account_open_div12          VARCHAR2(1)             NULL,
+    account_open_div13          VARCHAR2(1)             NULL,
+    taxation_appl_div           VARCHAR2(1)             NULL,
+    taxation_tran_div           VARCHAR2(1)             NULL,
+    send_div                    VARCHAR2(1)             NULL,
+    trust_via_div               VARCHAR2(1)             NULL,
+    correct_div1                VARCHAR2(1)             NULL,
+    correct_div2                VARCHAR2(1)             NULL,
+    correct_div3                VARCHAR2(1)             NULL,
+    correct_div4                VARCHAR2(1)             NULL,
+    correct_div5                VARCHAR2(1)             NULL,
+    ifo_acc_open_div_tokyo      VARCHAR2(1)             NULL,
+    ifo_acc_open_div_osaka      VARCHAR2(1)             NULL,
+    ifo_acc_open_div_nagoya     VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL,
+    other_contact_telephone     VARCHAR2(16)            NULL,
+    brokerage_trader_code       VARCHAR2(5)             NULL,
+    proam_div                   VARCHAR2(1)             NULL,
+    foreigner_div_broadcast     VARCHAR2(1)             NULL,
+    foreigner_div_aviation      VARCHAR2(1)             NULL,
+    foreigner_div_ntt           VARCHAR2(1)             NULL,
+    dividend_transfer_div       VARCHAR2(1)             NULL,
+    agent_div_permanent         VARCHAR2(1)             NULL,
+    agent_div_legal             VARCHAR2(1)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_acc_reg_voucher ON host_acc_reg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_acc_reg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 口座開設伝票登録受付キュー
+CREATE TABLE host_acc_open_accept (
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    accept_status               VARCHAR2(1)         NOT NULL,
+    error_code                  VARCHAR2(4)             NULL,
+    status                      VARCHAR2(1)         NOT NULL
+);
+
+
+--Table: 振替申込（銀行）伝票（G26）キュー
+CREATE TABLE host_bank_trans_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    transfer_range              VARCHAR2(1)             NULL,
+    product_type_code_spec      VARCHAR2(1)             NULL,
+    product_code_spec           VARCHAR2(9)             NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    transfer_div                VARCHAR2(1)             NULL,
+    trans_commission            VARCHAR2(1)             NULL,
+    trans_deal_div              VARCHAR2(1)             NULL,
+    fin_institution_code        VARCHAR2(15)            NULL,
+    fin_branch_code             VARCHAR2(15)            NULL,
+    fin_save_div                VARCHAR2(1)             NULL,
+    fin_account_no              VARCHAR2(8)             NULL,
+    fin_account_name            VARCHAR2(30)            NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_bank_trans_voucher ON host_bank_trans_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_bank_trans_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 振替申込（郵貯）伝票（G26）キュー
+CREATE TABLE host_postal_trans_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    transfer_range              VARCHAR2(1)             NULL,
+    product_type_code_spec      VARCHAR2(1)             NULL,
+    product_code_spec           VARCHAR2(9)             NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    transfer_div                VARCHAR2(1)             NULL,
+    trans_commission            VARCHAR2(1)             NULL,
+    postal_save_code            VARCHAR2(5)             NULL,
+    postal_save_no              VARCHAR2(8)             NULL,
+    fin_account_name            VARCHAR2(30)            NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_postal_trans_voucher ON host_postal_trans_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_postal_trans_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 保振同意伝票（GA300）キュー
+CREATE TABLE host_agree_trans_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    org_consign_div             VARCHAR2(1)             NULL,
+    stockholder_report_div      VARCHAR2(1)             NULL,
+    inquiry_report_div          VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_agree_trans_voucher ON host_agree_trans_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_agree_trans_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 有料情報伝票（G5401）キュー
+CREATE TABLE host_charged_info_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    settlement_div              VARCHAR2(1)             NULL,
+    pc_div                      VARCHAR2(1)             NULL,
+    apply_div                   VARCHAR2(1)             NULL,
+    apply_date                  VARCHAR2(6)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_charged_info_voucher ON host_charged_info_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_charged_info_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+--Table: GP条件登録伝票（G1220）キュー
+CREATE TABLE host_gp_reg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    course                      VARCHAR2(1)             NULL,
+    plan                        VARCHAR2(1)             NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    target_figure               VARCHAR2(4)             NULL,
+    target_year                 VARCHAR2(2)             NULL,
+    target_month                VARCHAR2(2)             NULL,
+    installment_figure          VARCHAR2(7)             NULL,
+    deposit_cycle               VARCHAR2(1)             NULL,
+    payment_root                VARCHAR2(1)             NULL,
+    reinvest_div                VARCHAR2(1)             NULL,
+    tax_div                     VARCHAR2(1)             NULL,
+    taxfree_limit               VARCHAR2(3)             NULL,
+    special_taxfree_limit       VARCHAR2(3)             NULL,
+    subscr_summary              VARCHAR2(1)             NULL,
+    gp_product_code             VARCHAR2(1)             NULL,
+    mortgage_customer           VARCHAR2(1)             NULL,
+    mix_customer                VARCHAR2(1)             NULL,
+    contract                    VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE INDEX XPKhost_gp_reg_voucher ON host_gp_reg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_gp_reg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+        
+--Table: 顧客正式名称登録伝票（G1190）キュー
+CREATE TABLE host_realname_reg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    real_name1                  VARCHAR2(40)            NULL,
+    real_name2                  VARCHAR2(40)            NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE INDEX XPKhost_realname_reg_voucher ON host_realname_reg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_realname_reg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+--Table: 上場外株・株主登録伝票（G8610）キュー
+CREATE TABLE host_stockholder_reg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    taxation_tran_div           VARCHAR2(1)             NULL,
+    account_name_kana           VARCHAR2(19)            NULL,
+    zip_code                    VARCHAR2(7)             NULL,
+    address_line_kana           VARCHAR2(70)            NULL,
+    transfer_div                VARCHAR2(1)             NULL,
+    fin_institution_code        VARCHAR2(4)             NULL,
+    fin_branch_code             VARCHAR2(3)             NULL,
+    fin_save_div                VARCHAR2(1)             NULL,
+    fin_account_no              VARCHAR2(7)             NULL,
+    fin_account_name            VARCHAR2(30)            NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL,
+    self_div                    VARCHAR2(1)             NULL,
+    tax_code                    VARCHAR2(1)             NULL
+);
+
+--Index
+CREATE INDEX XPKhost_stockholder_r_v ON host_stockholder_reg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_stockholder_reg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+        
+--Table: 内部者登録伝票（G9801）キュー
+CREATE TABLE host_insider_reg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    product_code                VARCHAR2(5)             NULL,
+    relation_div                VARCHAR2(1)             NULL,
+    officer_name                VARCHAR2(19)            NULL,
+    post_code                   VARCHAR2(2)             NULL,
+    post_name                   VARCHAR2(20)            NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE INDEX XPKhost_insider_reg_voucher ON host_insider_reg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_insider_reg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+--Table: 口座開設顧客コード
+CREATE TABLE acc_open_account_code (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_div                 VARCHAR2(2)         NOT NULL,
+    last_account_code           VARCHAR2(6)         NOT NULL,
+    max_account_code            VARCHAR2(6)         NOT NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKacc_open_account_code ON acc_open_account_code
+(
+    institution_code,
+    branch_code,
+    account_div
+);
+
+--Primary Key
+ALTER TABLE acc_open_account_code
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_div));
+
+--Table: 外貨預金口座登録伝票(G43)テーブル
+CREATE TABLE host_f_deposit_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)             NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         NOT NULL,
+    regist_div                  VARCHAR2(1)             NULL,
+    currency_code               VARCHAR2(2)             NULL,
+    bank_code                   VARCHAR2(4)             NULL,
+    bank_branch_code            VARCHAR2(3)             NULL,
+    account_no                  VARCHAR2(20)            NULL,
+    account_name                VARCHAR2(60)            NULL,
+    ammount                     VARCHAR2(1)             NULL,
+    fee                         VARCHAR2(1)             NULL,
+    account_name_eng            VARCHAR2(30)            NULL,
+    bank_name                   VARCHAR2(32)            NULL,
+    bank_branch_name            VARCHAR2(32)            NULL,
+    extra                       VARCHAR2(18)            NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE INDEX XPKf_deposit_voucher ON host_f_deposit_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_f_deposit_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+        
+--Table: バッチ用部店テーブル
+CREATE TABLE batch_branch (
+    institution_code              VARCHAR2(3)         NOT NULL,
+    branch_code                   VARCHAR2(3)         NOT NULL,
+    equity_order_exe_mail_flag    NUMBER(1)           NOT NULL,
+    equity_order_unexec_mail_flag NUMBER(1)           NOT NULL,
+    ifo_order_exec_mail_flag      NUMBER(1)           NOT NULL,
+    ifo_order_unexec_mail_flag    NUMBER(1)           NOT NULL,
+    information_mail_flag         NUMBER(1)           NOT NULL,
+    transfer_count                NUMBER(2)           NOT NULL,
+    top_page_id                   VARCHAR2(20)        NOT NULL,
+    created_timestamp             DATE                    NULL,
+    last_updated_timestamp        DATE                    NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbatch_branch ON batch_branch
+(
+    institution_code,
+    branch_code
+);
+
+--Primary Key
+ALTER TABLE batch_branch
+        ADD  (PRIMARY KEY (institution_code, branch_code));
+
+--Table: バッチ用プリファレンステーブル
+CREATE TABLE batch_preferences (
+    institution_code          VARCHAR2(3)        NOT NULL,
+    branch_code               VARCHAR2(3)        NOT NULL,
+    name                      VARCHAR2(200)      NOT NULL,
+    name_serial_no            NUMBER(6)          NOT NULL,
+    value                     VARCHAR2(200)      NOT NULL,
+    created_timestamp         DATE               NOT NULL,
+    last_updated_timestamp    DATE               NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbatch_preferences ON batch_preferences
+(
+    institution_code,
+    branch_code,
+    name,
+    name_serial_no
+);
+
+--Primary Key
+ALTER TABLE batch_preferences
+        ADD  (PRIMARY KEY (institution_code, branch_code, name, name_serial_no));
+
+--Table: 取報・取残電子交付・特定口座登録（GI311）キュー
+CREATE TABLE host_condition_reg_voucher (
+    order_request_number        VARCHAR2(9)         NOT NULL,
+    request_code                VARCHAR2(5)         NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    account_code                VARCHAR2(7)         NOT NULL,
+    trader_code                 VARCHAR2(5)         DEFAULT NULL    NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    serial_no                   VARCHAR2(3)         DEFAULT 0       NOT NULL,
+    pos_report_term_div         VARCHAR2(1)             NULL,
+    pos_report_cycle_div        VARCHAR2(1)             NULL,
+    pos_report_certif_depo_div  VARCHAR2(1)             NULL,
+    pos_report_acc_state_div    VARCHAR2(1)             NULL,
+    trading_e_report_div        VARCHAR2(1)             NULL,
+    inv_e_report_div            VARCHAR2(1)             NULL,
+    refund_e_report_div         VARCHAR2(1)             NULL,
+    equity_tax_div              VARCHAR2(1)             NULL,
+    equity_tax_div_next         VARCHAR2(1)             NULL,
+    equity_sp_acc_open_dat      VARCHAR2(6)             NULL,
+    margin_tax_div              VARCHAR2(1)             NULL,
+    margin_tax_div_next	        VARCHAR2(1)             NULL,
+    margin_sp_acc_open_dat      VARCHAR2(6)             NULL,
+    sp_mng_acc_open_div	        VARCHAR2(1)             NULL,
+    status                      VARCHAR2(1)             NULL,
+    send_timestamp              DATE                    NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE INDEX XPKhost_condition_reg_voucher ON host_condition_reg_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_condition_reg_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+--Table: メールアドレス登録
+CREATE TABLE mail_address_regi (
+    mail_address_regi_id         NUMBER(18)          NOT NULL,
+    institution_code             VARCHAR2(3)         NOT NULL,
+    branch_code                  VARCHAR2(3)         NOT NULL,
+    email_address                VARCHAR2(100)       NOT NULL,
+    family_name                  VARCHAR2(40)        NOT NULL,
+    given_name                   VARCHAR2(40)            NULL,
+    brokerage_trader_code        VARCHAR2(5)             NULL,
+    link_distinction_code        VARCHAR2(2)             NULL,
+    account_div                  VARCHAR2(1)         NOT NULL,
+    delete_flag                  NUMBER(1)           NOT NULL,
+    last_updater                 VARCHAR2(20)            NULL,
+    created_timestamp            DATE          DEFAULT sysdate        NOT NULL,
+    last_updated_timestamp       DATE          DEFAULT sysdate        NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKmail_address_regi ON mail_address_regi
+(
+    mail_address_regi_id
+);
+    
+--Primary Key
+ALTER TABLE mail_address_regi
+        ADD  (PRIMARY KEY (mail_address_regi_id));
+
+--Table: 機構通知情報登録伝票（GS103）キュー
+CREATE TABLE host_agency_notify_voucher (
+    order_request_number         VARCHAR2(9)         NOT NULL,
+    request_code                 VARCHAR2(5)         NOT NULL,
+    institution_code             VARCHAR2(3)         NOT NULL,
+    branch_code                  VARCHAR2(3)         NOT NULL,
+    account_code                 VARCHAR2(7)         NOT NULL,
+    trader_code                  VARCHAR2(5)         DEFAULT NULL     NULL,
+    acc_open_request_number      VARCHAR2(13)        NOT NULL,
+    serial_no                    VARCHAR2(3)         DEFAULT 0    NOT NULL,
+    regist_div                   VARCHAR2(1)             NULL,
+    account_name_kana1           VARCHAR2(120)            NULL,
+    account_name1                VARCHAR2(120)            NULL,
+    zip_code1                    VARCHAR2(3)             NULL,
+    zip_code2                    VARCHAR2(4)             NULL,
+    address_line1                VARCHAR2(96)            NULL,
+    represent_post               VARCHAR2(40)            NULL,
+    represent_name_kana1         VARCHAR2(120)            NULL,
+    represent_name1              VARCHAR2(120)            NULL,
+    receipt_kana                 VARCHAR2(38)            NULL,
+    receipt_name1                VARCHAR2(80)            NULL,
+    receipt_fin_institution      VARCHAR2(4)             NULL,
+    receipt_fin_branch           VARCHAR2(3)             NULL,
+    receipt_fin_acc_type         VARCHAR2(1)             NULL,
+    receipt_fin_acc_no           VARCHAR2(7)             NULL,
+    receipt_fin_acc_div          VARCHAR2(1)             NULL,
+    status                       VARCHAR2(1)             NULL,
+    send_timestamp               DATE                    NULL,
+    created_timestamp            DATE                NOT NULL,
+    last_updated_timestamp       DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKhost_agency_notify_voucher ON host_agency_notify_voucher
+(
+    order_request_number,
+    request_code,
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE host_agency_notify_voucher
+        ADD  (PRIMARY KEY (order_request_number, request_code, institution_code, branch_code, account_code));
+
+
+--Table: 口座開設見込客一時テーブル
+CREATE TABLE exp_account_open_temp (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    institution_id              NUMBER(18)          NOT NULL,
+    branch_id                   NUMBER(18)          NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    acc_open_request_number     VARCHAR2(13)        NOT NULL,
+    account_code                VARCHAR2(7)             NULL,
+    sonar_trader_code           VARCHAR2(5)             NULL,
+    ex_account_flag             VARCHAR2(1)         NOT NULL,
+    ex_branch_name              VARCHAR2(32)            NULL,
+    ex_account_code             VARCHAR2(7)             NULL,
+    account_div                 VARCHAR2(1)         NOT NULL,
+    order_div                   VARCHAR2(1)         NOT NULL,
+    infomation_claim_datetime   DATE                    NULL,
+    account_open_date           DATE                    NULL,
+    initial_password            VARCHAR2(48)            NULL,
+    family_name                 VARCHAR2(40)        NOT NULL,
+    given_name                  VARCHAR2(40)        NOT NULL,
+    family_name_alt1            VARCHAR2(40)        NOT NULL,
+    given_name_alt1             VARCHAR2(40)        NOT NULL,
+    sex                         VARCHAR2(1)         NOT NULL,
+    era_born                    VARCHAR2(1)             NULL,
+    born_date                   VARCHAR2(6)             NULL,
+    email_address               VARCHAR2(100)           NULL,
+    email_address_alt1          VARCHAR2(100)           NULL,
+    zip_code                    VARCHAR2(7)         NOT NULL,
+    address_line1               VARCHAR2(34)        NOT NULL,
+    address_line2               VARCHAR2(34)            NULL,
+    address_line3               VARCHAR2(34)            NULL,
+    address_line1_kana          VARCHAR2(60)        NOT NULL,
+    address_line2_kana          VARCHAR2(60)            NULL,
+    address_line3_kana          VARCHAR2(60)            NULL,
+    telephone                   VARCHAR2(16)            NULL,
+    mobile                      VARCHAR2(16)            NULL,
+    fax                         VARCHAR2(16)            NULL,
+    occupation_div              VARCHAR2(2)             NULL,
+    office                      VARCHAR2(50)            NULL,
+    office_zip_code             VARCHAR2(7)             NULL,
+    office_address              VARCHAR2(100)           NULL,
+    office_telephone            VARCHAR2(16)            NULL,
+    office_fax                  VARCHAR2(16)            NULL,
+    department                  VARCHAR2(50)            NULL,
+    post                        VARCHAR2(36)            NULL,
+    contact_address             VARCHAR2(100)           NULL,
+    contact_telephone           VARCHAR2(16)            NULL,
+    family_relationship         VARCHAR2(1)             NULL,
+    family_relationship_etc     VARCHAR2(40)            NULL,
+    householder                 VARCHAR2(40)            NULL,
+    householder_kana            VARCHAR2(40)            NULL,
+    householder_occupation_div  VARCHAR2(2)             NULL,
+    householder_office          VARCHAR2(50)            NULL,
+    householder_office_address  VARCHAR2(100)           NULL,
+    householder_department      VARCHAR2(50)            NULL,
+    householder_office_tel      VARCHAR2(16)            NULL,
+    householder_office_fax      VARCHAR2(16)            NULL,
+    householder_post            VARCHAR2(36)            NULL,
+    resident                    VARCHAR2(1)             NULL,
+    transfer_div                VARCHAR2(1)             NULL,
+    fin_institution_code        VARCHAR2(4)             NULL,
+    fin_institution_name        VARCHAR2(32)            NULL,
+    fin_branch_code             VARCHAR2(5)             NULL,
+    fin_branch_name             VARCHAR2(32)            NULL,
+    fin_save_div                VARCHAR2(1)             NULL,
+    fin_account_no              VARCHAR2(8)             NULL,
+    postal_save_code            VARCHAR2(5)             NULL,
+    postal_save_no              VARCHAR2(8)             NULL,
+    fin_account_name            VARCHAR2(60)            NULL,
+    trans_commission            VARCHAR2(1)             NULL,
+    experience_div_equity       VARCHAR2(1)             NOT NULL,
+    experience_div_margin       VARCHAR2(1)             NOT NULL,
+    experience_div_bond         VARCHAR2(1)             NOT NULL,
+    experience_div_wt           VARCHAR2(1)             NOT NULL,
+    experience_div_fund_sk      VARCHAR2(1)             NOT NULL,
+    experience_div_fund_bd      VARCHAR2(1)             NOT NULL,
+    experience_div_fo           VARCHAR2(1)             NOT NULL,
+    experience_div_f_equity     VARCHAR2(1)             NOT NULL,
+    experience_div_etc          VARCHAR2(1)             NOT NULL,
+    experience_flag_equity      NUMBER(1)               NOT NULL,
+    experience_flag_margin      NUMBER(1)               NOT NULL,
+    experience_flag_bond        NUMBER(1)               NOT NULL,
+    experience_flag_wt          NUMBER(1)               NOT NULL,
+    experience_flag_fund_sk     NUMBER(1)               NOT NULL,
+    experience_flag_fund_bd     NUMBER(1)               NOT NULL,
+    experience_flag_fo          NUMBER(1)               NOT NULL,
+    experience_flag_f_equity    NUMBER(1)               NOT NULL,
+    experience_flag_etc         NUMBER(1)               NOT NULL,
+    experience_from             VARCHAR2(2)             NULL,
+    experience_to               VARCHAR2(2)             NULL,
+    interest_flag_equity        NUMBER(1)               NOT NULL,
+    interest_flag_ministock     NUMBER(1)               NOT NULL,
+    interest_flag_margin        NUMBER(1)               NOT NULL,
+    interest_flag_bond          NUMBER(1)               NOT NULL,
+    interest_flag_fund          NUMBER(1)               NOT NULL,
+    interest_flag_fo            NUMBER(1)               NOT NULL,
+    interest_flag_f_equity      NUMBER(1)               NOT NULL,
+    interest_flag_etc           NUMBER(1)               NOT NULL,
+    invest_purpose_div          VARCHAR2(1)             NULL,
+    appli_motivat_div           VARCHAR2(1)             NULL,
+    annual_income_div           VARCHAR2(1)             NULL,
+    annual_income_from          VARCHAR2(6)             NULL,
+    annual_income_to            VARCHAR2(6)             NULL,
+    asset_value_div             VARCHAR2(1)             NULL,
+    asset_value_from            VARCHAR2(6)             NULL,
+    asset_value_to              VARCHAR2(6)             NULL,
+    fund_budget_amount_div      VARCHAR2(1)             NULL,
+    fund_budget_div             VARCHAR2(1)             NULL,
+    fund_budget_etc             VARCHAR2(40)            NULL,
+    id_confirm_flag             NUMBER(1)               NULL,
+    id_confirm_doc_div          VARCHAR2(2)             NULL,
+    id_confirm_doc_etc          VARCHAR2(40)            NULL,
+    special_acc                 VARCHAR2(1)             NULL,
+    special_acc_margin          VARCHAR2(1)             NULL,
+    insider_flag                NUMBER(1)               NOT NULL,
+    product_name                VARCHAR2(50)            NULL,
+    send_zip_code               VARCHAR2(7)             NULL,
+    send_address_line1          VARCHAR2(34)            NULL,
+    send_address_line2          VARCHAR2(34)            NULL,
+    send_address_line3          VARCHAR2(34)            NULL,
+    ext_item_div1               VARCHAR2(4)             NULL,
+    ext_item_div2               VARCHAR2(4)             NULL,
+    ext_item_div3               VARCHAR2(4)             NULL,
+    ext_item_div4               VARCHAR2(4)             NULL,
+    ext_item_div5               VARCHAR2(4)             NULL,
+    ext_item_div6               VARCHAR2(4)             NULL,
+    ext_item_div7               VARCHAR2(4)             NULL,
+    ext_item_div8               VARCHAR2(4)             NULL,
+    ext_item_div9               VARCHAR2(4)             NULL,
+    ext_item_div10              VARCHAR2(4)             NULL,
+    ext_item_flag1              NUMBER(1)               NULL,
+    ext_item_flag2              NUMBER(1)               NULL,
+    ext_item_flag3              NUMBER(1)               NULL,
+    ext_item_flag4              NUMBER(1)               NULL,
+    ext_item_flag5              NUMBER(1)               NULL,
+    ext_item_flag6              NUMBER(1)               NULL,
+    ext_item_flag7              NUMBER(1)               NULL,
+    ext_item_flag8              NUMBER(1)               NULL,
+    ext_item_flag9              NUMBER(1)               NULL,
+    ext_item_flag10             NUMBER(1)               NULL,
+    ext_item_text1              VARCHAR2(50)            NULL,
+    ext_item_text2              VARCHAR2(50)            NULL,
+    ext_item_text3              VARCHAR2(50)            NULL,
+    ext_item_text4              VARCHAR2(50)            NULL,
+    ext_item_text5              VARCHAR2(50)            NULL,
+    ext_item_text6              VARCHAR2(50)            NULL,
+    ext_item_text7              VARCHAR2(50)            NULL,
+    ext_item_text8              VARCHAR2(50)            NULL,
+    ext_item_text9              VARCHAR2(50)            NULL,
+    ext_item_text10             VARCHAR2(50)            NULL,
+    last_updater                VARCHAR2(20)            NULL,
+    created_timestamp           DATE                DEFAULT sysdate     NOT NULL,
+    last_updated_timestamp      DATE                DEFAULT sysdate     NOT NULL,
+    creator                     VARCHAR2(20)             NULL,
+    exclusive_use_account_no    VARCHAR2(20)             NULL,
+    send_timestamp              DATE                     NULL,
+    real_name_voucher_div       VARCHAR2(1)              NULL,
+    real_name1                  VARCHAR2(40)             NULL,
+    real_name2                  VARCHAR2(40)             NULL,
+    insider_voucher_div         VARCHAR2(1)              NULL,
+    insider_product_code        VARCHAR2(5)              NULL,
+    insider_relation_div        VARCHAR2(1)              NULL,
+    insider_officer_name        VARCHAR2(18)             NULL,
+    insider_post_code           VARCHAR2(2)              NULL,
+    insider_post_name           VARCHAR2(20)             NULL,
+    gp_voucher_div              VARCHAR2(1)              NULL,
+    gp_course                   VARCHAR2(1)              NULL,
+    gp_plan                     VARCHAR2(1)              NULL,
+    gp_target_figure            VARCHAR2(4)              NULL,
+    gp_target_year              VARCHAR2(2)              NULL,
+    gp_target_month             VARCHAR2(2)              NULL,
+    gp_installment_figure       VARCHAR2(7)              NULL,
+    gp_deposit_cycle            VARCHAR2(1)              NULL,
+    gp_payment_root             VARCHAR2(1)              NULL,
+    gp_reinvest_div             VARCHAR2(1)              NULL,
+    gp_tax_div                  VARCHAR2(1)              NULL,
+    gp_taxfree_limit            VARCHAR2(3)              NULL,
+    gp_special_taxfree_limit    VARCHAR2(3)              NULL,
+    gp_subscr_summary           VARCHAR2(1)              NULL,
+    gp_product_code             VARCHAR2(1)              NULL,
+    gp_mortgage_customer        VARCHAR2(1)              NULL,
+    gp_mix_customer             VARCHAR2(1)              NULL,
+    gp_contract                 VARCHAR2(1)              NULL,
+    stk_voucher_div             VARCHAR2(1)              NULL,
+    stk_taxation_tran_div       VARCHAR2(1)              NULL,
+    stk_address_line_kana       VARCHAR2(70)             NULL,
+    stk_transfer_div            VARCHAR2(1)              NULL,
+    stk_fin_institution_code    VARCHAR2(4)              NULL,
+    stk_fin_branch_code         VARCHAR2(3)              NULL,
+    stk_fin_save_div            VARCHAR2(1)              NULL,
+    stk_fin_account_no          VARCHAR2(7)              NULL,
+    brokerage_trader_code       VARCHAR2(5)              NULL,
+    ext_item_div11              VARCHAR2(10)             NULL,
+    ext_item_div12              VARCHAR2(10)             NULL,
+    ext_item_div13              VARCHAR2(10)             NULL,
+    ext_item_div14              VARCHAR2(10)             NULL,
+    ext_item_div15              VARCHAR2(10)             NULL,
+    foreign_account_no          VARCHAR2(20)             NULL,
+    foreign_account_name        VARCHAR2(60)             NULL,
+    foreign_account_name_eng    VARCHAR2(30)             NULL,
+    foreign_save_div            VARCHAR2(1)              NULL,
+    delete_flag                 NUMBER(1)                NULL,
+    delete_timestamp            DATE                     NULL,
+    print_flag                  VARCHAR2(1)              NULL,
+    receipt_flag                NUMBER(1)                NULL,
+    agreement_flag              NUMBER(1)                NULL,
+    foreign_flag                NUMBER(1)                NULL,
+    agency_acc_name_kana1       VARCHAR2(60)             NULL,
+    agency_acc_name_kana2       VARCHAR2(60)             NULL,
+    agency_acc_name1            VARCHAR2(60)             NULL,
+    agency_acc_name2            VARCHAR2(60)             NULL,
+    agency_address_line1        VARCHAR2(48)             NULL,
+    agency_address_line2        VARCHAR2(48)             NULL,
+    agency_rep_post             VARCHAR2(40)             NULL,
+    agency_rep_name_kana1       VARCHAR2(60)             NULL,
+    agency_rep_name_kana2       VARCHAR2(60)             NULL,
+    agency_rep_name1            VARCHAR2(60)             NULL,
+    agency_rep_name2            VARCHAR2(60)             NULL,
+    status                      VARCHAR2(1)              NOT NULL,
+    error_info                  VARCHAR2(200)            NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKexp_account_open_temp ON exp_account_open_temp
+(
+    institution_code,
+    acc_open_request_number
+);
+
+CREATE INDEX XIE1exp_account_open_temp ON exp_account_open_temp
+(
+    institution_code,
+    status
+);
+
+--Primary Key
+ALTER TABLE exp_account_open_temp
+        ADD  (PRIMARY KEY (institution_code, acc_open_request_number));
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--1. Table名: 口座開設見込客
+ALTER TABLE exp_account_open
+        ADD  (FOREIGN KEY (institution_id) REFERENCES institution);
+
+ALTER TABLE exp_account_open
+       ADD  ( FOREIGN KEY (branch_id) REFERENCES branch) ;
+
+       @

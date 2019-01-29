@@ -1,0 +1,96 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.25.38;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8dc4d7f065d6871;
+filename	set_rac_config.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@delete from mpds_settings;
+
+delete from range_based_mpds_map;
+
+delete from simple_mpds_map;
+
+insert into mpds_settings(setting_categ, setting_name, setting_value)
+	values (
+		'db.cluster',
+		'test.sql',
+		'select sysdate from dual')
+;
+
+--socket pool
+insert into mpds_settings(setting_categ, setting_name, setting_value)
+	values (
+		'db.cluster',
+		'test.sql.interval',
+		'20')
+;
+
+-- clustering information
+insert into mpds_settings(setting_categ, setting_name, setting_value)
+	values (
+		'db.cluster',
+		'single.context',
+		'true')
+;
+
+insert into mpds_settings(setting_categ, setting_name, setting_value)
+	values (
+		'db.cluster',
+		'jndi.name.validity.recheck.interval',
+		'120')
+;
+
+insert into mpds_settings(setting_categ, setting_name, setting_value)
+	values (
+		'db.cluster.jndi_names',
+		'1',
+		'test1')
+;
+
+insert into mpds_settings(setting_categ, setting_name, setting_value)
+	values (
+		'db.cluster.jndi_names',
+		'2',
+		'test2')
+;
+
+
+insert into range_based_mpds_map (ctx_name, range_order_no, key_start, key_end, jndi_name)
+	values (
+		'login-account-id',
+		1,
+		0,
+		10500,
+		'test1')
+;
+
+insert into range_based_mpds_map (ctx_name, range_order_no, key_start, key_end, jndi_name)
+	values (
+		'login-account-id',
+		1,
+		10501,
+		99999,
+		'test2')
+;
+@

@@ -1,0 +1,495 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.05.05;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	WebService.wsdl;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions xmlns:impl="http://www.hitachi.co.jp/TFX/WebService-impl" xmlns:intf="http://www.hitachi.co.jp/TFX/WebService" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.hitachi.co.jp/TFX/WebService">
+<wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.hitachi.co.jp/TFX/WebService">
+<element name="EntryReceipt">
+<complexType>
+<sequence>
+<element type="intf:EntryReceiptIn" name="in0">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="EntryReceiptIn">
+<sequence>
+<element type="xsd:string" name="kamokuCd">
+</element>
+<element type="xsd:decimal" name="reptAmt">
+</element>
+<element type="xsd:string" name="rysCd">
+</element>
+<element type="xsd:string" name="webServReqNo">
+</element>
+</sequence>
+</complexType>
+<element name="EntryReceiptResponse">
+<complexType>
+<sequence>
+<element type="intf:EntryReceiptOut" name="EntryReceiptReturn">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="EntryReceiptOut">
+<sequence>
+<element type="xsd:int" name="returnCd">
+</element>
+</sequence>
+</complexType>
+<element name="EntryRiyousya">
+<complexType>
+<sequence>
+<element type="intf:EntryRiyousyaIn" name="in0">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="HachuUlimitVolBean">
+<sequence>
+<element type="xsd:decimal" name="hachuUlimitVol">
+</element>
+<element type="xsd:string" name="shouhinCd">
+</element>
+</sequence>
+</complexType>
+<complexType name="SequenceOfHachuUlimitVolBean">
+<sequence>
+<element type="intf:HachuUlimitVolBean" name="item" minOccurs="0" maxOccurs="unbounded">
+</element>
+</sequence>
+</complexType>
+<complexType name="EntryRiyousyaIn">
+<sequence>
+<element type="xsd:string" name="biko">
+</element>
+<element type="xsd:string" name="chgDiv">
+</element>
+<element type="xsd:string" name="edocConsDate">
+</element>
+<element type="intf:SequenceOfHachuUlimitVolBean" name="hachuUlimitVols">
+</element>
+<element type="xsd:string" name="hchupw">
+</element>
+<element type="xsd:string" name="jkjtDiv">
+</element>
+<element type="xsd:string" name="lastManualConfDate">
+</element>
+<element type="xsd:string" name="lcutDiv">
+</element>
+<element type="xsd:string" name="linpw">
+</element>
+<element type="xsd:string" name="loginId">
+</element>
+<element type="xsd:string" name="mailad1">
+</element>
+<element type="xsd:string" name="mailad2">
+</element>
+<element type="xsd:string" name="rysAttribute">
+</element>
+<element type="xsd:string" name="rysCd">
+</element>
+<element type="xsd:string" name="rysName">
+</element>
+<element type="xsd:string" name="tradeKanouDiv">
+</element>
+<element type="xsd:string" name="webServReqNo">
+</element>
+<element type="xsd:string" name="yakudakusyoNo">
+</element>
+</sequence>
+</complexType>
+<element name="EntryRiyousyaResponse">
+<complexType>
+<sequence>
+<element type="intf:EntryRiyousyaOut" name="EntryRiyousyaReturn">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="EntryRiyousyaOut">
+<sequence>
+<element type="xsd:int" name="returnCd">
+</element>
+</sequence>
+</complexType>
+<element name="ChangeRiyousya">
+<complexType>
+<sequence>
+<element type="intf:ChangeRiyousyaIn" name="in0">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="ChangeRiyousyaIn">
+<sequence>
+<element type="xsd:string" name="biko">
+</element>
+<element type="xsd:string" name="chgDiv">
+</element>
+<element type="xsd:string" name="edocConsDate">
+</element>
+<element type="intf:SequenceOfHachuUlimitVolBean" name="hachuUlimitVols">
+</element>
+<element type="xsd:string" name="hchupw">
+</element>
+<element type="xsd:string" name="lastManualConfDate">
+</element>
+<element type="xsd:string" name="lcutDiv">
+</element>
+<element type="xsd:string" name="linpw">
+</element>
+<element type="xsd:string" name="mailad1">
+</element>
+<element type="xsd:string" name="mailad2">
+</element>
+<element type="xsd:string" name="rysAttribute">
+</element>
+<element type="xsd:string" name="rysCd">
+</element>
+<element type="xsd:string" name="rysName">
+</element>
+<element type="xsd:string" name="tradeKanouDiv">
+</element>
+<element type="xsd:string" name="webServReqNo">
+</element>
+<element type="xsd:string" name="yakudakusyoNo">
+</element>
+</sequence>
+</complexType>
+<element name="ChangeRiyousyaResponse">
+<complexType>
+<sequence>
+<element type="intf:ChangeRiyousyaOut" name="ChangeRiyousyaReturn">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="ChangeRiyousyaOut">
+<sequence>
+<element type="xsd:int" name="returnCd">
+</element>
+</sequence>
+</complexType>
+<element name="EntryOshirase">
+<complexType>
+<sequence>
+<element type="intf:EntryOshiraseIn" name="in0">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="EntryOshiraseIn">
+<sequence>
+<element type="xsd:string" name="cont">
+</element>
+<element type="xsd:string" name="ntcDate">
+</element>
+<element type="xsd:string" name="ntcDiv">
+</element>
+<element type="xsd:string" name="ntcDtStiDiv">
+</element>
+<element type="xsd:string" name="ntcEndDate">
+</element>
+<element type="xsd:string" name="ntcJyuyodoDiv">
+</element>
+<element type="xsd:string" name="ntcTargetaDiv">
+</element>
+<element type="xsd:string" name="ntcTime">
+</element>
+<element type="xsd:string" name="title">
+</element>
+<element type="xsd:string" name="webServReqNo">
+</element>
+</sequence>
+</complexType>
+<element name="EntryOshiraseResponse">
+<complexType>
+<sequence>
+<element type="intf:EntryOshiraseOut" name="EntryOshiraseReturn">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="EntryOshiraseOut">
+<sequence>
+<element type="xsd:int" name="ntcNo">
+</element>
+<element type="xsd:int" name="returnCd">
+</element>
+</sequence>
+</complexType>
+<element name="DeleteOshirase">
+<complexType>
+<sequence>
+<element type="intf:DeleteOshiraseIn" name="in0">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="DeleteOshiraseIn">
+<sequence>
+<element type="xsd:int" name="ntcNo">
+</element>
+<element type="xsd:string" name="webServReqNo">
+</element>
+</sequence>
+</complexType>
+<element name="DeleteOshiraseResponse">
+<complexType>
+<sequence>
+<element type="intf:DeleteOshiraseOut" name="DeleteOshiraseReturn">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="DeleteOshiraseOut">
+<sequence>
+<element type="xsd:int" name="returnCd">
+</element>
+</sequence>
+</complexType>
+<element name="InquirySyoriKekka">
+<complexType>
+<sequence>
+<element type="intf:InquirySyoriKekkaIn" name="in0">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="InquirySyoriKekkaIn">
+<sequence>
+<element type="xsd:string" name="webServReqNo">
+</element>
+</sequence>
+</complexType>
+<element name="InquirySyoriKekkaResponse">
+<complexType>
+<sequence>
+<element type="intf:InquirySyoriKekkaOut" name="InquirySyoriKekkaReturn">
+</element>
+</sequence>
+</complexType>
+</element>
+<complexType name="InquirySyoriKekkaOut">
+<sequence>
+<element type="xsd:int" name="ntcNo">
+</element>
+<element type="xsd:int" name="refReturnCd">
+</element>
+<element type="xsd:int" name="returnCd">
+</element>
+<element type="xsd:string" name="webServDiv">
+</element>
+</sequence>
+</complexType>
+</schema>
+</wsdl:types>
+<wsdl:message name="DeleteOshiraseRequest">
+<wsdl:part name="parameters" element="intf:DeleteOshirase">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="EntryOshiraseResponse">
+<wsdl:part name="parameters" element="intf:EntryOshiraseResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="InquirySyoriKekkaRequest">
+<wsdl:part name="parameters" element="intf:InquirySyoriKekka">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="ChangeRiyousyaResponse">
+<wsdl:part name="parameters" element="intf:ChangeRiyousyaResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="ChangeRiyousyaRequest">
+<wsdl:part name="parameters" element="intf:ChangeRiyousya">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="DeleteOshiraseResponse">
+<wsdl:part name="parameters" element="intf:DeleteOshiraseResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="InquirySyoriKekkaResponse">
+<wsdl:part name="parameters" element="intf:InquirySyoriKekkaResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="EntryRiyousyaResponse">
+<wsdl:part name="parameters" element="intf:EntryRiyousyaResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="EntryRiyousyaRequest">
+<wsdl:part name="parameters" element="intf:EntryRiyousya">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="EntryReceiptRequest">
+<wsdl:part name="parameters" element="intf:EntryReceipt">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="EntryReceiptResponse">
+<wsdl:part name="parameters" element="intf:EntryReceiptResponse">
+</wsdl:part>
+</wsdl:message>
+<wsdl:message name="EntryOshiraseRequest">
+<wsdl:part name="parameters" element="intf:EntryOshirase">
+</wsdl:part>
+</wsdl:message>
+<wsdl:portType name="WebServiceSoap">
+<wsdl:operation name="EntryReceipt">
+<wsdl:input name="EntryReceiptRequest" message="intf:EntryReceiptRequest">
+</wsdl:input>
+<wsdl:output name="EntryReceiptResponse" message="intf:EntryReceiptResponse">
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="EntryRiyousya">
+<wsdl:input name="EntryRiyousyaRequest" message="intf:EntryRiyousyaRequest">
+</wsdl:input>
+<wsdl:output name="EntryRiyousyaResponse" message="intf:EntryRiyousyaResponse">
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="ChangeRiyousya">
+<wsdl:input name="ChangeRiyousyaRequest" message="intf:ChangeRiyousyaRequest">
+</wsdl:input>
+<wsdl:output name="ChangeRiyousyaResponse" message="intf:ChangeRiyousyaResponse">
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="EntryOshirase">
+<wsdl:input name="EntryOshiraseRequest" message="intf:EntryOshiraseRequest">
+</wsdl:input>
+<wsdl:output name="EntryOshiraseResponse" message="intf:EntryOshiraseResponse">
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="DeleteOshirase">
+<wsdl:input name="DeleteOshiraseRequest" message="intf:DeleteOshiraseRequest">
+</wsdl:input>
+<wsdl:output name="DeleteOshiraseResponse" message="intf:DeleteOshiraseResponse">
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="InquirySyoriKekka">
+<wsdl:input name="InquirySyoriKekkaRequest" message="intf:InquirySyoriKekkaRequest">
+</wsdl:input>
+<wsdl:output name="InquirySyoriKekkaResponse" message="intf:InquirySyoriKekkaResponse">
+</wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding type="intf:WebServiceSoap" name="WebServiceSoap">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http">
+</soap:binding>
+<wsdl:operation name="EntryReceipt">
+<soap:operation soapAction="EntryReceipt">
+</soap:operation>
+<wsdl:input name="EntryReceiptRequest">
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output name="EntryReceiptResponse">
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="EntryRiyousya">
+<soap:operation soapAction="EntryRiyousya">
+</soap:operation>
+<wsdl:input name="EntryRiyousyaRequest">
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output name="EntryRiyousyaResponse">
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="ChangeRiyousya">
+<soap:operation soapAction="ChangeRiyousya">
+</soap:operation>
+<wsdl:input name="ChangeRiyousyaRequest">
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output name="ChangeRiyousyaResponse">
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="EntryOshirase">
+<soap:operation soapAction="EntryOshirase">
+</soap:operation>
+<wsdl:input name="EntryOshiraseRequest">
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output name="EntryOshiraseResponse">
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="DeleteOshirase">
+<soap:operation soapAction="DeleteOshirase">
+</soap:operation>
+<wsdl:input name="DeleteOshiraseRequest">
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output name="DeleteOshiraseResponse">
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="InquirySyoriKekka">
+<soap:operation soapAction="InquirySyoriKekka">
+</soap:operation>
+<wsdl:input name="InquirySyoriKekkaRequest">
+<soap:body use="literal">
+</soap:body>
+</wsdl:input>
+<wsdl:output name="InquirySyoriKekkaResponse">
+<soap:body use="literal">
+</soap:body>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+
+<wsdl:service name="WebService">
+
+     <wsdl:port name="WebService" binding="intf:WebServiceSoap">
+          <soap:address location="https://honban.com/xxx/WebService"></soap:address>
+     </wsdl:port>
+
+     <wsdl:port name="TEST_URL_HTTPS" binding="tns:WebServiceSoap">
+          <soap:address location="https://test.com/xxx/WebService"></soap:address>
+     </wsdl:port>
+
+     <wsdl:port name="TEST_URL_HTTP" binding="tns:WebServiceSoap">
+          <soap:address location="http://test.com/xxx/WebService"></soap:address>
+     </wsdl:port>
+
+</wsdl:service>
+
+</wsdl:definitions>
+@

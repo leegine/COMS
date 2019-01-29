@@ -1,0 +1,71 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.35;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	addtables-core.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Add tables for the Core ANT file             -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/25/2001                             -->
+<!--                                              -->
+<!-- Optional Input Properties:                   -->
+<!--    ROOT - installation root                  -->
+<!--    CORE - relative loc of the core           -->
+<!--    ORACLE_ROOT - loc of ORACLE/lib files     -->
+<!-- ============================================ -->
+<project name="addtables-core" default="build" basedir=".">
+	<!-- ===================================================================== -->
+	<target name="build">
+		<replace dir="${INSTALL_HOME}/sql" value=";--#">
+			<include name="*.sql"/>
+			<replacetoken><![CDATA[;
+/
+show errors]]></replacetoken>
+		</replace>
+		<echo message=" Adding core tables"/>
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/kernel.sql" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/exec.sequences.sql" />
+		<echo message=" Adding core packages"/>
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/exec.h.sql" delimiter="--#" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/exec.b.sql" delimiter="--#" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/invalidation.constants.sql" delimiter="--#" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/invalidation.h.sql" delimiter="--#" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/invalidation.b.sql" delimiter="--#" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/invalidation.triggers.sql" delimiter="--#" />
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" src="${INSTALL_HOME}/sql/config.triggers.sql" delimiter="--#" />
+		<echo message=" Installing core java code"/>
+		<java classname="oracle.aurora.server.tools.loadjava.LoadJavaMain">
+			<arg value="-resolve"/>
+			<arg value="-user"/>
+			<arg value="${DB_CONNECT}"/>
+			<arg value="${INSTALL_HOME}/sql/InvalidationSender.class"/>
+			<arg value="-thin"/>
+			<classpath path="${CLASSPATH}"/>
+		</java>
+	</target>
+</project>
+@

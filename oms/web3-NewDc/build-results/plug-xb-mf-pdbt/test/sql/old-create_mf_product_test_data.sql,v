@@ -1,0 +1,187 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.52.22;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5e44d904bc14ed7;
+filename	old-create_mf_product_test_data.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+		
+insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+	values(88810, 3, 'MF1', '501', 1000, 0.8, SYSDATE, SYSDATE);
+insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+	values(88820, 3, 'MF2', '501', 1000, 0.8, SYSDATE, SYSDATE);
+insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+	values(88830, 3, 'MF3', '501', 1000, 0.8, SYSDATE, SYSDATE);
+insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+	values(88840, 3, 'ドイチェ・ジャパン・バランス・オープン', '501', 1000, 0.8, SYSDATE, SYSDATE);
+insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+	values(88850, 3, 'PRUグッドライフ2010', '501', 1000, 0.8, SYSDATE, SYSDATE);
+insert into product(product_id, product_type, standard_name, primary_market_id, lot_size, margin_ratio, created_timestamp, last_updated_timestamp)
+	values(88860, 3, 'フィデリティ・バランス・ファンド', '501', 1000, 0.8, SYSDATE, SYSDATE);
+
+insert into mutual_fund_product(
+       product_id,
+       product_code,
+       product_issue_code,
+       fund_type ,
+       created_timestamp,
+       last_updated_timestamp ,
+       init_purchase_min_qty,
+       addtl_purchase_min_qty)
+	values(88810, '8881', '1', 1,  sysdate, sysdate,100,100);
+insert into mutual_fund_product(
+       product_id,
+       product_code,
+       product_issue_code,
+       fund_type ,
+       created_timestamp,
+       last_updated_timestamp ,
+       init_purchase_min_qty,
+       addtl_purchase_min_qty)
+	values(88820, '8882', '2', 2,  sysdate, sysdate,200,200);
+
+insert into mutual_fund_product(
+       product_id,
+       product_code,
+       product_issue_code,
+       fund_type ,
+       created_timestamp,
+       last_updated_timestamp ,
+       init_purchase_min_qty,
+       addtl_purchase_min_qty)
+	values(88830, '8883', '3', 3,  sysdate, sysdate,300,300);
+
+insert into mutual_fund_product(
+       product_id,
+       product_code,
+       product_issue_code,
+       fund_type ,
+       created_timestamp,
+       last_updated_timestamp ,
+       init_purchase_min_qty,
+       addtl_purchase_min_qty)
+	values(88840, '8884', '1', 4,  sysdate, sysdate,10000,1);
+insert into mutual_fund_product(
+       product_id,
+       product_code,
+       product_issue_code,
+       fund_type ,
+       created_timestamp,
+       last_updated_timestamp ,
+       init_purchase_min_qty,
+       addtl_purchase_min_qty)
+	values(88850, '8885', '1', 5,  sysdate, sysdate,10000,1);
+
+insert into mutual_fund_product(
+       product_id,
+       product_code,
+       product_issue_code,
+       fund_type ,
+       created_timestamp,
+       last_updated_timestamp ,
+       init_purchase_min_qty,
+       addtl_purchase_min_qty)
+	values(88860, '8886', '1', 6,  sysdate, sysdate,10000,1);
+
+			
+insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)
+	values(888123, 88810, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)
+	values(888124, 88820, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)		
+	values(888125, 88830, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)
+	values(888126, 88840, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)
+	values(888127, 88850, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+insert into traded_product(traded_product_id,product_id, product_type, market_id, base_date, margin_ratio,daily_delivery_date,suspension_flag,created_timestamp,last_updated_timestamp)		
+	values(888128, 88860, 3, 501, to_date('20030108','yyyymmdd'), 0.7, to_date('20030113','yyyymmdd'),0, SYSDATE, SYSDATE);
+
+insert into mutual_fund_traded_product(
+       traded_product_id,
+       last_closing_price,
+       order_close_time ,
+       created_timestamp,
+       last_updated_timestamp,
+       collateral_flag,
+       market_id ,
+       product_id )
+ values(888123, 1001,'15:00',sysdate,sysdate,1, 501,88810);
+
+insert into mutual_fund_traded_product(
+       traded_product_id,
+       last_closing_price,
+       order_close_time ,
+       created_timestamp,
+       last_updated_timestamp,
+       collateral_flag,
+       market_id ,
+       product_id )
+ values(888124,  1002, '15:10',sysdate,sysdate,1, 501,88820);
+
+insert into mutual_fund_traded_product(
+       traded_product_id,
+       last_closing_price,
+       order_close_time ,
+       created_timestamp,
+       last_updated_timestamp,
+       collateral_flag,
+       market_id ,
+       product_id )
+ values(888125, 1003, '15:30',sysdate,sysdate,1, 501,88830);
+
+insert into mutual_fund_traded_product(
+       traded_product_id,
+       last_closing_price,
+       order_close_time ,
+       created_timestamp,
+       last_updated_timestamp,
+       collateral_flag,
+       market_id ,
+       product_id )
+ values(888126, 1004, '15:00',sysdate,sysdate,1, 501,88840);
+
+insert into mutual_fund_traded_product(
+       traded_product_id,
+       last_closing_price,
+       order_close_time ,
+       created_timestamp,
+       last_updated_timestamp,
+       collateral_flag,
+       market_id ,
+       product_id )
+ values(888127,  1005, '15:10',sysdate,sysdate,1, 501,88850);
+
+insert into mutual_fund_traded_product(
+       traded_product_id,
+       last_closing_price,
+       order_close_time ,
+       created_timestamp,
+       last_updated_timestamp,
+       collateral_flag,
+       market_id ,
+       product_id )
+ values(888128,  1006, '15:30',sysdate,sysdate,1, 501,88860);
+
+@

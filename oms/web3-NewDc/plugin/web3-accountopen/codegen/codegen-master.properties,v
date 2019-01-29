@@ -1,0 +1,82 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.28.41;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8e04d7eeaac0e03;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of ifo data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.accountopen.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3accountopen.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3AccOpenMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3accountopen_master_triggers.sql
+
+enums=\
+  acc_open_item_master.necessary_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+
+#
+# the tables to include in this portion of the binding layer
+tables=\
+  acc_open_item_master:inv=0 \
+  acc_open_item_attribute:inv=0 \
+  acc_open_dl_form_master:inv=0 \
+  acc_open_waiting:inv=0 \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+  @

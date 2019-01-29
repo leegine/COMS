@@ -1,0 +1,54 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.28.01;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	2144d9046833db9;
+filename	queryprocessor.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'session.processor', 'factory.class', 'com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl');
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'master.processor', 'factory.class', 'com.fitechlabs.xtrade.kernel.data.impl.QPFCachingImpl');
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'account.processor', 'factory.class', 'com.fitechlabs.xtrade.kernel.data.impl.QPFBeanImpl');
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'default.processor', 'factory.class', 'com.fitechlabs.xtrade.kernel.data.impl.QPFDefaultImpl');
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'config.processor', 'factory.class', 'com.fitechlabs.xtrade.kernel.data.impl.QPFCachingImpl');
+--
+-- for jobs plugin
+--
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'jobs-session.processor', 'factory.class',
+'com.fitechlabs.xtrade.kernel.data.impl.QPFStdImpl');
+
+--
+-- For oplogin plugin
+--
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'login-master.processor', 'factory.class',
+'com.fitechlabs.xtrade.kernel.data.impl.QPFCachingImpl');
+insert into server_config(config_title,config_categ,config_name,config_value)
+values ('developer', 'login-account.processor', 'factory.class',
+'com.fitechlabs.xtrade.kernel.data.impl.QPFBeanImpl');
+@

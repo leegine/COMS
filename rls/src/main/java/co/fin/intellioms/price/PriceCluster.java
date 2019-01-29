@@ -43,7 +43,7 @@ class PriceCluster
 
             {
                 this$0 = PriceCluster.this;
-                super();
+//                super();
             }
         }
 );
@@ -67,41 +67,49 @@ class PriceCluster
 
             {
                 this$0 = PriceCluster.this;
-                super();
+//                super();
             }
         }
 );
     }
 
-    boolean isMatchesLastQuote(CondOrder ord)
+    boolean isMatchesLastQuote(CondOrder ord) throws Exception
     {
         PriceCondition cond = (PriceCondition)ord.getParam();
         Object obj = qtMux;
-        JVM INSTR monitorenter ;
-        if(lastQuote == null) goto _L2; else goto _L1
-_L1:
-        if(cond.getDirection() != PriceDirection.UP) goto _L4; else goto _L3
-_L3:
+//        JVM INSTR monitorenter ;
+        if(lastQuote == null)
+            throw new Exception() ;
+//_L1:
         Price price;
-        price = lastQuote.getHighPrice() == null ? lastQuote.getBasePrice() : lastQuote.getHighPrice();
-        if(price.isAboveEq(cond.getTargetPrice()))
-            return true;
-          goto _L2
-_L4:
-        price = lastQuote.getLowPrice() == null ? lastQuote.getBasePrice() : lastQuote.getLowPrice();
-        if(!price.isBelowEq(cond.getTargetPrice())) goto _L2; else goto _L5
-_L5:
-        true;
-        obj;
-        JVM INSTR monitorexit ;
-        return;
-_L2:
-        obj;
-        JVM INSTR monitorexit ;
-          goto _L6
-        Exception exception;
-        exception;
-        throw exception;
+        if(cond.getDirection() != PriceDirection.UP) {
+//_L3:
+
+            price = lastQuote.getHighPrice() == null ? lastQuote.getBasePrice() : lastQuote.getHighPrice();
+            if (price.isAboveEq(cond.getTargetPrice()))
+                return true;
+        }
+
+//          goto _L2
+//_L4:
+        else {
+            price = lastQuote.getLowPrice() == null ? lastQuote.getBasePrice() : lastQuote.getLowPrice();
+            if (!price.isBelowEq(cond.getTargetPrice()))
+                return false;
+        }
+//            goto _L2; else goto _L5
+//_L5:
+//        true;
+////        obj;
+////        JVM INSTR monitorexit ;
+//        return;
+//_L2:
+//        obj;
+////        JVM INSTR monitorexit ;
+//          goto _L6
+//        Exception exception;
+//        exception;
+//        throw exception;
 _L6:
         return false;
     }
@@ -164,15 +172,15 @@ _L6:
         PriceCondition cond = (PriceCondition)ord.getParam();
         SortedList prices = cond.getDirection() != PriceDirection.UP ? down : up;
         SortedList sortedlist = prices;
-        JVM INSTR monitorenter ;
-        int i;
+//        JVM INSTR monitorenter ;
+        int i=0;
         int idx = prices.findFirst(ord);
         if(idx < 0)
-            break MISSING_BLOCK_LABEL_109;
+//            break MISSING_BLOCK_LABEL_109;
         i = idx;
-_L1:
-        if(i >= prices.size())
-            break MISSING_BLOCK_LABEL_109;
+//_L1:
+        if(i >= prices.size());
+//            break MISSING_BLOCK_LABEL_109;
         CondOrder o = (CondOrder)prices.get(i);
         if(o.equals(ord))
         {
@@ -180,13 +188,13 @@ _L1:
             return true;
         }
         i++;
-          goto _L1
-        sortedlist;
-        JVM INSTR monitorexit ;
-          goto _L2
-        Exception exception;
-        exception;
-        throw exception;
+//          goto _L1
+//        sortedlist;
+//        JVM INSTR monitorexit ;
+//          goto _L2
+//        Exception exception;
+//        exception;
+//        throw exception;
 _L2:
         return false;
     }
@@ -194,27 +202,27 @@ _L2:
     List getUpList()
     {
         SortedList sortedlist = up;
-        JVM INSTR monitorenter ;
+//        JVM INSTR monitorenter ;
         return up.asList();
-        Exception exception;
-        exception;
-        throw exception;
+//        Exception exception;
+//        exception;
+//        throw exception;
     }
 
     List getDownList()
     {
         SortedList sortedlist = down;
-        JVM INSTR monitorenter ;
+//        JVM INSTR monitorenter ;
         return down.asList();
-        Exception exception;
-        exception;
-        throw exception;
+//        Exception exception;
+//        exception;
+//        throw exception;
     }
 
     private SortedList up;
     private SortedList down;
     private Quote lastQuote;
     private final Object qtMux = new Object();
-    static final boolean $assertionsDisabled = !com/ com /fin/intellioms/price/PriceCluster.desiredAssertionStatus();
+    static final boolean $assertionsDisabled =false;
 
 }

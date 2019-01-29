@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.27.10;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	83c4d7f06a0694c;
+filename	createdb-plug-xb-aio-pdbt.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@####################################################################
+#
+#   DataBase Configuration Properties for installing
+#   
+#       plug-xb-aio-pdbt on computer %MACHINE%
+#
+####################################################################
+#
+#   CHANGE  THE  FOLLOWING  VARIABLES  
+#
+####################################################################
+DB_SID=orcl
+DB_USERNAME=xblocksuser2
+DB_PASSWORD=xblocksuser2
+DB_SYS_USERNAME=system
+DB_SYS_PASSWORD=fitechlabs
+DB_HOST=tech-db
+DB_PORT_NUMBER=1521
+@

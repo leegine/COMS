@@ -5,18 +5,27 @@
 
 package co.fin.intellioms.rulesys.impl;
 
+import co.fin.intellioms.account.AccountsInfo;
+import co.fin.intellioms.enums.CondOrderOpType;
+import co.fin.intellioms.enums.CondOrderState;
+import co.fin.intellioms.enums.CondOrderType;
+import co.fin.intellioms.enums.EventType;
+import co.fin.intellioms.event.Event;
+import co.fin.intellioms.event.EventException;
+import co.fin.intellioms.event.EventProcessor;
+import co.fin.intellioms.persist.CondOrderDuplicateException;
+import co.fin.intellioms.persist.PersistAdaptor;
+import co.fin.intellioms.persist.PersistException;
+import co.fin.intellioms.rulesys.*;
 import co.fin.intellioms.tx.TxManager;
 import co.fin.intellioms.tx.TxManagerException;
-import co.fin.intellioms.account.AccountsInfo;
-import com.fitechlabs.fin.intellioms.enums.*;
-import com.fitechlabs.fin.intellioms.event.*;
-import com.fitechlabs.fin.intellioms.license.*;
-import com.fitechlabs.fin.intellioms.persist.*;
-import com.fitechlabs.fin.intellioms.rulesys.*;
-import com.fitechlabs.fin.intellioms.util.*;
-import com.fitechlabs.xtier.utils.Utils;
+import co.fin.intellioms.util.InitializationException;
+import co.fin.intellioms.util.Log;
+import co.fin.intellioms.util.ServiceState;
+import co.fin.intellioms.util.Startable;
 import com.fitechlabs.xtier.utils.boxed.sync.BoxedInt64Sync;
 import com.fitechlabs.xtier.utils.concurrent.WritePrefRWLock;
+
 import java.util.*;
 
 // Referenced classes of package com.com.fin.intellioms.rulesys.impl:
@@ -26,9 +35,10 @@ public class OmsRuleEngineImpl
     implements OmsRuleEngine, EventProcessor, Startable
 {
 
+
     public OmsRuleEngineImpl(PersistAdaptor store)
     {
-        log = Log.getLogger(com/ com /fin/intellioms/rulesys/OmsRuleEngine);
+        log = Log.getLogger(OmsRuleEngineImpl.class);
         modulesToOrdTypes = new HashMap();
         modulesToEventTypes = new HashMap();
         orders = new HashMap();
@@ -346,11 +356,11 @@ label0:
             throw new CondOrderOperationException(e.getMessage(), e, op, 0);
         }
         accountsLock.releaseRead();
-        break MISSING_BLOCK_LABEL_910;
-        Exception exception5;
-        exception5;
-        accountsLock.releaseRead();
-        throw exception5;
+//        break MISSING_BLOCK_LABEL_910;
+//        Exception exception5;
+//        exception5;
+//        accountsLock.releaseRead();
+//        throw exception5;
     }
 
     private void validate(CondOrder ord)
@@ -517,22 +527,22 @@ label0:
     public CondOrder getCondOrder(long orderId)
     {
         state.checkStarted();
-        Object obj = mux;
-        JVM INSTR monitorenter ;
+//        Object obj = mux;
+//        JVM INSTR monitorenter ;
         return (CondOrder)orders.get(new Long(orderId));
-        Exception exception;
-        exception;
-        throw exception;
+//        Exception exception;
+//        exception;
+//        throw exception;
     }
 
     public Map getAllOrders()
     {
-        Object obj = mux;
-        JVM INSTR monitorenter ;
+//        Object obj = mux;
+//        JVM INSTR monitorenter ;
         return new HashMap(orders);
-        Exception exception;
-        exception;
-        throw exception;
+//        Exception exception;
+//        exception;
+//        throw exception;
     }
 
     public void processEvent(Event evt)
@@ -556,11 +566,11 @@ label0:
 
         }
         accountsLock.releaseRead();
-        break MISSING_BLOCK_LABEL_191;
-        Exception exception;
-        exception;
-        accountsLock.releaseRead();
-        throw exception;
+//        break MISSING_BLOCK_LABEL_191;
+//        Exception exception;
+//        exception;
+//        accountsLock.releaseRead();
+//        throw exception;
     }
 
     public EventType[] getEventTypes()
@@ -643,85 +653,85 @@ label0:
             throw new RuleEngineException("Unable to load conditional orders.", e);
         }
         accountsLock.releaseWrite();
-        break MISSING_BLOCK_LABEL_462;
-        Exception exception1;
-        exception1;
-        accountsLock.releaseWrite();
-        throw exception1;
+//        break MISSING_BLOCK_LABEL_462;
+//        Exception exception1;
+//        exception1;
+//        accountsLock.releaseWrite();
+//        throw exception1;
     }
 
-    private void verifyLicense(String service)
-        throws LicenseException
-    {
-        if(!$assertionsDisabled && service == null)
-            throw new AssertionError("Service name is null.");
-        LicenseDescriptor ld = LicenseManager.getActiveFeatureSet().getDescriptor(service);
-        if(ld == null)
-            throw new LicenseException((new StringBuilder()).append("License not found for service '").append(service).append("'.").toString());
-        if(ld.getExpDate().before(new Date()))
-            throw new LicenseException((new StringBuilder()).append("License for service '").append(service).append("' expired.").toString());
-        if(ld.getIps() != null)
-        {
-            java.net.InetAddress localIps[] = Utils.getLocalIpAddrs();
-            boolean found = false;
-            for(int i = 0; i < localIps.length && !found; i++)
-                found = ld.isIpLicensed(localIps[i]);
-
-            if(!found)
-                throw new LicenseException((new StringBuilder()).append("Service '").append(service).append("' is not licensed to start on the local node's ").append("IP address.").toString());
-        }
-        if(ld.getCpus() < Utils.getNumberOfCpus())
-            throw new LicenseException((new StringBuilder()).append("Local node CPUs exceeded number of allowed CPUs for service '").append(service).append("'.").toString());
-        else
-            return;
-    }
+//    private void verifyLicense(String service)
+//        throws LicenseException
+//    {
+//        if(!$assertionsDisabled && service == null)
+//            throw new AssertionError("Service name is null.");
+//        LicenseDescriptor ld = LicenseManager.getActiveFeatureSet().getDescriptor(service);
+//        if(ld == null)
+//            throw new LicenseException((new StringBuilder()).append("License not found for service '").append(service).append("'.").toString());
+//        if(ld.getExpDate().before(new Date()))
+//            throw new LicenseException((new StringBuilder()).append("License for service '").append(service).append("' expired.").toString());
+//        if(ld.getIps() != null)
+//        {
+//            java.net.InetAddress localIps[] = Utils.getLocalIpAddrs();
+//            boolean found = false;
+//            for(int i = 0; i < localIps.length && !found; i++)
+//                found = ld.isIpLicensed(localIps[i]);
+//
+//            if(!found)
+//                throw new LicenseException((new StringBuilder()).append("Service '").append(service).append("' is not licensed to start on the local node's ").append("IP address.").toString());
+//        }
+//        if(ld.getCpus() < Utils.getNumberOfCpus())
+//            throw new LicenseException((new StringBuilder()).append("Local node CPUs exceeded number of allowed CPUs for service '").append(service).append("'.").toString());
+//        else
+//            return;
+//    }
 
     public void start()
         throws InitializationException
     {
         CondOrderType ordTypes[];
-        int i;
-        LicenseManager.init();
-        ordTypes = getRegisteredCondOrderTypes();
-        i = 0;
-_L8:
-        String service;
-        if(i >= ordTypes.length)
-            break; /* Loop/switch isn't completed */
-        service = null;
-        ordTypes[i].toValue();
-        JVM INSTR tableswitch 1 5: default 87
-    //                   1 84
-    //                   2 60
-    //                   3 66
-    //                   4 78
-    //                   5 72;
-           goto _L1 _L2 _L3 _L4 _L5 _L6
-_L1:
-        break; /* Loop/switch isn't completed */
-_L3:
-        service = "price-module";
-        break; /* Loop/switch isn't completed */
-_L4:
-        service = "time-module";
-        break; /* Loop/switch isn't completed */
-_L6:
-        service = "chain-module";
-        break; /* Loop/switch isn't completed */
-_L5:
-        service = "exclusive-module";
-        verifyLicense(service);
-_L2:
-        i++;
-        if(true) goto _L8; else goto _L7
-        LicenseException e;
-        e;
-        throw new InitializationException((new StringBuilder()).append("Licensing error: ").append(e.getMessage()).toString(), e);
-_L7:
-        if(log.isInfo())
-            log.info("Starting...");
-        if(log.isInfo())
-            log.info("Starting rule modules.");
+//        int i;
+//        LicenseManager.init();
+//        ordTypes = getRegisteredCondOrderTypes();
+//        i = 0;
+//_L8:
+//        String service;
+//        if(i >= ordTypes.length)
+//            break; /* Loop/switch isn't completed */
+//        service = null;
+//        ordTypes[i].toValue();
+//        JVM INSTR tableswitch 1 5: default 87
+//    //                   1 84
+//    //                   2 60
+//    //                   3 66
+//    //                   4 78
+//    //                   5 72;
+//           goto _L1 _L2 _L3 _L4 _L5 _L6
+//_L1:
+//        break; /* Loop/switch isn't completed */
+//_L3:
+//        service = "price-module";
+//        break; /* Loop/switch isn't completed */
+//_L4:
+//        service = "time-module";
+//        break; /* Loop/switch isn't completed */
+//_L6:
+//        service = "chain-module";
+//        break; /* Loop/switch isn't completed */
+//_L5:
+//        service = "exclusive-module";
+////        verifyLicense(service);
+//_L2:
+//        i++;
+//        if(true) goto _L8; else goto _L7
+//        LicenseException e;
+//        e;
+//        throw new InitializationException((new StringBuilder()).append("Licensing error: ").append(e.getMessage()).toString(), e);
+//_L7:
+//        if(log.isInfo())
+//            log.info("Starting...");
+//        if(log.isInfo())
+//            log.info("Starting rule modules.");
         try
         {
             TxManager.begin();
@@ -745,17 +755,22 @@ _L7:
             TxManager.commit();
         }
         // Misplaced declaration of an exception variable
-        catch(Set started)
-        {
-            try
-            {
-                TxManager.rollback();
-            }
-            catch(TxManagerException e1)
-            {
-                if(log.isError())
-                    log.error(e1.getMessage(), e1);
-            }
+//        catch(Set started)
+//        {
+//            try
+//            {
+//                TxManager.rollback();
+//            }
+//            catch(TxManagerException e1)
+//            {
+//                if(log.isError())
+//                    log.error(e1.getMessage(), e1);
+//            }
+ //       }
+        catch (TxManagerException e) {
+            e.printStackTrace();
+        } catch (InitializationException e) {
+            e.printStackTrace();
         }
         if(log.isInfo())
             log.info("Started rule modules.");
@@ -893,16 +908,16 @@ _L7:
                 }
             }
 
-            static final boolean $assertionsDisabled = !com/ com /fin/intellioms/rulesys/impl/OmsRuleEngineImpl.desiredAssertionStatus();
-            final RuleModule val$ruleModule;
+            static final boolean $assertionsDisabled =false;
+//            final RuleModule val$ruleModule;
             final OmsRuleEngineImpl this$0;
 
 
 
             {
                 this$0 = OmsRuleEngineImpl.this;
-                ruleModule = rulemodule;
-                super();
+//                ruleModule = rulemodule;
+//                super();
             }
         }
 ;
@@ -1067,11 +1082,11 @@ _L7:
     public long getActiveOrdersCount()
     {
         Object obj = mux;
-        JVM INSTR monitorenter ;
+//        JVM INSTR monitorenter ;
         return (long)orders.size();
-        Exception exception;
-        exception;
-        throw exception;
+//        Exception exception;
+//        exception;
+//        throw exception;
     }
 
     public long getExecutionsCount()
@@ -1118,7 +1133,7 @@ _L7:
     private AccountsInfo accounts;
     private final Object mux = new Object();
     private final WritePrefRWLock accountsLock = new WritePrefRWLock();
-    static final boolean $assertionsDisabled = !com/ com /fin/intellioms/rulesys/impl/OmsRuleEngineImpl.desiredAssertionStatus();
+    static final boolean $assertionsDisabled =false;
 
 
 

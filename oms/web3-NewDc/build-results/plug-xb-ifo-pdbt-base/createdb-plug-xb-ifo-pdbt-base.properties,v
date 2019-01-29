@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.51.39;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5e44d904bc14ed7;
+filename	createdb-plug-xb-ifo-pdbt-base.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@####################################################################
+#
+#   DataBase Configuration Properties for installing
+#   
+#       plug-xb-ifo-pdbt-base on computer %MACHINE%
+#
+####################################################################
+#
+#   CHANGE  THE  FOLLOWING  VARIABLES  
+#
+####################################################################
+DB_SID=oraeuc
+DB_USERNAME=xtradeuser
+DB_PASSWORD=xtradeuser
+DB_SYS_USERNAME=system
+DB_SYS_PASSWORD=manager
+DB_HOST=localhost
+DB_PORT_NUMBER=1521
+@

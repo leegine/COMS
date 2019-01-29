@@ -1,0 +1,137 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.02.37;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	eqtype-index.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE INDEX XIE1eqtype_asset ON eqtype_asset
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE1eqtype_asset_unit ON eqtype_asset_unit
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2eqtype_asset_unit ON eqtype_asset_unit
+(
+       asset_id                       
+);
+
+CREATE UNIQUE INDEX XAK1eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+       order_unit_id                  ,
+       contract_id                    
+);
+
+CREATE UNIQUE INDEX XAK2eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+       order_unit_id                  ,
+       closing_serial_no              
+);
+
+CREATE INDEX XIE1eqtype_closing_contract_sp ON eqtype_closing_contract_spec
+(
+       order_unit_id                  
+);
+
+CREATE INDEX XIE1eqtype_contract ON eqtype_contract
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE1eqtype_fin_transaction ON eqtype_fin_transaction
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE UNIQUE INDEX XAK1eqtype_limit_price_range_d ON eqtype_limit_price_range_defs
+(
+       market_id                      ,
+       cap_price                      
+);
+
+CREATE INDEX XIE1eqtype_order ON eqtype_order
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE1eqtype_order_action ON eqtype_order_action
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2eqtype_order_action ON eqtype_order_action
+(
+       order_unit_id                  
+);
+
+CREATE INDEX XIE1eqtype_order_execution ON eqtype_order_execution
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2eqtype_order_execution ON eqtype_order_execution
+(
+       order_unit_id                  
+);
+
+CREATE INDEX XIE1eqtype_order_unit ON eqtype_order_unit
+(
+       account_id                     ,
+       sub_account_id                 ,
+       order_open_status              
+);
+
+CREATE INDEX XIE2eqtype_order_unit ON eqtype_order_unit
+(
+       order_id                       
+);
+
+CREATE UNIQUE INDEX XAK1eqtype_product ON eqtype_product
+(
+       product_code                   
+);
+
+CREATE UNIQUE INDEX XAK1eqtype_tick_values_defs ON eqtype_tick_values_defs
+(
+       market_id                      ,
+       cap_price                      
+);
+
+CREATE UNIQUE INDEX XAK1eqtype_traded_product ON eqtype_traded_product
+(
+       product_id                     ,
+       market_id                      
+);
+
+@

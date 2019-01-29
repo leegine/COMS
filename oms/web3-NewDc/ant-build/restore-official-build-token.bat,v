@@ -1,0 +1,108 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.48.22;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	restore-official-build-token.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@@echo off
+::
+::Author: L.Charny
+::Date: 11/30/01
+::
+
+@@setlocal
+
+:: Check for java
+if "%JAVA_HOME%"=="" goto NOJAVA
+
+set HOME=
+set COMP_HOME=
+set FULL_DEBUG=-quiet
+set ECHOCMD=
+set ssdir=\\192.168.39.108\VSS_DEV
+
+:LOCAL_LOOP
+	if %1a==a goto FINISHED_LOCAL
+	if "%1"=="-h" (
+		set COMP_HOME=-DHOME=%2	
+		set HOME=%2
+	)
+	if "%1"=="-d" set DEBUG=-DDEBUG=1
+	if "%1"=="-fd" set FULL_DEBUG=-verbose -DDEBUG=1
+	if "%1"=="-echo" set ECHOCMD=1	
+	if "%1"=="-ssdir" set ssdir=%2	
+	shift
+	goto LOCAL_LOOP
+:FINISHED_LOCAL
+
+
+::::::::::::::::::::::::::::::::::::::::::::
+if not "%COMP_HOME%"=="" goto SETXANT
+set ERR=ERROR: Need to supply home directory: -h home_dir
+goto USAGE
+
+:SETXANT
+call set-ant-build.bat
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: Run
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+set MAIN_ANT_FILE=-DMAIN_ANT_FILE=restore-official-build-token.xml 
+
+::echo.
+::echo ***************************************************
+echo  UNLOCKING COMPONENT IN %HOME%
+::echo ***************************************************
+::echo.
+
+::===============================================================
+if not "%ECHOCMD%"=="" echo call ..\ant\bin\ant.bat  -logger com.fitechlabs.ant.XLogger -DX_MESSAGE="unlocking component" -DX_SILENT=1 %MAIN_ANT_FILE% %COMP_HOME% %FULL_DEBUG%
+ call ..\ant\bin\ant.bat  -logger com.fitechlabs.ant.XLogger -DX_MESSAGE="unlocking component"  -DX_SILENT=1 %MAIN_ANT_FILE% %COMP_HOME% %FULL_DEBUG%
+::===============================================================
+
+goto ENDSCRIPT
+
+:NOJAVA 
+echo.
+echo ***************************************************
+echo You need to set-up JAVA_HOME environmental variable
+echo ***************************************************
+echo.
+goto ENDSCRIPT
+
+:USAGE
+echo.
+echo ***************************************************
+echo.
+echo Usage:
+echo     restore-official-build-token 
+echo            -h home_dir
+echo            [-fd] [-echo]
+echo.
+echo ***************************************************
+echo.
+
+:ENDSCRIPT
+@@endlocal
+@

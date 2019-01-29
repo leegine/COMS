@@ -1,0 +1,120 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.50.54;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3f04d912cd82de4;
+filename	job_attempt_error_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="jobs_errors_ja.jsp" %>
+<%@@page import="com.fitechlabs.dbind.*,com.fitechlabs.xtrade.plugin.util.jobs.*,com.fitechlabs.xtrade.plugin.util.jobs.data.*,com.fitechlabs.xtrade.kernel.data.*,java.util.*" %>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>ジョブ実行時エラー詳細</title>
+</head>
+
+<body>
+<%! // class initialization
+  int toInt( String s, int onNull ) {
+    if ( s == null )
+      return onNull;
+    try {
+      return Integer.parseInt(s);
+    } catch ( Exception e ) {
+      return onNull;
+    }
+  }
+  Object safely(Object s) {
+    if ( s == null || s == "" )
+      return "&nbsp;";
+    return s;
+  }
+%>
+<%
+  // parameters
+  String attemptid      = request.getParameter("attemptid");
+
+  // objects
+  JobAttemptRow attempt = JobsUIHelper.findAttempt( attemptid );
+  String jobid          = String.valueOf( attempt.getJobId() );
+  JobScheduleRow job    = JobsUIHelper.findJob( jobid );
+%>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#99CCFF">
+  <tr>
+    <td width="100%">
+      <h1><%=job.getJobName()%>ジョブ、の<%=safely(JobsDateTimeHelper.toString(attempt.getStartTime()))%> 実行日時のエラー詳細</h1>
+    </td>
+  </tr>
+</table>
+
+<br><A href="jobs_overview_ja.jsp">ジョブ一覧・管理</A>
+<br><A href="job_attempt_history_ja.jsp?jobid=<%=safely(jobid)%>">ジョブ詳細設定</A>
+
+<h2> 詳細情報： </h2>
+
+  <table border="0" cellpadding="2" cellspacing="0" width="100%">
+
+    <!-- id's and names -->
+    <tr>
+      <td valign="top"><b>実行ID： </b></td><td valign="top"> <%=attempt.getAttemptId()%></td>
+    </tr>
+    <tr>
+      <td valign="top"><b>ジョブID：</b></td><td valign="top"> <%=job.getJobId()%></td>
+    </tr>
+    <tr>
+      <td valign="top"><b>ジョブ名： </b></td><td valign="top">  <%=safely(job.getJobName())%></td>
+    </tr>
+
+    <!-- timing -->
+    <tr>
+      <td valign="top"><b>実行開始日時： </b></td><td valign="top"> <%=safely(JobsDateTimeHelper.toString(attempt.getStartTime()))%></td>
+    </tr>
+    <tr>
+      <td valign="top"><b>実行終了日時：  </b></td><td valign="top"> <%=safely(JobsDateTimeHelper.toString(attempt.getEndTime()))%></td>
+    </tr>
+    <tr>
+      <td valign="top"><b>経過時間：   </b></td><td valign="top"> TBD </td>
+    </tr>
+
+    <!-- status -->
+    <tr>
+      <td valign="top"><b>結果： </b></td><td valign="top"> <%=safely(attempt.getStatus())%> </td>
+    </tr>
+    <tr>
+      <td valign="top"><b>エラータグ: </b></td><td valign="top"> <%=(attempt.getErrorCode()!=0? String.valueOf(attempt.getErrorCode()): "")%> </td>
+    </tr>
+    <tr>
+      <td valign="top"><b>エラーコード： </b></td><td valign="top"> safely(attempt.getErrorTag()) </td>
+    </tr>
+    <tr>
+      <td valign="top"><b>詳細エラーメッセージ</b></td><td valign="top"> <%=safely(attempt.getErrorDebugInfo())%> </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>@

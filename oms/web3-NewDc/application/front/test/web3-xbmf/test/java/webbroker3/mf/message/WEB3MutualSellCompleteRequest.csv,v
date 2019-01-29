@@ -1,0 +1,40 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.04.07.01.57.00;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5444d9d078c63f4;
+filename	WEB3MutualSellCompleteRequest.csv;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@フィールド日本語名称,フィールド変数名称,case0001,case0002,case0003,case0004
+請求方法@,sellBuyDiv,0,1,null,2
+投信銘柄コード,mutualProductCode,11,11,11,11
+投信資産ID,id,1,1,11,1
+注文ID,orderId,1,1,1,1
+発注日,orderedDate,20070101,20070101,20070101,20070101
+受渡方法@,deliveryDiv,1,1,1,1
+決済方法@,settleDiv,1,1,1,1
+指定方法@,specifyDiv,3,3,3,3
+数量,mutualOrderQuantity,123456,123456,123456,123456
+ERROR_CODE,,ok,ok,ok,BUSINESS_ERROR_00402
+ERROR_MESSAGE,,ok,ok,ok,請求方法@が”解約請求””買取請求”null 以外の場合。
+@

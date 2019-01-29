@@ -5,17 +5,24 @@
 
 package co.fin.intellioms.price;
 
-import co.fin.intellioms.omsclt.Price;
-import co.fin.intellioms.quote.Quote;
-import co.fin.intellioms.tx.TxManager;
-import co.fin.intellioms.tx.TxManagerException;
-import com.fitechlabs.fin.intellioms.enums.*;
+import co.fin.intellioms.enums.CondOrderState;
+import co.fin.intellioms.enums.CondOrderType;
+import co.fin.intellioms.enums.EventType;
 import co.fin.intellioms.event.Event;
 import co.fin.intellioms.event.EventException;
-import com.fitechlabs.fin.intellioms.rulesys.*;
-import com.fitechlabs.fin.intellioms.ticker.*;
-import com.fitechlabs.fin.intellioms.util.*;
+import co.fin.intellioms.omsclt.Price;
+import co.fin.intellioms.quote.Quote;
+import co.fin.intellioms.rulesys.*;
+import co.fin.intellioms.ticker.Ticker;
+import co.fin.intellioms.ticker.TickersManager;
+import co.fin.intellioms.ticker.TickersManagerException;
+import co.fin.intellioms.tx.TxManager;
+import co.fin.intellioms.tx.TxManagerException;
+import co.fin.intellioms.util.InitializationException;
+import co.fin.intellioms.util.Log;
+import co.fin.intellioms.util.ServiceState;
 import com.fitechlabs.xtier.utils.boxed.sync.BoxedInt64Sync;
+
 import java.util.*;
 
 // Referenced classes of package com.com.fin.intellioms.price:
@@ -32,7 +39,7 @@ public class PriceOrderRule
 
     public PriceOrderRule(TickersManager tickersProvider, boolean matchOnRegistration)
     {
-        log = Log.getLogger(com/ com /fin/intellioms/price/PriceOrderRule);
+        log = Log.getLogger(PriceOrderRule.class);
         ordersByTicker = new HashMap();
         state = new ServiceState("PriceOrderRule");
         this.matchOnRegistration = true;
@@ -347,6 +354,6 @@ public class PriceOrderRule
     private final TickersManager tickersProvider;
     private boolean matchOnRegistration;
     private BoxedInt64Sync matchesCounter;
-    static final boolean $assertionsDisabled = !com/ com /fin/intellioms/price/PriceOrderRule.desiredAssertionStatus();
+    static final boolean $assertionsDisabled =false;
 
 }

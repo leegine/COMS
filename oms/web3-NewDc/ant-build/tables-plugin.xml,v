@@ -1,0 +1,65 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.45.46;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	tables-plugin.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Add/remove tables for a Plugin ANT file      -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/25/2001                             -->
+<!--                                              -->
+<!-- Optional Input Properties:                   -->
+<!--    REMOVE - removal flag                     -->
+<!--    ROOT - installation root                  -->
+<!--    PLUGIN - relative loc of the plugin       -->
+<!--    ORACLE_ROOT - loc of ORACLE/lib files     -->
+<!-- ============================================ -->
+<project name="tables-plugin" default="build" basedir=".">
+	<!-- ===================================================================== -->
+	<target name="add" unless="REMOVE">
+		<property name="DELIM" value="__fitechlabs__#"/>
+		<replace dir="${INSTALL_HOME}/sql" value=";${DELIM}">
+			<include name="*.sql"/>
+			<replacetoken><![CDATA[;
+/
+show errors]]></replacetoken>
+		</replace>
+		<echo message=" Adding tables and packages for ${PLUGIN}"/>
+		<ant antfile="${INSTALL_HOME}/sql/addtables.xml">
+			<property name="DDD" value="${INSTALL_HOME}/sql"/>
+		</ant>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="remove" depends="add" if="REMOVE">
+		<echo message=" Removing tables and packages for Plugin ${INSTALL_HOME}"/>
+		<ant antfile="${INSTALL_HOME}/sql/removetables.xml">
+			<property name="DDD" value="${INSTALL_HOME}/sql"/>
+		</ant>
+	</target>
+	<target name="build" depends="add, remove"/>
+</project>
+@

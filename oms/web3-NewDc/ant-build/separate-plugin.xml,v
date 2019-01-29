@@ -1,0 +1,269 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.48;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	separate-plugin.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- Install Plugin ANT file                      -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/19/2001                             -->
+<!--                                              -->
+<!-- ::: CHANGE HISTORY :::                       -->
+<!--  Warlu - Modified to conditionally copy src  -->
+<!--          Files based on INCLUDE_SRC property -->
+<!--           Value                              -->
+<!-- ============================================ -->
+<project name="separate-plugin" default="build" basedir=".">
+	<taskdef name="WriteFile" classname="com.fitechlabs.ant.WriteFile"/>
+	<taskdef name="WriteDirectoryToken" classname="com.fitechlabs.ant.WriteDirectoryToken"/>
+
+	<!-- copy jar files -->
+	<target name="install.init">
+		<property name="DEPLOY-EXT" value="dd.txt"/>
+		<property name="install-sql" value="${install}/sql"/>
+		<property name="test-sql" value="${install}/test/sql"/>
+		<property name="test-xml" value="${install}/test/xml"/>
+		<mkdir dir="${install}"/>
+		<mkdir dir="${install}/deployment"/>
+		<mkdir dir="${install}/sql"/>
+		<mkdir dir="${install}/test/sql"/>
+		<mkdir dir="${install}/test/xml"/>
+		<mkdir dir="${install}/properties"/>
+		<!--		<mkdir dir="${install}/properties/xml"/> -->
+		<mkdir dir="${install}/lib"/>
+		<mkdir dir="${install}/jsp"/>
+
+		<!-- +++++++++++++++++++++++      -->
+		<!-- check for src file inclusion -->
+		<!-- +++++++++++++++++++++++      -->
+		<condition property="__INCLUDE_PLUGIN_SRC__">
+			<and>
+				<istrue value="${INCLUDE_SRC}" />
+			</and>
+		</condition>
+
+<!--
+		<mkdir dir="${install}/base-lib"/>
+		<mkdir dir="${install}/base-x-lib"/>
+		<mkdir dir="${install}/base-sql"/>
+-->
+	</target>
+
+	<target name="install" depends="install.init,install.copySrcFiles,install.doTheRest" >
+	</target>
+
+	<!-- conditionally include source files -->
+	<target name="install.copySrcFiles" if="__INCLUDE_PLUGIN_SRC__">
+
+		<mkdir dir="${install}/src"/>
+		<!-- zip and copy sources -->
+		<zip zipfile="${install}/src/$src-${SUFFIX}.zip" update="yes" >
+			<zipfileset dir="${src}" includes="**/*.java"/>
+		</zip>
+	</target>
+
+	<!-- do the rest -->
+	<target name="install.doTheRest" >
+
+
+		<!-- copy properties -->
+		<copy todir="${install}/properties" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="deploy/properties/*.properties"/>
+			<fileset dir="${COMP_ABS_HOME}" includes="properties/*.properties"/>
+		</copy>
+		<!-- copy deployment properties file -->
+		<copy todir="${install}/deployment">
+			<fileset dir="${COMP_ABS_HOME}" includes="deploy/deploy.properties"/>
+		</copy>
+		<!-- copy lib files -->
+		<copy todir="${install}/lib" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="lib/**/*.jar, lib/**/*.zip"/>
+			<!--
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_LIB} excludes"/>
+-->
+		</copy>
+		<copy todir="${install}/jars" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="jars/*.jar"/>
+			<!--
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_JAR}"/>
+-->
+		</copy>
+		<!-- sql files -->
+		<copy todir="${install-sql}" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="${sql}/*.sql, ${sql}/*.xml, ${sql}/*.class, ${sql}/*.sql.zip"/>
+			<fileset dir="${COMP_ABS_HOME}" includes="deploy/${sql}/*.sql, deploy/${sql}/*.xml, deploy/${sql}/*.sql.zip"/>
+		</copy>
+		<WriteDirectoryToken dir="${install-sql}" token="nonempty"/>
+		<available property="sql-needed" file="${install-sql}/nonempty"/>
+		<delete file="${install-sql}/nonempty" quiet="yes"/>
+		<!-- test sql files -->
+		<copy todir="${test-sql}" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="test/${sql}/*.sql, test/${sql}/*.xml, test/${sql}/*.sql.zip"/>
+			<fileset dir="${COMP_ABS_HOME}" includes="deploy/test/${sql}/*.sql, deploy/test/${sql}/*.xml, deploy/test/${sql}/*.sql.zip"/>
+		</copy>
+		<WriteDirectoryToken dir="${test-sql}" token="nonempty"/>
+		<available property="test-sql-needed" file="${test-sql}/nonempty"/>
+		<delete file="${test-sql}/nonempty" quiet="yes"/>
+		<!-- test xml files -->
+		<copy todir="${test-xml}" flatten="yes">
+			<fileset dir="${COMP_ABS_HOME}" includes="test/xml/*.xml, test/xml/*.xml.zip"/>
+			<fileset dir="${COMP_ABS_HOME}" includes="deploy/test/xml/*.xml, deploy/test/xml/*.xml.zip"/>
+		</copy>
+		<WriteDirectoryToken dir="${test-xml}" token="nonempty"/>
+		<available property="test-xml-needed" file="${test-xml}/nonempty"/>
+		<delete file="${test-xml}/nonempty" quiet="yes"/>
+		<!-- copy base sql files -->
+		<!--		<zip zipfile="${install}/base-sql/sql-${CORE}.zip" update="yes" filesonly="true">
+			<zipfileset dir="${CORE_ROOT}/${CORE}/sql" includes="*.sql, *.xml, *.class"/>
+		</zip>
+-->
+		<!--
+		<copy todir="${install}/sql" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_SQL}"/>
+		</copy>
+		<copy todir="${install}/test/sql" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_TEST_SQL}"/>
+		</copy>
+		<copy todir="${install}/test/xml" flatten="yes">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_TEST_XML}"/>
+		</copy>
+-->
+	</target>
+	<!-- ==================================================================== -->
+	<!-- zip sql files -->
+	<target name="zip-sql" depends="install" if="sql-needed">
+		<property name="sql-zip-file" value="${install-sql}/sql-${SUFFIX}.zip"/>
+
+		<zip zipfile="${sql-zip-file}" update="yes">
+			<fileset dir="${install-sql}" includes="*.sql, *.xml, *.class, *.sql.zip"/>
+		</zip>
+		<delete quiet="yes">
+			<fileset dir="${install-sql}" includes="*" excludes="sql-${SUFFIX}.zip"/>
+		</delete>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- copy JSP files -->
+	<target name="copy-jsp" depends="zip-sql" if="JSP_FILES">
+		<copy todir="${install}/jsp" flatten="true">
+			<fileset dir="${COMP_ABS_HOME}" includes="${JSP_FILES}"/>
+		</copy>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- copy deployment desciptor files and create a new deployment file -->
+	<target name="def-plugins-names" depends="copy-jsp" unless="PLUGINS_NAMES">
+		<property name="PLUGINS_NAMES" value=""/>
+	</target>
+	<!-- ==================================================================== -->
+	<target name="write-dd" depends="def-plugins-names">
+		<copy todir="${install}/deployment" flatten="true">
+			<fileset dir="${PLUGINS_ROOT}" includes="${PLUGINS_DEPL}"/>
+			<!--
+			<fileset dir="${CORE_ROOT}/${CORE}/deployment" includes="*.${DEPLOY-EXT}"/>
+-->
+		</copy>
+		<WriteFile file="${install}/deployment/${SUFFIX}.${DEPLOY-EXT}" line="${SUFFIX}=${PLUGINS_NAMES}"/>
+		<WriteFile file="${install}/deployment/myname.txt" line="SUFFIX=${SUFFIX}"/>
+		<!-- copy sql generation files -->
+		<property name="dbprop-file" value="${install}/createdb-${COMP_NAME_SHORT}.properties"/>
+		<available property="dbprop-file-ok" file="${dbprop-file}"/>
+		<!--
+		<copy file="${XTRADE_HOME}/ant-build/createdb-plugin.bat" tofile="${install}/createdb-${COMP_NAME_SHORT}.bat" overwrite="yes"/>
+		<copy file="${XTRADE_HOME}/ant-build/createdb-plugin.sh" tofile="${install}/createdb-${COMP_NAME_SHORT}.sh" overwrite="yes"/>
+-->
+	</target>
+	<!-- ==================================================================== -->
+	<target name="sql-xml" depends="write-dd" if="sql-xml-needed">
+		<CreateDeplymentFile deploymentDir="${install}/deployment" extension="dd.txt" appNameFile="myname.txt" deploymentOrderFile="${install}/deployment/order.txt" xmlFile="${install}/sql/deploy-sql-plugin.xml"/>
+	</target>
+	<!-- ==================================================================== -->
+	<target name="test-sql-xml" depends="sql-xml" if="test-sql-xml-needed">
+		<CreateDeplymentFile deploymentDir="${install}/deployment" extension="dd.txt" appNameFile="myname.txt" xmlFile="${install}/test/sql/deploy-sql-plugin.xml"/>
+	</target>
+	<!-- ==================================================================== -->
+
+	<!-- ========================= -->
+	<!-- Check target database     -->
+	<!-- ========================= -->
+	<target name="check-target-database">
+	  <condition property="is-oracle">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="oracle" />
+	    </and>
+	  </condition>
+	  <condition property="is-postgresql">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="postgresql" />
+	    </and>
+	  </condition>
+	  <condition property="is-db2">
+	    <and>
+	        <equals arg1="${DATABASE}" arg2="db2" />
+	    </and>
+	  </condition>
+	</target>
+	<target name="init-oracle" if="is-oracle" depends="check-target-database" unless="DEBUG1">
+		<property name="DB_PROPERTIES" value="XTRADE-DB.properties"/>
+	</target>
+	<target name="init-postgresql" if="is-postgresql" depends="check-target-database" unless="DEBUG1">
+		<property name="DB_PROPERTIES" value="XTRADE-DB-POSTGRESQL.properties"/>
+	</target>
+	<target name="init-db2" if="is-db2" depends="check-target-database" unless="DEBUG1">
+		<property name="DB_PROPERTIES" value="XTRADE-DB-DB2.properties"/>
+	</target>
+	
+	<target name="createdb-files" depends="test-sql-xml,init-oracle,init-postgresql,init-db2" unless="dbprop-file-ok">
+		<copy file="${XTRADE_HOME}/ant-build/properties/${DB_PROPERTIES}" tofile="${dbprop-file}" overwrite="yes"/>
+		<replace file="${dbprop-file}" token="%PLUGIN%" value="${COMP_NAME_SHORT}"/>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- zip sql test files -->
+	<target name="zip-sql-test" depends="createdb-files" if="test-sql-needed">
+		<property name="sql-test-zip-file" value="${test-sql}/sql-test-${SUFFIX}.zip"/>
+		<zip zipfile="${sql-test-zip-file}" update="yes">
+			<fileset dir="${test-sql}" includes="*.sql, *.xml, *.sql.zip"/>
+		</zip>
+		<delete quiet="yes">
+			<fileset dir="${test-sql}" includes="*.xml, *.xml.zip" excludes="sql-${SUFFIX}.zip,sql-test-${SUFFIX}.zip"/>
+		</delete>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- zip xml test files -->
+	<target name="zip-xml-test" depends="zip-sql-test" if="test-xml-needed">
+		<property name="xml-test-zip-file" value="${test-xml}/xml-test-${SUFFIX}.zip"/>
+		<zip zipfile="${xml-test-zip-file}" update="yes">
+			<fileset dir="${test-xml}" includes="*" excludes="xml-${SUFFIX}.zip,xml-test-${SUFFIX}.zip"/>
+		</zip>
+		<delete quiet="yes">
+			<fileset dir="${test-xml}" includes="*" excludes="xml-${SUFFIX}.zip,xml-test-${SUFFIX}.zip"/>
+		</delete>
+	</target>
+	<!-- ==================================================================== -->
+	<!-- main build -->
+	<target name="build" depends="zip-xml-test">
+		<fixcrlf srcdir="${install}" eol="lf" includes="*.sh"/>
+	</target>
+</project>
+@

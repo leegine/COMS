@@ -1,0 +1,58 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.21;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	build-plugin-client.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<project name="make-plugin-client" default="all">
+
+  <!-- set global properties for this build -->
+  <property environment="env"/>
+  <property file="../build/build.properties"/>
+  <property name="clientjar" value="${PLUGIN_NAME}-client.jar"/>
+  <property name="build" value="./build"/>
+
+  <target name="all" depends="clean, init, make_client"/>
+  
+  <target name="init">
+   	<mkdir dir="${build}"/>
+  </target>
+
+  <!-- Make a standard ejb jar file, including XML deployment descriptors -->
+  <target name="make_client">
+  	<copy todir="${build}">
+    	<fileset dir="../temp/classes_ant.">
+    		<include name="**/message/*.class"/>
+    	</fileset>
+  	</copy>
+    <jar jarfile="${clientjar}" basedir="${build}" />
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}" />
+    <delete file="${clientjar}" />
+  </target>
+  
+</project>
+@

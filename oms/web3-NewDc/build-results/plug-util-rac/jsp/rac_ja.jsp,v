@@ -1,0 +1,183 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.24.11;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8c84d7f05f66720;
+filename	rac_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="core_errors_ja.jsp" %>
+<%@@page import="java.util.*,java.text.*,java.sql.*" %>
+<%@@page import="com.fitechlabs.xtrade.plugin.util.rac.*,com.fitechlabs.xtrade.plugin.util.rac.stdimpl.*" %>
+<%@@page import="com.fitechlabs.xtrade.kernel.boot.*" %>
+
+<html>
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>RAC監視画面</title>
+</head>
+<%
+	String online = request.getParameter("online");
+	String dsName = request.getParameter("dsName");
+	if("0".equals(request.getParameter("online"))){
+	
+		RacDataSourcesManager.instance().updateStatusToDB(dsName, false);
+	}
+	else if("1".equals(request.getParameter("online"))){
+	
+		RacDataSourcesManager.instance().updateStatusToDB(dsName, true);
+	}
+	
+%>
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#FFFF99">
+  <tr>
+    <td width="100%">
+      <h1>RAC監視画面</h1>
+    </td>
+  </tr>
+</table>
+
+<!-- hyperlinks to this and related pages -->
+<table  border="0" cellpadding="5" cellspacing="0">
+  <tr>
+    <td>
+	  <strong>APPサーバー名（ポート番号）：</strong><%=request.getServerName()%>(<%=request.getServerPort()%>)
+	</td>
+    <td colspan="2">&nbsp;
+		
+	</td>
+  </tr>
+  <tr>
+	<td>
+	  <a href="<%=request.getContextPath()%>">xTradeホームへ</a>
+	</td>
+	<td>
+	  <A href="rac_ja.jsp">ページをリフレッシュする</A>
+	</td>
+	<td>&nbsp;
+		
+	</td>
+  </tr>
+</table>
+<br>
+
+<h2>MPDS_SETTINGS:</h2>
+<%
+	// get the settings
+	final MultiPoolDataSourceSettings settings = (MultiPoolDataSourceSettings )Services.getService(MultiPoolDataSourceSettings.class);
+%>
+
+<table border="1" cellpadding="5" cellspacing="0" >
+    <tr>
+      <th align="left" valign="top" nowrap>データソース一覧(db.cluster.jndi_names)</th>
+	  <td>
+	  	<%
+			final String[] jndiNames = settings.getDbClusterJndiNames();
+			for(int i=0;i<jndiNames.length;i++){
+		%>
+				<%=jndiNames[i]%><br>
+		<%
+			}
+		%>
+	  </td>
+
+    </tr>
+	
+	<tr>
+      <th align="left" valign="top" nowrap>死活監視用のSQL文(test.sql)</th>
+	  <td><%=settings.getTestSql()%></td>
+    </tr>
+	
+	<tr>
+      <th align="left" valign="top" nowrap>死活監視時間間隔(test.sql.interval)</th>
+	  <td><%=settings.getTestSqlIntervalSecs()%></td>
+    </tr>
+	
+	<tr>
+      <th align="left" valign="top" nowrap>コンテキスト無しの警告表示(warn.on.nocontext)</th>
+	  <td><%=settings.warnOnNoContext()%></td>
+    </tr>
+	
+	<tr>
+      <th align="left" valign="top" nowrap>シングルコンテキスト(single.context)</th>
+	  <td><%=settings.isSingleContext()%></td>
+    </tr>
+</table>
+
+<p>
+<h2>データソースの詳細:</h2>
+<table border="1" cellpadding="5" cellspacing="0" >
+	<tr>
+	<th align="center" valign="top" nowrap>&nbsp;<b>データソース名</b></th>
+	<th align="center" valign="top" nowrap><b>状態</b></th>
+	<th align="center" valign="top" nowrap><b>最終確認時間</b></th>
+	 <th colspan="3" align="center" valign="top" nowrap><b>変更する</b></th>
+	</tr>
+
+	<!-- Populate sample data -->
+	<%
+		final List infoList = RacDataSourcesManager.instance().getDataSourcesInfo();
+		
+		final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+		final int size = infoList.size();
+		for(int k = 0;k<size;k++){
+		
+			final RacDataSourcesManager.DataSourceStatusInfo info = (RacDataSourcesManager.DataSourceStatusInfo )infoList.get(k);
+	%>
+ 			<tr>
+			<td valign="top" align="left" nowrap>&nbsp;<%=info.getDataSourceName()%>&nbsp;</td>
+			<td align="left" valign="top" nowrap <%=info.isOnline() ? "" : "bgcolor=\"#FF0000\""%> >&nbsp;<%=info.isOnline() ? "オンライン" : "オフライン"%>&nbsp;</td>                  
+			<td valign="top" align="left" nowrap>&nbsp;<%=df.format(info.getLastStatusCheckTimestamp())%>&nbsp;</td>
+			<%
+				final String hrefString = "rac_ja.jsp?dsName=" + info.getDataSourceName() + "&online=" + (info.isOnline() ? "0":"1");
+				final String question = "データソース " + info.getDataSourceName() + " をオンラインにしてよろしいですか?";                			
+				final String onClickString = "return confirm(\'" + question + "\')";
+			%>
+			<td valign="top" align="left" nowrap>&nbsp;
+			<%
+				if(!info.isOnline()){
+			%>
+					<A href="<%=hrefString%>" onClick="<%=onClickString%>"> オンラインにする </A>
+			<%
+				 }
+			%>
+			</td>                		
+			</tr>
+	<%
+		 }
+	%>
+</table>
+
+<!-- convenience buttons -->
+<br>
+<hr noshade>
+<A href="rac_ja.jsp">ページをリフレッシュする</A>  <br>
+<em>最終更新時刻：</em><%=DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(new java.util.Date())%>
+</body>
+
+</html>
+
+@

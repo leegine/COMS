@@ -1,0 +1,35 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.48.05;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	set-ant-build.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@@echo off
+:: Set ANT_BUILD
+set ANT_BUILD=%~dp0
+call ..\set-xtrade.bat
+set ANT_HOME=%XTRADE_HOME%\ant
+set PATH=%ANT_HOME%\bin
+set JIKES_HOME=%ANT_HOME%\bin
+@

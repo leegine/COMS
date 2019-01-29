@@ -1,0 +1,101 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.46.28;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	verify_plugin_env.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by LC (R&D) -->
+<!-- ============================================ -->
+<!-- App build ANT file                           -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 9/21/2002                             -->
+<!-- ============================================ -->
+<project name="verify_plugin_env" default="build">
+	<!-- ===================================================================== -->
+	<target name="XTRADEHOME" unless="XTRADE_HOME">
+		<fail message="">
+
+ =================================================== 
+ ERROR:
+    Cannot build since property XTRADE_HOME is not defined
+ ===================================================
+
+		</fail>
+	</target>
+
+	<!-- ===================================================================== -->
+	<target name="COMPHOME" depends="XTRADEHOME" unless="COMP_HOME">
+		<fail message="">
+
+ =================================================== 
+ ERROR:
+    Cannot build since property COMP_HOME is not defined
+ ===================================================
+
+		</fail>
+	</target>
+
+	<!-- ===================================================================== -->
+	<target name="COMPPROPERTYFILE" depends="COMPHOME" unless="COMP_PROPERTY_FILE">
+		<fail message="">
+
+ =================================================== 
+ ERROR:
+    Cannot build since file ${COMP_PROPERTY_FILE} 
+    does not exist
+ ===================================================
+
+		</fail>
+	</target>
+
+	<!-- ===================================================================== -->
+	<target name="PLUGINNAME" depends="COMPPROPERTYFILE" unless="PLUGIN_NAME">
+		<fail message="">
+
+ =================================================== 
+ ERROR:
+    Cannot build since property PLUGINS_NAME is not defined
+    in file ${COMP_PROPERTY_FILE} 
+ ===================================================
+
+		</fail>
+	</target>
+
+	<!-- ===================================================================== -->
+	<target name="PLUGINSNAMES" depends="PLUGINNAME" unless="PLUGINS_NAMES">
+		<fail message="">
+
+ =================================================== 
+ ERROR:
+    Cannot build since property PLUGINS_NAMES is not defined
+    in file ${COMP_PROPERTY_FILE} 
+ ===================================================
+
+		</fail>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="build" depends="PLUGINSNAMES"/>
+</project>
+@

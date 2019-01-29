@@ -1,0 +1,85 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.48.01;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	createdb-app-postgresql.sh;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#!sh
+#--------------------------------------------------------------------------------
+# Creates DB for an XTrade installation
+#
+#--------------------------------------------------------------------------------
+
+#set ant-build environment
+INSTALL_HOME=`pwd | sed -e 's#/cygdrive/#//#'`
+DEPLOY_HOME=${INSTALL_HOME}
+DATABASE=postgresql
+export DATABASE
+
+if test -f ${DEPLOY_HOME}/ant/bin/ant
+  then
+  	# this is local
+	XTRADE_HOME=${DEPLOY_HOME}
+  else
+    if test -f ../../ant/bin/ant
+      then
+  	# this is GLOBAL
+	XTRADE_HOME=${DEPLOY_HOME}/../..
+    fi
+fi
+
+ANT_HOME=${XTRADE_HOME}/ant
+ANT_BUILD=${XTRADE_HOME}/ant-build
+PATH=${ANT_HOME}/bin:${PATH}
+JIKES_HOME=${ANT_HOME}/bin
+
+export ANT_BUILD
+export XTRADE_HOME
+export ANT_HOME
+export JIKES_HOME
+
+# set flags
+DEPLOY=-DDEPLOY_HOME=${DEPLOY_HOME}
+INSTALL=-DINSTALL_HOME=${INSTALL_HOME}
+SET_ANT_BUILD=-DANT_BUILD=${ANT_BUILD}
+DEBUG=-quiet
+SQL_FILE_ENCODING=ASCII
+export SQL_FILE_ENCODING
+
+chmod 755 ${ANT_HOME}/bin/antRun
+cd ${ANT_BUILD}
+
+# ADDEDED TO ASSIGN CLASSPATH TO THE JAVA VM
+sh ${ANT_HOME}/bin/ant -DMAIN_ANT_FILE=createdb-path.xml -logger com.fitechlabs.ant.XLogger \
+-DX_SILENT=1 ${SET_ANT_BUILD} ${DEBUG} ${INSTALL} ${DEPLOY}
+
+CLASS=`sh ${DEPLOY_HOME}/deployment/create_classpath.sh`
+
+CLASSPATH=${CLASSPATH}:${CLASS}
+
+export CLASSPATH
+
+# run ant
+sh ${ANT_HOME}/bin/ant -DMAIN_ANT_FILE=deploy-app-sql.xml ${SET_ANT_BUILD} ${INSTALL} ${DEPLOY} ${DEBUG}
+@

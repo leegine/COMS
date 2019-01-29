@@ -1,0 +1,67 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.47.56;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	configure-app.sh;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#!sh
+#--------------------------------------------------------------------------------
+# Configures XML Deployment Descriptor for an XTrade installation
+#
+#--------------------------------------------------------------------------------
+
+#set ant-build environment
+INSTALL_HOME=`pwd | sed -e 's#/cygdrive/#//#'`
+DEPLOY_HOME=${INSTALL_HOME}
+XTRADE_HOME=${INSTALL_HOME}
+ANT_HOME=${INSTALL_HOME}/ant
+ANT_BUILD=${INSTALL_HOME}/ant-build
+PATH=${ANT_HOME}/bin:${PATH}
+JIKES_HOME=${ANT_HOME}/bin
+
+export ANT_BUILD
+export XTRADE_HOME
+export ANT_HOME
+export JIKES_HOME
+
+# set DATABASE environment variables
+. ${XTRADE_HOME}/set-xtrade.sh
+
+# set flags
+DEPLOY=-DDEPLOY_HOME=${DEPLOY_HOME}
+INSTALL=-DINSTALL_HOME=${INSTALL_HOME}
+SET_ANT_BUILD=-DANT_BUILD=${ANT_BUILD}
+DEBUG=-quiet
+
+export DEPLOY
+export INSTALL
+export SET_ANT_BUILD
+export DEBUG
+
+chmod 755 ant/bin/antRun
+cd ant-build
+
+# run ant
+sh ${ANT_HOME}/bin/ant -DMAIN_ANT_FILE=configure-app.xml ${SET_ANT_BUILD} ${INSTALL} ${DEPLOY} ${DEBUG}
+@

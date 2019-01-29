@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.29.23;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	83c4d7f072c6b15;
+filename	createdb-plug-xb-bd-pdbt-base.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@####################################################################
+#
+#   DataBase Configuration Properties for installing
+#   
+#       plug-xb-bd-pdbt-base on computer %MACHINE%
+#
+####################################################################
+#
+#   CHANGE  THE  FOLLOWING  VARIABLES  
+#
+####################################################################
+DB_SID=oraeuc
+DB_USERNAME=xtradeuser
+DB_PASSWORD=xtradeuser
+DB_SYS_USERNAME=system
+DB_SYS_PASSWORD=manager
+DB_HOST=localhost
+DB_PORT_NUMBER=1521
+@

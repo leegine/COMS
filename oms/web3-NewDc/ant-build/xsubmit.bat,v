@@ -1,0 +1,66 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.49.25;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	xsubmit.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@::SUBMIT AN XML SCRIPT
+@@echo off
+@@setlocal
+
+if "%1"a==a goto USAGE
+
+set DIR=%~dp0
+set FILE=%DIR%\..\%1
+set URL=http://localhost:8080/*2*
+if not "%2"a==a set URL=http://localhost:8080/%2
+
+set PROG=com.fitechlabs.xtrade.kernel.comm.xmlhttp.XmlHttpClient
+set JARGS=-cp ..\lib\xtrade.jar;..\build-results\core\jars\xtrade.jar;
+
+echo %JAVA_HOME%\bin\java %JARGS% %PROG% %FILE% %URL%
+%JAVA_HOME%\bin\java %JARGS% %PROG% %FILE% %URL%
+
+goto END
+
+:USAGE
+:USAGE
+echo                                                   .
+echo ***************************************************
+echo                                                   .
+echo Usage:
+echo     xsubmit file_name app_name 
+echo        where
+echo            file_name - the xml message file name
+echo                       with a path relative to 
+echo                         XTRADE root
+echo            app_name - the installed name of the app
+echo                       (e.g. app_tutorial1)
+echo                                                   .
+echo ***************************************************
+echo                                                   .
+
+
+:END
+@

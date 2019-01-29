@@ -1,0 +1,70 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.46.24;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	xtest.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@@echo off
+::
+:: Simplified batch script to run XTest from the command line.
+::
+:: This must be run from ant-build directory to work
+::
+
+@@setlocal
+
+:: TEST ENVIRONMENT FOR JAVA
+call test-env.bat
+if %XTRADE_ERROR%==1 goto ENDSCRIPT
+
+:: Set environment variables
+call ..\set-xtrade.bat
+set ANT_HOME=%XTRADE_HOME%\ant
+set ANT_LIB=%ANT_HOME%\lib
+
+:: Set the program
+set PROG=com.fitechlabs.ant.XTest
+
+:: Set up classpath
+set CP_1=%ANT_LIB%\fitech-ant-build.jar
+set CP_2=%ANT_LIB%\ant.jar
+set CP_3=%ANT_LIB%\xercesImpl.jar
+set CP_4=%ANT_LIB%\xml-apis.jar
+set CP_5=%XTRADE_HOME%\build-results\core\jars\xtrade.jar
+set CLASSPATH=%CP_1%;%CP_2%;%CP_3%;%CP_4%;%CP_5%
+
+::echo JAVA_HOME = %JAVA_HOME%
+::echo ANT_HOME  = %ANT_HOME%
+::echo ANT_LIB   = %ANT_LIB%
+::echo PROG      = %PROG%
+::echo CLASSPATH = %CLASSPATH%
+
+::================================================================================
+echo %JAVA_HOME%\bin\java -cp %CLASSPATH% %PROG% %1 %2 %3 %4 %5 %6
+call %JAVA_HOME%\bin\java -cp %CLASSPATH% %PROG% %1 %2 %3 %4 %5 %6
+::================================================================================
+
+:ENDSCRIPT
+@@endlocal
+@

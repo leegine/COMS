@@ -1,0 +1,57 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.51.06;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3f04d912cd82de4;
+filename	boot_test_jobs_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page errorPage="jobs_errors_ja.jsp" %>
+<%@@page import="java.util.*" %>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>Boot Jobs Tester</title>
+</head>
+
+<body>
+<%! // class initialization
+  static {
+    TestJobsXTradeAccessor.bootXTrade();
+  };
+%>
+XTrade should be booted for testing the jobs capabilities now.
+
+<br>
+<a href="jobs_overview_ja.jsp"> Jobs Overview ... </a>
+
+<%
+  response.sendRedirect("jobs_overview.jsp");
+%>
+
+</body>
+
+</html>
+@

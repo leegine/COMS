@@ -1,0 +1,187 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.28.36;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8e04d7eeaac0e03;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file for generating data bind layer
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.accountopen.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3accountopen.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3AccOpenSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3accountopen_session_triggers.sql
+
+enums=\
+  acc_open_invalid_values.comp_flag1:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag2:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag3:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag4:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag5:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag6:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag7:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag8:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag9:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  acc_open_invalid_values.comp_flag10:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ex_account_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_margin:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_bond:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_wt:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_fund_sk:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_fund_bd:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_fo:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_f_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.experience_flag_etc:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_ministock:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_margin:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_bond:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_fund:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_fo:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_f_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.interest_flag_etc:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.id_confirm_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.insider_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag1:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag2:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag3:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag4:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag5:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag6:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag7:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag8:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag9:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.ext_item_flag10:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.receipt_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.agreement_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open.foreign_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  mail_address_regi.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ex_account_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_margin:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_bond:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_wt:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_fund_sk:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_fund_bd:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_fo:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_f_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.experience_flag_etc:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_ministock:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_margin:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_bond:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_fund:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_fo:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_f_equity:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.interest_flag_etc:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.id_confirm_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.insider_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag1:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag2:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag3:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag4:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag5:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag6:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag7:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag8:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag9:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.ext_item_flag10:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.receipt_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.agreement_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  exp_account_open_temp.foreign_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  password_voucher \
+  acc_open_voucher_master \
+  acc_open_voucher_item \
+  acc_open_voucher_status \
+  trade_condition_voucher \
+  imp_confirm_voucher \
+  id_confirm_voucher \
+  host_mrf_acc_voucher \
+  host_cont_mrg_voucher \
+  host_acc_reg_voucher \
+  host_acc_open_accept:rowid_pk=true \
+  host_bank_trans_voucher \
+  host_postal_trans_voucher \
+  host_agree_trans_voucher \
+  host_charged_info_voucher \
+  acc_open_invalid_values \
+  acc_open_request_number \
+  exp_account_open \
+  y_customer \
+  host_gp_reg_voucher \
+  host_realname_reg_voucher \
+  host_stockholder_reg_voucher \
+  host_insider_reg_voucher \
+  acc_open_account_code \
+  host_f_deposit_voucher \
+  batch_branch \
+  batch_preferences \
+  host_condition_reg_voucher \
+  mail_address_regi \
+  host_agency_notify_voucher \
+  exp_account_open_temp \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@

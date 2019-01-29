@@ -1,0 +1,187 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.03.05.13;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7ecf833551;
+filename	WebService.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<wsdd:type-mapping  xmlns:wsdd="http://www.bea.com/servers/wls70"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryRiyousya"
+   type="lcl0:EntryRiyousya"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryReceiptIn"
+   type="lcl0:EntryReceiptIn"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptInCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptInCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaResponse"
+   type="lcl0:EntryRiyousyaResponse"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaResponseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaOut"
+   type="lcl0:ChangeRiyousyaOut"
+   serializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaOutCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaOutCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryReceiptResponse"
+   type="lcl0:EntryReceiptResponse"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptResponseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseIn"
+   type="lcl0:DeleteOshiraseIn"
+   serializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseInCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseInCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryOshirase"
+   type="lcl0:EntryOshirase"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseResponse"
+   type="lcl0:DeleteOshiraseResponse"
+   serializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseResponseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryReceipt"
+   type="lcl0:EntryReceipt"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.HachuUlimitVolBean"
+   type="lcl0:HachuUlimitVolBean"
+   serializer="jp.co.hitachi.www.TFX.WebService.HachuUlimitVolBeanCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.HachuUlimitVolBeanCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaIn"
+   type="lcl0:InquirySyoriKekkaIn"
+   serializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaInCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaInCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaResponse"
+   type="lcl0:InquirySyoriKekkaResponse"
+   serializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaResponseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaIn"
+   type="lcl0:EntryRiyousyaIn"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaInCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaInCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseOut"
+   type="lcl0:DeleteOshiraseOut"
+   serializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseOutCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseOutCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekka"
+   type="lcl0:InquirySyoriKekka"
+   serializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryOshiraseResponse"
+   type="lcl0:EntryOshiraseResponse"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseResponseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaOut"
+   type="lcl0:InquirySyoriKekkaOut"
+   serializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaOutCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.InquirySyoriKekkaOutCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryReceiptOut"
+   type="lcl0:EntryReceiptOut"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptOutCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryReceiptOutCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryOshiraseOut"
+   type="lcl0:EntryOshiraseOut"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseOutCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseOutCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.HachuUlimitVolBean[]"
+   type="lcl0:SequenceOfHachuUlimitVolBean"
+   serializer="jp.co.hitachi.www.TFX.WebService.SequenceOfHachuUlimitVolBeanSequenceCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.SequenceOfHachuUlimitVolBeanSequenceCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaOut"
+   type="lcl0:EntryRiyousyaOut"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaOutCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryRiyousyaOutCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaResponse"
+   type="lcl0:ChangeRiyousyaResponse"
+   serializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaResponseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaResponseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaIn"
+   type="lcl0:ChangeRiyousyaIn"
+   serializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaInCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaInCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.EntryOshiraseIn"
+   type="lcl0:EntryOshiraseIn"
+   serializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseInCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.EntryOshiraseInCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.DeleteOshirase"
+   type="lcl0:DeleteOshirase"
+   serializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.DeleteOshiraseCodec">
+ </wsdd:type-mapping-entry>
+ <wsdd:type-mapping-entry   xmlns:lcl0="http://www.hitachi.co.jp/TFX/WebService"
+   class-name="jp.co.hitachi.www.TFX.WebService.ChangeRiyousya"
+   type="lcl0:ChangeRiyousya"
+   serializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaCodec"
+   deserializer="jp.co.hitachi.www.TFX.WebService.ChangeRiyousyaCodec">
+ </wsdd:type-mapping-entry>
+</wsdd:type-mapping>@

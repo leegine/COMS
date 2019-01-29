@@ -1,0 +1,153 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.48.47;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	test-app-xml.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@:: *******************************************************
+:: * (c) Fitech Laboratories 2002. All Rights Reserved
+:: * 
+:: * This script runs ANT with test-app-xml.xml.
+:: *
+:: * $History: $
+:: *******************************************************
+
+@@echo off
+::RUN SAMPLE XML FILES
+::This script runs from the root directory
+@@setlocal
+set INSTALL_HOME=%~dp0
+set DEPLOY_HOME=%INSTALL_HOME%..\%APPLICATION_HOME%\
+set DEPLOY=-DDEPLOY_HOME="%DEPLOY_HOME%\"
+
+set DEBUG=
+set FULL_DEBUG=-quiet
+set ECHOCMD=
+set INSTALL=-DINSTALL_HOME="%INSTALL_HOME%\"
+set SQL_FILE_ENCODING=SJIS
+set TEST=-DNO_DB_CREATION=true
+set X_ERROR_TOKEN_FILE=
+
+:: results of the xml test filr
+set OUTFILE=-DOUTFILE="%INSTALL_HOME%\testxml-results.txt"
+
+set INITDB=
+set DOALL=
+set DOPLUGINSONLY=
+set PLUGINS=
+set SUCCESS_PATH=
+
+ 
+:LOCAL_LOOP
+	if %1a==a goto FINISHED_LOCAL
+	if "%1"=="-error_token_file" set X_ERROR_TOKEN_FILE=-DX_ERROR_TOKEN_FILE=%2
+	if "%1"=="-d" (
+		set DEBUG=-d
+		goto SHIFT
+	)
+	if "%1"=="-fd" (
+		set FULL_DEBUG=-verbose
+		set DEBUG=-DDEBUG=1
+		goto SHIFT
+	)
+	if "%1"=="-echo" (
+		set ECHOCMD=-echo
+		goto SHIFT
+	)
+	if "%1"=="-initdb" (
+		set INITDB=-Dinitdb=true
+		goto SHIFT
+	)
+	if "%1"=="-doall" (
+		set DOALL=-Ddo-all=true
+		goto SHIFT
+	)
+	if "%1"=="-do_plugins_only" (
+		set DOPLUGINSONLY=-Ddo-plugins-only=true
+		goto SHIFT
+	)
+	if "%1"=="-commandStatusFlag" (
+		shift
+		set SUCCESS_PATH=%1
+		goto SHIFT
+	)
+	if "%1"=="-output" (
+		set OUTFILE=-DOUTFILE=%2
+		goto SHIFT
+	)
+		
+	set PLUGINS=%PLUGINS% -D%1=true
+:SHIFT
+	shift
+	goto LOCAL_LOOP
+:FINISHED_LOCAL
+
+:: set ant is available
+if exist "%DEPLOY_HOME%\ant\bin\ant.bat" goto LOCAL_ANT
+if exist "..\..\ant\bin\ant.bat" goto GLOBAL_ANT
+goto ERROR
+
+:LOCAL_ANT
+set XTRADE_HOME=%DEPLOY_HOME%
+cd %XTRADE_HOME%\ant
+call set-ant.bat
+goto WORK
+
+
+:GLOBAL_ANT
+cd ..\..\ant
+call set-ant.bat
+cd ..
+call set-xtrade.bat
+set DEPLOY_HOME=%INSTALL_HOME%
+set DEPLOY=-DDEPLOY_HOME="%DEPLOY_HOME%\"
+goto WORK
+
+
+:WORK
+set ANT_BUILD=%XTRADE_HOME%\ant-build
+cd %ANT_BUILD%
+
+set SET_ANT_BUILD=-DANT_BUILD="%ANT_BUILD%"
+set DEPLOY=-DDEPLOY_HOME="%DEPLOY_HOME%\"
+set INSTALL=-DINSTALL_HOME="%INSTALL_HOME%\"
+
+::ADDEDED TO ASSIGN CLASSPATH TO THE JAVA VM
+call ..\ant\bin\ant.bat -DMAIN_ANT_FILE=createdb-path.xml -logger com.fitechlabs.ant.XLogger -DX_SILENT=1 %SET_ANT_BUILD% %TEST% %ROOT% %UNPACK% %DEBUG% %FULL_DEBUG%  %DEPLOY% %INSTALL%
+call "%DEPLOY_HOME%\deployment\create_classpath.bat"
+
+if not "%ECHOCMD%"=="" echo call ..\ant\bin\ant.bat -logger com.fitechlabs.ant.XLogger -DMAIN_ANT_FILE=test-app-xml.xml  %SET_ANT_BUILD% %DEBUG% %FULL_DEBUG% %OUTFILE%  %TEST%  %INITDB% %DOALL% %DOPLUGINSONLY% %PLUGINS% %X_ERROR_TOKEN_FILE% %DEPLOY% %INSTALL%
+	call ..\ant\bin\ant.bat -logger com.fitechlabs.ant.XLogger -DMAIN_ANT_FILE=test-app-xml.xml  %SET_ANT_BUILD% %DEBUG% %FULL_DEBUG% %OUTFILE%  %TEST%  %INITDB% %DOALL% %DOPLUGINSONLY% %PLUGINS% %X_ERROR_TOKEN_FILE% %DEPLOY% %INSTALL%
+
+goto ENDPROC
+
+:ERROR
+echo.
+echo ***************************************************
+echo           ERROR:  NO ANT INSTALLATION DETECTED!
+echo ***************************************************
+
+:ENDPROC
+
+@@endlocal@

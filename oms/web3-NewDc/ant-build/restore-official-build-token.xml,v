@@ -1,0 +1,67 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.12;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	restore-official-build-token.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Restore Official Build Token ANT file        -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 11/30/2001                             -->
+<!-- ============================================ -->
+<project name="build" default="build">
+	<target name="build">
+		<!-- names -->
+		<property name="VSS_XTRADE_HOME" value="/xtrade"/>
+		<property file="${ANT_BUILD}/properties/${COMPUTER_NAME}-official-builder.properties"/>
+		<property name="VSS_ABS_HOME" value="${VSS_XTRADE_HOME}/${HOME}"/>
+		<property name="ABS_HOME" value="${XTRADE_HOME}${HOME}"/>
+		<property name="VSS_BUILD_TOKEN_NAME" value="${VSS_ABS_HOME}/build/official-build-token"/>
+		<property name="BUILD_TOKEN_ORG" value="${ANT_BUILD}/official-build-token"/>
+		<property name="BUILD_TOKEN_NAME" value="${ABS_HOME}/build/official-build-token"/>
+		<property name="VSS_LOGIN" value="${user.name}"/>
+		<mkdir dir="${ABS_HOME}/build"/>
+		<copy file="${BUILD_TOKEN_ORG}" tofile="${BUILD_TOKEN_NAME}"/>
+		<!-- add token -->
+		<exec executable="cmd.exe" dir="${VSS_DIR}">
+			<arg value="/c"/>
+			<arg value="ss"/>
+			<arg value="CP"/>
+			<arg value="$$${VSS_ABS_HOME}/build"/>
+			<arg value="-I-Y"/>
+			<arg value="-Y${VSS_LOGIN}"/>
+		</exec>
+		<exec executable="cmd.exe" dir="${VSS_DIR}" output="${XTRADE_TEMP_DIR}/addtoken.txt">
+			<arg value="/c"/>
+			<arg value="ss"/>
+			<arg value="Add"/>
+			<arg value="${BUILD_TOKEN_NAME}"/>
+			<arg value="-I-Y"/>
+			<arg value="-Y${VSS_LOGIN}"/>
+		</exec>
+	</target>
+</project>
+@

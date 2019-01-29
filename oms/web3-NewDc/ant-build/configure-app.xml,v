@@ -1,0 +1,127 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.49.47;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d904ab54b6c;
+filename	configure-app.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D) -->
+<!-- ============================================ -->
+<!-- Configure war for an Application ANT file    -->
+<!-- Author: L.Charny                             -->
+<!-- Date: 10/30/2001                             -->
+<!--                                              -->
+<!-- This script is run in the plugin application -->
+<!--    installation area                         -->
+<!--                                              -->
+<!-- ============================================ -->
+<project name="deploy-app-sql" default="build" basedir=".">
+	<property name="APP_NAME_FILE" value="${DEPLOY_HOME}/deployment/app_name.txt"/>
+	<!-- ===================================================================== -->
+	<!-- ============================== -->
+	<!-- check pre-set properties       -->
+	<!-- ============================== -->
+	<!-- ===================================================================== -->
+	<!-- ******************************************************************************** -->
+	<!-- determine the os type -->
+	<target name="set-props">
+		<path id="classpath-all">
+			<fileset dir="${DEPLOY_HOME}">
+				<include name="lib/*.jar"/>
+				<include name="lib/*.zip"/>
+			</fileset>
+		</path>
+	</target>
+	<!-- ===================================================================== -->
+	<target name="set-windows" if="WINDOWS-OS" depends="set-props">
+		<!--		<pathconvert targetos="windows" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="windows" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.COMPUTERNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to unix -->
+	<target name="set-unix" if="UNIX-OS" depends="set-props">
+		<!--		<pathconvert targetos="unix" property="PATH" refid="path-all"/> -->
+		<pathconvert targetos="unix" property="CLASSPATH" refid="classpath-all"/>
+		<property name="COMPUTER_NAME" value="${env.HOSTNAME}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- adjust to a specific op system -->
+	<target name="set-os-env" depends="set-windows, set-unix">
+		<property file="${APP_NAME_FILE}"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read and verify all properties and report them -->
+	<target name="verify-env" depends="set-os-env" if="DEBUG">
+		<echo message="">
+ ===============================================
+ Properties:
+ ===============================================
+ CLASSPATH=${CLASSPATH}
+ ===============================================
+		</echo>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- set property file name -->
+	<target name="set-prop-file-name" depends="verify-env">
+		<property name="DB_PROPERTY_FILE" value="${DEPLOY_HOME}/createdb-${SUFFIX}.properties"/>
+		<property file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.properties"/>
+		<property file="${DEPLOY_HOME}/war/warname.txt"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- read properties file -->
+	<target name="read-props" depends="set-prop-file-name">
+		<echo message="Reading db properties"/>
+		<property file="${DB_PROPERTY_FILE}"/>
+		<!-- change war deployment descrtiptor file -->
+		<property name="DB_DRIVER" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="URL" value="jdbc:oracle:thin"/>
+		<property name="DB_CONNECT" value="${DB_USERNAME}/${DB_PASSWORD}@@${DB_HOST}:${DB_PORT_NUMBER}:${DB_SID}"/>
+		<property name="DB_URL" value="${URL}:${DB_CONNECT}"/>
+		<property name="install" value="${INSTALL_HOME}"/>
+		<property name="ROOT" value="${INSTALL_HOME}"/>
+		<property name="ORACLE_ROOT" value="${DEPLOY_HOME}/lib"/>
+		<available property="EDIATBLE_WAR" file="${DEPLOY_HOME}/war/web.xml"/>
+	</target>
+	<!-- ===================================================================== -->
+	<!-- update war file -->
+	<target name="update-war" depends="read-props" if="EDIATBLE_WAR">
+		<echo message="Configuring war file"/>
+		<copy file="${DEPLOY_HOME}/war/UNCONFIGURED.${WARNAME}" tofile="${DEPLOY_HOME}/war/${WARNAME}"/>
+		<copy file="${DEPLOY_HOME}/war/web.xml" tofile="${DEPLOY_HOME}/war/web.UNCONFIGURED.xml"/>
+		<replace file="${DEPLOY_HOME}/war/web.xml" token="%URL%" value="${DB_URL}"/>
+		<replace file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.UNCONFIGURED.bat" token="MANAGER_LOGIN_NAME" value="${MANAGER_LOGIN_NAME}"/>
+		<replace file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.UNCONFIGURED.bat" token="MANAGER_PASSWORD" value="${MANAGER_PASSWORD}"/>
+		<replace file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.UNCONFIGURED.bat" token="TOMCAT_HOST" value="${TOMCAT_HOST}"/>
+		<replace file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.UNCONFIGURED.bat" token="TOMCAT_PORT" value="${TOMCAT_PORT}"/>
+		<replace file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.UNCONFIGURED.bat" token="*APPNAME*" value="${SUFFIX}"/>
+		<copy file="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.UNCONFIGURED.bat" tofile="${DEPLOY_HOME}/deploy-tomcat-${SUFFIX}.bat"/>
+		<!--
+		<replace file="${DEPLOY_HOME}/ant-build/xsubmit.bat" token="*2*" value="${SUFFIX}"/>
+-->
+		<war warfile="${DEPLOY_HOME}/war/${WARNAME}" webxml="${DEPLOY_HOME}/war/web.xml" update="yes"/>
+	</target>
+	<target name="build" depends="update-war"/>
+</project>
+@

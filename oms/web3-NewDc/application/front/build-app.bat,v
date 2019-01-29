@@ -1,0 +1,111 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.08.27.29;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5284d9046713d7e;
+filename	build-app.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+::BUILD  SCRIPT
+::
+:: Author: B-liu
+::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+@@echo on
+@@setlocal
+call ..\..\set-xtrade.bat
+
+set PLUGINS_TO_BUILD_FIRST=plugin\gtl-base ^
+plugin\eqtype-base ^
+plugin\xb-mf-pdbt-base ^
+plugin\xb-ruito-pdbt-base ^
+plugin\xb-ifo-pdbt-base ^
+plugin\xb-aio-pdbt-base ^
+plugin\xb-feq-pdbt-base ^
+plugin\xb-bd-pdbt-base ^
+plugin\web3-ipo-base ^
+plugin\web3-inform-base ^
+plugin\web3-common ^
+plugin\web3-system ^
+plugin\web3-gentrade ^
+plugin\web3-login ^
+plugin\web3-quote ^
+plugin\web3-servlet ^
+plugin\web3-triggerorder-base ^
+plugin\web3-tplib ^
+plugin\web3-mq-gateway ^
+plugin\web3-rls-gateway ^
+plugin\web3-sle-base ^
+plugin\web3-sle-gateway ^
+plugin\web3-equity ^
+plugin\web3-xbifo ^
+plugin\web3-triggerorder ^
+plugin\web3-rls-omsadaptor ^
+plugin\web3-xbruito ^
+plugin\web3-xbbd ^
+plugin\web3-tpinfo ^
+plugin\web3-tp-admin ^
+plugin\web3-xbaio ^
+plugin\web3-xbfeq ^
+plugin\web3-xbmf ^
+plugin\web3-ipo ^
+plugin\web3-mailinfo ^
+plugin\web3-adminmc ^
+plugin\web3-srvregi ^
+plugin\web3-tradehistory ^
+plugin\web3-accountopen ^
+plugin\web3-point ^
+plugin\web3-faq ^
+plugin\web3-accountinfo ^
+plugin\web3-inform ^
+plugin\web3-trialcalc ^
+plugin\web3-adminorderexecinquiry ^
+plugin\web3-eqtypeadmin ^
+plugin\web3-pvinfo ^
+plugin\web3-trademanagement ^
+plugin\web3-preloader ^
+plugin\web3-rich-push ^
+plugin\web3-admintriggerorder ^
+plugin\web3-dirsec ^
+plugin\web3-ifoadmin ^
+plugin\web3-docadmin ^
+plugin\web3-sync-clt ^
+plugin\web3-cache-statistics
+   %THIS_PLUGIN%
+
+set THIS_APP=application\front
+
+cd %XTRADE_HOME%\ant-build
+
+@@echo.
+@@echo Building each plugin
+FOR %%I IN (%PLUGINS_TO_BUILD_FIRST%) DO call xbuild -plugin -latest -h %%I
+
+@@echo.
+@@echo Building App
+call xbuild -app %1 %2 -latest -h %THIS_APP%
+@@endlocal
+
+@@pause@

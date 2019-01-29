@@ -1,0 +1,45 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.02.30.30;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7c44d7ecf0833c0;
+filename	core_errors_ja.jsp;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<%@@ page contentType="text/html; charset=Shift_JIS" %>
+<%@@ page isErrorPage="true" %>
+<html>
+<body>
+
+<h1>エラー詳細</h1>
+
+
+<br>エラーが発生しました、エラーメッセージ： <%= exception.getMessage() %><br>
+エラー情報：<pre><font color="red"><%
+ java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
+ java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
+ exception.printStackTrace(pw);
+ out.println(cw.toString());
+ %></font></pre>
+<br></body>
+</html>
+@
