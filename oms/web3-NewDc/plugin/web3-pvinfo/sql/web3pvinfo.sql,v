@@ -1,0 +1,156 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.25.19;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d9134fa4873;
+filename	web3pvinfo.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--新規作成テーブル
+-------------------------------------------------------------------------------
+
+--1. Table名: 閲覧履歴テーブル
+
+CREATE TABLE browse_history (
+    browse_history_id               NUMBER(18)          NOT NULL,
+    institution_code                VARCHAR2(3)         NOT NULL,
+    branch_code                     VARCHAR2(3)         NOT NULL,
+    display_contents_id             NUMBER(18)          NOT NULL,
+    account_code                    VARCHAR2(7)         NOT NULL,
+    account_id                      NUMBER(18)              NULL,
+    read_flag                       VARCHAR2(1)             NULL,
+    delete_flag                     VARCHAR2(1)             NULL,
+    last_read_timestamp             DATE                    NULL,
+    created_timestamp               DATE                NOT NULL,
+    last_updated_timestamp          DATE                NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKbrowse_history ON browse_history
+(
+       browse_history_id
+);
+
+CREATE UNIQUE INDEX XAK1browse_history ON browse_history
+(
+       institution_code       ,
+       branch_code            ,
+       display_contents_id    ,
+       account_code
+);
+
+--PK
+
+ALTER TABLE browse_history
+      ADD  (PRIMARY KEY (browse_history_id));
+
+
+--2. Table名: 表示条件設定テーブル
+
+CREATE TABLE display_condition (
+    display_condition_id            NUMBER(18)          NOT NULL,
+    institution_code                VARCHAR2(3)         NOT NULL,
+    branch_code                     VARCHAR2(3)         NOT NULL,
+    condition_no                    VARCHAR2(4)         NOT NULL,
+    condition_name                  VARCHAR2(50)            NULL,
+    created_timestamp               DATE                NOT NULL,
+    last_updated_timestamp          DATE                NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKdisplay_condition ON display_condition
+(
+       display_condition_id
+);
+
+CREATE INDEX XIEdisplay_condition ON display_condition
+(
+       institution_code     ,
+       condition_no
+);
+
+--PK
+
+ALTER TABLE display_condition
+      ADD  (PRIMARY KEY (display_condition_id));
+
+--3. Table名: 表示内容テーブル
+
+CREATE TABLE display_contents (
+    display_contents_id             NUMBER(18)          NOT NULL,
+    institution_code                VARCHAR2(3)         NOT NULL,
+    branch_code                     VARCHAR2(3)         NOT NULL,
+    condition_no                    VARCHAR2(4)         NOT NULL,
+    priority_div                    VARCHAR2(1)             NULL,
+    term_from                       DATE                    NULL,
+    term_to                         DATE                    NULL,
+    display_title                   VARCHAR2(100)       NOT NULL,
+    display_message                 VARCHAR2(2000)      NOT NULL,
+    display_color                   VARCHAR2(1)             NULL,
+    blink_display_flag              VARCHAR2(1)             NULL,
+    display_url                     VARCHAR2(100)           NULL,
+    last_update_time_display_flag   VARCHAR2(1)         NOT NULL,
+    effective_flag                  VARCHAR2(1)         NOT NULL,
+    display_device                  VARCHAR2(1)         NOT NULL,
+    last_update_member              VARCHAR2(20)            NULL,
+    created_timestamp               DATE                    NULL,
+    last_updated_timestamp          DATE                    NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKdisplay_contents ON display_contents
+(
+       display_contents_id
+);
+
+CREATE INDEX XIEdisplay_contents ON display_contents
+(
+       institution_code             ,
+       condition_no
+);
+
+--PK
+
+ALTER TABLE display_contents
+      ADD  (PRIMARY KEY (display_contents_id));
+
+
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--1. Table名: 閲覧履歴テーブル
+
+ALTER TABLE browse_history
+       ADD  ( FOREIGN KEY (display_contents_id)
+                             REFERENCES display_contents  );
+
+ALTER TABLE browse_history
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account  );                           
+                             
+@

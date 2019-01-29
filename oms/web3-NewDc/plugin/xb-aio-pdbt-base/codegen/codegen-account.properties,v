@@ -1,0 +1,103 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.00.28;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1344d904e2556a6;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.xbaio.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/xb-aio.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=AioAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/xbaio_account_triggers.sql
+
+enums=\
+  aio_order.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  aio_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  aio_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  aio_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  aio_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  aio_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  aio_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  aio_order_unit.transfer_type:class=com.fitechlabs.xtrade.plugin.tc.xbaio.AssetTransferTypeEnum \
+  aio_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  aio_order_action.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  aio_order_action.order_event_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum \
+  aio_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  aio_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  aio_fin_transaction.fin_transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  aio_fin_transaction.fin_transaction_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg \
+  aio_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  aio_fin_transaction.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  aio_order:inv=?.account_id \
+  aio_order_unit:inv=?.account_id \
+  aio_order_action:inv=?.account_id \
+  aio_fin_transaction:inv=?.account_id \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

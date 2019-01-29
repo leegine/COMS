@@ -1,0 +1,362 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.02.35.30;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	46c4d91456d7e2a;
+filename	web3srvregi.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--サービス利用関連
+-------------------------------------------------------------------------------
+
+--1. サービスマスターテーブル
+CREATE TABLE srv_regi_master (
+        institution_code                          VARCHAR2(3)         NOT NULL,
+        srv_div                                   VARCHAR2(4)         NOT NULL,
+        srv_name                                  VARCHAR2(100)       NOT NULL,
+        srv_status                                VARCHAR2(1)         NOT NULL,
+        offering_div                              VARCHAR2(1)         NOT NULL,
+        srv_url                                   VARCHAR2(256)       NULL,
+        last_updater                              VARCHAR2(20)        NOT NULL,
+        created_timestamp                         DATE                NOT NULL,
+        last_updated_timestamp                    DATE                NOT NULL,
+        special_process_div                       VARCHAR2(1)         NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_master ON srv_regi_master
+(
+       institution_code,
+       srv_div
+);
+
+--Primary Key
+ALTER TABLE srv_regi_master
+        ADD  (PRIMARY KEY (institution_code, srv_div));
+
+--4. サービス抽選情報テーブル
+CREATE TABLE srv_regi_lot_info (
+        institution_code                           VARCHAR2(3)           NOT NULL,
+        srv_div                                    VARCHAR2(4)           NOT NULL,
+        consecutive_numbers                        NUMBER(18)            NOT NULL,
+        appli_date_from                            DATE                  NOT NULL,
+        appli_date_to                              DATE                  NOT NULL,
+        lot_date                                   DATE                  NULL,
+        appli_start_date                           DATE                  NOT NULL,
+        appli_end_date                             DATE                  NOT NULL,
+        use_amt                                    NUMBER(18) DEFAULT 0  NOT NULL,
+        bidding_price                              NUMBER(18)            NULL,
+        payment_date                               DATE                  NULL,
+        public_offering_qty                        NUMBER(18)            NULL,
+        invest_div                                 VARCHAR2(1)           NOT NULL,
+        high_success_bid                           NUMBER(18)            NULL,
+        low_success_bid                            NUMBER(18)            NULL,
+        average_success_bid                        NUMBER(18)            NULL,
+        last_updater                               VARCHAR2(20)          NOT NULL,
+        created_timestamp                          DATE                  NOT NULL,
+        last_updated_timestamp                     DATE                  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_lot_info ON srv_regi_lot_info
+(
+        institution_code,
+        srv_div,
+        consecutive_numbers
+);
+
+--Primary Key
+ALTER TABLE srv_regi_lot_info
+        ADD  (PRIMARY KEY (institution_code, srv_div, consecutive_numbers));
+
+--5. サービス利用キーテーブル
+CREATE TABLE srv_regi_key (
+        institution_code                           VARCHAR2(3)         NOT NULL,
+        srv_div                                    VARCHAR2(4)         NOT NULL,
+        srv_use_key_type                           VARCHAR2(2)         NOT NULL,
+        srv_use_id                                 NUMBER(18)          NOT NULL,
+        srv_use_key                                VARCHAR2(256)       NOT NULL,
+        last_updater                               VARCHAR2(20)        NOT NULL,
+        created_timestamp                          DATE                NOT NULL,
+        last_updated_timestamp                     DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPK_srv_regi_key ON srv_regi_key
+(
+        institution_code,
+        srv_div,
+        srv_use_key_type,
+        srv_use_id
+);
+
+--Primary Key
+ALTER TABLE srv_regi_key
+        ADD  (PRIMARY KEY (institution_code, srv_div, srv_use_key_type, srv_use_id));
+
+--6. サービス利用期間料金テーブル
+CREATE TABLE srv_regi_charge (
+        institution_code                           VARCHAR2(3)         NOT NULL,
+        srv_div                                    VARCHAR2(4)         NOT NULL,
+        consecutive_numbers                        NUMBER(18)          NOT NULL,
+        srv_use_period_div                         VARCHAR2(1)         NOT NULL,
+        srv_use_period                             NUMBER(3)           NOT NULL,
+        use_amt                                    NUMBER(18)          NOT NULL,
+        last_updater                               VARCHAR2(20)        NOT NULL,
+        created_timestamp                          DATE                NOT NULL,
+        last_updated_timestamp                     DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_charge ON srv_regi_charge
+(
+        institution_code,
+        srv_div,
+        consecutive_numbers
+);
+
+--Primary Key
+ALTER TABLE srv_regi_charge
+        ADD  (PRIMARY KEY (institution_code, srv_div, consecutive_numbers));
+
+--8. 申込要サービステーブル
+CREATE TABLE srv_regi_setup (
+        institution_code                           VARCHAR2(3)           NOT NULL,
+        srv_div                                    VARCHAR2(4)           NOT NULL,
+        summary                                    VARCHAR2(25)          NOT NULL,
+        lot_div                                    VARCHAR2(1)           NOT NULL,
+        trial_period_div                           VARCHAR2(1)           NULL,
+        trial_period                               NUMBER(3)             NULL,
+        appli_date_from                            NUMBER(2)             NULL,
+        appli_date_to                              NUMBER(2)             NULL,
+        srv_contents                               VARCHAR2(4000)        NULL,
+        srv_explan_url                             VARCHAR2(256)         NULL,
+        start_mail_div                             VARCHAR2(1)           NOT NULL,
+        end_mail_div                               VARCHAR2(1)           NOT NULL,
+        send_mail_interval                         NUMBER(3)             NULL,
+        electric_issue_div                         VARCHAR2(1)           NULL,        
+        min_comm_amt                               NUMBER(18) DEFAULT 0  NOT NULL,
+        supply_div                                 VARCHAR2(1)           NULL,        
+        last_updater                               VARCHAR2(20)          NOT NULL,
+        created_timestamp                          DATE                  NOT NULL,
+        last_updated_timestamp                     DATE                  NOT NULL,
+        free_coverage_length                       NUMBER(2)             NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_setup ON srv_regi_setup
+(
+        institution_code,
+        srv_div
+);
+
+--Primary Key
+ALTER TABLE srv_regi_setup
+        ADD  (PRIMARY KEY (institution_code, srv_div));
+
+--9. 同意書文言テーブル
+CREATE TABLE srv_regi_cons_doc (
+        institution_code                           VARCHAR2(3)         NOT NULL,
+        srv_div                                    VARCHAR2(4)         NOT NULL,
+        line_number                                NUMBER(18)          NOT NULL,
+        line_value                                 VARCHAR2(4000)      NOT NULL,
+        last_updater                               VARCHAR2(20)        NOT NULL,
+        created_timestamp                          DATE                NOT NULL,
+        last_updated_timestamp                     DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_cons_doc ON srv_regi_cons_doc
+(
+        institution_code,
+        srv_div,
+        line_number
+);
+
+--Primary Key
+ALTER TABLE srv_regi_cons_doc
+        ADD  (PRIMARY KEY (institution_code, srv_div, line_number));
+
+--10. 売買手数料累計テーブル
+CREATE TABLE srv_regi_dealing_comm (
+        institution_code                           VARCHAR2(3)              NOT NULL,
+        branch_code                                VARCHAR2(3)              NOT NULL,
+        account_code                               VARCHAR2(20)             NOT NULL,
+        accumulate_term                            VARCHAR2(6)              NOT NULL,
+        order_acc_product                          VARCHAR2(2)              NOT NULL,
+        comm_amt                                   DECIMAL(18,6) DEFAULT 0  NOT NULL,
+        created_timestamp                          DATE DEFAULT sysdate     NOT NULL,
+        last_updated_timestamp                     DATE DEFAULT sysdate     NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_dealing_comm ON srv_regi_dealing_comm
+(
+        institution_code,
+        branch_code,
+        account_code,
+        accumulate_term,
+        order_acc_product
+);
+
+--Primary Key
+ALTER TABLE srv_regi_dealing_comm
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_code, accumulate_term, order_acc_product));
+
+--11. サービス利用手数料条件テーブル
+CREATE TABLE srv_regi_comm_cond (
+        institution_code                           VARCHAR2(3)      NOT NULL,
+        srv_div                                    VARCHAR2(4)      NOT NULL,
+        order_acc_product                          VARCHAR2(2)      NOT NULL,
+        last_updater                               VARCHAR2(20)     NOT NULL,
+        created_timestamp                          DATE             NOT NULL,
+        last_updated_timestamp                     DATE             NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_comm_cond ON srv_regi_comm_cond
+(
+        institution_code,
+        srv_div,
+        order_acc_product
+);
+
+
+--Primary Key
+ALTER TABLE srv_regi_comm_cond
+        ADD  (PRIMARY KEY (institution_code, srv_div, order_acc_product));
+
+--12. サービス利用手数料条件マスターテーブル
+CREATE TABLE srv_regi_comm_cond_master (
+        institution_code                           VARCHAR2(3)      NOT NULL,
+        order_acc_product                          VARCHAR2(2)      NOT NULL,
+        comm_prod_type_name                        VARCHAR2(100)    NOT NULL,
+        last_updater                               VARCHAR2(20)     NOT NULL,
+        created_timestamp                          DATE             NOT NULL,
+        last_updated_timestamp                     DATE             NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_comm_cond_master ON srv_regi_comm_cond_master
+(
+        institution_code,
+        order_acc_product
+);
+
+--Primary Key
+ALTER TABLE srv_regi_comm_cond_master
+        ADD  (PRIMARY KEY (institution_code, order_acc_product));
+
+--13. 申込履歴管理テーブル
+CREATE TABLE srv_regi_history (
+        institution_code                           VARCHAR2(3)      NOT NULL,
+        branch_code                                VARCHAR2(3)      NOT NULL,
+        srv_div                                    VARCHAR2(4)      NOT NULL,
+        account_code                               VARCHAR2(7)      NOT NULL,
+        regist_date                                DATE             NOT NULL,
+        order_root_div                             VARCHAR2(1)      NOT NULL,
+        last_updater                               VARCHAR2(20)     NOT NULL,
+        created_timestamp                          DATE             NOT NULL,
+        last_updated_timestamp                     DATE             NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsrv_regi_history ON srv_regi_history
+(
+        institution_code,
+        branch_code, 
+        srv_div,
+        account_code
+);
+
+--Primary Key
+ALTER TABLE srv_regi_history
+        ADD  (PRIMARY KEY (institution_code, branch_code, srv_div, account_code));
+
+--14. サービス申込属性テーブル
+CREATE TABLE srv_appli_attribute (
+        institution_code                           VARCHAR2(3)      NOT NULL,
+        branch_code                                VARCHAR2(3)      NOT NULL,
+        account_code                               VARCHAR2(7)      NOT NULL,
+        srv_div                                    VARCHAR2(4)      NOT NULL,
+        appli_attribute                            VARCHAR2(1)      NOT NULL,
+        appli_start_date                           DATE                 NULL,
+        appli_end_date                             DATE                 NULL,
+        last_updater                               VARCHAR2(20)     NOT NULL,
+        created_timestamp                          DATE             NOT NULL,
+        last_updated_timestamp                     DATE             NOT NULL,
+        proc_div                                   VARCHAR2(1)          NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPK_srv_appli_attribute ON srv_appli_attribute
+(
+        institution_code,
+        branch_code,
+        account_code,
+        srv_div
+);
+
+--Primary Key
+ALTER TABLE srv_appli_attribute
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_code, srv_div));
+
+--15. 外部連携情報管理テーブル
+CREATE TABLE other_org_info_admin (
+        sequence_number                           NUMBER(18)            NOT NULL,
+        srv_div                                   VARCHAR2(4)           NOT NULL,
+        id                                        VARCHAR2(8)           NOT NULL,
+        password                                  VARCHAR2(8)           NOT NULL,
+        status                                    VARCHAR2(1)           NOT NULL,
+        institution_code                          VARCHAR2(3)           NULL,
+        branch_code                               VARCHAR2(3)           NULL,
+        account_code                              VARCHAR2(7)           NULL,
+        appli_start_date                          DATE                  NULL,
+        appli_end_date                            DATE                  NULL,
+        last_updater                              VARCHAR2(20)          NOT NULL,
+        created_timestamp                         DATE                  NOT NULL,
+        last_updated_timestamp                    DATE                  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKother_org_info_admin ON other_org_info_admin
+(
+       sequence_number,
+       srv_div
+);
+
+CREATE INDEX XIEother_org_info_admin ON other_org_info_admin
+(
+       srv_div,
+       status,
+       institution_code,
+       branch_code,
+       account_code
+);
+
+--Primary Key
+ALTER TABLE other_org_info_admin
+        ADD  (PRIMARY KEY (
+        	sequence_number,
+            srv_div));
+@

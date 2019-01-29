@@ -1,0 +1,277 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.1
+date	2011.03.14.05.11.21;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8884d7d97833a75;
+filename	WEB3AdminDirSecAPMngListRequest.java;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@/**
+ Copyright        : (株)大和総研 証券ソリューションシステム第二部
+ File Name        : 管理者・下り処理一覧リクエスト(WEB3AdminDirSecAPMngListRequest.java)
+ Author Name      : Daiwa Institute of Research
+ Revision History : 2008/07/21 楊夫志(中訊) 新規作成 モデル 132,134
+*/
+
+package webbroker3.dirsec.message;
+
+import webbroker3.common.WEB3BaseException;
+import webbroker3.common.WEB3BusinessLayerException;
+import webbroker3.common.WEB3ErrorCatalog;
+import webbroker3.common.message.WEB3GenRequest;
+import webbroker3.common.message.WEB3GenResponse;
+import webbroker3.util.WEB3LogUtility;
+import webbroker3.util.WEB3StringTypeUtility;
+
+/**
+ * (管理者・下り処理一覧リクエスト)<BR>
+ * 管理者・下り処理一覧リクエストクラス。<BR>
+ * <BR>
+ * @@author 楊夫志
+ * @@version 1.0
+ */
+public class WEB3AdminDirSecAPMngListRequest extends WEB3GenRequest
+{
+
+    /**
+     * (ログ出力ユーティリティ)。<BR>
+     */
+    public static WEB3LogUtility log = WEB3LogUtility.getInstance(WEB3AdminDirSecAPMngListRequest.class);
+
+    /**
+     * serialVersionUID<BR>
+     */
+    public static final long serialVersionUID = 200807211618L;
+
+    /**
+     * PTYPE<BR>
+     */
+    public static final String PTYPE = "admin_dirsec_apmng_list";
+
+    /**
+     * (ページ内表示行数)<BR>
+     * ページ内表示行数。<BR>
+     */
+    public String pageSize;
+
+    /**
+     * (表示ページ番号)<BR>
+     * 表示ページ番号。<BR>
+     */
+    public String pageIndex;
+
+    /**
+     * (ソートキー)<BR>
+     * ソートキー。<BR>
+     */
+    public WEB3AdminDirSecAPMngForcedStartSortKey[] sortKeys;
+
+    /**
+     * @@roseuid 488437FE024A
+     */
+    public WEB3AdminDirSecAPMngListRequest()
+    {
+
+    }
+
+    /**
+     * 当リクエストデータの整合性チェックを行う。<BR>
+     * （ただし、当クラス内で完結する簡易チェックのみとする。）<BR>
+     * <BR>
+     * <BR>
+     * １）ページ内表示行数チェック<BR>
+     * 　@１－１）this.ページ内表示行数 == nullの場合、<BR>
+     * 　@　@　@　@　@「ページ内表示行数の入力が不正です。」の例外をスローする。<BR>
+     * 　@　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@　@tag: BUSINESS_ERROR_00091<BR>
+     * <BR>
+     * 　@１－２）this.ページ内表示行数が半角数字以外の値であった場合、<BR>
+     * 　@　@　@　@　@「ページ内表示行数が数字以外の値です。」の例外をスローする。<BR>
+     * 　@　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@　@tag: BUSINESS_ERROR_00092<BR>
+     * <BR>
+     * 　@１－３）this.ページ内表示行数 <= 0であった場合、<BR>
+     * 　@　@　@　@「ページ内表示行数の値が0以下です。」の例外をスローする。<BR>
+     * 　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@tag: BUSINESS_ERROR_00617<BR>
+     * <BR>
+     * <BR>
+     * ２）表示番号チェック<BR>
+     * 　@２－１）this.表示ページ番号 == nullの場合、<BR>
+     * 　@　@　@　@　@「要求ページ番号が未指定です。」の例外をスローする。<BR>
+     * 　@　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@　@tag: BUSINESS_ERROR_00089<BR>
+     * <BR>
+     * 　@２－２）this.表示ページ番号が半角数字以外の値であった場合、<BR>
+     * 　@　@　@　@　@「要求ページ番号が数字以外の値です。」の例外をスローする。<BR>
+     * 　@　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@　@tag: BUSINESS_ERROR_00090<BR>
+     * <BR>
+     * 　@２－３）this.表示ページ番号 <= 0であった場合、<BR>
+     * 　@　@　@　@「要求ページ番号の値が0以下です。」の例外をスローする。<BR>
+     * 　@　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@　@tag: BUSINESS_ERROR_00616<BR>
+     * <BR>
+     * <BR>
+     * ３）　@ソートキーチェック<BR>
+     * 　@３－１）this.ソートキー == nullであった場合<BR>
+     * 　@　@　@　@「ソートキーがnull」の例外をスローする。<BR>
+     * 　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@tag: BUSINESS_ERROR_00231<BR>
+     * <BR>
+     * 　@３－２）this.ソートキー.length == 0だった場合<BR>
+     * 　@　@　@　@「ソートキー.要素数が0」の例外をスローする。<BR>
+     * 　@　@　@　@class: WEB3BusinessLayerException<BR>
+     * 　@　@　@　@　@tag: BUSINESS_ERROR_00232<BR>
+     * <BR>
+     * 　@３－３）this.ソートキーの全要素に対して下記のチェックを行う。<BR>
+     * 　@　@３－３－１）ソートキー.validate()をコールする。<BR>
+     * @@throws WEB3BaseException
+     * @@roseuid 487D5686022D
+     */
+    public void validate() throws WEB3BaseException
+    {
+        final String STR_METHOD_NAME = " validate()";
+        log.entering(STR_METHOD_NAME);
+
+        //１）ページ内表示行数チェック
+        //　@１－１）this.ページ内表示行数 == nullの場合
+        //　@　@　@　@「ページ内表示行数の入力が不正です。」の例外をスローする。
+        if (this.pageSize == null)
+        {
+            log.debug("ページ内表示行数の入力が不正です。");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00091,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "ページ内表示行数の入力が不正です。");
+        }
+
+        //１－２）this.ページ内表示行数が半角数字以外の値であった場合、
+        //　@　@　@　@「ページ内表示行数が数字以外の値です。」の例外をスローする。
+        if (!WEB3StringTypeUtility.isDigit(this.pageSize))
+        {
+            log.debug("ページ内表示行数が数字以外の値です。");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00092,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "ページ内表示行数が数字以外の値です。");
+        }
+
+        //１－３）this.ページ内表示行数 <= 0であった場合、
+        //　@　@　@「ページ内表示行数の値が0以下です。」の例外をスローする。
+        if (Integer.parseInt(this.pageSize) <= 0)
+        {
+            log.debug("ページ内表示行数の値が0以下です。");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00617,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "ページ内表示行数の値が0以下です。");
+        }
+
+        //２）表示番号チェック
+        //　@２－１）this.表示ページ番号 == nullの場合、
+        //　@　@　@　@「要求ページ番号が未指定です。」の例外をスローする。
+        if (this.pageIndex == null)
+        {
+            log.debug("要求ページ番号が未指定です。");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00089,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "要求ページ番号が未指定です。");
+        }
+
+        //２－２）this.表示ページ番号が半角数字以外の値であった場合、
+        //　@　@　@「要求ページ番号が数字以外の値です。」の例外をスローする。
+        if (!WEB3StringTypeUtility.isDigit(this.pageIndex))
+        {
+            log.debug("要求ページ番号が数字以外の値です。");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00090,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "要求ページ番号が数字以外の値です。");
+        }
+
+        //２－３）this.表示ページ番号 <= 0であった場合、
+        //　@「要求ページ番号の値が0以下です。」の例外をスローする。
+        if (Integer.parseInt(this.pageIndex) <= 0)
+        {
+            log.debug("要求ページ番号の値が0以下です。");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00616,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "要求ページ番号の値が0以下です。");
+        }
+
+        //３）　@ソートキーチェック
+        //　@３－１）this.ソートキー == nullであった場合
+        //　@　@　@「ソートキーがnull」の例外をスローする。
+        if (this.sortKeys == null)
+        {
+            log.debug("ソートキーがnull");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00231,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "ソートキーが未指定です。");
+        }
+
+        //３－２）this.ソートキー.length == 0だった場合
+        //　@「ソートキー.要素数が0」の例外をスローする。
+        int l_intsortKeysLen = this.sortKeys.length;
+        if (l_intsortKeysLen == 0)
+        {
+            log.debug("ソートキー.要素数が0");
+            log.exiting(STR_METHOD_NAME);
+            throw new WEB3BusinessLayerException(
+                WEB3ErrorCatalog.BUSINESS_ERROR_00232,
+                this.getClass().getName() + "." + STR_METHOD_NAME,
+                "ソートキーの要素数が０です。");
+        }
+
+        //３－３）this.ソートキーの全要素に対して下記のチェックを行う。
+        //３－３－１）ソートキー.validate()をコールする。
+        for (int i = 0 ; i < l_intsortKeysLen ; i++)
+        {
+            sortKeys[i].validate();    
+        }
+
+        log.exiting(STR_METHOD_NAME);
+    }
+
+    /**
+     * 当該リクエストに対応するレスポンスオブジェクトを返す。<BR>
+     * <BR>
+     * <BR>
+     * @@return レスポンスオブジェクト
+     */
+    public WEB3GenResponse createResponse()
+    {
+        return new WEB3AdminDirSecAPMngListResponse(this);
+    }
+}
+@

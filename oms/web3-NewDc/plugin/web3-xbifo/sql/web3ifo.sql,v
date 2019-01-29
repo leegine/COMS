@@ -1,0 +1,522 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.51;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	6004d80209d0226;
+filename	web3ifo.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--1. 先物ｵﾌﾟｼｮﾝ呼値ﾃｰﾌﾞﾙ
+CREATE TABLE ifo_tick_values_master (
+        target_product_code            VARCHAR2(4)         NOT NULL,
+        future_option_div              VARCHAR2(1)         NOT NULL,
+        low_price                      DECIMAL(18,6)       NOT NULL,
+        cap_price                      DECIMAL(18,6)       NULL,
+        tick_value                     DECIMAL(18,6)       NULL,
+        created_timestamp              DATE                NULL,
+        last_updated_timestamp         DATE                NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_tick_values_master ON ifo_tick_values_master
+(
+       target_product_code,
+       future_option_div,
+       low_price
+);
+
+--Primary Key
+ALTER TABLE ifo_tick_values_master
+        ADD  (PRIMARY KEY (target_product_code, future_option_div, low_price));
+
+--5. 先物OP値幅ﾃｰﾌﾞﾙ
+CREATE TABLE ifo_limit_price_range_master (
+        target_product_code            VARCHAR2(4)         NOT NULL,
+        future_option_div              VARCHAR2(1)         NOT NULL,
+        low_price                      DECIMAL(18,6)       NOT NULL,
+        cap_price                      DECIMAL(18,6)       NULL,
+        range                          DECIMAL(18,6)       NULL,
+        created_timestamp              DATE                NULL,
+        last_updated_timestamp         DATE                NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_limit_price_range_maste ON ifo_limit_price_range_master
+(
+       target_product_code,
+       future_option_div,
+       low_price
+);
+
+--Primary Key
+ALTER TABLE ifo_limit_price_range_master
+        ADD  (PRIMARY KEY (target_product_code, future_option_div, low_price));
+
+--6. 先物OP指数マスタテーブル
+CREATE TABLE ifo_index_master (
+        index_id                       NUMBER(18)         NOT NULL,
+        underlying_product_code        VARCHAR2(4)        NULL,
+        future_option_div              VARCHAR2(1)        NULL,
+        standard_name                  VARCHAR2(50)       NULL,
+        created_timestamp              DATE               NULL,
+        last_updated_date              DATE               NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XAKifo_index_master ON ifo_index_master
+(
+        underlying_product_code,
+        future_option_div
+);
+
+--Primary Key
+ALTER TABLE ifo_index_master
+        ADD  (PRIMARY KEY (index_id));
+
+
+--7. 先物OP注文繰越ｽｷｯﾌﾟ銘柄
+CREATE TABLE ifo_order_carryover_skip_prod (
+        institution_code               VARCHAR2(3)         NOT NULL,
+        product_code                   VARCHAR2(10)        NOT NULL,
+        market_code                    VARCHAR2(2)         NOT NULL,
+        regist_division                VARCHAR2(1)         NULL,
+        created_timestamp              DATE                NULL,
+        last_updated_timestamp         DATE                NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_order_carryover_skip_pr ON ifo_order_carryover_skip_prod
+(
+       institution_code,
+       product_code,
+       market_code
+);
+
+--Primary Key
+ALTER TABLE ifo_order_carryover_skip_prod
+        ADD  (PRIMARY KEY (institution_code, product_code, market_code));
+
+--8. 先物OP限月マスタテーブル
+CREATE TABLE ifo_delivery_month_master (
+        underlying_product_code        VARCHAR2(4)        NOT NULL,
+        future_option_div	           VARCHAR2(1)        NOT NULL,
+        delivery_month                 VARCHAR2(6)        NOT NULL,
+        index_id                       NUMBER(18)         NOT NULL,
+        created_timestamp              DATE               NULL,
+        last_updated_date              DATE               NULL
+);
+--INDEX
+CREATE UNIQUE INDEX XPKifo_delivery_month_master ON ifo_delivery_month_master
+(
+       underlying_product_code,
+       future_option_div,
+       delivery_month
+);
+--Primary Key
+ALTER TABLE ifo_delivery_month_master
+        ADD  (PRIMARY KEY (underlying_product_code, future_option_div, delivery_month));
+
+
+
+-------------------------------------------------------------------------------
+--注文・約定
+-------------------------------------------------------------------------------
+
+--9. 先物OP約定メイル送信テーブル
+CREATE TABLE ifo_order_exec_send_mail (
+        institution_code               VARCHAR2(3)         NOT NULL,
+        branch_code                    VARCHAR2(3)         NOT NULL,
+        account_code                   VARCHAR2(7)         NOT NULL,
+        future_option_div              VARCHAR2(1)         NOT NULL,
+        order_request_number           VARCHAR2(9)         NOT NULL,
+        order_exec_status              VARCHAR2(1)         NOT NULL,
+        order_action_id                NUMBER(18)          NOT NULL,
+        product_code                   VARCHAR2(10),
+        market_code                    VARCHAR2(2),
+        order_type                     NUMBER(6),
+        taxation_div                   VARCHAR2(1),
+        received_date_time             DATE,
+        quantity                       DECIMAL(18,6),
+        limit_price                    DECIMAL(18,6),
+        execution_condition_type       NUMBER(6),
+        executed_quantity              DECIMAL(18,6),
+        delivaly_amount                DECIMAL(18,6),
+        status                         VARCHAR2(1),
+        send_process_date_time         DATE,
+        error_code                     VARCHAR2(4),
+        resend_status                  VARCHAR2(1),
+        resend_process_date_time       DATE,
+        reason_code                    VARCHAR2(1),
+        email_address                  VARCHAR2(100),
+        delete_flag                    NUMBER(1),
+        created_timestamp              DATE,
+        last_updated_timestamp         DATE
+);
+
+CREATE INDEX XIE1ifo_order_exec_send_mail
+ON ifo_order_exec_send_mail(status);
+
+--PK
+ALTER TABLE ifo_order_exec_send_mail
+        ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number,
+                           order_exec_status, order_action_id));
+
+
+-------------------------------------------------------------------------------
+--SONAR関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 先物OP指定埋通知ｷｭｰﾃｰﾌﾞﾙ
+CREATE TABLE host_fotype_closing_cont_spec (
+       request_code                     VARCHAR2(5)      NOT NULL,
+       institution_code                 VARCHAR2(3)      NOT NULL,
+       branch_code                      VARCHAR2(3)      NOT NULL,
+       account_code                     VARCHAR2(7)      NULL,
+       trader_code                      VARCHAR2(5)      NULL,
+       order_request_number             VARCHAR2(9)      NOT NULL,
+       market_code                      NUMBER(18)       NULL,
+       target_product_code              VARCHAR2(4)      NULL,
+       delivary_month                   VARCHAR2(6)      NULL,
+       future_option_product_type       VARCHAR2(1)      NULL,
+       strike_price                     DECIMAL(18,6)    NULL,
+       split_type                       VARCHAR2(3)      NULL,
+       contract_type                    NUMBER(6)        NULL,
+       closing_type                     VARCHAR2(1)      NULL,
+       open_date                        DATE             NULL,
+       contract_price                   DECIMAL(18,6)    NULL,
+       quantity                         DECIMAL(18,6)    NULL,
+       create_datetime                  DATE             NULL,
+       last_updated_timestamp           DATE             NULL,
+       status                           VARCHAR2(1)      NULL
+);
+
+CREATE INDEX XIE1h_fo_closing_cont_spec
+ON host_fotype_closing_cont_spec(order_request_number);
+
+
+--2. Table名: 先物OP失効通知キューテーブル
+CREATE TABLE host_fotype_close_order_notify (
+       request_code             VARCHAR2(5)      NOT NULL,
+       institution_code         VARCHAR2(3)      NOT NULL,
+       branch_code              VARCHAR2(3)      NOT NULL,
+       account_code             VARCHAR2(7)      NULL,
+       trader_code              VARCHAR2(5)      NULL,
+       order_request_number     VARCHAR2(9)      NOT NULL,
+       executed_quantity        DECIMAL(18,6)    NULL,
+       reason_code              VARCHAR2(1)      NULL,
+       close_notify_type        VARCHAR2(1)      NOT NULL,
+       error_message            VARCHAR2(4)      NULL,
+       status                   VARCHAR2(1)      NULL,
+       created_timestamp        DATE DEFAULT sysdate NULL,
+       last_updated_timestamp   DATE DEFAULT sysdate NULL,
+       virtual_server_number_market VARCHAR2(7)  NULL,
+       notice_type              VARCHAR2(2)      NULL,
+       notice_number            NUMBER(10)       NULL,
+       close_quantity           DECIMAL(18,6)    NULL
+);
+
+CREATE INDEX XIE1h_fo_close_order_notify
+ON host_fotype_close_order_notify(order_request_number);
+
+CREATE INDEX XIE2host_fo_close_order_notify
+ON host_fotype_close_order_notify(last_updated_timestamp, status);
+
+--3. Table名: 先物OP出来通知キューテーブル
+CREATE TABLE host_option_order_exec_notify (
+       request_code             VARCHAR2(5)    NOT NULL,
+       institution_code         VARCHAR2(3)    NOT NULL,
+       branch_code              VARCHAR2(3)    NOT NULL,
+       account_code             VARCHAR2(7)    NULL,
+       trader_code              VARCHAR2(5)    NULL,
+       order_request_number     VARCHAR2(9)    NOT NULL,
+       exec_quantity            DECIMAL(18,6)  NULL,
+       exec_price               DECIMAL(18,6)  NULL,
+       exec_timestamp           DATE           NULL,
+       dealed_type              VARCHAR2(1)    NOT NULL,
+       status                   VARCHAR2(1)    NULL,
+       created_timestamp        DATE DEFAULT sysdate NULL,
+       last_updated_timestamp   DATE DEFAULT sysdate NULL,
+       virtual_server_number_market VARCHAR2(7) NULL,
+       notice_type              VARCHAR2(2)    NULL,
+       notice_number            NUMBER(10)     NULL,
+       exec_number              NUMBER(8)      NULL
+);
+
+CREATE INDEX XIE1h_op_order_exec_notify
+ON host_option_order_exec_notify(order_request_number);
+
+CREATE INDEX XIE2host_op_order_exec_notify
+ON host_option_order_exec_notify(last_updated_timestamp, status);
+
+CREATE INDEX XIE3host_op_order_exec_notify
+ON host_option_order_exec_notify(status);
+
+--5. Table名: 先物OP注文受付キューテーブル
+CREATE TABLE host_fotype_order_accept (
+       request_code             VARCHAR2(5)    NULL,
+       institution_code         VARCHAR2(3)    NULL,
+       branch_code              VARCHAR2(3)    NULL,
+       account_code             VARCHAR2(7)    NULL,
+       trader_code              VARCHAR2(5)    NULL,
+       order_request_number     VARCHAR2(9)    NULL,
+       accept_status            VARCHAR2(1)    NULL,
+       error_message            VARCHAR2(4)    NULL,
+       status                   VARCHAR2(1)    NULL,
+       created_timestamp        DATE DEFAULT sysdate NULL,
+       last_updated_timestamp   DATE DEFAULT sysdate NULL,
+       submit_order_route_div   VARCHAR2(1) DEFAULT 0 NULL,
+       virtual_server_number_market VARCHAR2(7) NULL,
+       notice_type              VARCHAR2(2)    NULL,
+       notice_number            NUMBER(10)     NULL,
+       accept_number            VARCHAR2(20)     NULL
+);
+
+CREATE INDEX XIE1h_fo_order_accept
+ON host_fotype_order_accept(order_request_number);
+
+CREATE INDEX XIE2host_fo_order_accept
+ON host_fotype_order_accept(last_updated_timestamp, status);
+
+CREATE INDEX XIE3host_fo_order_accept
+ON host_fotype_order_accept(status);
+
+--7. Table名: 先物OP訂正取消通知ｷｭｰﾃｰﾌﾞﾙ
+CREATE TABLE host_fotype_order_clmd_notify (
+       request_code             VARCHAR2(5)      NOT NULL,
+       institution_code         VARCHAR2(3)      NOT NULL,
+       branch_code              VARCHAR2(3)      NOT NULL,
+       account_code             VARCHAR2(7)      NOT NULL,
+       trader_code              VARCHAR2(5)      NULL,
+       order_request_number     VARCHAR2(9)      NOT NULL,
+       modified_quantity        DECIMAL(18,6)    NOT NULL,
+       modified_limit_price     DECIMAL(18,6)    NOT NULL,
+       modified_execution_type  VARCHAR2(1)      NOT NULL,
+       modified_result          VARCHAR2(2)      NOT NULL,
+       canmod_receipt_type      VARCHAR2(1)      NOT NULL,
+       status                   VARCHAR2(1)      NOT NULL,
+       created_timestamp        DATE DEFAULT sysdate NULL,
+       last_updated_timestamp   DATE DEFAULT sysdate NULL,
+       mod_submit_order_route_div VARCHAR2(1)        NULL,
+       modified_order_rev       VARCHAR2(2) DEFAULT '00' NULL,
+       virtual_server_number_market VARCHAR2(7)      NULL,
+       notice_type              VARCHAR2(2)          NULL,
+       notice_number            NUMBER(10)           NULL,
+       modified_stop_order_price DECIMAL(18,6)       NULL,
+       modified_w_limit_price   DECIMAL(18,6)        NULL
+);
+
+CREATE INDEX XIE1h_fo_order_clmd_notify
+ON host_fotype_order_clmd_notify(order_request_number);
+
+CREATE INDEX XIE2host_fo_order_clmd_notify
+ON host_fotype_order_clmd_notify(last_updated_timestamp, status);
+
+CREATE INDEX XIE3host_fo_order_clmd_notify
+ON host_fotype_order_clmd_notify(status);
+
+--8. Table名: 先物OP注文通知キューテーブル.xls
+CREATE TABLE host_fotype_order_receipt (
+       request_code             VARCHAR2(5)      NOT NULL,
+       institution_code         VARCHAR2(3)      NOT NULL,
+       branch_code              VARCHAR2(3)      NOT NULL,
+       account_code             VARCHAR2(7)      NULL,
+       trader_code              VARCHAR2(5)      NULL,
+       order_request_number     VARCHAR2(9)      NOT NULL,
+       order_date_div           VARCHAR2(1)      NULL,
+       trade_type               VARCHAR2(1)      NULL,
+       commision_product_code   VARCHAR2(2)      NULL,
+       underlying_product_code  VARCHAR2(4)      NULL,
+       product_code             VARCHAR2(10)     NULL,
+       sonar_market_code        VARCHAR2(1)      NULL,
+       sonar_traded_code        VARCHAR2(2)      NULL,
+       quantity                 DECIMAL(18,6)    NULL,
+       limit_price              DECIMAL(18,6)    NULL,
+       execution_type           VARCHAR2(1)      NULL,
+       execution_condition      VARCHAR2(1)      NULL,
+       create_datetime          DATE             NULL,
+       biz_datetime             DATE             NULL,
+       channel                  VARCHAR2(1)      NULL,
+       factor                   VARCHAR2(1)      NULL,
+       delivery_date            VARCHAR2(8)      NULL,
+       estimated_price          DECIMAL(18,6)    NULL,
+       status                   VARCHAR2(1)      NULL,
+       created_timestamp        DATE DEFAULT sysdate NULL,
+       last_updated_timestamp   DATE DEFAULT sysdate NULL
+);
+
+CREATE INDEX XIE1h_fo_order_receipt
+ON host_fotype_order_receipt(order_request_number);
+
+--9. Table名: 先物OP履歴管理テーブル
+CREATE TABLE host_fotype_order_history (
+       request_code                 VARCHAR2(5)              NULL,
+       institution_code             VARCHAR2(3)              NULL,
+       branch_code                  VARCHAR2(3)              NULL,
+       account_code                 VARCHAR2(7)              NULL,
+       trader_code                  VARCHAR2(5)              NULL,
+       sonar_market_code            VARCHAR2(1)              NULL,
+       order_request_number         VARCHAR2(9)              NULL,
+       product_code                 VARCHAR2(10)             NULL,
+       target_product_code          VARCHAR2(4)              NULL,
+       delivery_month_yyyy          VARCHAR2(4)              NULL,
+       delivery_month_mm            VARCHAR2(2)              NULL,
+       future_option_product_type   VARCHAR2(1)              NULL,
+       strike_price                 DECIMAL(18,6)            NULL,
+       corp_code                    VARCHAR2(20)             NULL,
+       front_order_exchange_code    VARCHAR2(1)              NULL,
+       front_order_system_code      VARCHAR2(1)              NULL,
+       front_order_trade_code       VARCHAR2(1)              NULL,
+       received_date_time           VARCHAR2(8)              NULL,
+       received_time                VARCHAR2(4)              NULL,
+       data_class_code              VARCHAR2(1)              NULL,
+       data_class_detail_code       VARCHAR2(3)              NULL,
+       buy_sell_div                 VARCHAR2(1)              NULL,
+       execution_condition          VARCHAR2(1)              NULL,
+       front_order_time             VARCHAR2(4)              NULL,
+       sell_order_quantity          DECIMAL(18,6)            NULL,
+       buy_order_quantity           DECIMAL(18,6)            NULL,
+       limit_price                  DECIMAL(18,6)            NULL,
+       stop_order_price             DECIMAL(18,6)            NULL,
+       w_limit_price                DECIMAL(18,6)            NULL,
+       transaction_type             VARCHAR2(2)              NULL,
+       contract_check               VARCHAR2(1)              NULL,
+       order_chanel                 VARCHAR2(1)              NULL,
+       commision_number             VARCHAR2(2)              NULL,
+       commision_branch_number      VARCHAR2(1)              NULL,
+       commision_product_code       VARCHAR2(2)              NULL,
+       change_quantity              DECIMAL(18,6)            NULL,
+       modified_limit_price         DECIMAL(18,6)            NULL,
+       modified_execution_type      VARCHAR2(1)              NULL,
+       modified_stop_order_price    DECIMAL(18,6)            NULL,
+       modified_w_limit_price       DECIMAL(18,6)            NULL,
+       cancel_div                   VARCHAR2(1)              NULL,
+       org_corp_code                VARCHAR2(20)             NULL,
+       canceled_quantity            DECIMAL(18,6)            NULL,
+       exec_price                   DECIMAL(18,6)            NULL,
+       exec_quantity                DECIMAL(18,6)            NULL,
+       exec_time                    VARCHAR2(4)              NULL,
+       price_mark                   VARCHAR2(1)              NULL,
+       exec_number                  NUMBER(8)            NOT NULL,
+       accept_number                VARCHAR2(20)             NULL,
+       virtual_server_number_market VARCHAR2(7)              NULL,
+       executed_quantity            DECIMAL (18,6)           NULL,
+       price                        DECIMAL (18,6)           NULL,
+       stop_mark                    VARCHAR2(1)              NULL,
+       expiration_quantity          DECIMAL (18,6)           NULL,
+       reason_code                  VARCHAR2(1)              NULL,
+       expiration_time              VARCHAR2(4)              NULL,
+       status                       VARCHAR2(1)              NULL,
+       created_timestamp            DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp       DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE INDEX XIE1host_fotype_order_history
+ON host_fotype_order_history(status, institution_code);
+
+CREATE INDEX XIE2host_fotype_order_history
+ON host_fotype_order_history(corp_code);
+
+--10. Table名: 先物OP注文取引キューテーブル
+CREATE TABLE host_fotype_order_all (
+       request_code                 VARCHAR2(5)           NULL,
+       account_id                   NUMBER(18)            NULL,
+       institution_code             VARCHAR2(3)           NULL,
+       branch_code                  VARCHAR2(3)           NULL,
+       account_code                 VARCHAR2(7)           NULL,
+       trader_code                  VARCHAR2(5)           NULL,
+       received_date_time_div       VARCHAR2(1)           NULL,
+       order_request_number         VARCHAR2(9)           NULL,
+       sonar_market_code            VARCHAR2(1)           NULL,
+       product_code                 VARCHAR2(10)          NULL,
+       received_date_time           DATE                  NULL,
+       order_action_serial_no       NUMBER  (8)           NULL,
+       submit_order_route_div       VARCHAR2(1)           NULL,
+       target_product_code          VARCHAR2(4)           NULL,
+       delivery_month_yyyy          VARCHAR2(4)           NULL,
+       delivery_month_mm            VARCHAR2(2)           NULL,
+       future_option_product_type   VARCHAR2(1)           NULL,
+       strike_price                 DECIMAL (18,6)        NULL,
+       split_type                   VARCHAR2(3)           NULL,
+       sell_order_quantity          DECIMAL (18,6)        NULL,
+       buy_order_quantity           DECIMAL (18,6)        NULL,
+       limit_price                  DECIMAL (18,6)        NULL,
+       execution_condition          VARCHAR2(1)           NULL,
+       stop_order_price             DECIMAL (18,6)        NULL,
+       w_limit_price                DECIMAL (18,6)        NULL,
+       transaction_type             VARCHAR2(2)           NULL,
+       ticket_number                VARCHAR2(4)           NULL,
+       contract_check               VARCHAR2(1)           NULL,
+       order_chanel                 VARCHAR2(1)           NULL,
+       commision_number             VARCHAR2(2)           NULL,
+       commision_branch_number      VARCHAR2(1)           NULL,
+       commision_product_code       VARCHAR2(2)           NULL,
+       change_quantity              DECIMAL (18,6)        NULL,
+       change_limit_price           DECIMAL (18,6)        NULL,
+       change_execution_condition   VARCHAR2(1)           NULL,
+       change_stop_order_price      DECIMAL (18,6)        NULL,
+       change_w_limit_price         DECIMAL (18,6)        NULL,
+       cancel_div                   VARCHAR2(1)       NOT NULL,
+       front_order_exchange_code    VARCHAR2(1)           NULL,
+       front_order_system_code      VARCHAR2(1)           NULL,
+       front_order_trade_code       VARCHAR2(1)           NULL,
+       tradeaudit_code              VARCHAR2(1)           NULL,
+       corp_code                    VARCHAR2(20)      NOT NULL,
+       org_corp_code                VARCHAR2(20)          NULL,
+       virtual_server_number_jsoes  VARCHAR2(7)           NULL,
+       market_order_number          NUMBER  (10)          NULL,
+       amg_send_time                DATE                  NULL,
+       amg_ack_time                 DATE                  NULL,
+       market_ack_time              DATE                  NULL,
+       all_order_change_div         VARCHAR2(1) DEFAULT '0' NOT NULL,
+       market_close_flag            VARCHAR2(1) DEFAULT 0 NULL,
+       status                       VARCHAR2(1)           NULL,
+       created_timestamp            DATE DEFAULT sysdate  NULL,
+       last_updated_timestamp       DATE DEFAULT sysdate  NULL
+);
+
+CREATE INDEX XIE1host_fotype_order_all
+ON host_fotype_order_all(status, submit_order_route_div);
+
+CREATE INDEX XIE2host_fotype_order_all
+ON host_fotype_order_all(corp_code);
+
+CREATE INDEX XIE3host_fotype_order_all
+ON host_fotype_order_all(account_id, order_request_number);
+
+CREATE INDEX XIE4host_fotype_order_all
+ON host_fotype_order_all(order_request_number);
+
+CREATE INDEX XIE5host_fotype_order_all
+ON host_fotype_order_all(org_corp_code);
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+--1. 先物OP限月マスタテーブル
+ALTER TABLE ifo_delivery_month_master
+       ADD  ( FOREIGN KEY (index_id)
+                             REFERENCES ifo_index_master) ;
+@

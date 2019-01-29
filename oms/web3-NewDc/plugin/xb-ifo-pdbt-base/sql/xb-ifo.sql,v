@@ -1,0 +1,919 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.06.32;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5cc4d904f795afc;
+filename	xb-ifo.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--残高関連
+-------------------------------------------------------------------------------
+
+--16. 建玉返済指定情報ﾃｰﾌﾞﾙ
+CREATE TABLE ifo_closing_contract_spec (
+        closing_contract_spec_id       NUMBER(18)           NOT NULL,
+        account_id                     NUMBER(18)           NOT NULL,
+        sub_account_id                 NUMBER(18)           NOT NULL,
+        order_id                       NUMBER(18)           NOT NULL,
+        order_unit_id                  NUMBER(18)           NOT NULL,
+        contract_id                    NUMBER(18)           NOT NULL,
+        closing_serial_no              NUMBER(8)            NOT NULL,
+        quantity                       DECIMAL(18,6)        NOT NULL,
+        confirmed_quantity             DECIMAL(18,6)        NULL,
+        executed_quantity              DECIMAL(18,6)        NULL,
+        created_timestamp              DATE                 NOT NULL,
+        last_updated_timestamp         DATE                 NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_closing_contract_spe ON ifo_closing_contract_spec
+(
+       closing_contract_spec_id
+);
+
+--PK
+ALTER TABLE ifo_closing_contract_spec
+        ADD  (PRIMARY KEY (closing_contract_spec_id));
+
+
+CREATE UNIQUE INDEX XAKifo_closing_contract_sp ON ifo_closing_contract_spec
+(
+        account_id,
+        sub_account_id,
+        order_id,
+        order_unit_id,
+        contract_id,
+        closing_serial_no
+);
+
+
+CREATE UNIQUE INDEX XAK1ifo_closing_contract_sp ON ifo_closing_contract_spec
+(
+       order_unit_id                  ,
+       contract_id
+);
+
+CREATE UNIQUE INDEX XAK2ifo_closing_contract_sp ON ifo_closing_contract_spec
+(
+       order_unit_id                  ,
+       closing_serial_no
+);
+
+CREATE INDEX XIE1ifo_closing_contract_sp ON ifo_closing_contract_spec
+(
+       order_unit_id
+);
+
+CREATE INDEX XIE2ifo_closing_contract_sp ON ifo_closing_contract_spec
+(
+       contract_id
+);
+
+--15. 建玉テーブル
+CREATE TABLE ifo_contract (
+        contract_id                    NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        market_id                      NUMBER(18)          NOT NULL,
+        unit_size                      DECIMAL(18,6)       NOT NULL,
+        original_quantity              DECIMAL(18,6)       NOT NULL,
+        quantity                       DECIMAL(18,6)       NOT NULL,
+        original_contract_price        DECIMAL(18,6)       NOT NULL,
+        contract_price                 DECIMAL(18,6)       NOT NULL,
+        contract_type                  NUMBER(6)           NOT NULL,
+        open_date                      DATE                NOT NULL,
+        close_date                     DATE                NOT NULL,
+        setup_fee                      DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        setup_fee_tax                  DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        management_fee                 DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        management_fee_tax             DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        interest_fee                   DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        interest_fee_tax               DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        product_type                   NUMBER(6)           NOT NULL,
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL,
+        delivery_date                  DATE                NOT NULL,
+        session_type                   VARCHAR2(1)         NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_contract ON ifo_contract
+(
+       contract_id
+);
+
+CREATE UNIQUE INDEX XAK1ifo_contract ON ifo_contract
+(
+        account_id,
+        sub_account_id,
+        market_id,
+        contract_price,
+        contract_type,
+        open_date,
+        close_date,
+        product_id,
+        delivery_date
+);
+
+CREATE INDEX XIE1ifo_contract ON ifo_contract
+(
+       account_id                     ,
+       sub_account_id
+);
+
+--PK
+ALTER TABLE ifo_contract
+        ADD  (PRIMARY KEY (contract_id));
+
+
+--14. ロック中の建玉詳細
+CREATE TABLE ifo_locked_contract_details (
+        contract_id                    NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        locked_quantity                DECIMAL(18,6)       NOT NULL,
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_locked_contract_details ON ifo_locked_contract_details
+(
+        contract_id
+);
+
+CREATE INDEX XAKifo_locked_contract_details ON ifo_locked_contract_details
+(
+        account_id,
+        sub_account_id
+);
+
+--PK
+ALTER TABLE ifo_locked_contract_details
+        ADD  (PRIMARY KEY (contract_id));
+
+
+
+-------------------------------------------------------------------------------
+--注文・約定
+-------------------------------------------------------------------------------
+
+
+--8. トランザクション（取引勘定明細）
+CREATE TABLE ifo_fin_transaction (
+        fin_transaction_id             NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        fin_transaction_type           NUMBER(6)           NOT NULL,
+        fin_transaction_categ          NUMBER(6)           NOT NULL,
+        fin_transaction_timestamp      DATE                NOT NULL,
+        tax_type                       NUMBER(6)           NOT NULL,
+        delivery_date                  DATE                NOT NULL,
+        net_amount                     DECIMAL(18,6)       NOT NULL,
+        product_type                   NUMBER(6)           NOT NULL,
+        market_id                      NUMBER(18)          NULL,
+        price                          DECIMAL(18,6)       NULL,
+        quantity                       DECIMAL(18,6)       NOT NULL,
+        order_id                       NUMBER(18)          NULL,
+        order_unit_id                  NUMBER(18)          NULL,
+        order_execution_id             NUMBER(18)          NULL,
+        commission_fee                 DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        commission_fee_tax             DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        imported_paid_value            DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        imported_setup_fee             DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        imported_setup_fee_tax         DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        capital_gain                   DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        capital_gain_tax               DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        contract_id                    NUMBER(18)          NULL,
+        imported_management_fee        DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        imported_management_fee_tax    DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        imported_interest_fee          DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        imported_interest_fee_tax      DECIMAL(18,6)       DEFAULT 0 NOT NULL,
+        delete_flag                    NUMBER(1)           DEFAULT 0 NOT NULL,
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_fin_transaction ON ifo_fin_transaction
+(
+       fin_transaction_id
+);
+
+
+CREATE UNIQUE INDEX XAK1ifo_fin_transaction ON ifo_fin_transaction
+(
+        account_id,
+        sub_account_id,
+        product_id,
+        order_unit_id,
+        order_execution_id,
+        contract_id
+);
+
+CREATE INDEX XIE1ifo_fin_transaction ON ifo_fin_transaction
+(
+       account_id,
+       sub_account_id
+);
+
+CREATE INDEX XIE2IFO_FIN_TRANSACTION ON ifo_fin_transaction
+(
+       order_id
+);
+
+CREATE INDEX XIE3IFO_FIN_TRANSACTION ON ifo_fin_transaction
+(
+       order_unit_id,
+       delete_flag
+);
+
+CREATE INDEX XIE4IFO_FIN_TRANSACTION ON ifo_fin_transaction
+(
+       contract_id
+);
+
+--PK
+ALTER TABLE ifo_fin_transaction
+        ADD  (PRIMARY KEY (fin_transaction_id));
+
+
+--11. 注文テーブル（ヘッダ）
+CREATE TABLE ifo_order (
+        order_id                       NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        product_type                   NUMBER(6)           NULL,
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_order ON ifo_order
+(
+       order_id
+);
+
+CREATE INDEX XIE1ifo_order ON ifo_order
+(
+        account_id,
+        sub_account_id
+);
+
+--PK
+ALTER TABLE ifo_order
+        ADD  (PRIMARY KEY (order_id));
+
+
+--13. 注文履歴テーブル
+CREATE TABLE ifo_order_action (
+        order_action_id                NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        order_id                       NUMBER(18)          NOT NULL,
+        order_unit_id                  NUMBER(18)          NOT NULL,
+        market_id                      NUMBER(18)          NULL,
+        order_type                     NUMBER(6)           NOT NULL,
+        order_event_type               NUMBER(6)           NOT NULL,
+        price                          DECIMAL(18,6)       NULL,
+        execution_condition_type       NUMBER(6)           NULL,
+        --
+        order_condition_type           VARCHAR2(1)         NULL,
+        order_cond_operator            VARCHAR2(1)         NULL,
+        stop_price_type                VARCHAR2(1)         NULL,
+        stop_order_price               DECIMAL(18,6)       NULL,
+        w_limit_price                  DECIMAL(18,6)       NULL,
+        expiration_date                DATE                NULL,
+        --
+        quantity                       DECIMAL(18,6)       NOT NULL,
+        confirmed_price                DECIMAL(18,6)       NULL,
+        confirmed_quantity             DECIMAL(18,6)       NULL,
+        executed_quantity              DECIMAL(18,6)       NULL,
+        order_status                   NUMBER(6)           NOT NULL,
+        expiration_status              NUMBER(6)           NOT NULL,
+        order_action_serial_no         NUMBER(8)           NOT NULL,
+        executed_price                 DECIMAL(18,6)       NULL,
+        product_type                   NUMBER(6)           NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        --
+        estimated_price                DECIMAL(18,6)       NULL,
+        modify_cancel_type             VARCHAR2(1)         NULL,
+        closing_order                  VARCHAR2(1)         NULL,
+        error_reason_code              VARCHAR2(4)         NULL,
+        request_type                   VARCHAR2(1)         NULL,
+        --
+        trader_id                      NUMBER(18)          NULL,
+        order_root_div                 VARCHAR2(1)         NULL,
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL,
+        org_order_condition_type       VARCHAR2(1)         NULL    ,
+        org_order_cond_operator        VARCHAR2(1)         NULL    ,
+        org_stop_price_type            VARCHAR2(1)         NULL    ,
+        org_stop_order_price           DECIMAL(18,6)       NULL    ,
+        org_w_limit_price              DECIMAL(18,6)       NULL    ,
+        org_w_limit_exec_cond_type     NUMBER(6)           NULL    ,
+        w_limit_exec_cond_type         NUMBER(6)           NULL    ,
+        w_limit_before_limit_price     DECIMAL(18,6)       NULL    ,
+        w_limit_before_exec_cond_type  NUMBER(6)           NULL    ,
+        confirmed_exec_condition_type  NUMBER(6)           NULL    ,
+        expiration_date_type           VARCHAR2(1)         NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_order_action ON ifo_order_action
+(
+       order_action_id
+);
+
+CREATE INDEX XAKifo_order_action ON ifo_order_action
+(
+        account_id,
+        sub_account_id,
+        order_id,
+        order_unit_id,
+        market_id,
+        product_id
+);
+
+CREATE INDEX XIE1ifo_order_action ON ifo_order_action
+(
+       account_id,
+       sub_account_id
+);
+
+CREATE INDEX XIE2ifo_order_action ON ifo_order_action
+(
+       order_unit_id
+);
+
+--PK
+ALTER TABLE ifo_order_action
+        ADD  (PRIMARY KEY (order_action_id));
+
+
+--10. 約定テーブル
+CREATE TABLE ifo_order_execution (
+        order_execution_id             NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        branch_id                      NUMBER(18)          NOT NULL,
+        trader_id                      NUMBER(18)          NULL,
+        order_id                       NUMBER(18)          NOT NULL,
+        order_unit_id                  NUMBER(18)          NOT NULL,
+        order_type                     NUMBER(6)           NOT NULL,
+        product_type                   NUMBER(6)           NOT NULL,
+        market_id                      NUMBER(18)          NULL,
+        delivery_date                  DATE                   NOT NULL,
+        exec_serial_no                 NUMBER(8)           NOT NULL,
+        exec_price                     DECIMAL(18,6)       NULL,
+        exec_quantity                  DECIMAL(18,6)       NOT NULL,
+        exec_timestamp                 DATE                NOT NULL,
+        delete_flag                    NUMBER(1)           DEFAULT 0 NOT NULL,
+        biz_date                       VARCHAR2(8)         NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        --
+        order_request_number           VARCHAR2(9)         NULL,
+        --
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_order_execution ON ifo_order_execution
+(
+       order_execution_id
+);
+
+CREATE INDEX XIE1ifo_order_execution ON ifo_order_execution
+(
+       account_id                     ,
+       sub_account_id
+);
+
+CREATE INDEX XIE2ifo_order_execution ON ifo_order_execution
+(
+       order_unit_id
+);
+
+CREATE INDEX XIE3ifo_order_execution ON ifo_order_execution
+(
+        account_id,
+        sub_account_id,
+        branch_id,
+        order_id,
+        order_unit_id,
+        product_type,
+        market_id,
+        product_id,
+        order_request_number
+);
+
+--PK
+ALTER TABLE ifo_order_execution
+        ADD  (PRIMARY KEY (order_execution_id));
+
+
+--12. 注文単位テーブル
+CREATE TABLE ifo_order_unit (
+        order_unit_id                  NUMBER(18)          NOT NULL,
+        account_id                     NUMBER(18)          NOT NULL,
+        sub_account_id                 NUMBER(18)          NOT NULL,
+        branch_id                      NUMBER(18)          NOT NULL,
+        trader_id                      NUMBER(18)          NULL,
+        order_id                       NUMBER(18)          NOT NULL,
+        order_type                     NUMBER(6)           NOT NULL,
+        order_categ                    NUMBER(6)           NOT NULL,
+        last_order_action_serial_no    NUMBER(8)           DEFAULT 0 NOT NULL,
+        last_execution_serial_no       NUMBER(8)           DEFAULT 0 NOT NULL,
+        product_type                   NUMBER(6)           NOT NULL,
+        --
+        future_option_div              VARCHAR2(1)         NULL,
+        --
+        market_id                      NUMBER(18)          NULL,
+        quantity                       DECIMAL(18,6)       NOT NULL,
+        limit_price                    DECIMAL(18,6)       NULL,
+        execution_condition_type       NUMBER(6)           NULL,
+        --
+        order_condition_type           VARCHAR2(1)         NULL,
+        order_cond_operator            VARCHAR2(1)         NULL,
+        stop_price_type                VARCHAR2(1)         NULL,
+        stop_order_price               DECIMAL(18,6)       NULL,
+        w_limit_price                  DECIMAL(18,6)       NULL,
+        --
+        delivery_date                  DATE                NOT NULL,
+        expiration_date                DATE                NULL,
+        confirmed_quantity             DECIMAL(18,6)       NULL,
+        confirmed_price                DECIMAL(18,6)       NULL,
+        executed_quantity              DECIMAL(18,6)       NULL,
+        executed_amount                DECIMAL(18,6)       NULL,
+        order_status                   NUMBER(6)           DEFAULT 1 NOT NULL,
+        order_open_status              NUMBER(6)           DEFAULT 1 NOT NULL,
+        expiration_status              NUMBER(6)           NOT NULL,
+        tax_type                       NUMBER(6)           NOT NULL,
+        biz_date                       VARCHAR2(8)         NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        --
+        order_chanel                   VARCHAR2(1)           NULL,
+        received_date_time             DATE                NULL,
+        voucher_no                     VARCHAR2(4)         NULL,
+        comm_tbl_no                    VARCHAR2(2)           NULL,
+        comm_tbl_sub_no                VARCHAR2(1)           NULL,
+        sonar_trader_code              VARCHAR2(5)           NULL,
+        price                          DECIMAL(18,6)       NULL,
+        order_request_number           VARCHAR2(9)           NULL,
+        estimated_price                DECIMAL(18,6)       NULL,
+        sonar_traded_code              VARCHAR2(2)           NULL,
+        sonar_market_code              VARCHAR2(1)           NULL,
+        comm_product_code              VARCHAR2(2)           NULL,
+        modify_cancel_type             VARCHAR2(1)           NULL,
+        order_root_div                 VARCHAR2(1)           NULL,
+        confirmed_order_price          DECIMAL(18,6)       NULL,
+        confirmed_estimated_price      DECIMAL(18,6)       NULL,
+        confirmed_exec_condition_type  NUMBER(6)           NULL,
+        closing_order                  VARCHAR2(1)           NULL,
+        error_reason_code              VARCHAR2(4)           NULL,
+        request_type                   VARCHAR2(1)           NULL,
+        first_order_unit_id            NUMBER(18)           NULL,
+        --
+        created_timestamp              DATE                NOT NULL,
+        last_updated_timestamp         DATE                NOT NULL,
+        org_order_condition_type       VARCHAR2(1)         NULL    ,
+        org_order_cond_operator        VARCHAR2(1)         NULL    ,
+        org_stop_price_type            VARCHAR2(1)         NULL    ,
+        org_stop_order_price           DECIMAL(18,6)       NULL    ,
+        org_w_limit_price              DECIMAL(18,6)       NULL    ,
+        org_w_limit_exec_cond_type     NUMBER(6)           NULL    ,
+        w_limit_exec_cond_type         NUMBER(6)           NULL    ,
+        w_limit_before_limit_price     DECIMAL(18,6)       NULL    ,
+        w_limit_before_exec_cond_type  NUMBER(6)           NULL    ,
+        submit_order_delay_flag        NUMBER(1) DEFAULT 0 NULL    ,
+        submit_order_route_div         VARCHAR2(1)         NULL    ,
+        confirmed_order_rev            VARCHAR2(2) DEFAULT '00' NULL,
+        order_rev                      VARCHAR2(2) DEFAULT '00' NULL,
+        evening_session_carryover_flag NUMBER(1)   DEFAULT 0    NULL,
+        session_type                   VARCHAR2(1)         NULL    ,
+        day_trade_type                 VARCHAR2(1)         NULL    ,
+        reserve_order_exist_flag       VARCHAR2(1) DEFAULT '0' NULL,
+        expiration_date_type           VARCHAR2(1)         NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_order_unit ON ifo_order_unit
+(
+       order_unit_id
+);
+
+CREATE UNIQUE INDEX XAK11ifo_order_unit ON ifo_order_unit
+(
+        account_id,
+        order_request_number
+);
+
+CREATE INDEX XAK2ifo_order_unit ON ifo_order_unit
+(
+        account_id,
+        sub_account_id,
+        branch_id,
+        order_id,
+        product_type
+);
+
+CREATE INDEX XIE1ifo_order_unit ON ifo_order_unit
+(
+       account_id                     ,
+       sub_account_id                 ,
+       order_open_status
+);
+
+CREATE INDEX XIE2ifo_order_unit ON ifo_order_unit
+(
+       order_id
+);
+
+CREATE INDEX XIE3ifo_order_unit
+ON ifo_order_unit(order_request_number);
+
+CREATE INDEX XIE4ifo_order_unit ON ifo_order_unit
+(
+       biz_date,
+       first_order_unit_id
+);
+
+--PK
+ALTER TABLE ifo_order_unit
+        ADD  (PRIMARY KEY (order_unit_id));
+
+
+-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--2. 先物OP銘柄テーブル
+CREATE TABLE ifo_product (
+        product_id                     NUMBER(18)          NOT NULL,
+        institution_code               VARCHAR2(3)         NOT NULL,
+        underlying_product_code        VARCHAR2(9)         NOT NULL,
+        derivative_type                NUMBER(6)           NOT NULL,
+        strike_price                   DECIMAL(18,6)       NOT NULL,
+        month_of_delivery              VARCHAR2(6)         NOT NULL,
+        exercise_date                  DATE                NULL,
+        --
+        product_code                   VARCHAR2(9)         NULL,
+        split_type                     VARCHAR2(3)         NULL,
+        target_market_id               NUMBER(18)          NULL,
+        index_id                       NUMBER(18)          NULL,
+        product_type                   NUMBER(6)           NULL,
+        future_option_div              VARCHAR2(1)         NULL,
+        standard_name                  VARCHAR2(50)        NULL,
+        --
+        created_timestamp              DATE                DEFAULT sysdate NOT NULL,
+        last_updated_timestamp         DATE                DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_product ON ifo_product
+(
+       product_id
+);
+
+CREATE UNIQUE INDEX XAK1ifo_product ON ifo_product
+(
+        product_code,
+        institution_code
+);
+
+CREATE UNIQUE INDEX XAK2ifo_product ON ifo_product
+(
+        institution_code,
+        underlying_product_code,
+        derivative_type,
+        strike_price,
+        month_of_delivery,
+        split_type
+);
+
+CREATE INDEX XIE1ifo_product ON ifo_product
+(
+       institution_code               ,
+       underlying_product_code        ,
+       derivative_type                ,
+       month_of_delivery
+);
+
+--PK
+ALTER TABLE ifo_product
+        ADD  (PRIMARY KEY (product_id));
+
+
+--3. 先物OP取引銘柄マスタ
+CREATE TABLE ifo_traded_product (
+        traded_product_id              NUMBER(18)          NOT NULL,
+        valid_for_biz_date             VARCHAR2(8)         NULL,
+        institution_code               VARCHAR2(3)         NOT NULL,
+        market_id                      NUMBER(18)          NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        unit_size                      DECIMAL(18,6)       NOT NULL,
+        unit_margin                    NUMBER(18)          NOT NULL,
+        per_order_max_units            DECIMAL(18,6)       NOT NULL,
+        order_close_time               VARCHAR2(6)         NULL,
+        last_closing_price             DECIMAL(18,6)       NULL,
+        start_trading_date             DATE                NOT NULL,
+        last_trading_date              DATE                NOT NULL,
+        trade_stop_flag                NUMBER(6)           DEFAULT 0 NOT NULL,
+        buy_to_open_stop_flag          NUMBER(6)           DEFAULT 0 NOT NULL,
+        sell_to_open_stop_flag         NUMBER(6)           DEFAULT 0 NOT NULL,
+        sell_to_close_stop_flag        NUMBER(6)           DEFAULT 0 NOT NULL,
+        buy_to_close_stop_flag         NUMBER(6)           DEFAULT 0 NOT NULL,
+        --
+        list_flag                      NUMBER(6)           NULL,
+        list_date                      DATE                NULL,
+        unlisted_date                  DATE                NULL,
+        exercise_stop                  NUMBER(6)           NULL,
+        actual_recieve_stop            NUMBER(6)           NULL,
+        actual_delivary_stop           NUMBER(6)           NULL,
+        reserve_stop                   NUMBER(6)           NULL,
+        indication_price               DECIMAL(18,6)       NULL,
+        last_liquidation_price         DECIMAL(18,6)       NULL,
+        target_spot_price              DECIMAL(18,6)       NULL,
+        liquidation_price              DECIMAL(18,6)       NULL,
+        --
+        created_timestamp              DATE                DEFAULT sysdate NOT NULL,
+        last_updated_timestamp         DATE                DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_traded_product ON ifo_traded_product
+(
+       traded_product_id
+);
+
+CREATE UNIQUE INDEX XAK1ifo_traded_product ON ifo_traded_product
+(
+        valid_for_biz_date,
+        institution_code,
+        market_id,
+        product_id
+);
+
+CREATE UNIQUE INDEX XAK2ifo_traded_product ON ifo_traded_product
+(
+       product_id                     ,
+       market_id
+);
+
+--PK
+ALTER TABLE ifo_traded_product
+        ADD  (PRIMARY KEY (traded_product_id));
+
+
+--4. 先物OP取引銘柄ﾏｽﾀ（一時ﾃｰﾌﾞﾙ）
+CREATE TABLE ifo_traded_product_updq (
+        traded_product_id              NUMBER(18)          NOT NULL,
+        valid_for_biz_date             VARCHAR2(8)         NOT NULL,
+        institution_code               VARCHAR2(3)         NOT NULL,
+        market_id                      NUMBER(18)          NOT NULL,
+        product_id                     NUMBER(18)          NOT NULL,
+        unit_size                      DECIMAL(18,6)       NULL,
+        unit_margin                    NUMBER(18)          NOT NULL,
+        per_order_max_units            DECIMAL(18,6)       NULL,
+        order_close_time               VARCHAR2(6)         NULL,
+        last_closing_price             DECIMAL(18,6)       NULL,
+        start_trading_date             DATE                NOT NULL,
+        last_trading_date              DATE                NOT NULL,
+        trade_stop_flag                NUMBER(6)           DEFAULT 0 NOT NULL,
+        buy_to_open_stop_flag          NUMBER(6)           DEFAULT 0 NOT NULL,
+        sell_to_open_stop_flag         NUMBER(6)           DEFAULT 0 NOT NULL,
+        sell_to_close_stop_flag        NUMBER(6)           DEFAULT 0 NOT NULL,
+        buy_to_close_stop_flag         NUMBER(6)           DEFAULT 0 NOT NULL,
+        --
+        list_flag                      NUMBER(6)           NOT NULL,
+        list_date                      DATE                NOT NULL,
+        unlisted_date                  DATE                NOT NULL,
+        exercise_stop                  NUMBER(6)           NOT NULL,
+        actual_recieve_stop            NUMBER(6)           NOT NULL,
+        actual_delivary_stop           NUMBER(6)           NOT NULL,
+        reserve_stop                   NUMBER(6)           NOT NULL,
+        indication_price               DECIMAL(18,6)       NOT NULL,
+        last_liquidation_price         DECIMAL(18,6)       NOT NULL,
+        target_spot_price              DECIMAL(18,6)       NOT NULL,
+        liquidation_price              DECIMAL(18,6)       NOT NULL,
+        --
+        created_timestamp              DATE                DEFAULT sysdate NOT NULL,
+        last_updated_timestamp         DATE                DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKifo_traded_product_updq ON ifo_traded_product_updq
+(
+       traded_product_id,
+       valid_for_biz_date
+);
+
+CREATE UNIQUE INDEX XAKifo_traded_product_updq ON ifo_traded_product_updq
+(
+        valid_for_biz_date,
+        institution_code,
+        market_id,
+        product_id
+);
+
+--PK
+ALTER TABLE ifo_traded_product_updq
+        ADD  (PRIMARY KEY (traded_product_id, valid_for_biz_date));
+
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--建玉返済指定情報ﾃｰﾌﾞﾙ
+
+ALTER TABLE ifo_closing_contract_spec
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+ALTER TABLE ifo_closing_contract_spec
+        ADD  (FOREIGN KEY (order_id) REFERENCES ifo_order);
+
+ALTER TABLE ifo_closing_contract_spec
+        ADD  (FOREIGN KEY (order_unit_id) REFERENCES ifo_order_unit);
+
+ALTER TABLE ifo_closing_contract_spec
+        ADD  (FOREIGN KEY (contract_id) REFERENCES ifo_contract);
+
+ALTER TABLE ifo_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+--建玉テーブル
+
+ALTER TABLE ifo_contract
+        ADD  (FOREIGN KEY (account_id, sub_account_id)
+              REFERENCES sub_account);
+
+ALTER TABLE ifo_contract
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_contract
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+ALTER TABLE ifo_contract
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+--ロック中の建玉詳細
+ALTER TABLE ifo_locked_contract_details
+        ADD  (FOREIGN KEY (contract_id) REFERENCES ifo_contract);
+
+ALTER TABLE ifo_locked_contract_details
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+--トランザクション（取引勘定明細）
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (order_id) REFERENCES ifo_order);
+
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (order_unit_id) REFERENCES ifo_order_unit);
+
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (order_execution_id) REFERENCES ifo_order_execution);
+
+ALTER TABLE ifo_fin_transaction
+        ADD  (FOREIGN KEY (contract_id) REFERENCES ifo_contract);
+
+ALTER TABLE ifo_fin_transaction
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+
+--注文テーブル（ヘッダ）
+ALTER TABLE ifo_order
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+
+ALTER TABLE ifo_order
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+--注文履歴テーブル
+ALTER TABLE ifo_order_action
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+ALTER TABLE ifo_order_action
+        ADD  (FOREIGN KEY (order_id) REFERENCES ifo_order);
+
+ALTER TABLE ifo_order_action
+        ADD  (FOREIGN KEY (order_unit_id) REFERENCES ifo_order_unit);
+
+ALTER TABLE ifo_order_action
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_order_action
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+
+ALTER TABLE ifo_order_action
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+
+--約定テーブル
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (branch_id) REFERENCES branch);
+
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (trader_id) REFERENCES trader);
+
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (order_id) REFERENCES ifo_order);
+
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (order_unit_id) REFERENCES ifo_order_unit);
+
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_order_execution
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+ALTER TABLE ifo_order_execution
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+
+--注文単位テーブル
+ALTER TABLE ifo_order_unit
+        ADD  (FOREIGN KEY (account_id, sub_account_id) REFERENCES sub_account);
+
+ALTER TABLE ifo_order_unit
+        ADD  (FOREIGN KEY (branch_id) REFERENCES branch);
+
+ALTER TABLE ifo_order_unit
+        ADD  (FOREIGN KEY (trader_id) REFERENCES trader);
+
+ALTER TABLE ifo_order_unit
+        ADD  (FOREIGN KEY (order_id) REFERENCES ifo_order);
+
+ALTER TABLE ifo_order_unit
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_order_unit
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+ALTER TABLE ifo_order_unit
+       ADD  ( FOREIGN KEY (account_id) REFERENCES main_account ) ;
+
+--先物OP銘柄テーブル
+ALTER TABLE ifo_product
+       ADD  ( FOREIGN KEY (product_id) REFERENCES product ) ;
+
+
+--先物OP取引銘柄マスタ
+ALTER TABLE ifo_traded_product
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_traded_product
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+ALTER TABLE ifo_traded_product
+       ADD  ( FOREIGN KEY (traded_product_id) REFERENCES traded_product ) ;
+
+
+--先物OP取引銘柄ﾏｽﾀ（一時ﾃｰﾌﾞﾙ）
+ALTER TABLE ifo_traded_product_updq
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+
+ALTER TABLE ifo_traded_product_updq
+        ADD  (FOREIGN KEY (product_id) REFERENCES ifo_product);
+
+ALTER TABLE ifo_traded_product_updq
+       ADD  ( FOREIGN KEY (traded_product_id) REFERENCES traded_product ) ;
+
+@

@@ -1,0 +1,299 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.00.32;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1344d904e2556a6;
+filename	xb-aio.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--注文
+-------------------------------------------------------------------------------
+
+--1. トランザクション（取引勘定明細）
+CREATE TABLE aio_fin_transaction (
+       fin_transaction_id         NUMBER(18)      NOT NULL,
+       account_id                 NUMBER(18)      NOT NULL,
+       sub_account_id             NUMBER(18)      NOT NULL,
+       product_id                 NUMBER(18)      NOT NULL,
+       fin_transaction_type       NUMBER(6)       NOT NULL,
+       fin_transaction_categ      NUMBER(6)       NOT NULL,
+       fin_transaction_timestamp  DATE            NULL   ,
+       delivery_date              DATE            NULL   ,
+       net_amount                 DECIMAL(18,6)     NULL   ,
+       product_type               NUMBER(6)       NOT NULL,
+       quantity                   DECIMAL(18,6)     NULL   ,
+       order_id                   NUMBER(18)      NOT NULL,
+       order_unit_id              NUMBER(18)      NOT NULL,
+       commission_fee             DECIMAL(18,6)     NULL   ,
+       commission_fee_tax         DECIMAL(18,6)     NULL   ,
+       delete_flag                NUMBER(1)       NOT NULL,
+       created_timestamp          DATE            NULL   ,
+       last_updated_timestamp     DATE            NULL
+);
+
+CREATE UNIQUE INDEX XPKaio_fin_transaction ON aio_fin_transaction
+(
+       fin_transaction_id
+);
+
+CREATE UNIQUE INDEX XAKaio_fin_transaction ON aio_fin_transaction
+(
+       account_id                     ,
+       sub_account_id,
+       product_id,
+       order_unit_id
+);
+
+
+ALTER TABLE aio_fin_transaction
+       ADD  ( PRIMARY KEY (fin_transaction_id) ) ;
+
+--2. 注文テーブル（ヘッダ）
+CREATE TABLE aio_order (
+       order_id               NUMBER(18) NOT NULL,
+       account_id             NUMBER(18) NOT NULL,
+       sub_account_id         NUMBER(18) NOT NULL,
+       product_type           NUMBER(6)  NOT NULL,
+       created_timestamp      DATE       NOT NULL,
+       last_updated_timestamp DATE       NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKaio_order ON aio_order
+(
+       order_id
+);
+
+CREATE INDEX XIEaio_order ON aio_order
+(
+       account_id                     ,
+       sub_account_id
+);
+
+
+ALTER TABLE aio_order
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+--3. 注文履歴テーブル
+CREATE TABLE aio_order_action (
+       order_action_id          NUMBER(18)      NOT NULL,
+       account_id               NUMBER(18)      NOT NULL,
+       sub_account_id           NUMBER(18)      NOT NULL,
+       order_id                 NUMBER(18)      NOT NULL,
+       order_unit_id            NUMBER(18)      NOT NULL,
+       order_type               NUMBER(6)       NOT NULL,
+       order_event_type         NUMBER(6)       NOT NULL,
+       quantity                 DECIMAL(18,6)   NOT NULL,
+       order_status             NUMBER(6)       NOT NULL,
+       order_action_serial_no   NUMBER(8)       NOT NULL,
+       expiration_status        NUMBER(6)       NOT NULL,
+       product_id               NUMBER(18)      NOT NULL,
+       cancel_type              VARCHAR2(1)     NOT NULL,
+       error_reason_code        VARCHAR2(4)     NOT NULL,
+       created_timestamp        DATE            NOT NULL,
+       last_updated_user        VARCHAR2(20)    NOT NULL,
+       last_updated_timestamp   DATE            NOT NULL,
+       currency_code            VARCHAR2(3)     NULL,
+       convert_amount           DECIMAL(21,6)   NULL
+);
+
+CREATE UNIQUE INDEX XPKaio_order_action ON aio_order_action
+(
+       order_action_id
+);
+
+CREATE INDEX XIEaio_order_action ON aio_order_action
+(
+       account_id       ,
+       sub_account_id   ,
+       order_id         ,
+       order_unit_id    ,
+       product_id
+);
+
+ALTER TABLE aio_order_action
+       ADD  ( PRIMARY KEY (order_action_id) ) ;
+
+--4. 注文単位テーブル
+CREATE TABLE aio_order_unit (
+        order_unit_id                   NUMBER(18)      NOT NULL,
+        account_id                      NUMBER(18)      NOT NULL,
+        sub_account_id                  NUMBER(18)      NOT NULL,
+        branch_id                       NUMBER(18)      NOT NULL,
+        trader_id                       NUMBER(18)      NULL   ,
+        order_id                        NUMBER(18)      NOT NULL,
+        order_type                      NUMBER(6)       NOT NULL,
+        order_categ                     NUMBER(6)       NOT NULL,
+        last_order_action_serial_no     NUMBER(8)       NOT NULL,
+        product_type                    NUMBER(6)       NOT NULL,
+        quantity                        DECIMAL(18,6)   NOT NULL,
+        order_status                    NUMBER(6)       NOT NULL,
+        order_open_status               NUMBER(6)       NOT NULL,
+        expiration_status               NUMBER(6)       NOT NULL,
+        biz_date                        VARCHAR2(8)     NOT NULL,
+        delivery_date                   DATE            NOT NULL,
+        product_id                      NUMBER(18)      NOT NULL,
+        tax_type                        NUMBER(6)       DEFAULT 0 NOT NULL,
+        mini_stock_div                  VARCHAR2(1)     DEFAULT 0 NOT NULL,
+        received_date_time              DATE            NULL   ,
+        sonar_trader_code               VARCHAR2(5)     NULL   ,
+        order_request_number            VARCHAR2(9)     NULL   ,
+        com_debit_number                VARCHAR2(15)    NULL   ,
+        guarantee_div                   VARCHAR2(1)     NULL   ,
+        payment_application_div         VARCHAR2(2)     NULL   ,
+        cancel_type                     VARCHAR2(1)     NULL   ,
+        order_root_div                  VARCHAR2(1)     NULL   ,
+        error_reason_code               VARCHAR2(4)     NULL   ,
+        mq_status                       VARCHAR2(1)     NULL   ,
+        description                     VARCHAR2(100)   NULL,
+        est_transfer_date               DATE            NOT NULL,
+        transfer_type                   NUMBER(6)       NOT NULL,
+        transfer_done_timestamp         DATE            NULL   ,
+        created_timestamp               DATE            NOT NULL,
+        last_updated_timestamp          DATE            NOT NULL,
+        currency_code                   VARCHAR2(3)     NULL   ,
+        convert_amount                  DECIMAL(21,6)       NULL  ,
+        remark_code                     VARCHAR2(4)     NULL   ,
+        remark_name                     VARCHAR2(10)    NULL
+);
+
+CREATE UNIQUE INDEX XPKaio_order_unit ON aio_order_unit
+(
+       order_unit_id
+);
+
+CREATE INDEX XIE1aio_order_unit ON aio_order_unit
+(
+       account_id    ,
+       sub_account_id,
+       branch_id     ,
+       order_id      ,
+       product_type  ,
+       order_request_number
+);
+
+CREATE INDEX XIE2aio_order_unit ON aio_order_unit
+(
+       order_request_number,
+       com_debit_number
+);
+
+ALTER TABLE aio_order_unit
+       ADD  ( PRIMARY KEY (order_unit_id) ) ;
+
+
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--1. トランザクション（取引勘定明細）
+ALTER TABLE aio_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE aio_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE aio_fin_transaction
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE aio_fin_transaction
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES aio_order_unit ) ;
+
+
+ALTER TABLE aio_fin_transaction
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES aio_order ) ;
+
+--2. 注文テーブル（ヘッダ）
+ALTER TABLE aio_order
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE aio_order
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+--3. 注文履歴テーブル
+ALTER TABLE aio_order_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE aio_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE aio_order_action
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE aio_order_action
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES aio_order_unit ) ;
+
+
+ALTER TABLE aio_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES aio_order ) ;
+
+--4. 注文単位テーブル
+ALTER TABLE aio_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE aio_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE aio_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE aio_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE aio_order_unit
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE aio_order_unit
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES aio_order ) ;
+
+@

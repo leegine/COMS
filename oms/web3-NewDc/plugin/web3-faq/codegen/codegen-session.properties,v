@@ -1,0 +1,79 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.44.23;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8c44d7eee8a1aa4;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file for generating data bind layer
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.faq.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3faq.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3FaqSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3faq_session_triggers.sql
+
+enums=\
+
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  faq \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@

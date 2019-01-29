@@ -1,0 +1,199 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.1
+date	2011.03.16.03.19.30;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	6004d80209d0226;
+filename	WEB3OptionsProductCodeComparator.java;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@/**
+Copyright        : (株)大和総研 証券ソリューションシステム第二部
+File Name        : 銘柄コードComparator(WEB3OptionsProductCodeComparator)
+Author Name      : Daiwa Institute of Research
+Revesion History : 2004/06/14 鄒鋭 (中訊) 新規作成
+*/
+
+package webbroker3.ifo.message;
+
+import java.util.Comparator;
+
+import webbroker3.common.define.WEB3AscDescDef;
+
+
+/**
+ * (銘柄コードComparator)<BR>
+ * 銘柄コードComparatorクラス<BR>                                                                    
+ * @@author 鄒鋭
+ * @@version 1.0
+ */
+public class WEB3OptionsProductCodeComparator implements Comparator
+{
+
+    /**
+     * A：昇順<BR>
+     * D：降順
+     */
+    private String orderBy;
+
+    /**
+     * 銘柄コードComparatorのコンストラクタ。<BR>
+     * <BR>
+     * パラメータ.orderByをフィールドのorderByにセットする
+     * @@param l_strOrderBy - ソートキーの昇順降順を示す。<BR>
+     * <BR>
+     * A：昇順<BR>
+     * D：降順
+     * @@return Void
+     * @@roseuid 407BC4EC00DA
+     */
+    public WEB3OptionsProductCodeComparator(String l_strOrderBy)
+    {
+        if (!WEB3AscDescDef.ASC.equals(l_strOrderBy) && !WEB3AscDescDef.DESC.equals(l_strOrderBy))
+        {
+            throw new IllegalArgumentException("パラメータの値が'A：昇順'、'D：降順'以外です。");
+        }
+        this.orderBy = l_strOrderBy;
+
+    }
+
+    /**
+     * 昇順、降順の指定にもとづく銘柄コードの比較を行う。<BR>
+     * <BR>
+     * １）パラメータのオブジェクトの判定<BR>
+     * <BR>
+     * 　@instanceofにて、引数の明細1、明細2が以下のクラスのどれかを判定する。<BR>
+     * <BR>
+     *     株価指数オプション返済一覧行クラス<BR>
+     *     株価指数オプション建玉照会明細クラス<BR>
+     * <BR>
+     * ２）比較<BR>
+     * <BR>
+     * 　@１）明細1と明細2の銘柄コードについて比較を行う<BR>
+     * <BR>
+     * 　@[昇順指定の場合(this.orderBy == ”昇順”)]<BR>
+     * <BR>
+     * 　@・(明細1.銘柄コード < 明細2.銘柄コード)の場合、負の整数(-1)を返却する<BR>
+     * 　@・(明細1.銘柄コード == 明細2.銘柄コード)の場合、0を返却する<BR>
+     * 　@・(明細1.銘柄コード > 明細2.銘柄コード)の場合、正の整数(1)を返却する<BR>
+     * <BR>
+     * 　@[降順指定の場合（this.orderBy == ”降順”)]<BR>
+     * <BR>
+     * 　@・(明細1.銘柄コード < 明細2.銘柄コード)の場合、正の整数(1)を返却する<BR>
+     * 　@・(明細1.銘柄コード == 明細2.銘柄コード)の場合、0を返却する<BR>
+     * 　@・(明細1.銘柄コード > 明細2.銘柄コード)の場合、負の整数(-1)を返却する<BR>
+     * @@param l_obj1<BR>
+     * @@param l_obj2<BR>
+     * @@return int<BR>
+     * @@roseuid 407BC4EC009C
+     */
+    public int compare(Object l_obj1, Object l_obj2)
+    {
+        String l_strVal1 = null;
+        String l_strVal2 = null;
+
+        if ((l_obj1 instanceof WEB3OptionsContractReferenceUnit) 
+            && (l_obj2 instanceof WEB3OptionsContractReferenceUnit))
+        {
+            l_strVal1 = ((WEB3OptionsContractReferenceUnit)l_obj1).opProductCode;
+            l_strVal2 = ((WEB3OptionsContractReferenceUnit)l_obj2).opProductCode;
+        }
+        else if ((l_obj1 instanceof WEB3OptionsCloseMarginGroup) 
+            && (l_obj2 instanceof WEB3OptionsCloseMarginGroup)) //株価指数オプション返済一覧行
+        {
+            l_strVal1 = ((WEB3OptionsCloseMarginGroup)l_obj1).opProductCode;
+            l_strVal2 = ((WEB3OptionsCloseMarginGroup)l_obj2).opProductCode;
+        }
+        else
+        {
+            throw new IllegalArgumentException("パラメータの類型が不正、該当する'WEB3OptionsContractReferenceUnit' または 'WEB3OptionsCloseMarginGroup' 類型。");
+        }
+
+        if (l_strVal1 == null || l_strVal2 == null)
+        {
+            int l_intResult;
+               
+            if (l_strVal1 == null && l_strVal2 == null)
+            {
+                l_intResult = 0;
+            }
+            else if (l_strVal1 == null)
+            {
+                l_intResult = (WEB3AscDescDef.ASC.equals(this.orderBy)) ? -1 : 1;
+            }
+            else
+            {
+                l_intResult = (WEB3AscDescDef.ASC.equals(this.orderBy)) ? 1 : -1;
+            }
+                        
+            return l_intResult;            
+        }
+
+        if (l_strVal1.equals(l_strVal2))
+        {
+            return 0;
+        }
+        else if (l_strVal1.compareTo(l_strVal2) > 0)
+        {
+            if (WEB3AscDescDef.ASC.equals(this.orderBy))
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            if (WEB3AscDescDef.ASC.equals(this.orderBy))
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
+
+    /**
+     * パラメータのオブジェクトがこのコンパレータと等しいかどうかを判定する。<BR>
+     * <BR>
+     * スーパークラスのequalsをコールする。
+     * @@param l_obj
+     * @@return boolean
+     * @@roseuid 407BC73B007C
+     */
+    public boolean equals(Object l_obj)
+    {
+        if (l_obj instanceof WEB3OptionsProductCodeComparator)
+        {
+            WEB3OptionsProductCodeComparator l_comparator = (WEB3OptionsProductCodeComparator)l_obj;
+            if (this.orderBy.equals(l_comparator.orderBy))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+@

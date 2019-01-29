@@ -1,0 +1,3654 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2011.03.24.08.49.52;	author che-jin;	state Exp;
+branches;
+next	1.1;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5cc4d8b0586158f;
+filename	web3gtl.sql;
+
+1.1
+date	2011.03.15.06.03.19;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8004d7f01265769;
+filename	web3gtl.sql;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@
+CREATE TABLE calendar (
+    holiday                   DATE            NOT NULL,
+    biz_date_type             VARCHAR2(1)     NOT NULL,
+    created_timestamp         DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL
+);
+
+
+CREATE INDEX XIK1calendar ON calendar
+(
+       holiday
+);
+
+ALTER TABLE calendar
+       ADD  ( PRIMARY KEY (holiday) ) ;
+
+CREATE TABLE trading_time (
+    institution_code          VARCHAR2(3) NOT NULL,
+    branch_code               VARCHAR2(3) NOT NULL,
+    market_code               VARCHAR2(2) NOT NULL,
+    trading_time_type         VARCHAR2(2) NOT NULL,
+    product_code              VARCHAR2(7) NOT NULL,
+    biz_date_type             VARCHAR2(1) NOT NULL,
+    start_time                VARCHAR2(6) NULL,
+    end_time                  VARCHAR2(6) NULL,
+    submit_market_trigger     VARCHAR2(1) NULL,
+    enable_order              VARCHAR2(1) NULL,
+    bizdate_calc_parameter    VARCHAR2(1) NULL,
+    created_timestamp         DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL,
+    session_type              VARCHAR2(1) NULL
+);
+
+CREATE INDEX XIK1trading_time ON trading_time
+(
+       institution_code,
+       branch_code,
+       market_code,
+       trading_time_type,
+       product_code,
+       biz_date_type,
+       start_time
+);
+
+ALTER TABLE trading_time
+       ADD  ( PRIMARY KEY (
+       institution_code,
+       branch_code,
+       market_code,
+       trading_time_type,
+       product_code,
+       biz_date_type,
+       start_time) ) ;
+
+CREATE TABLE tax_rate_table (
+    institution_code                VARCHAR2(3)    NOT NULL,
+    tax_type                        VARCHAR2(2)    NOT NULL,
+    appli_start_date                DATE           NOT NULL,
+    appli_end_date                  DATE           NOT NULL,
+    tax_rate                        DECIMAL(18,6)  NOT NULL,
+    created_timestamp               DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp          DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKtax_rate_table ON tax_rate_table (
+       institution_code,
+       tax_type,
+       appli_start_date
+);
+
+ALTER TABLE tax_rate_table
+       ADD  ( PRIMARY KEY (institution_code,tax_type,appli_start_date));
+
+CREATE TABLE order_accept_status (
+    institution_code           VARCHAR2(3) NOT NULL,
+    branch_code                VARCHAR2(3) NOT NULL,
+    order_acc_product          VARCHAR2(2) NOT NULL,
+    order_acc_transaction      VARCHAR2(2) NOT NULL,
+    order_accept_status        VARCHAR2(1) NOT NULL,
+    order_accept_status_before VARCHAR2(1) NOT NULL,
+    last_updater               VARCHAR2(20)    NULL,
+    created_timestamp          DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp     DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKorder_accept_status  ON order_accept_status (
+       institution_code,
+       branch_code,
+       order_acc_product,
+       order_acc_transaction
+);
+
+ALTER TABLE order_accept_status
+       ADD  ( PRIMARY KEY (institution_code,
+                           branch_code,
+                           order_acc_product,
+                           order_acc_transaction
+                           ) ) ;
+
+CREATE TABLE inst_branch_product (
+    branch_id                     NUMBER(18)     NOT NULL,
+    commission_product_code       VARCHAR2(2)    NOT NULL,
+    commission_fee_cond_flag      VARCHAR2(1)        NULL,
+    estimate_price_calc_form      NUMBER(1)          NULL,
+    premium_restraint_rate        DECIMAL(18,6)      NULL,
+    discount_restraint_rate       DECIMAL(18,6)      NULL,
+    cancel_price_restraint_rate   DECIMAL(18,6)      NULL,
+    commission_lump_adjust_amount DECIMAL(18,6)      NULL,
+    created_timestamp             DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp        DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKinst_branch_product ON inst_branch_product
+(
+       branch_id,
+       commission_product_code
+);
+
+ALTER TABLE inst_branch_product
+       ADD  ( PRIMARY KEY (branch_id,commission_product_code) ) ;
+
+CREATE TABLE branch_market_dealt_cond (
+    institution_code            VARCHAR2(3)    NOT NULL,
+    branch_code                 VARCHAR2(3)    NOT NULL,
+    market_code                 VARCHAR2(2)    NOT NULL,
+    mart_can_dealt_equity       VARCHAR2(1)    NULL,
+    limited_unit_1st_sec        NUMBER(7)      NULL,
+    limited_unit_2nd_sec        NUMBER(7)      NULL,
+    created_timestamp           DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate    NULL
+);
+
+ALTER TABLE branch_market_dealt_cond
+    ADD (PRIMARY KEY(institution_code,branch_code,market_code));
+
+CREATE TABLE branch_index_dealt_cond (
+    target_product_code               VARCHAR2(4)             NOT NULL,
+    institution_code                  VARCHAR2(3)             NOT NULL,
+    branch_code                       VARCHAR2(3)             NOT NULL,
+    market_code                       VARCHAR2(2)             NOT NULL,
+    future_option_div                 VARCHAR2(1)             NOT NULL,
+    enable_order                      VARCHAR2(1)             NULL,
+    open_cont_long_order_limit        NUMBER(5)               NULL,
+    open_cont_short_order_limit       NUMBER(5)               NULL,
+    settle_cont_long_order_limit      NUMBER(5)               NULL,
+    settle_cont_short_order_limit     NUMBER(5)               NULL,
+    open_cont_limit                   NUMBER(18)              NULL,
+    ifo_deposit_per_unit0             DECIMAL(18,6)           NOT NULL,
+    ifo_deposit_per_unit1             DECIMAL(18,6)           NOT NULL,
+    ifo_deposit_per_unit0_red         DECIMAL(18,6)           NOT NULL,
+    ifo_deposit_per_unit1_red         DECIMAL(18,6)           NOT NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_date                 DATE DEFAULT sysdate    NOT NULL
+);
+
+ALTER TABLE branch_index_dealt_cond
+    ADD (PRIMARY KEY (target_product_code,institution_code,branch_code,market_code,future_option_div));
+
+CREATE TABLE enable_order_condition (
+    institution_code                 VARCHAR2(3)    NOT NULL,
+    product_type                     NUMBER(6)      NOT NULL,
+    future_option_div                VARCHAR2(1)    NOT NULL,
+    margin_trading_div               VARCHAR2(1)    NOT NULL,
+    market_code                      VARCHAR2(2)    NOT NULL,
+    carried_order                    VARCHAR2(1)    NULL,
+    carried_order_lapse_date_spec    VARCHAR2(1)    NULL,
+    carried_order_day_count          NUMBER(6)      NULL,
+    mart_price_buy_to_open           VARCHAR2(1)    NULL,
+    mart_price_sell_to_open          VARCHAR2(1)    NULL,
+    mart_price_order_settle_cont     VARCHAR2(1)    NULL,
+    current_price_order              VARCHAR2(1)    NULL,
+    ease_current_price_order         VARCHAR2(1)    NULL,
+    market_price_rest_limit_price    VARCHAR2(1)    NULL,
+    market_price_rest_cancel         VARCHAR2(1)    NULL,
+    at_market_open                   VARCHAR2(1)    NULL,
+    at_market_close                  VARCHAR2(1)    NULL,
+    no_exec_at_mart_close            VARCHAR2(1)    NULL,
+    stop_order                       VARCHAR2(1)    NULL,
+    w_limit_order                    VARCHAR2(1)    NULL,
+    chain_order                      VARCHAR2(1)    NULL,
+    created_timestamp                DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp           DATE DEFAULT sysdate    NOT NULL,
+    evening_session_order            VARCHAR2(1)    NULL
+);
+
+ALTER TABLE enable_order_condition
+       ADD  ( PRIMARY KEY (institution_code,product_type,future_option_div,margin_trading_div,market_code) ) ;
+
+CREATE TABLE equity_comm_account_cond_mst (
+    institution_code          VARCHAR2(3)     NOT NULL,
+    branch_id                 NUMBER(18)      NOT NULL,
+    account_id                NUMBER(18)      NOT NULL,
+    comm_product_code         VARCHAR2(2)     NOT NULL,
+    valid_until_biz_date      VARCHAR2(8)     NOT NULL,
+    commission_no             VARCHAR2(2)     NOT NULL,
+    account_charge_ratio      DECIMAL(18,6)   NOT NULL,
+    created_timestamp         DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XAKequity_comm_acc_cond_mst on equity_comm_account_cond_mst (
+    institution_code,
+    branch_id,
+    account_id,
+    comm_product_code,
+    valid_until_biz_date
+);
+
+ALTER TABLE equity_comm_account_cond_mst
+    ADD (PRIMARY KEY (institution_code,branch_id,account_id,comm_product_code,valid_until_biz_date));
+
+CREATE TABLE equity_comm_rev_mst (
+    institution_code          VARCHAR2(3)   NOT NULL,
+    comm_product_code         VARCHAR2(2)   NOT NULL,
+    appli_start_date          DATE          NOT NULL,
+    appli_end_date            DATE          NOT NULL,
+    order_channel             VARCHAR2(1)   NOT NULL,
+    transaction_type          VARCHAR2(2)   NOT NULL,
+    exec_cond_type            VARCHAR2(1)   NOT NULL,
+    revision                  VARCHAR2(1)   NOT NULL,
+    pay_type                  VARCHAR2(2)   NOT NULL,
+    sonar_market_code         VARCHAR2(1)   NOT NULL,
+    created_timestamp         DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL,
+    underlying_product_code   VARCHAR2(4)   NOT NULL,
+    day_trade_type            VARCHAR2(1)   NOT NULL
+);
+
+CREATE UNIQUE INDEX XAKequity_comm_rev_mst on equity_comm_rev_mst (
+    institution_code,
+    comm_product_code,
+    appli_start_date,
+    order_channel,
+    transaction_type,
+    exec_cond_type,
+    pay_type,
+    sonar_market_code,
+    underlying_product_code,
+    day_trade_type
+);
+
+ALTER TABLE equity_comm_rev_mst
+    ADD (PRIMARY KEY (institution_code,comm_product_code,
+                      appli_start_date,order_channel,
+                      transaction_type,exec_cond_type,
+                      pay_type,sonar_market_code,
+                      underlying_product_code,day_trade_type));
+
+
+CREATE TABLE equity_comm_cond (
+    institution_code            VARCHAR2(3)             NOT NULL,
+    comm_product_code           VARCHAR2(2)             NOT NULL,
+    reg_no                      VARCHAR2(3)             NOT NULL,
+    appli_start_date            DATE                    NOT NULL,
+    appli_end_date              DATE                    NOT NULL,
+    sequence_no                 VARCHAR2(2)             NOT NULL,
+    min_turnover                DECIMAL(18,6)           NOT NULL,
+    max_turnover                DECIMAL(18,6)           NOT NULL,
+    charge_ratio                DECIMAL(18,6)           NOT NULL,
+    added_price                 DECIMAL(18,6)           NOT NULL,
+    reg_type                    VARCHAR2(1)                 NULL,
+    reg_date                    DATE                        NULL,
+    final_mod_date              DATE                        NULL,
+    final_mod_time              VARCHAR2(6)                 NULL,
+    created_timestamp           DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate    NOT NULL,
+    commition_per_unit          NUMBER(18)              NOT NULL
+);
+
+CREATE UNIQUE INDEX XAKequity_comm_cond on equity_comm_cond (
+    institution_code,
+    comm_product_code,
+    reg_no,
+    appli_start_date,
+    sequence_no
+);
+
+ALTER TABLE equity_comm_cond
+    ADD (PRIMARY KEY(institution_code,comm_product_code,reg_no,appli_start_date,sequence_no));
+
+CREATE TABLE equity_comm_cond_mst (
+    institution_code            VARCHAR2(3)             NOT NULL,
+    comm_product_code           VARCHAR2(2)             NOT NULL,
+    reg_no                      VARCHAR2(3)             NOT NULL,
+    appli_start_date            DATE                    NOT NULL,
+    appli_end_date              DATE                    NOT NULL,
+    max_commission              DECIMAL(18,6)               NULL,
+    min_commission              DECIMAL(18,6)           NOT NULL,
+    share_type                  VARCHAR2(1)                 NULL,
+    commission_course_div       VARCHAR2(2)             NOT NULL,
+    reference_column            VARCHAR2(52)                NULL,
+    spc_start_date              DATE                        NULL,
+    spc_end_date                DATE                        NULL,
+    spc_charge_ratio            DECIMAL(18,6)               NULL,
+    spc_max_commission          DECIMAL(18,6)               NULL,
+    spc_min_commission          DECIMAL(18,6)               NULL,
+    reg_type                    VARCHAR2(1)                 NULL,
+    reg_date                    DATE                        NULL,
+    final_mod_date              DATE                        NULL,
+    final_mod_time              VARCHAR2(6)                 NULL,
+    created_timestamp           DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XAKequity_comm_cond_mst on equity_comm_cond_mst (
+    institution_code,
+    comm_product_code,
+    reg_no,
+    appli_start_date
+);
+
+ALTER TABLE equity_comm_cond_mst
+    ADD (PRIMARY KEY (institution_code,comm_product_code,reg_no,appli_start_date));
+
+CREATE TABLE orderexecution_end (
+    institution_code            VARCHAR2(2)    NOT NULL,
+    product_type                NUMBER(6)      NOT NULL,
+    future_option_div           VARCHAR2(1)    NOT NULL,
+    carryover_end_type          VARCHAR2(1)        NULL,
+    created_timestamp           DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate NOT NULL,
+    orderexecution_end_type     VARCHAR2(1) DEFAULT 0 NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKorderexecution_end ON orderexecution_end
+(
+       institution_code,
+       product_type,
+       future_option_div,
+       orderexecution_end_type
+);
+
+ALTER TABLE orderexecution_end
+    ADD (PRIMARY KEY(institution_code,product_type,future_option_div,orderexecution_end_type));
+
+CREATE TABLE administrator (
+    administrator_id                NUMBER(18)       NOT NULL,
+    administrator_code              VARCHAR2(20)     NOT NULL,
+    institution_id                  NUMBER(18)       NOT NULL,
+    institution_code                VARCHAR2(3)      NOT NULL,
+    branch_id                       NUMBER(18)           NULL,
+    branch_code                     VARCHAR2(3)          NULL,
+    login_id                        NUMBER(18)       NOT NULL,
+    name                            VARCHAR2(100)        NULL,
+    email_address                   VARCHAR2(100)        NULL,
+    trading_password                VARCHAR2(48)         NULL,
+    permission_level                VARCHAR2(3)      NOT NULL,
+    note                            VARCHAR2(100)        NULL,
+    last_updater                    VARCHAR2(20)         NULL,
+    created_timestamp               DATE     DEFAULT sysdate    NULL,
+    last_updated_timestamp          DATE     DEFAULT sysdate    NULL
+);
+
+CREATE UNIQUE INDEX XPKadministrator ON administrator
+(
+       administrator_id
+);
+
+CREATE UNIQUE INDEX XAK1administrator ON administrator
+(
+       institution_code,
+       administrator_code
+);
+
+CREATE UNIQUE INDEX XAK2administrator ON administrator
+(
+       login_id
+);
+
+
+ALTER TABLE administrator
+       ADD  ( PRIMARY KEY (administrator_id) ) ;
+
+
+
+--Åiä«óùé“ã§í Åj±ØÃﬂ€∞ƒﬁ√∞ÃﬁŸ
+CREATE TABLE administrator_upload (
+        administrator_upload_id     NUMBER(18)     NOT NULL,
+        institution_code            VARCHAR2(3)    NOT NULL,
+        branch_code                 VARCHAR2(3)    NOT NULL,
+        product_type                NUMBER  (6)    NOT NULL,
+        upload_file_id              VARCHAR2(128)  NOT NULL,
+        upload_start_timestamp      DATE           NOT NULL,
+        upload_end_timestamp        DATE               NULL,
+        message_code                VARCHAR2(5)        NULL,
+        upload_count                NUMBER(6)          NULL,
+        last_updater                VARCHAR2(20)       NULL,
+        upload_key                  NUMBER(18)         NULL,
+        note1                       VARCHAR2(128)      NULL,
+        note2                       VARCHAR2(128)      NULL,
+        note3                       VARCHAR2(128)      NULL
+);
+
+CREATE UNIQUE INDEX XPKadministrator_upload ON administrator_upload
+(
+       administrator_upload_id
+);
+
+CREATE UNIQUE INDEX XAKadministrator_upload ON administrator_upload
+(
+       institution_code,
+       branch_code,
+       product_type,
+       upload_file_id,
+       upload_start_timestamp
+);
+
+ALTER TABLE administrator_upload
+       ADD  ( PRIMARY KEY (administrator_upload_id) ) ;
+
+
+--(ä«óùé“ã§í )±ØÃﬂ€∞ƒﬁ√›Œﬂ◊ÿ
+
+CREATE TABLE administrator_upload_temp (
+        administrator_upload_id         NUMBER(18)       NOT NULL,
+        line_number                     NUMBER(6)        NOT NULL,
+        csv_line_value                  VARCHAR2(1500)   NOT NULL,
+        update_timestamp                DATE             NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKadministrator_upload_temp ON administrator_upload_temp
+(
+     administrator_upload_id,
+     line_number
+);
+
+ALTER TABLE administrator_upload_temp
+       ADD  ( PRIMARY KEY (administrator_upload_id,line_number) ) ;
+
+CREATE TABLE branch_market_repay_dealt_cond (
+    institution_code                VARCHAR2(3)    NOT NULL,
+    branch_code                     VARCHAR2(3)    NOT NULL,
+    market_code                     VARCHAR2(2)    NOT NULL,
+    repayment_div                   VARCHAR2(1)        NULL,
+    repayment_num                   NUMBER(7)          NULL,
+    sonar_repayment_type            VARCHAR2(1)        NULL,
+    mart_can_dealt                  VARCHAR2(1)        NULL,
+    limited_unit_m_long_1st_sec     NUMBER(7)          NULL,
+    limited_unit_m_long_2nd_sec     NUMBER(7)          NULL,
+    limited_unit_m_short_1st_sec    NUMBER(7)          NULL,
+    limited_unit_m_short_2nd_sec    NUMBER(7)          NULL,
+    limited_unit_cm_long_1st_sec    NUMBER(7)          NULL,
+    limited_unit_cm_long_2nd_sec    NUMBER(7)          NULL,
+    limited_unit_cm_short_1st_sec   NUMBER(7)          NULL,
+    limited_unit_cm_short_2nd_sec   NUMBER(7)          NULL,
+    cont_liquidate_term             NUMBER(7)          NULL,
+    buy_interest_rate               DECIMAL(18,6)      NULL,
+    sell_interest_rate              DECIMAL(18,6)      NULL,
+    created_timestamp               DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp          DATE  DEFAULT sysdate  NOT NULL
+);
+
+ALTER TABLE branch_market_repay_dealt_cond
+    ADD (PRIMARY KEY(institution_code,branch_code,market_code,repayment_div,repayment_num));
+
+--å⁄ãqó]óÕèåèÉeÅ[ÉuÉã
+CREATE TABLE tradingpower_calc_condition(
+    calc_condition_id               NUMBER(18)           NOT NULL,
+    account_id                      NUMBER(18)           NOT NULL,
+    branch_id                       NUMBER(18)           NOT NULL,
+    asset_evaluation_div            VARCHAR2(1)          NOT NULL,
+    special_debit_amount            DECIMAL(18,6)        NOT NULL,
+    trading_stop                    VARCHAR2(1)          NOT NULL,
+    margin_open_position_stop       VARCHAR2(1)          NOT NULL,
+    ifo_open_position_stop          VARCHAR2(1)          NOT NULL,
+    payment_stop                    VARCHAR2(1)          NOT NULL,
+    other_trading_stop              VARCHAR2(1)          NOT NULL,
+    last_updater                    VARCHAR2(20)             NULL,
+    created_timestamp               DATE                 NOT NULL,
+    last_updated_timestamp          DATE                 NOT NULL,
+    additional_deposit_stop         VARCHAR2(1)          NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKtradingpower_calc_condition ON tradingpower_calc_condition
+(
+    calc_condition_id
+);
+
+CREATE UNIQUE INDEX XAKtradingpower_calc_condition ON tradingpower_calc_condition
+(
+    account_id
+);
+
+CREATE INDEX XIEtradingpower_calc_condition ON tradingpower_calc_condition
+(
+    branch_id
+);
+
+ALTER TABLE tradingpower_calc_condition
+       ADD  ( PRIMARY KEY (calc_condition_id) ) ;
+
+
+CREATE TABLE fin_institution(
+    institution_code              VARCHAR2(3)      NOT NULL,
+    fin_institution_code          VARCHAR2(15)     NOT NULL,
+    fin_institution_name_kanji    VARCHAR2(50)     NOT NULL,
+    fin_institution_name_kana     VARCHAR2(50)     NOT NULL,
+    cash_transfer_type            VARCHAR2(1)      NULL,
+    cash_transfer_sonar_code      VARCHAR2(2)      NULL
+);
+
+CREATE UNIQUE INDEX XPKfin_institution ON fin_institution (
+    institution_code ,
+    fin_institution_code
+);
+
+ALTER TABLE fin_institution ADD
+         ( PRIMARY KEY (institution_code,fin_institution_code));
+
+
+CREATE TABLE transfered_fin_institution(
+    institution_code        VARCHAR2(3)    NOT NULL,
+    branch_code             VARCHAR2(3)    NOT NULL,
+    account_code            VARCHAR2(7)    NOT NULL,
+    trader_code             VARCHAR2(7)        NULL,
+    designate_div           VARCHAR2(1)        NULL,
+    comodity                VARCHAR2(2)        NULL,
+    fund_code               VARCHAR2(9)        NULL,
+    transfer_div            VARCHAR2(1)    NOT NULL,
+    fin_institution_code    VARCHAR2(4)        NULL,
+    fin_institution_name    VARCHAR2(15)       NULL,
+    fin_branch_code         VARCHAR2(5)        NULL,
+    fin_branch_name         VARCHAR2(15)       NULL,
+    fin_save_div            VARCHAR2(1)    NOT NULL,
+    fin_account_no          VARCHAR2(8)        NULL,
+    fin_account_name        VARCHAR2(30)       NULL,
+    last_updater            VARCHAR2(20)       NULL,
+    created_timestamp       DATE               NULL,
+    last_updated_timestamp  DATE               NULL,
+    trans_commission        VARCHAR2(1)        NULL,
+    trans_deal_div          VARCHAR2(1)        NULL
+);
+
+CREATE UNIQUE INDEX XPKtransfered_fin_institution ON transfered_fin_institution
+(
+   institution_code,
+   branch_code,
+   account_code,
+   designate_div
+);
+
+
+ALTER TABLE transfered_fin_institution ADD
+         ( PRIMARY KEY (institution_code,branch_code,account_code,designate_div));
+
+
+
+CREATE TABLE fin_institution_available(
+    institution_code        VARCHAR2(3)    NOT NULL,
+    branch_code             VARCHAR2(3)    NOT NULL,
+    fin_institution_code    VARCHAR2(15)   NOT NULL,
+    display_order           VARCHAR2(2)    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfin_institution_available ON fin_institution_available (
+    institution_code,
+    branch_code,
+    fin_institution_code
+);
+
+------ÉÅÅ[ÉãÉeÅ[ÉuÉã
+CREATE TABLE mail_info(
+    institution_code                 VARCHAR2(3)         NOT NULL,
+    sendmail_div                     VARCHAR2(4)         NOT NULL,
+    discernment_id                   VARCHAR2(4)         NOT NULL,
+    mail_name                        VARCHAR2(200)           NULL,
+    mail_sender                      VARCHAR2(300)           NULL,
+    send_address                     VARCHAR2(1020)          NULL,
+    subject                          VARCHAR2(1000)      NOT NULL,
+    mail_header                      VARCHAR2(4000)          NULL,
+    mail_text                        VARCHAR2(4000)          NULL,
+    mail_footer                      VARCHAR2(4000)          NULL,
+    last_updater                     VARCHAR2(20)        NOT NULL,
+    created_timestamp                DATE                NOT NULL,
+    last_updated_timestamp           DATE                NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmail_info ON mail_info (
+    institution_code,
+    sendmail_div,
+    discernment_id
+);
+
+ALTER TABLE mail_info
+       ADD  ( PRIMARY KEY (institution_code, sendmail_div, discernment_id) ) ;
+
+
+CREATE TABLE srv_regi_application(
+    institution_code              VARCHAR2(3)         NOT NULL,
+    branch_code                   VARCHAR2(3)         NOT NULL,
+    srv_div                       VARCHAR2(4)         NOT NULL,
+    account_code                  VARCHAR2(7)         NOT NULL,
+    regist_id                     NUMBER(18)          NOT NULL,
+    appli_start_date              DATE                NOT NULL,
+    appli_end_date                DATE                NOT NULL,
+    order_id                      NUMBER(18)              NULL,
+    appli_date                    DATE                NOT NULL,
+    payment_div                   VARCHAR2(1)         NOT NULL,
+    appli_lot_div                 VARCHAR2(1)         NOT NULL,
+    effective_div                 VARCHAR2(1)         NOT NULL,
+    cancel_div                    VARCHAR2(1)         NOT NULL,
+    use_amt                       NUMBER(18)              NULL,
+    payment_date                  DATE                    NULL,
+    cancel_limit_date             DATE                    NULL,
+    last_updater                  VARCHAR2(20)        NOT NULL,
+    created_timestamp             DATE                NOT NULL,
+    last_updated_timestamp        DATE                NOT NULL,
+    free_srv_div                  VARCHAR2(1)             NULL
+);
+
+CREATE UNIQUE INDEX XPKsrv_regi_application ON srv_regi_application (
+    institution_code,
+    branch_code,
+    srv_div,
+    account_code,
+    regist_id
+);
+
+ALTER TABLE srv_regi_application
+       ADD  ( PRIMARY KEY (institution_code,branch_code,srv_div,account_code,regist_id) ) ;
+
+CREATE TABLE insider(
+    institution_code              VARCHAR2(3)        NOT NULL,
+    branch_id                     NUMBER(18)         NOT NULL,
+    account_id                    NUMBER(18)         NOT NULL,
+    product_id                    NUMBER(18)         NOT NULL,
+    relation_div                  VARCHAR2(2)        NOT NULL,
+    officer_name                  VARCHAR2(40)       NULL,
+    post_name                     VARCHAR2(40)       NULL,
+    regist_div                    VARCHAR2(1)        NOT NULL,
+    last_updater                  VARCHAR2(20)       NOT NULL,
+    sonar_created_date            DATE               NULL,
+    created_timestamp             DATE               NOT NULL,
+    last_updated_timestamp        DATE               NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKinsider ON insider (
+    institution_code,
+    branch_id,
+    account_id,
+    product_id
+);
+
+ALTER TABLE insider
+       ADD  ( PRIMARY KEY (institution_code,branch_id,account_id,product_id) ) ;
+
+CREATE TABLE ifo_deposit(
+       institution_code                 VARCHAR2(3)        NOT NULL,
+       branch_code                      VARCHAR2(3)        NOT NULL,
+       account_code                     VARCHAR2(7)        NOT NULL,
+       mail_div                         VARCHAR2(1)                ,
+       calc_date                        DATE               NOT NULL,
+       ifo_deposit_req_amount           NUMBER(12)                 ,
+       contract_profit_loss             NUMBER(12)                 ,
+       future_settle_amount             NUMBER(12)                 ,
+       option_settle_amount             NUMBER(12)                 ,
+       ifo_deposit_paid_cash            NUMBER(12)                 ,
+       ifo_deposit_paid_securities      NUMBER(12)                 ,
+       net_amout_cash                   NUMBER(12)                 ,
+       net_amount_securities            NUMBER(12)                 ,
+       delete_flag                      VARCHAR2(1)
+);
+
+CREATE UNIQUE INDEX XPKifo_deposit ON ifo_deposit (
+    institution_code,
+    branch_code,
+    account_code,
+    calc_date
+);
+
+ALTER TABLE ifo_deposit
+       ADD  ( PRIMARY KEY (institution_code,branch_code,account_code,calc_date) )
+;
+
+CREATE TABLE administrator_type (
+    institution_code              VARCHAR2(3)   NOT NULL,
+    permission_level              VARCHAR2(3)   NOT NULL,
+    permission_level_name         VARCHAR2(100)     NULL,
+    dir_admin_flag                NUMBER(1)     NOT NULL,
+    all_branch_permission_flag    NUMBER(1)     NOT NULL,
+    last_updater                  VARCHAR2(20)      NULL,
+    created_timestamp             DATE          NOT NULL,
+    update_timestamp              DATE          NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKadministrator_type ON administrator_type
+(
+   institution_code,
+   permission_level
+);
+
+ALTER TABLE administrator_type
+       ADD  ( PRIMARY KEY (institution_code,permission_level) ) ;
+
+CREATE TABLE admin_permission (
+    institution_code          VARCHAR2(3)   NOT NULL,
+    permission_level          VARCHAR2(3)   NOT NULL,
+    transaction_category      VARCHAR2(5)   NOT NULL,
+    update_permission_flag    NUMBER  (1)   NOT NULL,
+    last_updater              VARCHAR2(20)      NULL,
+    created_timestamp         DATE          NOT NULL,
+    update_timestamp          DATE          NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKadmin_permission ON admin_permission
+(
+   institution_code,
+   permission_level,
+   transaction_category
+);
+
+ALTER TABLE admin_permission
+       ADD  ( PRIMARY KEY (institution_code,permission_level,transaction_category) ) ;
+
+-- ÉÅÅ[ÉãëóêMÉeÅ[ÉuÉã
+CREATE TABLE mail_proc (
+        institution_code                              VARCHAR2(3)            NOT NULL,
+        branch_code                                   VARCHAR2(3)            NOT NULL,
+        sendmail_div                                  VARCHAR2(4)            NOT NULL,
+        discernment_id                                VARCHAR2(4)            NOT NULL,
+        account_code                                  VARCHAR2(7)            NOT NULL,
+        mail_id                                       NUMBER(18)             NOT NULL,
+        date_1                                        DATE                   NULL,
+        date_2                                        DATE                   NULL,
+        date_3                                        DATE                   NULL,
+        date_4                                        DATE                   NULL,
+        quantity                                      DECIMAL(18,6)          NULL,
+        amount                                        DECIMAL(18,6)          NULL,
+        order_id                                      NUMBER(18)             NULL,
+        division                                      VARCHAR2(1)            NULL,
+        name_1                                        VARCHAR2(50)           NULL,
+        name_2                                        VARCHAR2(50)           NULL,
+        status                                        VARCHAR2(1)            NULL,
+        send_process_date_time                        DATE                   NULL,
+        error_code                                    VARCHAR2(4)            NULL,
+        admin_mail_div                                VARCHAR2(1)            NULL,
+        resend_status                                 VARCHAR2(1)            NULL,
+        resend_process_date_time                      DATE                   NULL,
+        email_address                                 VARCHAR2(100)          NULL,
+        send_email_address                            VARCHAR2(100)          NULL,
+        subject                                       VARCHAR2(1000)         NULL,
+        mail_text                                     LONG VARCHAR               ,
+        delete_flag                                   NUMBER(1)              NULL,
+        created_timestamp                             DATE  DEFAULT sysdate  NOT NULL,
+        last_updated_timestamp                        DATE  DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKmail_proc ON mail_proc
+(
+        institution_code ,
+        branch_code ,
+        sendmail_div ,
+        discernment_id ,
+        account_code ,
+        mail_id
+);
+
+CREATE INDEX XIE1mail_proc
+ON mail_proc(status);
+
+--Primary Key
+ALTER TABLE mail_proc
+        ADD  (PRIMARY KEY (institution_code, branch_code, sendmail_div, discernment_id, account_code, mail_id));
+
+--å⁄ãqñ¡ïøï éÊà¯í‚é~ÉeÅ[ÉuÉã
+CREATE TABLE account_product_order_stop (
+    institution_code              VARCHAR2(3)    NOT NULL,
+    branch_id                     NUMBER(18)     NOT NULL,
+    account_id                    NUMBER(18)     NOT NULL,
+    product_id                    NUMBER(18)     NOT NULL,
+    apply_start_date              DATE           NOT NULL,
+    apply_end_date                DATE           NOT NULL,
+    stop_trade_reason             VARCHAR2(50)       NULL,
+    stop_trade_div_buy_cash       VARCHAR2(1)        NULL,
+    stop_trade_div_sell_cash      VARCHAR2(1)        NULL,
+    stop_trade_div_long_margin    VARCHAR2(1)        NULL,
+    stop_trade_div_short_margin   VARCHAR2(1)        NULL,
+    stop_div_long_close_margin    VARCHAR2(1)        NULL,
+    stop_div_short_close_margin   VARCHAR2(1)        NULL,
+    stop_div_long_swap_margin     VARCHAR2(1)        NULL,
+    stop_div_short_swap_margin    VARCHAR2(1)        NULL,
+    stop_div_buy_mini_stock       VARCHAR2(1)        NULL,
+    stop_div_sell_mini_stock      VARCHAR2(1)        NULL,
+    last_updater                  VARCHAR2(20)   NOT NULL,
+    created_timestamp             DATE  DEFAULT sysdate     NOT NULL,
+    last_updated_timestamp        DATE  DEFAULT sysdate     NOT NULL
+);
+
+--INDEX
+CREATE INDEX XPKaccount_product_order_stop ON account_product_order_stop (
+    institution_code,
+    branch_id,
+    account_id,
+    product_id,
+    apply_start_date
+);
+
+--Primary Key
+ALTER TABLE account_product_order_stop
+        ADD  (PRIMARY KEY (institution_code,branch_id,account_id,product_id,apply_start_date));
+
+--ÉvÉçÉZÉXä«óùÉeÅ[ÉuÉã
+CREATE TABLE process_management (
+    process_id               VARCHAR2(4)    NULL,
+    institution_code         VARCHAR2(3)    NULL,
+    branch_code              VARCHAR2(3)    NULL,
+    status                   VARCHAR2(1)    NULL,
+    last_updater             VARCHAR2(20)   NULL,
+    last_updated_timestamp   DATE           NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKprocess_management ON process_management
+(
+        process_id ,
+        institution_code ,
+        branch_code
+);
+
+--Primary Key
+ALTER TABLE process_management
+        ADD  (PRIMARY KEY (process_id,institution_code,branch_code));
+
+--ÇxãqÉ}ÉXÉ^
+CREATE TABLE yellow_customer (
+    institution_code        VARCHAR2(3)    NOT NULL,
+    era_born                VARCHAR2(1)        NULL,
+    born_date               VARCHAR2(6)        NULL,
+    name_kana               VARCHAR2(40)   NOT NULL,
+    name                    VARCHAR2(40)   NOT NULL,
+    account_name_kana       VARCHAR2(30)       NULL,
+    account_name            VARCHAR2(30)       NULL,
+    telephone               VARCHAR2(16)       NULL,
+    created_timestamp       DATE           NOT NULL,
+    last_updated_timestamp  DATE           NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKyellow_customer ON yellow_customer
+(
+        institution_code ,
+        era_born     ,
+        born_date    ,
+        name_kana    ,
+        name
+);
+
+--Primary Key
+ALTER TABLE yellow_customer
+        ADD  (PRIMARY KEY (institution_code,era_born,born_date,name_kana,name));
+
+--ã‡óZã@@ä÷Åiã‚çsÅjÉ}ÉXÉ^
+CREATE TABLE fin_institution_bank (
+    fin_institution_code       VARCHAR2(4)   NOT NULL,
+    fin_branch_code            VARCHAR2(3)   NOT NULL,
+    fin_institution_name_kana  VARCHAR2(15)  NOT NULL,
+    fin_branch_name_kana       VARCHAR2(15)  NOT NULL,
+    fin_institution_name       VARCHAR2(32)  NOT NULL,
+    fin_branch_name            VARCHAR2(32)  NOT NULL,
+    created_timestamp          DATE          NOT NULL,
+    last_updated_timestamp     DATE          NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfin_institution_bank ON fin_institution_bank
+(
+        fin_institution_code ,
+        fin_branch_code
+);
+
+--Primary Key
+ALTER TABLE fin_institution_bank
+        ADD  (PRIMARY KEY (fin_institution_code,fin_branch_code));
+
+
+--éÛìnì˙ï ï€óLéëéYÉeÅ[ÉuÉã
+CREATE TABLE daily_asset (
+    account_id              NUMBER(18)        NOT NULL,
+    sub_account_id          NUMBER(18)        NOT NULL,
+    product_type            NUMBER(6)         NOT NULL,
+    quantity                DECIMAL(18,6)     NOT NULL,
+    product_id              NUMBER(18)        NOT NULL,
+    tax_type                NUMBER(6)         NOT NULL,
+    delivery_date           DATE              NOT NULL,
+    mini_stock_div          VARCHAR2(1)       NOT NULL,
+    created_timestamp       DATE      DEFAULT SYSDATE        NOT NULL,
+    last_updated_timestamp  DATE      DEFAULT SYSDATE        NOT NULL,
+    split_new_stock_div     VARCHAR2(1)       NOT NULL,
+    original_exec_date      DATE              NOT NULL
+);
+
+--Primary Key
+CREATE UNIQUE INDEX daily_asset_pk_idx ON daily_asset
+(account_id,sub_account_id,product_id,tax_type,delivery_date,mini_stock_div,split_new_stock_div,original_exec_date
+);
+
+ALTER TABLE daily_asset
+        ADD  (PRIMARY KEY (account_id,sub_account_id,product_id,tax_type,delivery_date,mini_stock_div,split_new_stock_div,original_exec_date));
+
+CREATE INDEX daily_asset_account_idx ON daily_asset(account_id);
+
+
+CREATE TABLE question (
+    institution_code         VARCHAR2(3)    NOT NULL,
+    branch_code              VARCHAR2(3)    NOT NULL,
+    question_div             VARCHAR2(4)    NOT NULL,
+    question_no              VARCHAR2(3)    NOT NULL,
+    question                 VARCHAR2(1000)  NOT NULL,
+    last_updater             VARCHAR2(20)       NULL,
+    created_timestamp        DATE           NOT NULL,
+    last_updated_timestamp   DATE           NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKquestion ON question
+(
+       institution_code ,
+       branch_code      ,
+       question_div     ,
+       question_no
+);
+
+CREATE INDEX XIE1question ON question
+(
+       institution_code ,
+       branch_code      ,
+       question_div
+);
+
+ALTER TABLE question
+       ADD  ( PRIMARY KEY (institution_code,branch_code,question_div,question_no) ) ;
+
+CREATE TABLE question_answer (
+    institution_code         VARCHAR2(3)   NOT NULL,
+    branch_code              VARCHAR2(3)   NOT NULL,
+    question_div             VARCHAR2(4)   NOT NULL,
+    order_request_number     VARCHAR2(9)   NOT NULL,
+    question_no              VARCHAR2(3)   NOT NULL,
+    question_answer          VARCHAR2(1)   NOT NULL,
+    last_updater             VARCHAR2(20)      NULL,
+    created_timestamp        DATE          NOT NULL,
+    last_updated_timestamp   DATE          NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKquestion_answer ON question_answer
+(
+       institution_code     ,
+       branch_code          ,
+       question_div         ,
+       order_request_number ,
+       question_no
+);
+
+CREATE INDEX XIE1question_answer ON question_answer
+(
+       institution_code ,
+       branch_code      ,
+       question_div     ,
+       order_request_number
+);
+
+ALTER TABLE question_answer
+       ADD  ( PRIMARY KEY (institution_code,branch_code,question_div,order_request_number,question_no) ) ;
+
+
+CREATE TABLE other_org_srv_time (
+    other_org_code           VARCHAR2(11)  NOT NULL,
+    week_div                 VARCHAR2(1)   NOT NULL,
+    service_start_time       VARCHAR2(6)   NOT NULL,
+    service_end_time         VARCHAR2(6)   NOT NULL,
+    service_div              VARCHAR2(1)   NOT NULL,
+    service_date_div         VARCHAR2(1)   NOT NULL,
+    created_timestamp        DATE          NOT NULL,
+    last_updated_timestamp   DATE          NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKother_org_srv_time ON other_org_srv_time (
+       other_org_code    ,
+       week_div          ,
+       service_start_time,
+       service_end_time
+);
+
+ALTER TABLE other_org_srv_time
+       ADD  ( PRIMARY KEY (other_org_code,week_div,service_start_time,service_end_time));
+
+CREATE TABLE other_org_out_of_srv_date (
+    other_org_code           VARCHAR2(11)    NOT NULL,
+    suspension_date          VARCHAR2(4)     NOT NULL,
+    suspension_start_time    VARCHAR2(6)     NOT NULL,
+    suspension_end_time      VARCHAR2(6)     NOT NULL,
+    created_timestamp        DATE            NOT NULL,
+    last_updated_timestamp   DATE            NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKother_org_out_of_srv_date ON other_org_out_of_srv_date (
+       other_org_code    ,
+       suspension_date          ,
+       suspension_start_time,
+       suspension_end_time
+);
+
+ALTER TABLE other_org_out_of_srv_date
+       ADD  ( PRIMARY KEY (other_org_code,suspension_date,suspension_start_time,suspension_end_time));
+
+CREATE TABLE other_org_out_of_srv_week (
+    other_org_code           VARCHAR2(11)  NOT NULL,
+    month                    VARCHAR2(2)   NOT NULL,
+    week_div                 VARCHAR2(1)   NOT NULL,
+    week_no                  VARCHAR2(1)   NOT NULL,
+    suspension_start_time    VARCHAR2(6)   NOT NULL,
+    suspension_end_time      VARCHAR2(6)   NOT NULL,
+    created_timestamp        DATE          NOT NULL,
+    last_updated_timestamp   DATE          NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKother_org_out_of_srv_week ON other_org_out_of_srv_week (
+       other_org_code       ,
+       month                ,
+       week_div             ,
+       week_no              ,
+       suspension_start_time,
+       suspension_end_time
+);
+
+ALTER TABLE other_org_out_of_srv_week
+       ADD  ( PRIMARY KEY (other_org_code,month,week_div,week_no,suspension_start_time,suspension_end_time));
+
+CREATE TABLE ext_mail_proc (
+    institution_code         VARCHAR2(3)    NOT NULL,
+    branch_code              VARCHAR2(3)    NOT NULL,
+    sendmail_div             VARCHAR2(4)    NOT NULL,
+    discernment_id           VARCHAR2(4)    NOT NULL,
+    account_code             VARCHAR2(7)    NOT NULL,
+    mail_id                  NUMBER(18)     NOT NULL,
+    item_name                VARCHAR2(50)   NOT NULL,
+    item_contents            VARCHAR2(200)  NOT NULL,
+    delete_flag              NUMBER(1)          NULL,
+    created_timestamp        DATE  DEFAULT sysdate     NOT NULL,
+    last_updated_timestamp   DATE  DEFAULT sysdate     NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKext_mail_proc ON ext_mail_proc
+(
+       institution_code   ,
+       branch_code        ,
+       sendmail_div       ,
+       discernment_id     ,
+       account_code       ,
+       mail_id            ,
+       item_name
+);
+
+ALTER TABLE ext_mail_proc
+       ADD  ( PRIMARY KEY (institution_code,branch_code,sendmail_div,discernment_id,account_code,mail_id,item_name) ) ;
+
+CREATE TABLE last_closing_price (
+    product_id                NUMBER(18)       NOT NULL,
+    base_date                 DATE             NOT NULL,
+    tokyo_closing_price       DECIMAL(18,6)    NULL,
+    oosaka_closing_price      DECIMAL(18,6)    NULL,
+    nagoya_closing_price      DECIMAL(18,6)    NULL,
+    other_closing_price       DECIMAL(18,6)    NULL,
+    primary_closing_price     DECIMAL(18,6)    NULL,
+    error_code                VARCHAR2(1)      NULL,
+    created_timestamp         DATE             DEFAULT sysdate     NULL,
+    last_updated_timestamp    DATE             DEFAULT sysdate     NULL
+);
+
+CREATE UNIQUE INDEX XPKlast_closing_price ON last_closing_price
+(
+    product_id,
+    base_date
+);
+
+ALTER TABLE last_closing_price
+       ADD  ( PRIMARY KEY (product_id,base_date) ) ;
+
+
+------ìdéqîµÉVÉXÉeÉÄã@@î\ï ÉvÉäÉtÉ@@ÉåÉìÉX
+CREATE TABLE bato_function_pref
+(
+    function_div                    VARCHAR2(2)      NOT NULL,
+    target_namespace_name           VARCHAR2(100)    NOT NULL,
+    service_name                    VARCHAR2(100)    NOT NULL,
+    port_type_name                  VARCHAR2(100)    NOT NULL,
+    operation_name                  VARCHAR2(100)    NOT NULL,
+    parameter_list                  VARCHAR2(200)    NULL,
+    last_updater                    VARCHAR2(20)     NULL,
+    created_timestamp               DATE             NOT NULL,
+    last_updated_timestamp          DATE             NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKbato_function_pref ON bato_function_pref
+(
+        function_div
+);
+
+------Add Primary Key
+ALTER TABLE bato_function_pref
+        ADD  (PRIMARY KEY (function_div));
+
+
+------ìdéqîµÉVÉXÉeÉÄïîìXè§ïiï ÉvÉäÉtÉ@@ÉåÉìÉX
+CREATE TABLE bato_branch_product_pref
+(
+    institution_code                  VARCHAR2(3)     NOT NULL,
+    branch_code                       VARCHAR2(3)     NOT NULL,
+    product_code                      VARCHAR2(3)     NOT NULL,
+    order_at_system_failure_flag      VARCHAR2(1)     NOT NULL,
+    operator_input_flag               VARCHAR2(1)     NOT NULL,
+    last_updater                      VARCHAR2(20)    NULL,
+    created_timestamp                 DATE            NOT NULL,
+    last_updated_timestamp            DATE            NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKbato_branch_product_pref ON bato_branch_product_pref
+(
+        institution_code,
+        branch_code,
+        product_code  
+);
+
+------Add Primary Key
+ALTER TABLE bato_branch_product_pref
+        ADD  (PRIMARY KEY (institution_code, branch_code, product_code));
+
+
+------ìdéqîµÉVÉXÉeÉÄâÔé–ïîìXï ÉvÉäÉtÉ@@ÉåÉìÉX
+CREATE TABLE bato_inst_branch_pref
+(
+    institution_code                   VARCHAR2(3)      NOT NULL,
+    branch_code                        VARCHAR2(3)      NOT NULL,
+    url                                VARCHAR2(200)    NOT NULL,
+    soap_url                           VARCHAR2(200)    NOT NULL,
+    hash_field1                        VARCHAR2(200)    NOT NULL,
+    hash_field2                        VARCHAR2(200)    NOT NULL,
+    system_failure_flag                VARCHAR2(1)      NOT NULL,
+    last_updater                       VARCHAR2(20)         NULL,
+    created_timestamp                  DATE             NOT NULL,
+    last_updated_timestamp             DATE             NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKbato_inst_branch_pref ON bato_inst_branch_pref
+(
+        institution_code,
+        branch_code
+);
+
+------Add Primary Key
+ALTER TABLE bato_inst_branch_pref
+        ADD  (PRIMARY KEY (institution_code, branch_code));
+
+
+------ìdéqîµÉVÉXÉeÉÄÉhÉLÉÖÉÅÉìÉgéÌï ä«óùÉeÅ[ÉuÉã
+CREATE TABLE bato_doctype_management
+(
+    institution_code                   VARCHAR2(3)     NOT NULL,
+    type_code                          VARCHAR2(3)     NOT NULL,
+    product_code                       VARCHAR2(3)     NOT NULL,
+    last_updater                       VARCHAR2(20)    NULL,
+    created_timestamp                  DATE            NOT NULL,
+    last_updated_timestamp             DATE            NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKbato_doctype_management ON bato_doctype_management
+(
+        institution_code,
+        type_code
+);
+
+------Add Primary Key
+ALTER TABLE bato_doctype_management
+        ADD  (PRIMARY KEY (institution_code, type_code));
+
+CREATE TABLE order_switching
+(
+    institution_code                   VARCHAR2(3)    NOT NULL,
+    product_type                       NUMBER(6)      NOT NULL,
+    market_code                        VARCHAR2(2)    NOT NULL,
+    sonar_market_code                  VARCHAR2(1)    NOT NULL,
+    submit_order_route_div             VARCHAR2(1)    NOT NULL,
+    valid_flag                         VARCHAR2(1)    DEFAULT 0   NOT NULL,
+    change_cancel_enable_flag          VARCHAR2(1)    DEFAULT 0   NOT NULL,
+    created_timestamp                  DATE           DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp             DATE           DEFAULT sysdate  NOT NULL,
+    front_order_system_code            VARCHAR2(1)    NOT NULL,
+    submit_mq_trigger                  VARCHAR2(1)    NOT NULL,
+    order_engine_div                   VARCHAR2(1)    NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKorder_switching ON order_switching
+(
+        institution_code,
+        product_type,
+        market_code,
+        submit_order_route_div,
+        front_order_system_code
+);
+
+------Add Primary Key
+ALTER TABLE order_switching
+        ADD  (PRIMARY KEY (institution_code, product_type, market_code, submit_order_route_div, front_order_system_code));
+
+CREATE TABLE request_codes_for_read
+(
+    request_code                      VARCHAR2(5)      NOT NULL,
+    ptype                             VARCHAR2(100)    NOT NULL,
+    submit_order_route_div            VARCHAR2(1)      NOT NULL,
+    created_timestamp                 DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp            DATE  DEFAULT sysdate  NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKrequest_codes_for_read ON request_codes_for_read
+(
+        request_code,
+        ptype
+);
+
+------Add Primary Key
+ALTER TABLE request_codes_for_read
+        ADD  (PRIMARY KEY (request_code, ptype));
+        
+------Create Table
+CREATE TABLE product_estimation_ratio
+(
+    institution_code                  VARCHAR2(3)      NOT NULL,
+    product_type                      NUMBER(6)        NOT NULL,
+    securities_collateral_flag        VARCHAR2(1)      NOT NULL,
+    securities_estimation_ratio       DECIMAL(18,6)    NOT NULL,
+    created_timestamp                 DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp            DATE  DEFAULT sysdate  NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKproduct_estimation_ratio ON product_estimation_ratio
+(
+        institution_code,
+        product_type
+);
+
+------Add Primary Key
+ALTER TABLE product_estimation_ratio
+        ADD  (PRIMARY KEY (institution_code, product_type));
+
+
+------Create Table
+CREATE TABLE online_run_status
+(
+    institution_code                  VARCHAR2(3)      NOT NULL,
+    product_type                      NUMBER(6)        NOT NULL,
+    future_option_div                 VARCHAR2(1)      NOT NULL,
+    online_service_div                VARCHAR2(1)      NOT NULL,
+    account_id_from                   NUMBER(18)       NOT NULL,
+    account_id_to                     NUMBER(18)       NOT NULL,
+    run_status_div                    VARCHAR2(1)      NOT NULL,
+    created_timestamp                 DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp            DATE  DEFAULT sysdate  NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKonline_run_status ON online_run_status
+(
+        institution_code,
+        product_type,
+        future_option_div,
+        online_service_div,
+        account_id_from
+);
+
+------Add Primary Key
+ALTER TABLE online_run_status
+        ADD  (PRIMARY KEY (institution_code, product_type,future_option_div,online_service_div,account_id_from));
+
+------ïîìXópÉvÉäÉtÉ@@ÉåÉìÉXÉeÅ[ÉuÉã
+CREATE TABLE branch_preferences (
+    branch_id                 NUMBER(18)      NOT NULL,
+    name                      VARCHAR2(200)   NOT NULL,
+    name_serial_no            NUMBER(6)       NOT NULL,
+    value                     VARCHAR2(200)   NOT NULL,
+    created_timestamp         DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbranch_preferences on branch_preferences (
+    branch_id,
+    name,
+    name_serial_no
+);
+
+ALTER TABLE branch_preferences
+    ADD (PRIMARY KEY (branch_id, name, name_serial_no));
+
+------ÅiïîìXésèÍï .äOäîÅjéÊàµèåèÉeÅ[ÉuÉã
+CREATE TABLE feq_branch_market_dealt_cond
+(
+    institution_code                   VARCHAR2(3)     NOT NULL,
+    branch_code                        VARCHAR2(3)     NOT NULL,
+    market_code                        VARCHAR2(2)     NOT NULL,
+    mart_can_dealt_equity              VARCHAR2(1)     NULL,
+    created_timestamp                  DATE  DEFAULT sysdate  NULL,
+    last_updated_timestamp             DATE  DEFAULT sysdate  NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKfeq_branchmarket_dealt_cond ON feq_branch_market_dealt_cond
+(
+        institution_code,
+        branch_code,
+        market_code
+);
+
+------Add Primary Key
+ALTER TABLE feq_branch_market_dealt_cond
+        ADD  (PRIMARY KEY (institution_code, branch_code, market_code));
+
+------ÉÅÅ[ÉãëóêMÉeÉìÉ|ÉâÉäÉeÅ[ÉuÉã
+CREATE TABLE mail_proc_temp
+(
+    institution_code                   VARCHAR2(3)     NOT NULL,
+    branch_code                        VARCHAR2(3)     NOT NULL,
+    sendmail_div                       VARCHAR2(4)     NOT NULL,
+    discernment_id                     VARCHAR2(4)     NOT NULL,
+    account_code                       VARCHAR2(7)     NOT NULL,
+    mail_id                            NUMBER(18)      NOT NULL,
+    date_1                             DATE            NULL,
+    date_2                             DATE            NULL,
+    date_3                             DATE            NULL,
+    date_4                             DATE            NULL,
+    quantity                           DECIMAL(18,6)   NULL,
+    amount                             DECIMAL(18,6)   NULL,
+    order_id                           NUMBER(18)      NULL,
+    division                           VARCHAR2(1)     NULL,
+    name_1                             VARCHAR2(50)    NULL,
+    name_2                             VARCHAR2(50)    NULL,
+    status                             VARCHAR2(1)     NULL,
+    send_process_date_time             DATE            NULL,
+    error_code                         VARCHAR2(4)     NULL,
+    admin_mail_div                     VARCHAR2(1)     NULL,
+    resend_status                      VARCHAR2(1)     NULL,
+    resend_process_date_time           DATE            NULL,
+    email_address                      VARCHAR2(100)   NULL,
+    send_email_address                 VARCHAR2(100)   NULL,
+    subject                            VARCHAR2(1000)  NULL,
+    mail_text                          LONG VARCHAR    NULL,
+    delete_flag                        NUMBER(1)       NULL,
+    created_timestamp                  DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp             DATE  DEFAULT sysdate  NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKmail_proc_temp ON mail_proc_temp
+(
+        institution_code,
+        branch_code,
+        sendmail_div,
+        discernment_id,
+        account_code,
+        mail_id
+);
+
+CREATE INDEX XIEmail_proc_temp ON mail_proc_temp
+(
+        institution_code,
+        sendmail_div,
+        order_id
+);
+
+------Add Primary Key
+ALTER TABLE mail_proc_temp
+        ADD  (PRIMARY KEY (institution_code, branch_code, sendmail_div, discernment_id, account_code, mail_id));
+
+------ÉÅÅ[ÉãëóêMägí£ÉeÉìÉ|ÉâÉäÉeÅ[ÉuÉã
+CREATE TABLE ext_mail_proc_temp
+(
+    institution_code                   VARCHAR2(3)     NOT NULL,
+    branch_code                        VARCHAR2(3)     NOT NULL,
+    sendmail_div                       VARCHAR2(4)     NOT NULL,
+    discernment_id                     VARCHAR2(4)     NOT NULL,
+    account_code                       VARCHAR2(7)     NOT NULL,
+    mail_id                            NUMBER(18)      NOT NULL,
+    item_name                          VARCHAR2(50)    NOT NULL,
+    item_contents                      VARCHAR2(200)   NOT NULL,
+    delete_flag                        NUMBER(1)       NULL,
+    created_timestamp                  DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp             DATE  DEFAULT sysdate  NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKext_mail_proc_temp ON ext_mail_proc_temp
+(
+        institution_code,
+        branch_code,
+        sendmail_div,
+        discernment_id,
+        account_code,
+        mail_id,
+        item_name
+);
+
+CREATE INDEX XIEext_mail_proc_temp ON ext_mail_proc_temp
+(
+        institution_code,
+        sendmail_div,
+        mail_id
+);
+
+------Add Primary Key
+ALTER TABLE ext_mail_proc_temp
+        ADD  (PRIMARY KEY (institution_code, branch_code, sendmail_div, discernment_id, account_code, mail_id, item_name));
+
+------äOäîäCäOésèÍÉJÉåÉìÉ_Å[
+CREATE TABLE feq_calendar
+(
+    institution_code                   VARCHAR2(3)     NOT NULL,
+    market_code                        VARCHAR2(2)     NOT NULL,
+    biz_date                           DATE            NOT NULL,
+    biz_date_type                      VARCHAR2(1)     NOT NULL,
+    last_updater                       VARCHAR2(20)    NULL,
+    created_timestamp                  DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp             DATE  DEFAULT sysdate  NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKoffshore_calendar ON feq_calendar
+(
+        institution_code,
+        market_code,
+        biz_date
+);
+
+------Add Primary Key
+ALTER TABLE feq_calendar
+        ADD  (PRIMARY KEY (institution_code, market_code, biz_date));
+
+------âºëzÉTÅ[ÉoèÓïÒÉeÅ[ÉuÉã
+CREATE TABLE virtual_server_information
+(
+    virtual_server_number_jsoes       VARCHAR2(7)      NOT NULL,
+    institution_code                  VARCHAR2(3)      NULL,
+    front_order_exchange_code         VARCHAR2(1)      NULL,
+    front_order_system_code           VARCHAR2(1)      NULL,
+    front_order_trade_code            VARCHAR2(1)      NULL,
+    virtual_server_number_market      VARCHAR2(7)      NOT NULL,
+    client_number                     VARCHAR2(3)      NULL,
+    notice_file_number                VARCHAR2(3)      NULL,
+    created_timestamp                 DATE     DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE     DEFAULT sysdate    NOT NULL,
+    product_type                      NUMBER(6)        NULL
+);
+
+------Add Index
+CREATE INDEX XPKvirtual_server_information ON virtual_server_information
+(
+    virtual_server_number_jsoes
+);
+
+------Add Primary Key
+ALTER TABLE virtual_server_information
+        ADD  (PRIMARY KEY (virtual_server_number_jsoes));
+
+------è·äQâºëzÉTÅ[Éoêÿë÷ä«óùÉeÅ[ÉuÉã
+CREATE TABLE virtual_server_change
+(
+    virtual_server_number_market         VARCHAR2(7)     NOT NULL,
+    change_req_res_div                   VARCHAR2(2)     NOT NULL,
+    notice_type                          VARCHAR2(2)     NOT NULL,
+    institution_code                     VARCHAR2(3)     NULL,
+    front_order_exchange_code            VARCHAR2(1)     NOT NULL,
+    front_order_system_code              VARCHAR2(1)     NULL,
+    front_order_trade_code               VARCHAR2(1)     NULL,
+    corp_code                            VARCHAR2(20)    NULL,
+    cancel_div                           VARCHAR2(1)     NULL,
+    virtual_server_number_sonar          VARCHAR2(7)     NULL,
+    client_number                        VARCHAR2(3)     NULL,
+    notice_file_number                   VARCHAR2(3)     NULL,
+    resend_notice_number_from            NUMBER(10)      NULL,
+    error_message                        VARCHAR2(4)     NULL,
+    action_count                         NUMBER(2)       NULL,
+    status                               VARCHAR2(1)     NULL,
+    created_timestamp                    DATE     DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp               DATE     DEFAULT sysdate    NOT NULL,
+    product_type                         NUMBER(6)       NULL,
+    agency_accept_notice_number          NUMBER(10)      NULL,
+    agency_exec_notice_number            NUMBER(10)      NULL
+);
+
+------Add Index
+CREATE INDEX XPKvirtual_server_change ON virtual_server_change
+(
+    virtual_server_number_market,
+    change_req_res_div,
+    notice_type,
+    front_order_exchange_code
+);
+
+------Add Primary Key
+ALTER TABLE virtual_server_change
+        ADD  (PRIMARY KEY (virtual_server_number_market, change_req_res_div, notice_type, front_order_exchange_code));
+
+------à◊ë÷ÉåÅ[ÉgÉeÅ[ÉuÉã
+CREATE TABLE exchange_rate
+(
+    institution_code         VARCHAR2(3)     NOT NULL,
+    currency_code            VARCHAR2(2)     NOT NULL,
+    exec_timestamp           DATE            NOT NULL,
+    tt_selling_rate          DECIMAL(18,6)   NOT NULL,
+    tt_buying_rate           DECIMAL(18,6)   NOT NULL,
+    exchange_calc_unit       DECIMAL(18,6)   NOT NULL,
+    created_timestamp        DATE            NOT NULL,
+    last_updated_timestamp   DATE            NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKexchange_rate ON exchange_rate
+(
+    institution_code,
+    currency_code
+);
+
+------Add Primary Key
+ALTER TABLE exchange_rate
+        ADD  (PRIMARY KEY (institution_code, currency_code));
+
+------ÉRÅ[Éhñ|ñÛÉeÅ[ÉuÉã
+CREATE TABLE code_translation
+(
+    code_type                VARCHAR2(64)     NOT NULL,
+    institution_code         VARCHAR2(2)      NOT NULL,
+    code                     VARCHAR2(64)     NOT NULL,
+    display_message          VARCHAR2(128)    NULL,
+    create_date              Date             NULL,
+    last_update_date         Date             NULL,
+    last_updater             VARCHAR2(20)     NULL
+);
+   
+------Add Index
+CREATE UNIQUE INDEX XPKcode_translation ON code_translation
+(
+    code_type,
+    institution_code,
+    code
+);
+
+------Add Primary Key
+ALTER TABLE code_translation
+        ADD  (PRIMARY KEY (code_type, institution_code, code));
+
+------êÍópêUçûêÊå˚ç¿èåèÉeÅ[ÉuÉã
+CREATE TABLE exclusive_use_account_cond
+(
+    institution_code             VARCHAR2(3)      NOT NULL,
+    fin_institution_code         VARCHAR2(4)      NOT NULL,
+    fin_branch_code              VARCHAR2(3)      NOT NULL,
+    fin_account_type_name        VARCHAR2(10)     NULL,
+    fin_account_no               VARCHAR2(7)      NOT NULL,
+    status                       VARCHAR2(1)      NOT NULL,
+    last_updater                 VARCHAR2(20)     NULL,
+    created_timestamp            Date             NOT NULL,
+    last_updated_timestamp       Date             NOT NULL
+);
+
+------Add Index
+CREATE UNIQUE INDEX XPKexclusive_use_account_cond ON exclusive_use_account_cond
+(
+    institution_code,
+    fin_institution_code,
+    fin_branch_code,
+    fin_account_no
+);
+
+------Add Primary Key
+ALTER TABLE exclusive_use_account_cond
+        ADD  (PRIMARY KEY (institution_code, fin_institution_code, fin_branch_code, fin_account_no));
+
+------å˚ç¿èÓïÒÉ}ÉXÉ^
+CREATE TABLE account_info_mst
+(
+    account_id                   NUMBER(18)       NOT NULL,
+    institution_code             VARCHAR2(3)      NOT NULL,
+    branch_code                  VARCHAR2(3)      NOT NULL,
+    account_code                 VARCHAR2(7)      NOT NULL,
+    created_timestamp            Date             NOT NULL,
+    last_updated_timestamp       Date             NOT NULL,
+    last_updater                 VARCHAR2(20)     NULL,
+    family_name_alt1             VARCHAR2(40)     NULL,
+    real_name1                   VARCHAR2(66)     NULL,
+    real_name2                   VARCHAR2(66)     NULL,
+    occupation_div               VARCHAR2(2)      NULL,
+    represent_family_name        VARCHAR2(50)     NULL,
+    represent_given_name         VARCHAR2(50)     NULL,
+    represent_family_name_alt1   VARCHAR2(50)     NULL,
+    represent_given_name_alt1    VARCHAR2(50)     NULL,
+    represent_power              VARCHAR2(50)     NULL,
+    director_family_name         VARCHAR2(50)     NULL,
+    director_given_name	         VARCHAR2(50)     NULL,
+    director_family_name_alt1    VARCHAR2(50)     NULL,
+    director_given_name_alt1     VARCHAR2(50)     NULL,
+    director_department          VARCHAR2(50)     NULL,
+    director_post                VARCHAR2(50)     NULL,
+    director_zip_code            VARCHAR2(7)      NULL,
+    director_address1            VARCHAR2(50)     NULL,
+    director_address2            VARCHAR2(50)     NULL,
+    director_address3            VARCHAR2(50)     NULL,
+    director_era_born            VARCHAR2(1)      NULL,
+    director_born_date           VARCHAR2(6)      NULL,
+    director_corp_telephone      VARCHAR2(16)     NULL,
+    other_contact                VARCHAR2(16)     NULL,
+    office                       VARCHAR2(50)     NULL,
+    office_zip_code              VARCHAR2(10)     NULL,
+    office_address               VARCHAR2(100)    NULL,
+    department                   VARCHAR2(50)     NULL,
+    post                         VARCHAR2(36)     NULL,
+    office_telephone             VARCHAR2(16)     NULL,
+    mobile                       VARCHAR2(16)     NULL,
+    contact_priority1            VARCHAR2(2)      NULL,
+    contact_priority2            VARCHAR2(2)      NULL,
+    contact_priority3            VARCHAR2(2)      NULL,
+    nationality                  VARCHAR2(1)      NULL,
+    nationality_other            VARCHAR2(50)     NULL,
+    occupation_updated_timestamp DATE             NULL,
+    fax                          VARCHAR2(16)     NULL,
+    annual_income_div            VARCHAR2(4)      NULL,
+    asset_value_div              VARCHAR2(4)      NULL,
+    fund_budget_amount_div       VARCHAR2(4)      NULL,
+    invest_purpose_div           VARCHAR2(4)      NULL,
+    invest_plan_period_div       VARCHAR2(4)      NULL,
+    experience_flag1             NUMBER(1)        NULL,
+    experience_flag2             NUMBER(1)        NULL,
+    experience_flag3             NUMBER(1)        NULL,
+    experience_flag4             NUMBER(1)        NULL,
+    experience_flag5             NUMBER(1)        NULL,
+    experience_flag6             NUMBER(1)        NULL,
+    experience_flag7             NUMBER(1)        NULL,
+    experience_flag8             NUMBER(1)        NULL,
+    experience_flag9             NUMBER(1)        NULL,
+    experience_flag10            NUMBER(1)        NULL,
+    experience_div1              VARCHAR2(4)      NULL,
+    experience_div2              VARCHAR2(4)      NULL,
+    experience_div3              VARCHAR2(4)      NULL,
+    experience_div4              VARCHAR2(4)      NULL,
+    experience_div5              VARCHAR2(4)      NULL,
+    experience_div6              VARCHAR2(4)      NULL,
+    experience_div7              VARCHAR2(4)      NULL,
+    experience_div8              VARCHAR2(4)      NULL,
+    experience_div9              VARCHAR2(4)      NULL,
+    experience_div10             VARCHAR2(4)      NULL,
+    interest_flag1               NUMBER(1)        NULL,
+    interest_flag2               NUMBER(1)        NULL,
+    interest_flag3               NUMBER(1)        NULL,
+    interest_flag4               NUMBER(1)        NULL,
+    interest_flag5               NUMBER(1)        NULL,
+    interest_flag6               NUMBER(1)        NULL,
+    interest_flag7               NUMBER(1)        NULL,
+    interest_flag8               NUMBER(1)        NULL,
+    interest_flag9               NUMBER(1)        NULL,
+    interest_flag10              NUMBER(1)        NULL,
+    appli_motivat_div            VARCHAR2(4)      NULL,
+    appli_motivat_div_detail     VARCHAR2(50)     NULL,
+    use_institution_div          VARCHAR2(4)      NULL,
+    internet_trade_div           VARCHAR2(4)      NULL,
+    introduce_branch_code        VARCHAR2(3)      NULL
+); 
+
+------Add Index
+CREATE UNIQUE INDEX XPKaccount_info_mst ON account_info_mst
+(
+    account_id
+);
+
+CREATE UNIQUE INDEX XAKaccount_info_mst ON account_info_mst
+(
+    institution_code,
+    branch_code,
+    account_code
+);
+
+------Add Primary Key
+ALTER TABLE account_info_mst
+        ADD  (PRIMARY KEY (account_id));
+
+
+------êÍópêUçûêÊå˚ç¿
+CREATE TABLE exclusive_use_account (
+    account_id                      NUMBER(18)      NOT NULL,
+    institution_code                VARCHAR2(3)     NOT NULL,
+    branch_code                     VARCHAR2(3)     NOT NULL,
+    account_code                    VARCHAR2(7)     NOT NULL,
+    fin_institution_name            VARCHAR2(32)        NULL,
+    fin_branch_name                 VARCHAR2(32)        NULL,
+    fin_branch_code                 VARCHAR2(3)         NULL,
+    fin_account_type_name           VARCHAR2(10)        NULL,
+    fin_account_no                  VARCHAR2(7)         NULL,
+    fin_account_name                VARCHAR2(40)        NULL,
+    last_updater                    VARCHAR2(20)    NOT NULL,
+    created_timestamp               DATE            NOT NULL,
+    last_updated_timestamp          DATE            NOT NULL,
+    fin_institution_code            VARCHAR2(4)         NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKexclusive_use_account ON exclusive_use_account
+(
+    account_id
+);
+
+CREATE INDEX XIEexclusive_use_account ON exclusive_use_account
+(
+    institution_code,
+    branch_code,
+    account_code
+);
+
+CREATE INDEX XIE1exclusive_use_account ON exclusive_use_account
+(
+    institution_code,
+    fin_institution_code,
+    fin_branch_code,
+    fin_account_no
+);
+--Primary Key
+ALTER TABLE exclusive_use_account
+        ADD  (PRIMARY KEY (account_id));
+
+
+------äOïîÉVÉXÉeÉÄSOAPê⁄ë±ÉvÉäÉtÉ@@ÉåÉìÉXÅiÉÅÉbÉZÅ[ÉWå`éÆÅj
+CREATE TABLE soap_connect_pref_msg (
+        branch_id               NUMBER(18)      NOT NULL,
+        connect_div             VARCHAR2(2)     NOT NULL,
+        endpoint_name           VARCHAR2(500)   NOT NULL,
+        target_namespace_name   VARCHAR2(500)   NOT NULL,
+        prefix                  VARCHAR2(100)   NOT NULL,
+        operation_name          VARCHAR2(500)   NOT NULL,
+        charset                 VARCHAR2(100)   NOT NULL,
+        soap_action             VARCHAR2(500)   NULL,
+        parameter_list          VARCHAR2(1000)  NULL,
+        response_name           VARCHAR2(500)   NOT NULL,
+        response_param_list     VARCHAR2(1000)  NOT NULL,
+        response_timeout        VARCHAR2(10)    NULL,
+        last_updater            VARCHAR2(20)    NULL,
+        created_timestamp       DATE            NOT NULL,
+        last_updated_timestamp  DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKsoap_connect_pref_msg ON soap_connect_pref_msg
+(
+        branch_id	,
+        connect_div
+);
+
+--Primary Key
+ALTER TABLE soap_connect_pref_msg
+        ADD  (PRIMARY KEY (branch_id,connect_div));
+
+------äOïîÉVÉXÉeÉÄSOAPê⁄ë±ÉvÉäÉtÉ@@ÉåÉìÉXÅiRPCå`éÆÅj
+CREATE TABLE soap_connect_pref_rpc (
+        branch_id               NUMBER(18)      NOT NULL,
+        connect_div             VARCHAR2(2)     NOT NULL,
+        endpoint_name           VARCHAR2(500)   NOT NULL,
+        target_namespace_name   VARCHAR2(200)   NOT NULL,
+        service_name            VARCHAR2(200)   NOT NULL,
+        port_type_name          VARCHAR2(200)   NOT NULL,
+        operation_name          VARCHAR2(200)   NOT NULL,
+        parameter_list          VARCHAR2(1000)  NULL,
+        parameter_type_list     VARCHAR2(1000)  NULL,
+        response_param_type     VARCHAR2(200)   NOT NULL,
+        response_timeout        VARCHAR2(10)    NULL,
+        last_updater            VARCHAR2(20)    NULL,
+        created_timestamp       DATE            NOT NULL,
+        last_updated_timestamp  DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKsoap_connect_pref_rpc ON soap_connect_pref_rpc
+(
+        branch_id	,
+        connect_div
+);
+
+--Primary Key
+ALTER TABLE soap_connect_pref_rpc
+        ADD  (PRIMARY KEY (branch_id,connect_div));
+
+------SOAPÉÅÉbÉZÅ[ÉWï€ë∂
+CREATE TABLE soap_message (
+        branch_id               NUMBER(18)      NOT NULL,
+        connect_div             VARCHAR2(2)     NOT NULL,
+        send_receive_div        VARCHAR2(1)     NOT NULL,
+        soap_message            VARCHAR2(4000)  NULL,
+        created_timestamp       DATE            NOT NULL
+);
+
+--Table: å⁄ãqÉ}ÉXÉ^Å[ÅiëSïîìXï™Åj
+CREATE TABLE main_account_all (
+    comp_code                            VARCHAR2(2)           NOT NULL,
+    gen_acc_div                          VARCHAR2(1)           NULL,
+    gen_br_del_div                       VARCHAR2(1)           NULL,
+    ruito_acc_open_div                   VARCHAR2(1)           NOT NULL,
+    margin_acc_open_div                  VARCHAR2(1)           NOT NULL,
+    when_issued_acc_open_div             VARCHAR2(1)           NULL,
+    report_dispatch_stop_div             VARCHAR2(1)           NULL,
+    doc_dispatch_div                     VARCHAR2(1)           NULL,
+    gp_br_del_div                        VARCHAR2(1)           NULL,
+    account_open_date                    DATE                  NULL,
+    last_update_date                     DATE                  NULL,
+    br_code                              VARCHAR2(3)           NOT NULL,
+    cust_code                            VARCHAR2(6)           NOT NULL,
+    cust_code_cd                         VARCHAR2(1)           NOT NULL,
+    sonar_trader_code                    VARCHAR2(5)           NOT NULL,
+    rep_dispatch_stp_bd                  VARCHAR2(1)           NULL,
+    occupation                           VARCHAR2(2)           NULL,
+    safe_cont_open_div                   VARCHAR2(1)           NULL,
+    foreign_sec_acc_open_div             VARCHAR2(1)           NOT NULL,
+    tokuyu_acc_open_div                  VARCHAR2(1)           NULL,
+    gold_acc_open_div                    VARCHAR2(1)           NULL,
+    total_trade_open_div                 VARCHAR2(1)           NULL,
+    tie_up_loan_open_div                 VARCHAR2(1)           NULL,
+    ifo_acc_open_div_tokyo               VARCHAR2(1)           NOT NULL,
+    address_unknown                      VARCHAR2(1)           NULL,
+    cust_div                             VARCHAR2(1)           NULL,
+    deposit_div                          VARCHAR2(1)           NULL,
+    all_substitution_div                 VARCHAR2(1)           NULL,
+    ins_loan_bill_mthd_div               VARCHAR2(1)           NULL,
+    ins_loan_cer_mthd_div                VARCHAR2(1)           NULL,
+    ins_loan_clause_mthd_div             VARCHAR2(1)           NULL,
+    dom_tax_div                          VARCHAR2(1)           NULL,
+    client_trader_code                   VARCHAR2(5)           NULL,
+    telephone                            VARCHAR2(16)          NULL,
+    family_name_alt1                     VARCHAR2(40)          NOT NULL,
+    zip_code                             VARCHAR2(8)           NOT NULL,
+    prefecture                           VARCHAR2(18)          NULL,
+    comma                                VARCHAR2(1)           NULL,
+    address_line1_kana                   VARCHAR2(34)          NOT NULL,
+    address_line2_kana                   VARCHAR2(56)          NULL,
+    address_line3_kana                   VARCHAR2(56)          NULL,
+    family_name                          VARCHAR2(40)          NOT NULL,
+    address_line1                        VARCHAR2(34)          NOT NULL,
+    address_line2                        VARCHAR2(34)          NULL,
+    address_line3                        VARCHAR2(34)          NULL,
+    contact_address_telephone            VARCHAR2(16)          NULL,
+    contact_address                      VARCHAR2(38)          NULL,
+    era_born                             VARCHAR2(1)           NULL,
+    born_date                            VARCHAR2(8)           NULL,
+    sex                                  VARCHAR2(1)           NULL,
+    before_acc_trans_br_code             VARCHAR2(3)           NULL,
+    before_acc_trans_cust_code           VARCHAR2(7)           NULL,
+    d_card_appli_date                    DATE                  NULL,
+    d_card_issue_date                    DATE                  NULL,
+    d_card_password                      VARCHAR2(4)           NOT NULL,
+    d_card_issue_reason                  VARCHAR2(1)           NULL,
+    d_card_issue_number                  VARCHAR2(3)           NULL,
+    d_card_stop_date                     DATE                  NULL,
+    d_card_stop_reason                   VARCHAR2(1)           NULL,
+    d_card_cancel_date                   DATE                  NULL,
+    d_card_cancel_reason                 VARCHAR2(1)           NULL,
+    d_card_name                          VARCHAR2(40)          NULL,
+    pass_err_code_type                   VARCHAR2(1)           NULL,
+    pass_err_code_number                 VARCHAR2(1)           NULL,
+    pass_err_code_chg_date               DATE                  NULL,
+    pass_err_code_chg_time               VARCHAR2(6)           NULL,
+    ans_cust_div                         VARCHAR2(1)           NULL,
+    ans_stock_appli_cate                 DATE                  NULL,
+    dummy1                               VARCHAR2(5)           NULL,
+    self_assessed_sep_tax                VARCHAR2(1)           NULL,
+    tokuyu_appli_div                     VARCHAR2(1)           NULL,
+    maruyu_appli_div                     VARCHAR2(1)           NULL,
+    tokuyu_laundering_div                VARCHAR2(1)           NULL,
+    maruyu_laundering_div                VARCHAR2(1)           NULL,
+    tax_div                              VARCHAR2(1)           NULL,
+    dummy2                               VARCHAR2(1)           NULL,
+    ht_settlement_way                    VARCHAR2(1)           NULL,
+    dummy3                               VARCHAR2(1)           NULL,
+    total_tax_identity                   VARCHAR2(1)           NULL,
+    dummy4                               VARCHAR2(1)           NULL,
+    ifo_acc_open_div_osaka               VARCHAR2(1)           NOT NULL,
+    mort_trade_open_div                  VARCHAR2(1)           NULL,
+    ifo_acc_open_div_nagoya              VARCHAR2(1)           NOT NULL,
+    os_fnc_futures_open_div              VARCHAR2(1)           NULL,
+    os_sec_futures_open_div              VARCHAR2(1)           NULL,
+    tokyo_fnc_futures_open_div           VARCHAR2(1)           NULL,
+    for_war_trade_open_div               VARCHAR2(1)           NULL,
+    tentou_trade_open_div                VARCHAR2(1)           NULL,
+    represent_div                        VARCHAR2(1)           NULL,
+    family_nurturer_code                 VARCHAR2(7)           NULL,
+    family_unit_adimin                   VARCHAR2(1)           NULL,
+    new_monthly_div                      VARCHAR2(1)           NULL,
+    statement_skip1_div                  VARCHAR2(1)           NULL,
+    statement_skip2_div                  VARCHAR2(1)           NULL,
+    family_unit_del_div                  VARCHAR2(1)           NULL,
+    dummy5                               VARCHAR2(3)           NULL,
+    br_dispatch_div                      VARCHAR2(1)           NULL,
+    maruyu_grade_div                     VARCHAR2(1)           NULL,
+    dummy6                               VARCHAR2(8)           NULL,
+    dummy7                               VARCHAR2(6)           NULL,
+    trans_tax_div_acc_date               DATE                  NULL,
+    trans_tax_div                        VARCHAR2(1)           NULL,
+    resident                             VARCHAR2(1)           NULL,
+    bond_d_and_c_open_div                VARCHAR2(1)           NULL,
+    os_cd_cp_open_div                    VARCHAR2(1)           NULL,
+    new_tb_open_div                      VARCHAR2(1)           NULL,
+    dom_cp_open_div                      VARCHAR2(1)           NULL,
+    bond_tentou_op_open_div              VARCHAR2(1)           NULL,
+    t_bond_futures_open_div              VARCHAR2(1)           NULL,
+    dom_war_trade_open_div               VARCHAR2(1)           NULL,
+    dummy8                               VARCHAR2(1)           NULL,
+    dom_for_bond_open_div                VARCHAR2(1)           NULL,
+    tentou_sp_rule_open_div              VARCHAR2(1)           NULL,
+    dummy9                               VARCHAR2(1)           NULL,
+    dummy10                              VARCHAR2(1)           NULL,
+    dummy11                              VARCHAR2(1)           NULL,
+    dummy12                              VARCHAR2(1)           NULL,
+    dummy13                              VARCHAR2(1)           NULL,
+    mrf_acc_open_div                     VARCHAR2(1)           NOT NULL,
+    safe_cont_div                        VARCHAR2(1)           NULL,
+    foreign_cont_div                     VARCHAR2(1)           NULL,
+    dummy14                              VARCHAR2(1)           NULL,
+    gold_cont_div                        VARCHAR2(1)           NULL,
+    margin_cont_div                      VARCHAR2(1)           NULL,
+    when_issued_cont_div                 VARCHAR2(1)           NULL,
+    futures_op_cont_div_tokyo            VARCHAR2(1)           NULL,
+    dummy15                              VARCHAR2(1)           NULL,
+    futures_op_cont_div_osaka            VARCHAR2(1)           NULL,
+    tokyo_mothers_cont_div               VARCHAR2(1)           NULL,
+    futures_op_cont_div_nagoya           VARCHAR2(1)           NULL,
+    nq_j_gl_cont_div                     VARCHAR2(1)           NULL,
+    osaka_nw_mkt_cont_div                VARCHAR2(1)           NULL,
+    nagoya_grw_cpy_mkt_cont_div          VARCHAR2(1)           NULL,
+    for_war_trade_cont_div               VARCHAR2(1)           NULL,
+    tentou_trade_cont_div                VARCHAR2(1)           NULL,
+    bond_d_and_c_cont_div                VARCHAR2(1)           NULL,
+    sapporo_amb_cont_div                 VARCHAR2(1)           NULL,
+    new_tb_cont_div                      VARCHAR2(1)           NULL,
+    gen_credit_acc_cont_div              VARCHAR2(1)           NOT NULL,
+    bond_tentou_op_cont_div              VARCHAR2(1)           NULL,
+    fukuoka_qb_cont_div                  VARCHAR2(1)           NULL,
+    dom_war_trade_cont_div               VARCHAR2(1)           NULL,
+    tentou_sec_basis_cont_div            VARCHAR2(1)           NULL,
+    dom_for_bond_cont_div                VARCHAR2(1)           NULL,
+    tentou_sp_rule_cont_div              VARCHAR2(1)           NULL,
+    dummy16                              VARCHAR2(1)           NULL,
+    dummy17                              VARCHAR2(1)           NULL,
+    dummy18                              VARCHAR2(1)           NULL,
+    dummy19                              VARCHAR2(1)           NULL,
+    dummy20                              VARCHAR2(1)           NULL,
+    mrf_contract_div                     VARCHAR2(1)           NULL,
+    new_account_div                      VARCHAR2(1)           NOT NULL,
+    via_trust_bank_div                   VARCHAR2(1)           NOT NULL,
+    class_div                            VARCHAR2(4)           NULL,
+    address_code                         VARCHAR2(7)           NULL,
+    person_identify                      VARCHAR2(1)           NOT NULL,
+    cancel_div                           VARCHAR2(2)           NULL,
+    add_chg_div                          VARCHAR2(1)           NULL,
+    reserve                              VARCHAR2(9)           NULL,
+    org_deposit_div                      VARCHAR2(1)           NULL,
+    eq_hold_rep_div                      VARCHAR2(1)           NULL,
+    chkup_rep_div                        VARCHAR2(1)           NULL,
+    fax                                  VARCHAR2(16)          NULL,
+    hq_input_div                         VARCHAR2(1)           NULL,
+    yellow_customer                      VARCHAR2(1)           NOT NULL,
+    dummy21                              VARCHAR2(8)           NULL,
+    dummy22                              VARCHAR2(8)           NULL,
+    bond_butt_div                        VARCHAR2(1)           NULL,
+    hofuri_entry                         VARCHAR2(7)           NULL,
+    agreed_non_pkg_div                   VARCHAR2(1)           NULL,
+    position_report_cycle_div            VARCHAR2(1)           NOT NULL,
+    position_report_div                  VARCHAR2(1)           NOT NULL,
+    certificate_deposit_flag             VARCHAR2(1)           NOT NULL,
+    account_statement_flag               VARCHAR2(1)           NOT NULL,
+    trading_report_div                   VARCHAR2(1)           NOT NULL,
+    inv_trast_ope_report                 VARCHAR2(1)           NULL,
+    tax_type                             VARCHAR2(1)           NOT NULL,
+    margin_tax_type                      VARCHAR2(1)           NOT NULL,
+    equity_sp_acc_open_date              DATE                  NULL,
+    margin_sp_acc_open_date              DATE                  NULL,
+    tax_type_last                        VARCHAR2(1)           NULL,
+    margin_tax_type_last                 VARCHAR2(1)           NULL,
+    tax_type_next                        VARCHAR2(1)           NOT NULL,
+    margin_tax_type_next                 VARCHAR2(1)           NOT NULL,
+    fluct_date                           DATE                  NULL,
+    margin_fluct_date                    DATE                  NULL,
+    local_tax_div_last                   VARCHAR2(1)           NULL,
+    local_tax_div                        VARCHAR2(1)           NULL,
+    local_tax_div_next                   VARCHAR2(1)           NULL,
+    qualified_inst_investor_div          VARCHAR2(1)           NOT NULL,
+    quoto_type                           VARCHAR2(1)           NOT NULL,
+    sp_acc_abolish_date                  DATE                  NULL,
+    sp_mng_acc_open_div                  VARCHAR2(1)           NULL,
+    reserve_area                         VARCHAR2(19)          NULL,
+    web3_encrypted_password              VARCHAR2(48)          NULL,
+    xtrade_encrypted_password            VARCHAR2(48)          NULL,
+    broadcast_law                        VARCHAR2(1)           NULL,
+    aviation_law                         VARCHAR2(1)           NULL,
+    ntt_law                              VARCHAR2(1)           NULL,
+    dividend_trans_designate             VARCHAR2(1)           NULL,
+    standing_proxy                       VARCHAR2(1)           NULL,
+    statutory_agent                      VARCHAR2(1)           NULL,
+    affiliate_account_code               VARCHAR2(9)           NULL,
+    agency_notify_cmp_div                VARCHAR2(1)           NULL    
+);
+
+--Index
+CREATE UNIQUE INDEX XPKmain_account_all ON main_account_all
+(
+    comp_code    ,
+    br_code      ,
+    cust_code    ,
+    cust_code_cd
+);
+
+CREATE INDEX XIE1main_account_all ON main_account_all
+(
+    era_born    ,
+    born_date
+);
+
+CREATE INDEX XIE2main_account_all ON main_account_all
+(
+    telephone
+);
+
+CREATE INDEX XIE3main_account_all ON main_account_all
+(
+    contact_address_telephone
+);
+
+--Primary Key
+ALTER TABLE main_account_all
+        ADD  (PRIMARY KEY (comp_code, br_code, cust_code, cust_code_cd));
+
+--Table: Åiã§í Åjí â›ÉeÅ[ÉuÉã
+CREATE TABLE gen_currency (
+    institution_code               VARCHAR2(3)                  NOT NULL,
+    currency_code                  VARCHAR2(3)                  NOT NULL,
+    currency_name                  VARCHAR2(20)                     NULL,
+    currency_short_name            VARCHAR2(3)                      NULL,
+    current_sell_rate              NUMBER(7,4)                      NULL,
+    prev_sell_rate                 NUMBER(7,4)                      NULL,
+    current_buy_rate               NUMBER(7,4)                      NULL,
+    prev_buy_rate                  NUMBER(7,4)                      NULL,
+    current_sell_exec_rate         NUMBER(7,4)                      NULL,
+    prev_sell_exec_rate            NUMBER(7,4)                      NULL,
+    current_buy_exec_rate          NUMBER(7,4)                      NULL,
+    prev_buy_exec_rate             NUMBER(7,4)                      NULL,
+    scale                          NUMBER(6)                    NOT NULL,
+    change_jpy_round_div           VARCHAR2(1)                  NOT NULL,
+    change_f_ccy_round_div         VARCHAR2(1)                  NOT NULL,
+    rate_last_updater              VARCHAR2(20)                     NULL,
+    exec_rate_last_updater         VARCHAR2(20)                     NULL,
+    rate_update_timestamp          DATE        DEFAULT sysdate  NOT NULL,
+    exec_rate_update_timestamp     DATE        DEFAULT sysdate  NOT NULL,
+    last_updater                   VARCHAR2(20)                     NULL,
+    created_timestamp              DATE        DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp         DATE        DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKgen_currency ON gen_currency
+(
+    institution_code,
+    currency_code
+);
+
+--Primary Key
+ALTER TABLE gen_currency
+       ADD  ( PRIMARY KEY (institution_code, currency_code) ) ;
+
+--Table: íçï∂íPà è–âÓãÊï™ÉeÅ[ÉuÉã
+CREATE TABLE order_unit_introduce_div (
+    order_unit_id               NUMBER(18)      NOT NULL,
+    account_id                  NUMBER(18)      NOT NULL,
+    product_type                NUMBER(6)       NOT NULL,
+    introduce_branch_div        VARCHAR2(1)         NULL,
+    introduce_branch_code       VARCHAR2(3)         NULL,
+    last_updater                VARCHAR2(20)    NOT NULL,
+    created_timestamp           DATE            NOT NULL,
+    last_updated_timestamp      DATE            NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKorder_unit_introduce_div ON order_unit_introduce_div
+(
+    order_unit_id,
+    product_type
+);
+
+--Primary Key
+ALTER TABLE order_unit_introduce_div
+       ADD  ( PRIMARY KEY (order_unit_id, product_type) ) ;
+
+--Table: ÉXÉgÉbÉNOPñ¡ïøä«óùÉ}ÉXÉ^Å[
+CREATE TABLE stock_option_product (
+    institution_code           VARCHAR2(3)                 NOT NULL,
+    branch_id                  NUMBER(18)                  NOT NULL,
+    account_id                 NUMBER(18)                  NOT NULL,
+    product_id                 NUMBER(18)                  NOT NULL,
+    work_date                  VARCHAR2(8)                     NULL,
+    created_date               VARCHAR2(8)                     NULL,
+    last_updated_date          VARCHAR2(8)                     NULL,
+    regist_div                 VARCHAR2(1)                     NULL,
+    product                    VARCHAR2(1)                     NULL,
+    acc_trans_date             VARCHAR2(8)                     NULL,
+    before_acc_trans_br        VARCHAR2(3)                     NULL,
+    before_acc_trans_cust      VARCHAR2(7)                     NULL,
+    created_timestamp          DATE      DEFAULT sysdate   NOT NULL,
+    last_updated_timestamp     DATE      DEFAULT sysdate   NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKstock_option_product ON stock_option_product
+(
+    institution_code,
+    branch_id,
+    account_id,
+    product_id
+);
+
+--Primary Key
+ALTER TABLE stock_option_product
+       ADD  ( PRIMARY KEY (institution_code, branch_id, account_id, product_id) ) ;
+
+--Table: íSï€ïsë´å⁄ãqÉfÅ[É^ÉeÅ[ÉuÉã
+CREATE TABLE security_shortage_account (
+    account_id                NUMBER(18)                  NOT NULL,
+    proc_date                 VARCHAR2(8)                 NOT NULL,
+    institution_code          VARCHAR2(3)                 NOT NULL,
+    branch_code               VARCHAR2(3)                 NOT NULL,
+    account_code              VARCHAR2(7)                 NOT NULL,
+    payment_stop_div          VARCHAR2(1)                     NULL,
+    payment_stop_amount       VARCHAR2(10)                    NULL,
+    last_updater              VARCHAR2(20)                    NULL,
+    created_timestamp         DATE       DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp    DATE       DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsecurity_shortage_account ON security_shortage_account
+(
+    account_id
+);
+
+--Primary Key
+ALTER TABLE security_shortage_account
+       ADD  ( PRIMARY KEY (account_id) ) ;
+
+--Table: éËêîóøÉRÅ[ÉXÉRÅ[Éhïœä∑É}ÉXÉ^
+CREATE TABLE comm_code_chg_mst (
+    branch_id                    NUMBER(18)              NOT NULL,
+    comm_product_code            VARCHAR2(2)             NOT NULL,
+    commission_no                VARCHAR2(2)             NOT NULL,
+    appli_start_date             VARCHAR2(8)             NOT NULL,
+    commission_course_div        VARCHAR2(2)             NOT NULL,
+    initial_set_div              VARCHAR2(1)             NOT NULL,
+    account_charge_ratio         DECIMAL(18,6)           NOT NULL,
+    last_updater                 VARCHAR2(20)            NOT NULL,
+    created_timestamp            DATE                    NOT NULL,
+    last_updated_timestamp       DATE                    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcomm_no_reference_mst ON comm_code_chg_mst
+(
+    branch_id,
+    comm_product_code,
+    commission_no,
+    appli_start_date
+);
+
+--Primary Key
+ALTER TABLE comm_code_chg_mst
+       ADD  ( PRIMARY KEY (branch_id, comm_product_code, commission_no, appli_start_date) ) ;
+
+--Table: íSï€ïsë´å⁄ãqóöóÉfÅ[É^ÉeÅ[ÉuÉã
+CREATE TABLE security_shortage_account_hist (
+    account_id                 NUMBER(18)                    NOT NULL,
+    proc_date                  VARCHAR2(8)                   NOT NULL,
+    institution_code           VARCHAR2(3)                   NOT NULL,
+    branch_code                VARCHAR2(3)                   NOT NULL,
+    account_code               VARCHAR2(7)                   NOT NULL,
+    payment_stop_div           VARCHAR2(1)                       NULL,
+    payment_stop_amount        VARCHAR2(10)                      NULL,
+    last_updater               VARCHAR2(20)                      NULL,
+    created_timestamp          DATE       DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp     DATE       DEFAULT sysdate    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsecurity_shortage_acct_hist ON security_shortage_account_hist
+(
+    account_id,
+    proc_date
+);
+
+--Primary Key
+ALTER TABLE security_shortage_account_hist
+       ADD  ( PRIMARY KEY (account_id, proc_date) ) ;
+
+--Table: éûâøèIílÉeÅ[ÉuÉã
+CREATE TABLE quote_closing_price (
+    product_id                    NUMBER(18)                     NOT NULL,
+	base_date                     CHAR(8)                        NOT NULL,
+	institution_code              VARCHAR2(3)                    NOT NULL,
+	product_code                  VARCHAR2(10)                   NOT NULL,
+	product_type                  NUMBER(6)                      NOT NULL,
+	tokyo_closing_price           NUMBER(18,6)   DEFAULT 0       NOT NULL,
+	tokyo_closing_price_time      DATE                               NULL,
+	tokyo_closing_price_type      CHAR(1)        DEFAULT 0       NOT NULL,
+	oosaka_closing_price          NUMBER(18,6)   DEFAULT 0       NOT NULL,
+	oosaka_closing_price_time     DATE                     	         NULL,
+	oosaka_closing_price_type     CHAR(1)        DEFAULT 0       NOT NULL,
+	nagoya_closing_price          NUMBER(18,6)   DEFAULT 0       NOT NULL,
+	nagoya_closing_price_time     DATE                               NULL,
+	nagoya_closing_price_type     CHAR(1)        DEFAULT 0       NOT NULL,
+	other_market_id               NUMBER(18)                         NULL,
+	other_closing_price           NUMBER(18,6)   DEFAULT 0       NOT NULL,
+	other_closing_price_time      DATE        	                     NULL,
+	other_closing_price_type      CHAR(1)        DEFAULT 0       NOT NULL,
+	primary_closing_price         NUMBER(18,6)   DEFAULT 0       NOT NULL,
+	primary_closing_price_time    DATE              	             NULL,
+	primary_closing_price_type    CHAR(1)        DEFAULT 0       NOT NULL,
+	created_timestamp             DATE           DEFAULT sysdate     NULL,
+	last_updated_timestamp        DATE           DEFAULT sysdate     NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKquote_closing_price ON quote_closing_price
+(
+    product_id,
+    base_date
+);
+
+CREATE INDEX XIE1quote_closing_price ON quote_closing_price
+(
+    institution_code,
+    product_code
+);
+
+--Primary Key
+ALTER TABLE quote_closing_price
+       ADD  ( PRIMARY KEY (product_id, base_date) ) ;
+
+--Table: ésèÍï ä|ñ⁄ÉeÅ[ÉuÉã
+CREATE TABLE market_margin_ratio (
+    institution_code          VARCHAR2(3)                     NOT NULL,
+    market_id                 NUMBER(18)                      NOT NULL,
+    list_type                 VARCHAR2(2)                     NOT NULL,
+    new_list_type             VARCHAR2(2)                     NOT NULL,
+    securities_estimation_div VARCHAR2(1)                     NOT NULL,
+    priority                  DECIMAL(18,6)                   NOT NULL,
+    margin_ratio              DECIMAL(18,6)                   NOT NULL,
+    created_timestamp         DATE  DEFAULT sysdate           NOT NULL,
+    last_updated_timestamp    DATE  DEFAULT sysdate           NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKmarket_margin_ratio ON market_margin_ratio
+(
+    institution_code,
+    market_id,
+    list_type,
+    new_list_type,
+    securities_estimation_div
+);
+
+--Primary Key
+ALTER TABLE market_margin_ratio
+       ADD  ( PRIMARY KEY (institution_code, market_id, list_type, new_list_type, securities_estimation_div) ) ;
+
+--Table: äOâ›MMFà◊ë÷ÉåÅ[ÉgÉeÅ[ÉuÉã
+CREATE TABLE frgn_mmf_exchange_rate (
+    institution_code          VARCHAR2(3)      NOT NULL,
+    currency_code             VARCHAR2(2)      NOT NULL,
+    exec_timestamp            DATE                 NULL,
+    tt_selling_rate           DECIMAL(18,6)        NULL,
+    tt_buying_rate            DECIMAL(18,6)        NULL,
+    sub_currency_ratio        NUMBER(5)            NULL,
+    restrict_rate             DECIMAL(18,6)        NULL,
+    created_timestamp         DATE             NOT NULL,
+    last_updated_timestamp    DATE             NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfrgn_mmf_exchange_rate ON frgn_mmf_exchange_rate
+(
+    institution_code,
+    currency_code
+);
+
+--Primary Key
+ALTER TABLE frgn_mmf_exchange_rate
+       ADD  ( PRIMARY KEY (institution_code, currency_code) ) ;
+
+--Table: äOâ›êUçûêÊã‡óZã@@ä÷ÉeÅ[ÉuÉã
+CREATE TABLE f_trans_fin_institution (
+    institution_code          VARCHAR2(3)                     NOT NULL,
+    branch_code               VARCHAR2(3)                     NOT NULL,
+    account_code              VARCHAR2(7)                     NOT NULL,
+    currency_code             VARCHAR2(3)                     NOT NULL,
+    fin_del_div               VARCHAR2(1)                         NULL,
+    fin_institution_code      VARCHAR2(4)                         NULL,
+    fin_institution_name      VARCHAR2(32)                        NULL,
+    fin_branch_code           VARCHAR2(3)                         NULL,
+    fin_branch_name           VARCHAR2(32)                        NULL,
+    fin_account_no            VARCHAR2(20)                        NULL,
+    fin_account_name          VARCHAR2(31)                        NULL,
+    fin_save_div              VARCHAR2(1)                         NULL,
+    fin_comm_div              VARCHAR2(1)                         NULL,
+    foreign_fin_account_name  VARCHAR2(30)                        NULL,
+    last_updater              VARCHAR2(20)                        NULL,
+    created_timestamp         DATE                                NULL,
+    last_updated_timestamp    DATE                                NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKf_trans_fin_institution ON f_trans_fin_institution
+(
+    institution_code,
+    branch_code,
+    account_code,
+    currency_code
+);
+
+--Primary Key
+ALTER TABLE f_trans_fin_institution
+       ADD  ( PRIMARY KEY (institution_code, branch_code, account_code, currency_code) ) ;
+
+--Table: é©ìÆêUë÷ìoò^É}ÉXÉ^
+CREATE TABLE direct_debit (
+    institution_code                VARCHAR2(2)               NOT NULL,
+    sonar_last_updated_timestamp    DATE                          NULL,
+    sonar_created_timestamp         DATE                          NULL,
+    branch_code                     VARCHAR2(3)               NOT NULL,
+    account_code                    VARCHAR2(7)               NOT NULL,
+    trader_code                     VARCHAR2(5)                   NULL,
+    designate_div                   VARCHAR2(1)               NOT NULL,
+    comodity                        VARCHAR2(2)                   NULL,
+    fund_code                       VARCHAR2(9)                   NULL,
+    transfer_div                    VARCHAR2(1)               NOT NULL,
+    fin_institution_code            VARCHAR2(4)                   NULL,
+    fin_institution_name            VARCHAR2(15)                  NULL,
+    fin_branch_code                 VARCHAR2(5)                   NULL,
+    fin_branch_name                 VARCHAR2(15)                  NULL,
+    fin_save_div                    VARCHAR2(1)               NOT NULL,
+    fin_account_no                  VARCHAR2(8)                   NULL,
+    fin_account_name                VARCHAR2(30)                  NULL,
+    trans_commission                VARCHAR2(1)                   NULL,
+    trans_deal_div                  VARCHAR2(1)                   NULL,
+    last_updater                    VARCHAR2(20)                  NULL,
+    created_timestamp               DATE                          NULL,
+    last_updated_timestamp          DATE                          NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XAK1direct_debit ON direct_debit
+(
+    institution_code,
+    branch_code,
+    account_code,
+    designate_div,
+    comodity,
+    fund_code,
+    transfer_div
+);
+
+----ÉçÉOÉCÉìâﬂãéóöó
+CREATE TABLE login_history_past (
+       login_history_id     NUMBER(18)     NOT NULL,
+       institution_code     VARCHAR2(2)    NOT NULL,
+       branch_code          VARCHAR2(3)    NOT NULL,
+       account_code         VARCHAR2(12)   NOT NULL,
+       discrimination_code  VARCHAR2(64)       NULL,
+       account_id           NUMBER(18)     NOT NULL,
+       ip_address           VARCHAR2(15)       NULL,
+       order_root_div       VARCHAR2(1)    NOT NULL,
+       order_channel        VARCHAR2(1)    NOT NULL,
+       login_timestamp      DATE           NOT NULL,
+       login_failure        VARCHAR2(1)    NOT NULL,
+       login_error_info     VARCHAR2(256)      NULL,
+       created_timestamp        DATE       DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp   DATE       DEFAULT sysdate  NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKlogin_history_past ON login_history_past
+(
+       login_history_id
+);
+
+CREATE INDEX XIE1login_history_past ON login_history_past
+(
+       institution_code               ,
+       login_timestamp                ,
+       login_failure                  ,
+       ip_address
+);
+
+ALTER TABLE login_history_past
+       ADD  ( PRIMARY KEY (login_history_id) ) ;
+
+----ÉçÉOÉCÉìóöó
+CREATE TABLE login_history (
+       login_history_id     NUMBER(18)     NOT NULL,
+       institution_code     VARCHAR2(2)    NOT NULL,
+       branch_code          VARCHAR2(3)    NOT NULL,
+       account_code         VARCHAR2(12)   NOT NULL,
+       discrimination_code  VARCHAR2(64)       NULL,
+       account_id           NUMBER(18)     NOT NULL,
+       ip_address           VARCHAR2(15)       NULL,
+       order_root_div       VARCHAR2(1)    NOT NULL,
+       order_channel        VARCHAR2(1)    NOT NULL,
+       login_timestamp      DATE           NOT NULL,
+       login_failure        VARCHAR2(1)    NOT NULL,
+       login_error_info     VARCHAR2(256)      NULL,
+       created_timestamp          DATE     DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp     DATE     DEFAULT sysdate  NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKlogin_history ON login_history
+(
+       login_history_id
+);
+
+CREATE INDEX XIE1login_history ON login_history
+(
+       institution_code               ,
+       login_timestamp                ,
+       login_failure                  ,
+       ip_address
+);
+
+ALTER TABLE login_history
+       ADD  ( PRIMARY KEY (login_history_id) ) ;
+
+----ÉçÉOÉCÉìäƒéãê›íË
+CREATE TABLE login_wdog_attribute (
+       institution_code	        VARCHAR2(2)   NOT NULL,
+       attribute_name           VARCHAR2(32)  NOT NULL,
+       attribute_name_serial_no NUMBER(6)     DEFAULT 1        NOT NULL,
+       attribute_value          VARCHAR2(64)  NOT NULL,
+       last_updater             VARCHAR2(20)  NOT NULL,
+       created_timestamp        DATE          DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp   DATE          DEFAULT sysdate  NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKlogin_wdog_attribute ON login_wdog_attribute
+(
+       institution_code               ,
+       attribute_name                 ,
+       attribute_name_serial_no
+);
+
+ALTER TABLE login_wdog_attribute
+       ADD  ( PRIMARY KEY (institution_code, attribute_name, attribute_name_serial_no) ) ;
+
+----ÉçÉOÉCÉìãëî€IP
+CREATE TABLE login_reject_ip (
+       login_reject_id          NUMBER(18)    NOT NULL,
+       institution_code         VARCHAR2(2)   NOT NULL,
+       ip_address               VARCHAR2(15)  NOT NULL,
+       status                   VARCHAR2(1)   NOT NULL,
+       appli_start_timestamp    DATE          NOT NULL,
+       appli_end_timestamp      DATE          NOT NULL,
+       regist_div               VARCHAR2(1)   NOT NULL,
+       updated_div              VARCHAR2(1)   NOT NULL,
+       last_updater             VARCHAR2(20)  NOT NULL,
+       created_timestamp        DATE          DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp   DATE          DEFAULT sysdate  NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKlogin_reject_ip ON login_reject_ip
+(
+       login_reject_id
+);
+
+CREATE INDEX XIE1login_reject_ip ON login_reject_ip
+(
+       institution_code               ,
+       ip_address                     ,
+       status                         ,
+       appli_start_timestamp          ,
+       appli_end_timestamp
+);
+
+CREATE INDEX XIE2login_reject_ip ON login_reject_ip
+(
+       institution_code               ,
+       status                         ,
+       appli_end_timestamp
+);
+
+ALTER TABLE login_reject_ip
+       ADD  ( PRIMARY KEY (login_reject_id) ) ;
+
+----ÅiïîìXésèÍè„èÍãÊï™ï ÅjéÊàµèåèÉeÅ[ÉuÉã
+CREATE TABLE branch_listmarket_dealt_cond (
+       branch_id                NUMBER(18)    NOT NULL,
+       market_id                NUMBER(18)    NOT NULL,
+       list_type                VARCHAR2(2)   NOT NULL,
+       new_list_type            VARCHAR2(2)   NOT NULL,
+       open_otc_div             VARCHAR2(1)   NOT NULL,
+       listmarket_name          VARCHAR2(80)  NOT NULL,
+       margin_sec_check_rate    DECIMAL(18,6)     NULL,
+       max_cont_price_ind       DECIMAL(18,6)     NULL,
+       max_cont_price_corp      DECIMAL(18,6)     NULL,
+       max_cont_unit_ind        DECIMAL(18,6)     NULL,
+       max_cont_unit_corp       DECIMAL(18,6)     NULL,
+       created_timestamp        DATE   DEFAULT sysdate   NOT NULL,
+       last_updated_timestamp   DATE   DEFAULT sysdate   NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbran_listmkt_dealt_cond ON branch_listmarket_dealt_cond
+(
+       branch_id                      ,
+       market_id                      ,
+       list_type                      ,
+       new_list_type                  ,
+       open_otc_div
+);
+
+ALTER TABLE branch_listmarket_dealt_cond
+       ADD  ( PRIMARY KEY (branch_id, market_id, list_type, new_list_type, open_otc_div) ) ;
+
+----àµé“ï å⁄ãqèÓïÒ
+CREATE TABLE trader_account_info (
+       trader_id                NUMBER(18)      NOT NULL,
+       account_id               NUMBER(18)      NOT NULL,
+       institution_code         VARCHAR2(3)     NOT NULL,
+       branch_code              VARCHAR2(3)     NOT NULL,
+       trader_code              VARCHAR2(5)     NOT NULL,
+       department_code          VARCHAR2(2)         NULL,
+       account_code             VARCHAR2(6)     NOT NULL,
+       family_name              VARCHAR2(40)    NOT NULL,
+       family_name_alt1         VARCHAR2(40)    NOT NULL,
+       last_updater             VARCHAR2(20)        NULL,
+       created_timestamp        DATE            NOT NULL,
+       last_updated_timestamp   DATE            NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKtrader_account_info ON trader_account_info
+(
+       trader_id                      ,
+       account_id
+);
+
+CREATE INDEX XIE1trader_account_info ON trader_account_info
+(
+       trader_id
+);
+
+ALTER TABLE trader_account_info
+       ADD  ( PRIMARY KEY (trader_id, account_id) ) ;
+
+--äîåîíSï€ÉçÅ[Éìå˚ç¿ÉeÅ[ÉuÉã
+CREATE TABLE stock_secured_loan (
+       stock_loan_account_code      VARCHAR2(10)    NOT NULL,
+       account_id                   NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       account_open_status          VARCHAR2(1)         NULL,
+       appli_date                   DATE                NULL,
+       account_open_date            DATE                NULL,
+       order_data_reception_date    DATE                NULL,
+       cancel_data_reception_date   DATE                NULL,
+       close_date                   DATE                NULL,
+       y_customer_data              VARCHAR2(1)         NULL,
+       examin_lock_flag             VARCHAR2(1)         NULL,
+       branch_lock                  VARCHAR2(1)         NULL,
+       mng_lock_flag                VARCHAR2(1)         NULL,
+       mng_lock_flag_advance        NUMBER(1)           NULL,
+       mng_lock_flag_unpay_margin   NUMBER(1)           NULL,
+       mng_lock_flag_short_security NUMBER(1)           NULL,
+       mng_lock_flag_unsubstit_depo NUMBER(1)           NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp       DATE DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPK_stock_secured_loan ON stock_secured_loan 
+(
+       stock_loan_account_code
+);
+
+CREATE INDEX XIE1stock_secured_loan ON stock_secured_loan 
+(
+       account_id
+);
+
+CREATE INDEX XIE2stock_secured_loan ON stock_secured_loan 
+(
+       institution_code,
+       branch_code,
+       account_code
+);
+
+--PK
+ALTER TABLE stock_secured_loan
+       ADD  (PRIMARY KEY (stock_loan_account_code));
+
+--íSï€ÉçÅ[Éìèoã‡çSë©ã‡ÉeÅ[ÉuÉã
+CREATE TABLE security_cashout_restraint (
+       account_id                   NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       use_enable_limit             DECIMAL(11)         NULL,
+       cashout_restraint            DECIMAL(11)         NULL,
+       cashout_enablie_amount       DECIMAL(11)         NULL,
+       agree_cancel_flg             VARCHAR2(1)         NULL,
+       amount_lock_flg              VARCHAR2(1)         NULL,
+       remark                       VARCHAR2(200)       NULL,
+       last_updater                 VARCHAR2(20)    NOT NULL,
+       created_timestamp            DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp       DATE DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKsecurity_cashout_restraint ON security_cashout_restraint 
+(
+       account_id
+);
+
+CREATE UNIQUE INDEX XAKsecurity_cashout_restraint ON security_cashout_restraint 
+(
+       institution_code,
+       branch_code,
+       account_code
+);
+
+--PK
+ALTER TABLE security_cashout_restraint
+       ADD  (PRIMARY KEY (account_id));
+
+--å˚ç¿à⁄ä«ãqÉeÅ[ÉuÉã
+CREATE TABLE account_transfer (
+       institution_code             VARCHAR2(2)     NOT NULL,
+       work_day                     DATE            NOT NULL,
+       rec_div                      VARCHAR2(1)         NULL,
+       branch_code_old              VARCHAR2(3)     NOT NULL,
+       account_code_old             VARCHAR2(7)     NOT NULL,
+       sonar_trader_code_old        VARCHAR2(5)     NOT NULL,
+       branch_code_new              VARCHAR2(3)     NOT NULL,
+       account_code_new             VARCHAR2(7)     NOT NULL,
+       sonar_trader_code_new        VARCHAR2(5)     NOT NULL,
+       customer_trader_code_old     VARCHAR2(5)         NULL,
+       customer_trader_code_new     VARCHAR2(5)         NULL,
+       del_div                      VARCHAR2(1)         NULL,
+       inherit_div                  VARCHAR2(1)     NOT NULL,
+       transfer_tbl                 VARCHAR2(30)    NOT NULL,
+       transfer_div                 VARCHAR2(1)     NOT NULL,
+       pro_div                      VARCHAR2(1)     NOT NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKaccount_transfer ON account_transfer 
+(
+       work_day,
+       institution_code,
+       branch_code_old,
+       account_code_old,
+       transfer_tbl
+);
+
+CREATE INDEX XIE1account_transfer ON account_transfer 
+(
+       pro_div
+);
+
+--PK
+ALTER TABLE account_transfer
+       ADD  (PRIMARY KEY (work_day, institution_code, branch_code_old, account_code_old, transfer_tbl));
+
+--çÃî‘ÉeÅ[ÉuÉã
+CREATE TABLE comm_serial_numbers (
+       institution_code             VARCHAR2(3)     NOT NULL,
+       serial_number_name           VARCHAR2(32)    NOT NULL,
+       serial_number                VARCHAR2(18)    NOT NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKcomm_serial_numbers ON comm_serial_numbers 
+(
+       institution_code,
+       serial_number_name
+);
+
+--PK
+ALTER TABLE comm_serial_numbers
+       ADD  (PRIMARY KEY (institution_code, serial_number_name));
+
+--èëñ åïtä«óùÉeÅ[ÉuÉã
+CREATE TABLE doc_delivery_management (
+       account_id                   NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       document_div                 VARCHAR2(3)     NOT NULL,
+       product_code                 VARCHAR2(10)    NOT NULL,
+       delivery_date                DATE            NOT NULL,
+       delete_flag                  VARCHAR2(1)     NOT NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL,
+       document_category            VARCHAR2(3)     default '000' NOT NULL,
+       deemed_delivery_date         DATE                NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKdoc_delivery_management ON doc_delivery_management 
+(
+       account_id,
+       document_div,
+       product_code,
+       delivery_date,
+       document_category
+);
+CREATE UNIQUE INDEX XAK1doc_delivery_management ON doc_delivery_management 
+(
+       institution_code,
+       branch_code,
+       account_code,
+       document_div,
+       product_code,
+       delivery_date,
+       document_category
+);
+
+--PK
+ALTER TABLE doc_delivery_management
+       ADD  (PRIMARY KEY (account_id, document_div, product_code, delivery_date, document_category));
+
+--èëñ ãÊï™ä«óùÉeÅ[ÉuÉã
+CREATE TABLE doc_div_management (
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       document_div                 VARCHAR2(3)     NOT NULL,
+       document_check_div           VARCHAR2(2)     NOT NULL,
+       document_number              VARCHAR2(2)     DEFAULT '0'      NOT NULL,
+       document_name                VARCHAR2(40)        NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE            DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp       DATE            DEFAULT sysdate  NOT NULL,
+       document_category            VARCHAR2(3)     NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKdoc_div_management ON doc_div_management 
+(
+       institution_code,
+       branch_code,
+       document_div,
+       document_category
+);
+CREATE UNIQUE INDEX XAK1doc_div_management ON doc_div_management 
+(
+       institution_code,
+       branch_code,
+       document_check_div,
+       document_number,
+       document_category
+);
+
+--PK
+ALTER TABLE doc_div_management
+       ADD  (PRIMARY KEY (institution_code, branch_code, document_div, document_category));
+
+--ìdéqîµñ¡ïøÉRÅ[Éhä«óùÉeÅ[ÉuÉã
+CREATE TABLE bato_product_management (
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       document_div                 VARCHAR2(3)     NOT NULL,
+       bato_product_code            VARCHAR2(7)     DEFAULT '0000000' NOT NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE            DEFAULT sysdate   NOT NULL,
+       last_updated_timestamp       DATE            DEFAULT sysdate   NOT NULL,
+       valid_flag                   VARCHAR2(2)     default 0         NOT NULL,
+       remarks                      VARCHAR2(200)       NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKbato_product_management ON bato_product_management 
+(
+       institution_code,
+       branch_code,
+       document_div,
+       bato_product_code
+);
+
+--PK
+ALTER TABLE bato_product_management
+       ADD  (PRIMARY KEY (institution_code, branch_code, document_div, bato_product_code));
+
+--SONARàµé“É}ÉXÉ^
+CREATE TABLE sonar_trader (
+       institution_code             VARCHAR2(2)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       sonar_trader_code            VARCHAR2(5)     NOT NULL,
+       section_code                 VARCHAR2(2)         NULL,
+       group_code                   VARCHAR2(2)         NULL,
+       family_name_alt1             VARCHAR2(16)    NOT NULL,
+       family_name                  VARCHAR2(10)    NOT NULL,
+       sonar_last_updater           VARCHAR2(10)        NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE            DEFAULT sysdate   NOT NULL,
+       last_updated_timestamp       DATE            DEFAULT sysdate   NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKsonar_trader ON sonar_trader
+(
+       institution_code,
+       branch_code,
+       sonar_trader_code
+);
+
+--PK
+ALTER TABLE sonar_trader
+       ADD  (PRIMARY KEY (institution_code, branch_code, sonar_trader_code));
+
+--èëñ åïtä«óùóöóÉeÅ[ÉuÉã
+CREATE TABLE doc_delivery_management_hist (
+       account_id                   NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       document_div                 VARCHAR2(3)     NOT NULL,
+       product_code                 VARCHAR2(10)    NOT NULL,
+       delivery_date                DATE            NOT NULL,
+       delete_flag                  VARCHAR2(1)     NOT NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL,
+       delete_user                  VARCHAR2(20)        NULL,
+       delete_timestamp             DATE                NULL,
+       document_category            VARCHAR2(3)     default '000' NOT NULL,
+       deemed_delivery_date         DATE                NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKdc_deliv_manage_hist ON doc_delivery_management_hist 
+(
+       account_id,
+       document_div,
+       product_code,
+       delivery_date,
+       created_timestamp,
+       document_category
+);
+CREATE UNIQUE INDEX XAK1dc_deliv_manage_hist ON doc_delivery_management_hist 
+(
+       institution_code,
+       branch_code,
+       account_code,
+       document_div,
+       product_code,
+       delivery_date,
+       created_timestamp,
+       document_category
+);
+
+--PK
+ALTER TABLE doc_delivery_management_hist
+       ADD  (PRIMARY KEY (account_id, document_div, product_code, delivery_date, created_timestamp, document_category));
+
+--äOäîèIílÉeÅ[ÉuÉã
+CREATE TABLE feq_last_closing_price (
+       product_id                     NUMBER(18)    NOT NULL,
+       base_date                      DATE          NOT NULL,
+       feq_closing_price              NUMBER(18,6)      NULL,
+       offshore_product_code          VARCHAR2(9)   NOT NULL,
+       feq_closing_price_market_code  VARCHAR2(2)   NOT NULL,
+       feq_closing_price_mrkt_code_s  VARCHAR2(2)   NOT NULL,
+       created_timestamp              DATE          DEFAULT sysdate  NULL,
+       last_updated_timestamp         DATE          DEFAULT sysdate  NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfeq_last_closing_price ON feq_last_closing_price 
+(
+       product_id,
+       base_date
+);
+
+--PK
+ALTER TABLE feq_last_closing_price
+       ADD  (PRIMARY KEY (product_id, base_date));
+
+--ÅiïîìXésèÍï ÅEPTSÅjéÊàµèåèÉeÅ[ÉuÉã
+CREATE TABLE branch_market_pts_dealt_cond (
+       institution_code             VARCHAR2(3)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       market_code                  VARCHAR2(2)     NOT NULL,
+       mart_can_dealt_equity        VARCHAR2(1)         NULL,
+       limited_unit                 NUMBER(7)           NULL,
+       max_handling_price           DECIMAL(10)         NULL,
+       created_timestamp            DATE            DEFAULT sysdate NULL,
+       last_updated_timestamp       DATE            DEFAULT sysdate NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKbranchmarket_pts_dealt_cond ON branch_market_pts_dealt_cond 
+(
+       institution_code,
+       branch_code,
+       market_code
+);
+
+--PK
+ALTER TABLE branch_market_pts_dealt_cond
+       ADD  (PRIMARY KEY (institution_code, branch_code, market_code));
+
+--ÅiPTSÅjèoóàèIóπÉeÅ[ÉuÉã
+CREATE TABLE pts_orderexecution_end (
+       institution_code             VARCHAR2(3)     NOT NULL,
+       market_code                  VARCHAR2(2)     NOT NULL,
+       status                       VARCHAR2(1)         NULL,
+       last_updater                 VARCHAR2(20)        NULL,
+       created_timestamp            DATE            DEFAULT sysdate NOT NULL,
+       last_updated_timestamp       DATE            DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKpts_orderexecution_end ON pts_orderexecution_end 
+(
+       institution_code,
+       market_code
+);
+
+--PK
+ALTER TABLE pts_orderexecution_end
+       ADD  (PRIMARY KEY (institution_code, market_code));
+
+--èëñ éÌóﬁä«óùÉeÅ[ÉuÉã
+CREATE TABLE doc_category_management (
+       institution_code               VARCHAR2(3)   NOT NULL,
+       branch_code                    VARCHAR2(3)   NOT NULL,
+       document_category              VARCHAR2(3)   NOT NULL,
+       document_cate_name             VARCHAR2(200)     NULL,
+       document_cate_name_E           VARCHAR2(200)     NULL,
+       delivery_target                VARCHAR2(2)       NULL,
+       last_updater                   VARCHAR2(20)      NULL,
+       created_timestamp              DATE          DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp         DATE          DEFAULT sysdate  NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKdoc_category_management ON doc_category_management 
+(
+       institution_code,
+       branch_code,
+       document_category
+);
+
+--PK
+ALTER TABLE doc_category_management
+       ADD  (PRIMARY KEY (institution_code, branch_code, document_category));
+
+------èÿåîâÔé–ÉvÉäÉtÉ@@ÉåÉìÉXÉeÅ[ÉuÉã
+CREATE TABLE institution_preferences (
+    institution_id            NUMBER(18)      NOT NULL,
+    name                      VARCHAR2(200)   NOT NULL,
+    name_serial_no            NUMBER(6)       NOT NULL,
+    value                     VARCHAR2(200)   NOT NULL,
+    created_timestamp         DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKinstitution_preferences on institution_preferences (
+    institution_id,
+    name,
+    name_serial_no
+);
+
+ALTER TABLE institution_preferences
+    ADD (PRIMARY KEY (institution_id, name, name_serial_no));
+    
+--FIX_SEND_QÉeÅ[ÉuÉã
+CREATE TABLE fix_send_q (
+    queue_id                           NUMBER(18)                     NOT NULL,
+    session_id                         NUMBER(6)                      NOT NULL,
+    institution_code                   VARCHAR2(3)                    NULL,
+    branch_code                        VARCHAR2(3)                    NULL,
+    account_code                       VARCHAR2(7)                    NULL,
+    account_id                         NUMBER(18)                     NOT NULL,
+    order_request_number               VARCHAR2(9)                    NOT NULL,
+    order_action_serial_no             NUMBER(8)                      NOT NULL,
+    product_type                       NUMBER(6)                      NOT NULL,
+    op_type                            NUMBER(6)                      NOT NULL,
+    cl_ord_id                          VARCHAR2(40)                   NULL,
+    handl_inst                         VARCHAR2(1)                    NULL,
+    order_id                           VARCHAR2(20)                   NULL,
+    order_qty                          NUMBER(18,6)                   NULL,
+    ord_type                           VARCHAR2(1)                    NULL,
+    orig_cl_ord_id                     VARCHAR2(40)                   NULL,
+    price                              NUMBER(18,6)                   NULL,
+    order_capacity                     VARCHAR2(1)                    NULL,
+    side                               VARCHAR2(1)                    NULL,
+    symbol                             VARCHAR2(16)                   NULL,
+    time_in_force                      VARCHAR2(1)                    NULL,
+    transact_time                      DATE                           NULL,
+    ex_destination                     VARCHAR2(4)                    NULL,
+    status                             VARCHAR2(1)                    NOT NULL,
+    confirmed_by_fix_rcvd_q            VARCHAR2(1)                    NULL,
+    last_updater                       VARCHAR2(20)                   NULL,
+    retry_count                        NUMBER(6)                      NULL,
+    current_session_id                 NUMBER(6)                      NULL,
+    created_timestamp                  DATE          DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp             DATE          DEFAULT sysdate  NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfix_send_q ON fix_send_q 
+(
+    queue_id
+);
+
+CREATE INDEX XIE1fix_send_q ON fix_send_q 
+(
+    cl_ord_id
+);
+
+CREATE INDEX XIE2fix_send_q ON fix_send_q 
+(
+    status,
+    session_id,
+    product_type,
+    order_request_number
+);
+
+CREATE INDEX XIE3fix_send_q ON fix_send_q 
+(
+    order_request_number
+);
+
+--PK
+ALTER TABLE fix_send_q ADD  (PRIMARY KEY (queue_id));
+
+
+--FIX_RCVD_QÉeÅ[ÉuÉã
+CREATE TABLE fix_rcvd_q (
+    queue_id                               NUMBER(18)                     NOT NULL,
+    session_id                             NUMBER(6)                      NOT NULL,
+    institution_code                       VARCHAR2(3)                    NULL,
+    branch_code                            VARCHAR2(3)                    NULL,
+    account_code                           VARCHAR2(7)                    NULL,
+    account_id                             NUMBER(18)                     NULL,
+    order_request_number                   VARCHAR2(9)                    NULL,
+    order_action_serial_no                 NUMBER(8)                      NOT NULL,
+    product_type                           NUMBER(6)                      NOT NULL,
+    op_type                                NUMBER(6)                      NOT NULL,
+    replies_type                           VARCHAR2(5)                    NULL,
+    replies_number                         NUMBER(18)                     NOT NULL,
+    avg_px                                 NUMBER(18,6)                   NULL,
+    cl_ord_id                              VARCHAR2(40)                   NULL,
+    cum_qty                                NUMBER(18,6)                   NULL,
+    exec_id                                VARCHAR2(30)                   NULL,
+    exec_ref_id                            VARCHAR2(30)                   NULL,
+    exec_trans_type                        VARCHAR2(1)                    NULL,
+    last_px                                NUMBER(18,6)                   NULL,
+    last_shares                            NUMBER(18,6)                   NULL,
+    order_id                               VARCHAR2(20)                   NULL,
+    order_qty                              NUMBER(18,6)                   NULL,
+    ord_status                             VARCHAR2(1)                    NULL,
+    ord_type                               VARCHAR2(1)                    NULL,
+    orig_cl_ord_id                         VARCHAR2(40)                   NULL,
+    price                                  NUMBER(18,6)                   NULL,
+    order_capacity                         VARCHAR2(1)                    NULL,
+    side                                   VARCHAR2(1)                    NULL,
+    symbol                                 VARCHAR2(16)                   NULL,
+    text                                   VARCHAR2(100)                  NULL,
+    time_in_force                          VARCHAR2(1)                    NULL,
+    transact_time                          DATE                           NULL,
+    ex_destination                         VARCHAR2(4)                    NULL,
+    ord_rej_reason                         VARCHAR2(4)                    NULL,
+    cxl_rej_reason                         VARCHAR2(4)                    NULL,
+    cxl_rej_response_to                    VARCHAR2(1)                    NULL,
+    exec_type                              VARCHAR2(1)                    NULL,
+    leaves_qty                             NUMBER(18,6)                   NULL,
+    msg_id                                 VARCHAR2(40)                   NULL,
+    account                                VARCHAR2(16)                   NULL,
+    client_id                              VARCHAR2(8)                    NULL,
+    trade_date                             DATE                           NULL,
+    status                                 VARCHAR2(1)                    NOT NULL,
+    last_updater                           VARCHAR2(20)                   NULL,
+    created_timestamp                      DATE         DEFAULT sysdate   NOT NULL,
+    last_updated_timestamp                 DATE         DEFAULT sysdate   NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfix_rcvd_q ON fix_rcvd_q 
+(
+    queue_id
+);
+
+CREATE INDEX XIE1fix_rcvd_q ON fix_rcvd_q
+(
+    status,
+    cl_ord_id,
+    product_type,
+    order_request_number
+);
+
+CREATE INDEX XIE2fix_rcvd_q ON fix_rcvd_q 
+(
+    order_request_number
+);
+
+CREATE INDEX XIE3fix_rcvd_q ON fix_rcvd_q 
+(
+    exec_id
+);
+
+--PK
+ALTER TABLE fix_rcvd_q ADD  (PRIMARY KEY (queue_id));
+
+
+--îNçÜÉ}ÉXÉ^Å[
+CREATE TABLE era (
+    japanese_era_div              NUMBER(1)            NOT NULL,
+    japanese_era                  VARCHAR2(20)         NOT NULL,
+    start_year_jap                VARCHAR2(2)          NOT NULL,
+    start_year                    VARCHAR2(4)          NOT NULL,
+    start_date                    VARCHAR2(4)          NOT NULL,
+    end_year_jap                  VARCHAR2(2)          NOT NULL,
+    end_year                      VARCHAR2(4)          NOT NULL,
+    end_date                      VARCHAR2(4)          NOT NULL,
+    created_timestamp             DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp        DATE DEFAULT sysdate NOT NULL
+);
+
+--INDEX
+CREATE INDEX XPK_era ON era 
+(
+    japanese_era_div
+);
+
+--PK
+ALTER TABLE era ADD  (PRIMARY KEY (japanese_era_div));
+
+-- Table: å˚ç¿äJê›ãÊï™ÉeÅ[ÉuÉã
+CREATE TABLE acc_open_div (
+    account_id                      NUMBER(18)            NOT NULL,
+    acc_type                        VARCHAR2(2)           NOT NULL,
+    acc_open_div                    VARCHAR2(2)           NOT NULL,
+    acc_open_date                   DATE                  NOT NULL,
+    last_updater                    VARCHAR2(20)          NOT NULL,
+    created_timestamp               DATE                  NOT NULL,
+    last_updated_timestamp          DATE                  NOT NULL
+);
+
+-- Index
+CREATE UNIQUE INDEX XPKacc_open_div ON acc_open_div (
+    account_id,
+    acc_type
+);
+
+-- Primary Key
+ALTER TABLE acc_open_div ADD (PRIMARY KEY (
+    account_id,
+    acc_type
+));
+
+-- Table: ÉÅÅ[ÉãéÌï 
+CREATE TABLE mail_assortment (
+    institution_code                VARCHAR2(3)           NOT NULL,
+    branch_code                     VARCHAR2(20)          NOT NULL,
+    account_code                    VARCHAR2(7)           NOT NULL,
+    email_address_number            NUMBER(18)            NOT NULL,
+    mail_assortment_div             VARCHAR2(2)           NOT NULL,
+    last_updater                    VARCHAR2(20)          NOT NULL,
+    created_timestamp               DATE                  NOT NULL,
+    last_updated_timestamp          DATE                  NOT NULL
+);
+
+-- Index
+CREATE UNIQUE INDEX XPKmail_mail_assortment ON mail_assortment (
+    institution_code,
+    branch_code,
+    account_code,
+    email_address_number,
+    mail_assortment_div
+);
+
+-- Primary Key
+ALTER TABLE mail_assortment ADD (PRIMARY KEY (
+    institution_code,
+    branch_code,
+    account_code,
+    email_address_number,
+    mail_assortment_div
+));
+
+-- Table: å⁄ãqÉÅÅ[ÉãÉAÉhÉåÉX
+CREATE TABLE account_mail_address (
+    institution_code                VARCHAR2(3)           NOT NULL,
+    branch_code                     VARCHAR2(20)          NOT NULL,
+    account_code                    VARCHAR2(7)           NOT NULL,
+    email_address_number            NUMBER(18)            NOT NULL,
+    address_div                     VARCHAR2(1)           NOT NULL,
+    email_address                   VARCHAR2(100)         NOT NULL,
+    email_last_updater              VARCHAR2(20)          NULL,
+    email_last_updated_timestamp    DATE                  NULL,
+    created_timestamp               DATE                  NOT NULL,
+    last_updated_timestamp          DATE                  NOT NULL
+);
+
+-- Index
+CREATE UNIQUE INDEX XPKaccount_mail_address ON account_mail_address (
+    institution_code,
+    branch_code,
+    account_code,
+    email_address_number
+);
+
+-- Primary Key
+ALTER TABLE account_mail_address ADD (PRIMARY KEY (
+    institution_code,
+    branch_code,
+    account_code,
+    email_address_number
+));
+
+-- Table: ìdéqåïtä«óùÉeÅ[ÉuÉã
+CREATE TABLE ele_delivery_management (
+    account_id                           NUMBER(18)           NOT NULL,
+    institution_code                     VARCHAR2(3)          NOT NULL,
+    branch_code                          VARCHAR2(3)          NOT NULL,
+    account_code                         VARCHAR2(7)          NOT NULL,
+    ele_del_regi_flag                    NUMBER(1)            NOT NULL,
+    ele_del_regi_upd_date                DATE                 NULL,
+    trading_report_div                   VARCHAR2(1)          NULL,
+    trading_report_reg_div               VARCHAR2(1)          NULL,
+    trading_report_div_upd_date          DATE                 NULL,
+    position_report_div                  VARCHAR2(1)          NULL,
+    position_report_reg_div              VARCHAR2(1)          NULL,
+    position_report_div_upd_date         DATE                 NULL,
+    ope_report_div                       VARCHAR2(1)          NULL,
+    ope_report_reg_div                   VARCHAR2(1)          NULL,
+    ope_report_div_upd_date              DATE                 NULL,
+    ord_rul_report_div                   VARCHAR2(1)          NULL,
+    ord_rul_rep_reg_div                  VARCHAR2(1)          NULL,
+    ord_rul_report_div_upd_date          DATE                 NULL,
+    report_div1                          VARCHAR2(1)          NULL,
+    report_reg_div1                      VARCHAR2(1)          NULL,
+    report_div_upd_date1                 DATE                 NULL,
+    report_div2                          VARCHAR2(1)          NULL,
+    report_reg_div2                      VARCHAR2(1)          NULL,
+    report_div_upd_date2                 DATE                 NULL,
+    report_div3                          VARCHAR2(1)          NULL,
+    report_reg_div3                      VARCHAR2(1)          NULL,
+    report_div_upd_date3                 DATE                 NULL,
+    report_div4                          VARCHAR2(1)          NULL,
+    report_reg_div4                      VARCHAR2(1)          NULL,
+    report_div_upd_date4                 DATE                 NULL,
+    report_div5                          VARCHAR2(1)          NULL,
+    report_reg_div5                      VARCHAR2(1)          NULL,
+    report_div_upd_date5                 DATE                 NULL,
+    last_updater                         VARCHAR2(20)         NULL,
+    created_timestamp                    DATE                 NOT NULL,
+    last_updated_timestamp               DATE                 NOT NULL
+);
+
+-- Index
+CREATE UNIQUE INDEX XPKele_delivery_management ON ele_delivery_management (
+    account_id
+);
+
+CREATE UNIQUE INDEX XAKele_delivery_management ON ele_delivery_management (
+    institution_code,
+    branch_code,
+    account_code
+);
+
+-- Primary Key
+ALTER TABLE ele_delivery_management ADD (PRIMARY KEY (
+    account_id
+));
+----------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+
+ALTER TABLE inst_branch_product
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE equity_comm_account_cond_mst
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE equity_comm_account_cond_mst
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE tradingpower_calc_condition
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE tradingpower_calc_condition
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE insider
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE insider
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE insider
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE account_product_order_stop
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE account_product_order_stop
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE last_closing_price
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE branch_preferences
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE account_info_mst
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE stock_option_product
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE stock_option_product
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE stock_option_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE quote_closing_price
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE market_margin_ratio
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+ALTER TABLE branch_listmarket_dealt_cond
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+ALTER TABLE branch_listmarket_dealt_cond
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+ALTER TABLE trader_account_info
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE security_cashout_restraint
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE doc_delivery_management
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE stock_secured_loan
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ON DELETE CASCADE ) ;
+
+ALTER TABLE feq_last_closing_price
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE institution_preferences
+       ADD  ( FOREIGN KEY (institution_id)
+                             REFERENCES institution ) ;
+
+ALTER TABLE acc_open_div
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account);
+
+ALTER TABLE ele_delivery_management
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account);
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d377 1
+a377 1
+--ÔºàÁÆ°ÁêÜËÄÖÂÖ±ÈÄöÔºâÔΩ±ÔΩØÔæåÔæüÔæõÔΩ∞ÔæÑÔæûÔæÉÔΩ∞ÔæåÔæûÔæô
+d413 1
+a413 1
+--(ÁÆ°ÁêÜËÄÖÂÖ±ÈÄö)ÔΩ±ÔΩØÔæåÔæüÔæõÔΩ∞ÔæÑÔæûÔæÉÔæùÔæéÔæüÔæóÔæò
+d457 1
+a457 1
+--È°ßÂÆ¢‰ΩôÂäõÊù°‰ª∂„ÉÜ„Éº„Éñ„É´
+d562 1
+a562 1
+------„É°„Éº„É´„ÉÜ„Éº„Éñ„É´
+d716 1
+a716 1
+-- „É°„Éº„É´ÈÄÅ‰ø°„ÉÜ„Éº„Éñ„É´
+d767 1
+a767 1
+--È°ßÂÆ¢ÈäòÊüÑÂà•ÂèñÂºïÂÅúÊ≠¢„ÉÜ„Éº„Éñ„É´
+d804 1
+a804 1
+--„Éó„É≠„Çª„ÇπÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d826 1
+a826 1
+--ÔºπÂÆ¢„Éû„Çπ„Çø
+d854 1
+a854 1
+--ÈáëËûçÊ©üÈñ¢ÔºàÈäÄË°åÔºâ„Éû„Çπ„Çø
+d878 1
+a878 1
+--ÂèóÊ∏°Êó•Âà•‰øùÊúâË≥áÁî£„ÉÜ„Éº„Éñ„É´
+d1081 1
+a1081 1
+------ÈõªÂ≠êÈ≥©„Ç∑„Çπ„ÉÜ„É†Ê©üËÉΩÂà•„Éó„É™„Éï„Ç°„É¨„É≥„Çπ
+d1106 1
+a1106 1
+------ÈõªÂ≠êÈ≥©„Ç∑„Çπ„ÉÜ„É†ÈÉ®Â∫óÂïÜÂìÅÂà•„Éó„É™„Éï„Ç°„É¨„É≥„Çπ
+d1132 1
+a1132 1
+------ÈõªÂ≠êÈ≥©„Ç∑„Çπ„ÉÜ„É†‰ºöÁ§æÈÉ®Â∫óÂà•„Éó„É™„Éï„Ç°„É¨„É≥„Çπ
+d1159 1
+a1159 1
+------ÈõªÂ≠êÈ≥©„Ç∑„Çπ„ÉÜ„É†„Éâ„Ç≠„É•„É°„É≥„ÉàÁ®ÆÂà•ÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d1282 1
+a1282 1
+------ÈÉ®Â∫óÁî®„Éó„É™„Éï„Ç°„É¨„É≥„Çπ„ÉÜ„Éº„Éñ„É´
+d1301 1
+a1301 1
+------ÔºàÈÉ®Â∫óÂ∏ÇÂ†¥Âà•.Â§ñÊ†™ÔºâÂèñÊâ±Êù°‰ª∂„ÉÜ„Éº„Éñ„É´
+d1324 1
+a1324 1
+------„É°„Éº„É´ÈÄÅ‰ø°„ÉÜ„É≥„Éù„É©„É™„ÉÜ„Éº„Éñ„É´
+d1380 1
+a1380 1
+------„É°„Éº„É´ÈÄÅ‰ø°Êã°Âºµ„ÉÜ„É≥„Éù„É©„É™„ÉÜ„Éº„Éñ„É´
+d1419 1
+a1419 1
+------Â§ñÊ†™Êµ∑Â§ñÂ∏ÇÂ†¥„Ç´„É¨„É≥„ÉÄ„Éº
+d1443 1
+a1443 1
+------‰ªÆÊÉ≥„Çµ„Éº„ÉêÊÉÖÂ†±„ÉÜ„Éº„Éñ„É´
+d1469 1
+a1469 1
+------ÈöúÂÆ≥‰ªÆÊÉ≥„Çµ„Éº„ÉêÂàáÊõøÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d1508 1
+a1508 1
+------ÁÇ∫Êõø„É¨„Éº„Éà„ÉÜ„Éº„Éñ„É´
+d1532 1
+a1532 1
+------„Ç≥„Éº„ÉâÁøªË®≥„ÉÜ„Éº„Éñ„É´
+d1556 1
+a1556 1
+------Â∞ÇÁî®ÊåØËæºÂÖàÂè£Â∫ßÊù°‰ª∂„ÉÜ„Éº„Éñ„É´
+d1583 1
+a1583 1
+------Âè£Â∫ßÊÉÖÂ†±„Éû„Çπ„Çø
+d1690 1
+a1690 1
+------Â∞ÇÁî®ÊåØËæºÂÖàÂè£Â∫ß
+d1733 1
+a1733 1
+------Â§ñÈÉ®„Ç∑„Çπ„ÉÜ„É†SOAPÊé•Á∂ö„Éó„É™„Éï„Ç°„É¨„É≥„ÇπÔºà„É°„ÉÉ„Çª„Éº„Ç∏ÂΩ¢ÂºèÔºâ
+d1763 1
+a1763 1
+------Â§ñÈÉ®„Ç∑„Çπ„ÉÜ„É†SOAPÊé•Á∂ö„Éó„É™„Éï„Ç°„É¨„É≥„ÇπÔºàRPCÂΩ¢ÂºèÔºâ
+d1792 1
+a1792 1
+------SOAP„É°„ÉÉ„Çª„Éº„Ç∏‰øùÂ≠ò
+d1801 1
+a1801 1
+--Table: È°ßÂÆ¢„Éû„Çπ„Çø„ÉºÔºàÂÖ®ÈÉ®Â∫óÂàÜÔºâ
+d2038 1
+a2038 1
+--Table: ÔºàÂÖ±ÈÄöÔºâÈÄöË≤®„ÉÜ„Éº„Éñ„É´
+d2075 1
+a2075 1
+--Table: Ê≥®ÊñáÂçò‰ΩçÁ¥π‰ªãÂå∫ÂàÜ„ÉÜ„Éº„Éñ„É´
+d2098 1
+a2098 1
+--Table: „Çπ„Éà„ÉÉ„ÇØOPÈäòÊüÑÁÆ°ÁêÜ„Éû„Çπ„Çø„Éº
+d2129 1
+a2129 1
+--Table: ÊãÖ‰øù‰∏çË∂≥È°ßÂÆ¢„Éá„Éº„Çø„ÉÜ„Éº„Éñ„É´
+d2153 1
+a2153 1
+--Table: ÊâãÊï∞Êñô„Ç≥„Éº„Çπ„Ç≥„Éº„ÉâÂ§âÊèõ„Éû„Çπ„Çø
+d2180 1
+a2180 1
+--Table: ÊãÖ‰øù‰∏çË∂≥È°ßÂÆ¢Â±•Ê≠¥„Éá„Éº„Çø„ÉÜ„Éº„Éñ„É´
+d2205 1
+a2205 1
+--Table: ÊôÇ‰æ°ÁµÇÂÄ§„ÉÜ„Éº„Éñ„É´
+d2249 1
+a2249 1
+--Table: Â∏ÇÂ†¥Âà•ÊéõÁõÆ„ÉÜ„Éº„Éñ„É´
+d2276 1
+a2276 1
+--Table: Â§ñË≤®MMFÁÇ∫Êõø„É¨„Éº„Éà„ÉÜ„Éº„Éñ„É´
+d2300 1
+a2300 1
+--Table: Â§ñË≤®ÊåØËæºÂÖàÈáëËûçÊ©üÈñ¢„ÉÜ„Éº„Éñ„É´
+d2334 1
+a2334 1
+--Table: Ëá™ÂãïÊåØÊõøÁôªÈå≤„Éû„Çπ„Çø
+d2372 1
+a2372 1
+----„É≠„Ç∞„Ç§„É≥ÈÅéÂéªÂ±•Ê≠¥
+d2406 1
+a2406 1
+----„É≠„Ç∞„Ç§„É≥Â±•Ê≠¥
+d2440 1
+a2440 1
+----„É≠„Ç∞„Ç§„É≥Áõ£Ë¶ñË®≠ÂÆö
+d2461 1
+a2461 1
+----„É≠„Ç∞„Ç§„É≥ÊãíÂê¶IP
+d2500 1
+a2500 1
+----ÔºàÈÉ®Â∫óÂ∏ÇÂ†¥‰∏äÂ†¥Âå∫ÂàÜÂà•ÔºâÂèñÊâ±Êù°‰ª∂„ÉÜ„Éº„Éñ„É´
+d2529 1
+a2529 1
+----Êâ±ËÄÖÂà•È°ßÂÆ¢ÊÉÖÂ†±
+d2559 1
+a2559 1
+--Ê†™Âà∏ÊãÖ‰øù„É≠„Éº„É≥Âè£Â∫ß„ÉÜ„Éº„Éñ„É´
+d2607 1
+a2607 1
+--ÊãÖ‰øù„É≠„Éº„É≥Âá∫ÈáëÊãòÊùüÈáë„ÉÜ„Éº„Éñ„É´
+d2641 1
+a2641 1
+--Âè£Â∫ßÁßªÁÆ°ÂÆ¢„ÉÜ„Éº„Éñ„É´
+d2682 1
+a2682 1
+--Êé°Áï™„ÉÜ„Éº„Éñ„É´
+d2702 1
+a2702 1
+--Êõ∏Èù¢‰∫§‰ªòÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d2743 1
+a2743 1
+--Êõ∏Èù¢Âå∫ÂàÜÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d2778 1
+a2778 1
+--ÈõªÂ≠êÈ≥©ÈäòÊüÑ„Ç≥„Éº„ÉâÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d2804 1
+a2804 1
+--SONARÊâ±ËÄÖ„Éû„Çπ„Çø
+d2831 1
+a2831 1
+--Êõ∏Èù¢‰∫§‰ªòÁÆ°ÁêÜÂ±•Ê≠¥„ÉÜ„Éº„Éñ„É´
+d2876 1
+a2876 1
+--Â§ñÊ†™ÁµÇÂÄ§„ÉÜ„Éº„Éñ„É´
+d2899 1
+a2899 1
+--ÔºàÈÉ®Â∫óÂ∏ÇÂ†¥Âà•„ÉªPTSÔºâÂèñÊâ±Êù°‰ª∂„ÉÜ„Éº„Éñ„É´
+d2923 1
+a2923 1
+--ÔºàPTSÔºâÂá∫Êù•ÁµÇ‰∫Ü„ÉÜ„Éº„Éñ„É´
+d2944 1
+a2944 1
+--Êõ∏Èù¢Á®ÆÈ°ûÁÆ°ÁêÜ„ÉÜ„Éº„Éñ„É´
+d2969 1
+a2969 1
+------Ë®ºÂà∏‰ºöÁ§æ„Éó„É™„Éï„Ç°„É¨„É≥„Çπ„ÉÜ„Éº„Éñ„É´
+d2988 1
+a2988 1
+--FIX_SEND_Q„ÉÜ„Éº„Éñ„É´
+d3050 1
+a3050 1
+--FIX_RCVD_Q„ÉÜ„Éº„Éñ„É´
+d3128 1
+a3128 1
+--Âπ¥Âè∑„Éû„Çπ„Çø„Éº
+d3151 1
+a3151 1
+-- Table: Âè£Â∫ßÈñãË®≠Âå∫ÂàÜ„ÉÜ„Éº„Éñ„É´
+d3174 1
+a3174 1
+-- Table: „É°„Éº„É´Á®ÆÂà•
+d3204 1
+a3204 1
+-- Table: È°ßÂÆ¢„É°„Éº„É´„Ç¢„Éâ„É¨„Çπ
+d3233 56
+d3399 4
+@
+

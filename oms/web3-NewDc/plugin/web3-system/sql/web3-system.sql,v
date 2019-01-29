@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.29.09;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5e04d9127cc1d69;
+filename	web3-system.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE affinity_key_based_map
+(
+   key             char(2) not null,
+   app_id          varchar2(18) not null,
+   db_id            varchar2(18) not null,
+   CONSTRAINT affinity_key_based_map_pk primary key (app_id,db_id)
+);
+                            
+CREATE TABLE  affinity_range_based_map
+(
+    key_start                number(18,0) not null,
+    key_end                  number(18,0) not null,
+    range_order_no        number(6)    not null,
+    server_type    	 number(1) not null,
+    server_id    	         varchar2(18)  not null,
+    ctx_name    	         varchar2(100) not null,
+    CONSTRAINT affinity_range_based_map_pk primary key (key_start,key_end,range_order_no,server_type,ctx_name)
+);
+@

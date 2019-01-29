@@ -1,0 +1,80 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.35.06;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8484d7eec351306;
+filename	build.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@##############################################################
+#
+# PLUGIN & APPLICATION Build Propety File
+#
+##############################################################
+
+
+# Plugin unique name
+#
+PLUGIN_NAME=plug-web3-dirsec
+
+# Application unique name
+#
+APP_NAME=app-web3-dirsec
+
+# Versioning info
+#
+MAJOR_VERSION=1
+MINOR_VERSION=0
+
+
+#
+# List of other plugins, including the core, this plugin/application depend on
+# The names should include versions/build information
+#    otherwise the latest builds will be used
+#
+PLUGINS_NAMES=\
+	core,\
+	plug-security-oplogin,\
+	plug-gtl-base,\
+	plug-gtl,\
+    plug-util-rac,\
+	plug-eqtype-base,\
+	plug-eqtype,\
+	plug-web3-common,\
+	plug-web3-gentrade,\
+	plug-xb-aio-pdbt-base,\
+	plug-xb-feq-pdbt-base,\
+	plug-xb-ifo-pdbt-base,\
+	plug-web3-equity,\
+	plug-web3-mq-gateway,\
+	plug-web3-xbifo,\
+    plug-web3-accountopen,\
+	plug-web3-inform-base,\
+	plug-xb-mf-pdbt-base
+
+# List of codegen files.
+# ****** If no codegen is required, LEAVE THIS PROPERTY OUT COMPLETELY *******
+#
+CODEGEN=codegen-session.properties, codegen-master.properties
+
+# SQL Files not used in create db
+EXCLUDE_SQLS=sql-plug-web3-dirsec.zip@

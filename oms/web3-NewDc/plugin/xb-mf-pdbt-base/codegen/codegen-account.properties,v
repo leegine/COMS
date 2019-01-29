@@ -1,0 +1,117 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.08.12;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1444d904fd25c1f;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.xbmf.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/xb-mf.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=MutualFundAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/xbmf_account_triggers.sql
+
+enums=\
+  mutual_fund_order_unit.swt_tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  mutual_fund_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  mutual_fund_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  mutual_fund_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  mutual_fund_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  mutual_fund_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  mutual_fund_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  mutual_fund_order_unit.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  mutual_fund_order_action.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  mutual_fund_order_action.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  mutual_fund_order_action.order_event_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum \
+  mutual_fund_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  mutual_fund_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  mutual_fund_fin_transaction.fin_transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  mutual_fund_fin_transaction.fin_transaction_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg \
+  mutual_fund_fin_transaction.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  mutual_fund_fin_transaction.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  mutual_fund_order_execution.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  mutual_fund_order_execution.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  mutual_fund_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  mutual_fund_fin_transaction.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  mutual_fund_order_execution.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  mutual_fund_order_execution.quantity_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.QuantityTypeEnum \
+  mutual_fund_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  mutual_fund_order.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  mutual_fund_order_action.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  mutual_fund_order_unit.fund_type:class=com.fitechlabs.xtrade.plugin.tc.xbmf.MutualFundTypeEnum
+
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  mutual_fund_order:inv=?.account_id \
+  mutual_fund_order_unit:inv=?.account_id \
+  mutual_fund_order_action:inv=?.account_id \
+  mutual_fund_order_execution:inv=?.account_id \
+  mutual_fund_fin_transaction:inv=?.account_id \
+
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

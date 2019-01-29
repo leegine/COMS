@@ -1,0 +1,81 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.59.48;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	4d04d7ef1b224f3;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of ifo data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.inform.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3inform.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3InformMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3inform_master_triggers.sql
+
+#enums=\
+
+#
+# the tables to include in this portion of the binding layer
+tables=\
+  inform_ctrl_item_master:inv=0 \
+  inform_ctrl_item_attribute:inv=0 \
+  inform_dl_form_master:inv=0 \
+  inform_div_preferences:inv=0 \
+  
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+  @

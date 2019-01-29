@@ -1,0 +1,108 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.06.40;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5cc4d904f795afc;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file for generating data binding
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.xbifo.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/xb-ifo.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=IfoMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/xbifo_master_triggers.sql
+
+enums=\
+    ifo_product.derivative_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum \
+    ifo_product.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+    ifo_traded_product.trade_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.buy_to_open_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.sell_to_open_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.sell_to_close_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.buy_to_close_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.list_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.exercise_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.actual_recieve_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.actual_delivary_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product.reserve_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.trade_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.buy_to_open_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.sell_to_open_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.sell_to_close_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.buy_to_close_stop_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.list_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.exercise_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.actual_recieve_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.actual_delivary_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+    ifo_traded_product_updq.reserve_stop:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  ifo_product:inv=0 \
+  ifo_traded_product:inv=0 \
+  ifo_traded_product_updq:inv=0 \
+
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS@

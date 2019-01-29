@@ -1,0 +1,86 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.51;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	6004d80209d0226;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of ifo data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.bd.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3bond.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3BondMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3bond_master_triggers.sql
+
+enums=\
+
+#
+# the tables to include in this portion of the binding layer
+tables=\
+  custodian:inv=0 \
+  bond_auto_exec_limit_action:inv=0 \
+  bond_product_coupon:inv=0 \
+  accrued_interest_calc_cond:inv=0 \
+  bond_branch_condition:inv=0 \
+  bond_issue_coupon_type:inv=0 \
+  bond_order_accept_action:inv=0 \
+  bond_branch_recruit_limit:inv=0 \
+  
+
+imports=\
+    com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+    com.fitechlabs.xtrade.plugin.tc.xbbd.data.* \
+@

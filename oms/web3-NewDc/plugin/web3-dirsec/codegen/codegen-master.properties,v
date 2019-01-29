@@ -1,0 +1,75 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.34.50;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8484d7eec351306;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.dirsec.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3dirsec.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3DirsecMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3dirsec_master_triggers.sql
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+    submit_trigger_info:inv=0 \
+    ap_management:inv=0 \
+
+#enums=\@

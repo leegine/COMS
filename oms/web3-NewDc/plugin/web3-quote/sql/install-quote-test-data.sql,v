@@ -1,0 +1,255 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.26;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3d04d912e303247;
+filename	install-quote-test-data.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@--
+-- 証券会社
+--
+insert into institution(institution_id, institution_code, institution_name, created_timestamp, last_updated_timestamp)
+values(99, '99', 'Quote Test', sysdate, sysdate);
+
+--
+-- 市場
+--
+insert into market
+(market_id, institution_code, market_code, market_name, open_time, close_time, created_timestamp, last_updated_timestamp)
+values(9901, '99', '1', '東証', '0900', '1500', sysdate, sysdate);
+
+insert into market
+(market_id, institution_code, market_code, market_name, open_time, close_time, created_timestamp, last_updated_timestamp)
+values(9910, '99', '10', 'JASDAQ', '0900', '1500', sysdate, sysdate);
+
+--
+-- 銘柄
+--
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99650300, '99', 1, '東芝', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99675800, '99', 1, 'ソニー', 100, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99676200, '99', 1, 'ＴＤＫ', 100, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001801, '99', 6, '日経225先物　2004/06月限', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001802, '99', 6, '日経225先物　2004/09月限', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001811, '99', 6, '日経225オプション　2004/06限月　プット　10000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001812, '99', 6, '日経225オプション　2004/06限月　プット　12000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001813, '99', 6, '日経225オプション　2004/09限月　プット　10000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001814, '99', 6, '日経225オプション　2004/09限月　プット　12000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001821, '99', 6, '日経225オプション　2004/06限月　コール　10000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001822, '99', 6, '日経225オプション　2004/06限月　コール　12000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001823, '99', 6, '日経225オプション　2004/09限月　コール　10000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+insert into product(product_id, institution_code, product_type, standard_name, lot_size, margin_ratio, primary_market_id, created_timestamp, last_updated_timestamp ,calc_size, estimation_price, securities_estimation_ratio)
+values(99001824, '99', 6, '日経225オプション　2004/09限月　コール　12000円', 1000, 0.8, 9901, sysdate, sysdate, 0, 0, 0);
+
+--
+-- 株銘柄
+--
+insert into eqtype_product(product_id, institution_code, product_code, product_type, mini_stock_lot_size, yearly_books_closing_date, created_timestamp, last_updated_timestamp)
+values(99650300, '99', '65030', 1, 100, null, sysdate, sysdate);
+
+insert into eqtype_product(product_id, institution_code, product_code, product_type, mini_stock_lot_size, yearly_books_closing_date, created_timestamp, last_updated_timestamp)
+values(99675800, '99', '67580', 1, 10, null, sysdate, sysdate);
+
+insert into eqtype_product(product_id, institution_code, product_code, product_type, mini_stock_lot_size, yearly_books_closing_date, created_timestamp, last_updated_timestamp)
+values(99676200, '99', '67620', 1, 10, null, sysdate, sysdate);
+
+-- 先物オプション銘柄
+--
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001801, '99', '0005', 1, 0, '200406', sysdate, sysdate, '2004061');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001802, '99', '0005', 1, 0, '200409', sysdate, sysdate, '2004091');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001811, '99', '0005', 3, 10000, '200406', sysdate, sysdate, '20040631');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001812, '99', '0005', 3, 12000, '200406', sysdate, sysdate, '20040632');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001813, '99', '0005', 3, 10000, '200409', sysdate, sysdate, '20040931');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001814, '99', '0005', 3, 12000, '200409', sysdate, sysdate, '20040932');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001821, '99', '0005', 2, 10000, '200406', sysdate, sysdate, '20040621');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001822, '99', '0005', 2, 12000, '200406', sysdate, sysdate, '20040622');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001823, '99', '0005', 2, 10000, '200409', sysdate, sysdate, '20040921');
+
+insert into ifo_product(product_id, institution_code, underlying_product_code, derivative_type, strike_price, month_of_delivery, created_timestamp, last_updated_timestamp, product_code)
+values(99001824, '99', '0005', 2, 12000, '200409', sysdate, sysdate, '20040922');
+
+--
+-- 取引銘柄
+--
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901650300, '99', 99650300, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 1, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901675800, '99', 99675800, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 1, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901676200, '99', 99676200, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 1, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001801, '99', 99001801, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001802, '99', 99001802, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001811, '99', 99001811, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001812, '99', 99001812, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001813, '99', 99001813, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001814, '99', 99001814, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001821, '99', 99001821, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001822, '99', 99001822, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001823, '99', 99001823, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+insert into traded_product(traded_product_id, institution_code, product_id, market_id, margin_ratio, base_date, product_type, collateral_flag, created_timestamp, last_updated_timestamp)
+values(9901001824, '99', 99001824, 9901, 0.8, to_date('20030108', 'yyyymmdd'), 6, 1, sysdate, sysdate);
+
+--
+-- 株取引銘柄
+--
+insert into eqtype_traded_product(traded_product_id, institution_code, product_id, market_id, list_flag, listed_date, marginable_flag, shortable_flag, last_closing_price, mini_stock_flag, created_timestamp, last_updated_timestamp, list_type, new_list_type, mini_stock_can_dealt)
+values(9901650300, '99', 99650300, 9901, 1, to_date('20010101', 'yyyymmdd'), 1, 1, 519, 1, sysdate, sysdate, '0', '0', '0');
+
+insert into eqtype_traded_product(traded_product_id, institution_code, product_id, market_id, list_flag, listed_date, marginable_flag, shortable_flag, last_closing_price, mini_stock_flag, created_timestamp, last_updated_timestamp, list_type, new_list_type, mini_stock_can_dealt)
+values(9901675800, '99', 99675800, 9901, 1, to_date('20010101', 'yyyymmdd'), 1, 1, 4040, 1, sysdate, sysdate, '0', '0', '0');
+
+insert into eqtype_traded_product(traded_product_id, institution_code, product_id, market_id, list_flag, listed_date, marginable_flag, shortable_flag, last_closing_price, mini_stock_flag, created_timestamp, last_updated_timestamp, list_type, new_list_type, mini_stock_can_dealt)
+values(9901676200, '99', 99676200, 9901, 1, to_date('20010101', 'yyyymmdd'), 1, 1, 7750, 1, sysdate, sysdate, '0', '0', '0');
+
+--
+-- 先物オプション取引銘柄
+--
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001801, '99', 99001801, 9901, 1000, 1000, 10870, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001802, '99', 99001802, 9901, 1000, 1000, 10870, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001811, '99', 99001811, 9901, 1000, 1000, 245, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001812, '99', 99001812, 9901, 1000, 1000, 245, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001813, '99', 99001813, 9901, 1000, 1000, 245, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001814, '99', 99001814, 9901, 1000, 1000, 245, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001821, '99', 99001821, 9901, 1000, 1000, 435, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001822, '99', 99001822, 9901, 1000, 1000, 435, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001823, '99', 99001823, 9901, 1000, 1000, 435, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+insert into ifo_traded_product(traded_product_id, institution_code, product_id, market_id, unit_size, per_order_max_units, last_closing_price, start_trading_date, last_trading_date, trade_stop_flag, buy_to_open_stop_flag, sell_to_open_stop_flag, sell_to_close_stop_flag, buy_to_close_stop_flag, created_timestamp, last_updated_timestamp, unit_margin)
+values(9901001824, '99', 99001824, 9901, 1000, 1000, 435, to_date('20040315', 'yyyymmdd'), to_date('20040611', 'yyyymmdd'), 0, 0, 0, 0, 0, sysdate, sysdate, 0);
+
+--
+-- 時価情報
+--
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901675800, '20040401', 1, 1, '1', '67580', null, null, null, 4020, '0900', 4020, '0900', 3980, '0950', 3980, '1430', 0, -60, 4479400, '1430', 1, 3980, '1430', 4, 3985, '1430', 4040, sysdate, sysdate);
+
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901650300, '20040401', 1, 1, '1', '65030', null, null, null, 518, '0900', 520, '0910', 505, '1429', 506, '1445', 0, -13, 4604000, '1445', 1, 504, '1445', 4, 508, '1445', 519, sysdate, sysdate);
+
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901675200, '20040401', 1, 1, '1', '67520', null, null, null, 518, '0900', 520, '0910', 505, '1429', 506, '1445', 0, -13, 4604000, '1445', 3, 504, '1445', 5, 508, '1445', 519, sysdate, sysdate);
+
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901676400, '20040401', 1, 1, '1', '67640', null, null, null, 518, '0900', 520, '0910', 505, '1429', 506, '1445', 0, -13, 4604000, '1445', 5, 504, '1445', 3, 508, '1445', 519, sysdate, sysdate);
+
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901001801, '20040401', 1, 3, '1', '0005', '200406', null, null, 10860, '0930', 10880, '1100', 10800, '1300', 10870, '1330', 0, 200, 10000, '1330', 1, 10860, '1330', 4, 10880, '1330', 10670.0, sysdate, sysdate);
+
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901001811, '20040401', 1, 4, '1', '0005', '200406', '3', 10000, 185, '0930', 295, '1100', 170, '1300', 285, '1330', 0, 40, 1925, '1330', 1, 280, '1330', 4, 290, '1330', 245, sysdate, sysdate);
+
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901001812, '20040401', 1, 4, '1', '0005', '200406', '2', 10000, 505, '0930', 525, '1100', 345, '1300', 350, '1330', 0, -85, 930, '1330', 1, 345, '1330', 4, 350, '1330', 435, sysdate, sysdate);
+
+-- 日経平均　20分ディレイ
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901000001, '20040401', 2, 2, ' ', '0016', null, null, null, 10846.61, '0901', 10939.09, '1005', 10739.49, '1328', 10849.63, '1601', 1, 24.53, null, null, 0, null, null, 0, null, null, 10825.10, sysdate, sysdate);
+
+-- TOPIX　20分ディレイ
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901000002, '20040401', 2, 2, ' ', '0005', null, null, null, 1099.04, '0901', 1103.82, '1008', 1084.97, '1439', 1091.51, '1500', 1, -4.42, null, null, 0, null, null, 0, null, null, 1095.93, sysdate, sysdate);
+
+-- JASDAQ　20分ディレイ
+insert into web3_quote_proto(quote_data_id, quote_date, real_type, data_type, market_code, product_code, contract_month, put_and_call, strike_price, open_price, open_price_time, high_price, high_price_time, low_price, low_price_time, current_price, current_price_time, current_price_flag, change, volume, volume_time, ask_price_title, ask_price, ask_price_time, bid_price_title, bid_price, bid_price_time, base_price, created_timestamp, last_updated_timestamp)
+values(9901000004, '20040401', 2, 2, ' ', '9004', null, null, null, 1890.19, '0901', 1890.19, '0901', 1847.50, '1438', 1854.05, '1531', 1, -37.68, null, null, 0, null, null, 0, null, null, 1891.73, sysdate, sysdate);
+
+commit;
+@

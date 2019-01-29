@@ -1,0 +1,267 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@// @;
+
+
+1.1
+date	2011.03.16.05.40.14;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8f04d80403d696d;
+filename	PayRequiredAmountDao.java;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@package webbroker3.aio.data;
+
+import com.fitechlabs.xtrade.kernel.data.*;
+import com.fitechlabs.dbind.*;
+import java.util.*;
+import webbroker3.aio.data.*;
+import com.fitechlabs.dbind.*;
+import com.fitechlabs.xtrade.plugin.tc.gentrade.data.*;
+import webbroker3.gentrade.data.*;
+
+/** 
+ * {@@link PayRequiredAmountDao}は{@@link com.fitechlabs.xtrade.kernel.data.DataAccessObject}のサブクラスで{@@link PayRequiredAmountRow}インスタンスへ関連付けることができます。 
+ * クライアントコードにおいて必要とされる共通のデータオペレーションを実装しています。 
+ * <p> 
+ *     <li> 新しいレコードに対し一意の主キー値またはオブジェクトを作成 </li> 
+ *     <li> 外部キーからレコードを検索 </li> 
+ *     <li> 外部キーの関係にあるオブジェクトを検索 </li> 
+ *     <li> インデックスを持つ既存のデータベーススキーマにクエリを実行 </li> 
+ * <p> 
+ * 
+ * @@author xTradeコードジェネレータ 
+ * 
+ * @@see com.fitechlabs.xtrade.kernel.data.DataAccessObject 
+ * @@see com.fitechlabs.dbind.PrimaryKey 
+ * @@see PayRequiredAmountPK 
+ * @@see PayRequiredAmountRow 
+ */
+public class PayRequiredAmountDao extends DataAccessObject {
+
+
+  /** 
+   * この{@@link PayRequiredAmountDao}に関連する型指定のRowオブジェクト 
+   */
+    private PayRequiredAmountRow row;
+
+
+  /** 
+   * Rowオブジェクトから新たにDataAccessObjectオブジェクトを作成するため利用されるファ@クトリ 
+   */
+    public static final Factory FACTORY = new Factory() {
+
+        /** 
+         * 指定の{@@link PayRequiredAmountRow}と仮定される{@@link DataAccessObject}から新たに{@@link PayRequiredAmountDao}を返します。 
+         * @@return 指定のRowに結びつく{@@link PayRequiredAmountDao}インスタンス 
+         * @@exception java.lang.IllegalArgumentException 指定のRowオブジェクトが{@@link PayRequiredAmountRow}のタイプと一致しない場合 
+         */
+        public DataAccessObject newInstance( Row row ) {
+            if ( row instanceof PayRequiredAmountRow )
+                return new PayRequiredAmountDao( (PayRequiredAmountRow) row );
+            throw new java.lang.IllegalArgumentException( "Not a PayRequiredAmountRow or subclass: "+row.getClass() );
+        }
+    };
+
+
+  /** 
+   * {@@link PayRequiredAmountRow}を引数に取るコンストラクタです。これはファ@クトリおよびそのサブクラスのみにより利用されます。 
+   * @@param row Daoにデータを提供する{@@link PayRequiredAmountRow}オブジェクト 
+    */
+    protected PayRequiredAmountDao( PayRequiredAmountRow row ) {
+        super( row );
+        this.row = row;
+    }
+
+
+  /** 
+   * このDaoに結びついている{@@link PayRequiredAmountRow}オブジェクトを取得します。
+   */
+    public PayRequiredAmountRow getPayRequiredAmountRow() {
+        return row;
+    }
+
+
+  /** 
+   * 指定の{@@link PayRequiredAmountRow}オブジェクトから{@@link PayRequiredAmountDao}オブジェクトを作成します。 
+   * これは実際の{@@link PayRequiredAmountRow}クラスインスタンスをベースに戻り値として適切なDaoオブジェクトを 
+   * ポリモルフィックに作成します。 
+   * 
+   * @@param row 必要な{@@link PayRequiredAmountDao}取得のために指定の{@@link PayRequiredAmountRow}オブジェクト 
+   * @@return 指定のrowオブジェクトに対応する{@@link PayRequiredAmountDao}オブジェクト 
+   * @@exception java.lang.IllegalArgumentException 指定のRowタイプに対応するDaoのタイプが存在しない場合 
+   */
+    public static PayRequiredAmountDao forRow( PayRequiredAmountRow row ) throws java.lang.IllegalArgumentException {
+        return (PayRequiredAmountDao) DataAccessObject.forRow( row );
+    }
+
+
+    //--------------------------------------------
+    // Create new primary key values
+    //--------------------------------------------
+
+
+  /** 
+   * {@@link PayRequiredAmountRow}を一意に特定するlong型の値を生成します。 
+   * この値は{@@link PayRequiredAmountRow}のオブジェクトタイプに対応するものです。 
+   * 
+   * @@return 新しい{@@link PayRequiredAmountPK}やデータベースレコードとして挿入される{@@link PayRequiredAmountParams}インスタンスの主キーとして利用可能なlong型の値 
+   * @@exception DataNetworkException ネットワークまたはその他インフラ関係の障害でクエリが実行できなかった場合 
+   * @@exception DataQueryException クエリが実行されても何らかのデータ関連の理由から失敗した場合 
+   */
+    public static long newPkValue() throws DataNetworkException, DataQueryException {
+        QueryProcessor qp = Processors.getDefaultProcessor();
+        return qp.doGetNewPkValueQuery( PayRequiredAmountRow.TYPE );
+    }
+
+
+  /** 
+   * {@@link PayRequiredAmountRow}を一意に特定する{@@link PayRequiredAmountPK}オブジェクトを生成します。 
+   * このオブジェクトは{@@link PayRequiredAmountRow}のオブジェクトタイプに対応するものです。 
+   * 
+   * @@return データベースへ挿入する新たな{@@link PayRequiredAmountParams}オブジェクトの主キーとして利用可能な{@@link PayRequiredAmountPK}オブジェクト 
+   * @@exception DataNetworkException ネットワークまたはその他インフラ関係の障害でクエリが実行できなかった場合 
+   * @@exception DataQueryException クエリが実行されても何らかのデータ関連の理由から失敗した場合 
+   * @@exception UnsupportedOperationException primary_keyに複数のカラムが含まれているかカラムのタイプがlong型でない場合 
+   */
+    public static PayRequiredAmountPK newPkObject() throws DataNetworkException, DataQueryException {
+      throw new java.lang.UnsupportedOperationException( "auto-generation of primary keys with multiple components not supported." );
+    }
+
+
+    //===========================================================================
+    //
+    // Find Rows by primary key
+    //
+    //===========================================================================
+
+
+  /** 
+   * 指定の主キーの値から{@@link PayRequiredAmountRow}オブジェクトを検索します。 
+   * 
+   * @@param p_accountId 検索対象であるp_accountIdフィールドの値
+   * @@param p_procDate 検索対象であるp_procDateフィールドの値
+   * 
+   * @@return 引数指定のIDと一致する主キーを持つ{@@link PayRequiredAmountRow} 
+   * @@exception DataFindException クエリ自体は実行されたが、指定の主キーにて検索のオブジェクトが見つからなかった場合 
+   * @@exception DataQueryException クエリ自体は実行されたが、検索キーが一意でないなど何らかのデータ関連の理由で検索に失敗した場合 
+   * @@exception DataNetworkException ネットワークまたはその他インフラ関係の障害でクエリが実行できなかった場合 
+   */
+    public static PayRequiredAmountRow findRowByPk( long p_accountId, String p_procDate ) throws DataFindException, DataQueryException, DataNetworkException {
+        PayRequiredAmountPK pk = new PayRequiredAmountPK( p_accountId, p_procDate );
+        return findRowByPk( pk );
+    }
+
+
+  /** 
+   * 指定のPayRequiredAmountPKオブジェクトから{@@link PayRequiredAmountRow}オブジェクトを検索します。 
+   * 
+   * @@param pk 検索キーとして利用するPayRequiredAmountPKオブジェクト 
+   * @@return 引数指定のIDと一致する主キーを持つ{@@link PayRequiredAmountRow} 
+   * @@exception DataFindException クエリ自体は実行されたが、指定の主キーにて検索のオブジェクトが見つからなかった場合 
+   * @@exception DataQueryException クエリ自体は実行されたが、検索キーが一意でないなど何らかのデータ関連の理由で検索に失敗した場合 
+   * @@exception DataNetworkException ネットワークまたはその他インフラ関係の障害でクエリが実行できなかった場合 
+   */
+    public static PayRequiredAmountRow findRowByPk( PayRequiredAmountPK pk ) throws DataFindException, DataQueryException, DataNetworkException  {
+        QueryProcessor qp = Processors.getDefaultProcessor();
+        return (PayRequiredAmountRow) qp.doFindByPrimaryKeyQuery( pk, null );
+    }
+
+
+  /** 
+   * @@deprecated 代わりに{@@link #findRowByPk(long,String)}および{@@link #forRow(PayRequiredAmountRow)}を使用してください。 
+   */
+    public static PayRequiredAmountDao findDaoByPk( long p_accountId, String p_procDate ) throws DataFindException, DataQueryException, DataNetworkException {
+        PayRequiredAmountPK pk = new PayRequiredAmountPK( p_accountId, p_procDate );
+        PayRequiredAmountRow row = findRowByPk( pk );
+        return forRow( row );
+    }
+
+
+  /** 
+   * @@deprecated 代わりに{@@link #findRowByPk(PayRequiredAmountPK)}および{@@link #forRow(PayRequiredAmountRow)}を使用してください。 
+   */
+    public static PayRequiredAmountDao findDaoByPk( PayRequiredAmountPK pk ) throws DataFindException, DataQueryException, DataNetworkException {
+        PayRequiredAmountRow row = findRowByPk( pk );
+        return forRow( row );
+    }
+
+
+    //===========================================================================
+    //
+    // Fetch Rows related by foreign key
+    //
+    //===========================================================================
+
+
+      // (this object has no foreign keys)
+
+
+    //===========================================================================
+    //
+    // Find Rows or Daos given index values
+    //
+    //===========================================================================
+
+    //------------------------------------------------------
+    // Find Rows given unique index values
+    //------------------------------------------------------
+
+
+  /** 
+   * p_accountId, p_procDate, and にて指定の値から一意の{@@link PayRequiredAmountRow}オブジェクトを検索します。 
+   * 該当するオブジェクトがない場合はnullを返します。
+   * 
+   * @@param p_accountId 検索対象であるp_accountIdフィールドの値
+   * @@param p_procDate 検索対象であるp_procDateフィールドの値
+   * 
+   * @@return 引数指定のp_accountId, p_procDate, and の値と一致する{@@link PayRequiredAmountRow}オブジェクト 
+   * @@exception DataNetworkException ネットワークまたはその他インフラ関係の障害でクエリが実行できなかった場合 
+   * @@exception DataFindException クエリ実行に成功したが実行結果を複数返した場合 
+   * @@exception DataQueryException クエリが実行されても何らかのデータ関連の理由から失敗した場合 
+   */
+    public static PayRequiredAmountRow findRowByAccountIdProcDate( long p_accountId, String p_procDate ) throws DataNetworkException, DataFindException, DataQueryException  {
+        QueryProcessor qp = Processors.getDefaultProcessor();
+        List list = qp.doFindAllQuery(
+            PayRequiredAmountRow.TYPE,
+            "account_id=? and proc_date=?",
+            null,
+            new Object[] { new Long(p_accountId), p_procDate } );
+        switch ( list.size() ) {
+            case 0: return null;
+            case 1: return (PayRequiredAmountRow) list.get(0);
+            default: throw new DataFindException( "too many results in unique query PayRequiredAmountDao.findRowsByAccountIdProcDate(): "+list.size() );
+        }
+    }
+
+
+  /** 
+   * @@deprecated 代わりに{@@link #findRowByAccountIdProcDate(long, String)}および{@@link #forRow(PayRequiredAmountRow)}を使用してください。 
+   */
+    public static PayRequiredAmountDao findDaoByAccountIdProcDate( long p_accountId, String p_procDate ) throws DataNetworkException, DataFindException, DataQueryException  {
+        return forRow( findRowByAccountIdProcDate( p_accountId, p_procDate ) );
+    }
+
+    //------------------------------------------------------
+    // Find Rows given non-unique index values
+    //------------------------------------------------------
+
+        // (none) 
+
+}
+@

@@ -1,0 +1,106 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.34.35;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8484d7eec351306;
+filename	web3dirsec.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--DIRシステム管理
+-------------------------------------------------------------------------------
+
+--1. Table: キューテーブル管理
+CREATE TABLE host_management (
+    host_table_name                 VARCHAR2(60)         NOT NULL,
+    host_table_physics_name         VARCHAR2(60)         NOT NULL,
+    order_request_number_div        VARCHAR2(1)          NOT NULL,
+    created_timestamp_div           VARCHAR2(1)          NOT NULL,
+    queryprocessor_name             VARCHAR2(10)         NOT NULL,
+    created_timestamp               DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp          DATE DEFAULT sysdate NOT NULL
+);
+
+ALTER TABLE host_management
+    ADD (PRIMARY KEY (host_table_name));
+
+--2. Table: トリガー発行情報テーブル
+CREATE TABLE submit_trigger_info (
+	institution_code                VARCHAR2(3)          NOT NULL,
+	request_code                    VARCHAR2(6)          NOT NULL,
+	user_data                       VARCHAR2(6)          NULL,
+	job_id                          VARCHAR2(16)         NOT NULL,
+	id_no                           VARCHAR2(2)          NOT NULL,
+	trigger_id                      VARCHAR2(44)         NOT NULL,
+	account_start                   NUMBER(15)           NOT NULL,
+	account_end                     NUMBER(15)           NOT NULL,
+	trading_time_type               VARCHAR2(2)          NULL,
+	enable_submit_trigger_flag      VARCHAR2(1)          NOT NULL,
+	product_handling_div            VARCHAR2(1)          NOT NULL,
+	last_updated_timestamp          DATE                 NOT NULL,
+	created_timestamp               DATE                 NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPK_submit_trigger_info ON submit_trigger_info
+(
+       institution_code,
+       request_code,
+       job_id
+);
+
+CREATE UNIQUE INDEX XAK_submit_trigger_info ON submit_trigger_info
+(
+       institution_code,
+       job_id,
+       id_no
+);
+
+--Primary Key
+ALTER TABLE submit_trigger_info ADD  (PRIMARY KEY (
+	   institution_code,
+	   request_code,
+	   job_id));
+
+--3. Table: AP下り処理管理
+CREATE TABLE ap_management (
+	ptype                           VARCHAR2(50)         NOT NULL,
+	request_code                    VARCHAR2(5)          NOT NULL,
+	ap_name                         VARCHAR2(50)         NOT NULL,
+    order_request_number_div        VARCHAR2(1)          NOT NULL,
+    thread_number_div               VARCHAR2(1)          NOT NULL,
+	created_timestamp               DATE DEFAULT sysdate NOT NULL,
+	last_updated_timestamp          DATE DEFAULT sysdate NOT NULL
+);
+
+--Index
+CREATE INDEX XPK_ap_management ON ap_management
+(
+       ptype,
+       request_code
+);
+
+--Primary Key
+ALTER TABLE ap_management ADD  (PRIMARY KEY (
+       ptype,
+       request_code
+));@

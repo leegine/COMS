@@ -1,0 +1,114 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.05.36;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7f0185589f;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.gentrade.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3gtl.sql, sql/web3market.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3GenTradeSessionDatabase
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3gtl_session_triggers.sql
+
+enums=\
+  host_request_order_number.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  host_orderexecution_end.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  ext_mail_proc.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  mail_proc.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  online_run_status.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  quote_closing_price.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  administrator_upload.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  doc_delivery_management_hist.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  fix_rcvd_q.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  fix_send_q.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  host_request_order_number \
+  daemon_trigger \
+  host_orderexecution_end:rowid_pk=true \
+  ext_mail_proc \
+  ifo_deposit \
+  mail_proc \
+  question_answer \
+  online_run_status \
+  mail_proc_temp \
+  ext_mail_proc_temp \
+  soap_message \
+  main_account_all \
+  security_shortage_account_hist \
+  quote_closing_price \
+  login_history_past \
+  login_history \
+  login_reject_ip \
+  trader_account_info \
+  administrator_upload \
+  administrator_upload_temp \
+  account_transfer \
+  comm_serial_numbers \
+  doc_delivery_management_hist \
+  fix_rcvd_q \
+  fix_send_q \
+  mail_assortment \
+  account_mail_address \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+@

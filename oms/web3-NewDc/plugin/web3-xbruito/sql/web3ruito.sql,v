@@ -1,0 +1,220 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.51;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	6004d80209d0226;
+filename	web3ruito.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@--累投注文受付キューテーブル
+CREATE TABLE host_ruito_order_accept (
+    request_code            VARCHAR2(5)  NOT NULL,
+    institution_code        VARCHAR2(2)  NOT NULL,
+    branch_code             VARCHAR2(3)  NOT NULL,
+    account_code            VARCHAR2(7)  NOT NULL,
+    trader_code                VARCHAR2(5)      NULL,
+    order_request_number    VARCHAR2(9)  NOT NULL,
+    accept_status            VARCHAR2(1)      NULL,
+    error_message            VARCHAR2(4)      NULL,
+    status                    VARCHAR2(1)      NULL
+);
+
+
+--累投注文取消キューテーブル
+CREATE TABLE host_ruito_order_cancel (
+    request_code                VARCHAR2(5)  NOT NULL,
+    institution_code            VARCHAR2(2)  NOT NULL,
+    branch_code                    VARCHAR2(3)  NOT NULL,
+    account_code                VARCHAR2(7)  NOT NULL,
+    trader_code                    VARCHAR2(5)      NULL,
+    order_request_number        VARCHAR2(9)  NOT NULL,
+    course                        VARCHAR2(1)      NULL,
+    plan                        VARCHAR2(1)      NULL,
+    cancel_div                    VARCHAR2(1)      NULL,
+    order_date                    DATE             NULL,
+    status                        VARCHAR2(1)      NULL
+);
+
+
+--累投取消受付キューテーブル
+CREATE TABLE host_ruito_cancel_accept (
+    request_code                VARCHAR2(5)  NOT NULL,
+    institution_code            VARCHAR2(2)  NOT NULL,
+    branch_code                    VARCHAR2(3)  NOT NULL,
+    account_code                VARCHAR2(7)  NOT NULL,
+    trader_code                    VARCHAR2(5)      NULL,
+    order_request_number        VARCHAR2(9)  NOT NULL,
+    accept_status                VARCHAR2(1)      NULL,
+    error_code                    VARCHAR2(4)      NULL,
+    status                        VARCHAR2(1)      NULL
+);
+
+
+--MRF注文キューテーブル
+CREATE TABLE host_mrf_order (
+    request_code                VARCHAR2(5) NOT NULL,
+    institution_code            VARCHAR2(2) NOT NULL,
+    branch_code                    VARCHAR2(3) NOT NULL,
+    account_code                VARCHAR2(7) NOT NULL,
+    trader_code                    VARCHAR2(5)     NULL,
+    order_request_number        VARCHAR2(9) NOT NULL,
+    mrf_fund_code                VARCHAR2(1)     NULL,
+    return_div                    VARCHAR2(1)     NULL,
+    tax_div                        VARCHAR2(1)    NULL,
+    sell_order_amount            NUMBER(11)       NULL,
+    return_method                VARCHAR2(1)     NULL,
+    order_date                    DATE            NULL,
+    status                        VARCHAR2(1)     NULL
+);
+
+
+--累投注文キューテーブル
+CREATE TABLE host_ruito_order (
+    request_code                VARCHAR2(5)  NOT NULL,
+    institution_code            VARCHAR2(2)  NOT NULL,
+    branch_code                    VARCHAR2(3)  NOT NULL,
+    account_code                VARCHAR2(7)  NOT NULL,
+    trader_code                    VARCHAR2(5)      NULL,
+    order_request_number        VARCHAR2(9)  NOT NULL,
+    course                        VARCHAR2(1)      NULL,
+    plan                        VARCHAR2(1)      NULL,
+    pay_amount                    NUMBER(11)       NULL,
+    settle_div                    VARCHAR2(1)      NULL,
+    pay_div                        VARCHAR2(1)      NULL,
+    transfer_comm                NUMBER(5)        NULL,
+    product                        VARCHAR2(2)      NULL,
+    transfer_route                VARCHAR2(1)      NULL,
+    tax_div                        VARCHAR2(1)      NULL,
+    conv_div                    VARCHAR2(1)      NULL,
+    partner                        VARCHAR2(2)   NULL,
+    pay_date                    DATE          NULL,
+    order_date                    DATE          NULL,
+    status                        VARCHAR2(1)   NULL
+);
+
+--累投注文通知キューテーブル
+CREATE TABLE host_ruito_order_notify (
+    request_code                VARCHAR2(5) NOT NULL,
+    institution_code            VARCHAR2(2) NOT NULL,
+    branch_code                    VARCHAR2(3) NOT NULL,
+    account_code                VARCHAR2(7) NOT NULL,
+    trader_code                    VARCHAR2(5)     NULL,
+    bizdate_div                    VARCHAR2(1) NOT NULL,
+    order_request_number        VARCHAR2(9) NOT NULL,
+    course                        VARCHAR2(1)     NULL,
+    plan                        VARCHAR2(1)     NULL,
+    order_div                    VARCHAR2(1)     NULL,
+    amount                        NUMBER(11)      NULL,
+    payment_method                VARCHAR2(1)     NULL,
+    order_date                    DATE            NULL,
+    delivery_date                DATE            NULL,
+    order_rcv_div                VARCHAR2(1)     NULL,
+    order_cancel_div            VARCHAR2(1)     NULL,
+    order_cancel_date            DATE            NULL,
+    error_code                    VARCHAR2(4)     NULL,
+    specify_div                    VARCHAR2(1)     NULL,
+    channel                        VARCHAR2(1)     NULL,
+    status                        VARCHAR2(1)     NULL
+);
+
+--累投解約取消キューテーブル
+CREATE TABLE host_sell_cancel (
+    request_code                VARCHAR2(5)  NOT NULL,
+    institution_code            VARCHAR2(2)  NOT NULL,
+    branch_code                    VARCHAR2(3)  NOT NULL,
+    account_code                VARCHAR2(7)  NOT NULL,
+    trader_code                    VARCHAR2(5)      NULL,
+    order_request_number        VARCHAR2(9)  NOT NULL,
+    course                        VARCHAR2(1)      NULL,
+    plan                        VARCHAR2(1)      NULL,
+    loan_div                    VARCHAR2(1)      NULL,
+    product_issue_code            VARCHAR2(9)      NULL,
+    cancel_div                    VARCHAR2(1)      NULL,
+    order_date                    DATE             NULL,
+    status                        VARCHAR2(1)      NULL
+);
+
+
+--MRF注文取消キューテーブル
+CREATE TABLE host_mrf_order_cancel (
+    request_code                VARCHAR2(5)               NOT NULL,
+    institution_code            VARCHAR2(2)               NOT NULL,
+    branch_code                 VARCHAR2(3)               NOT NULL,
+    account_code                VARCHAR2(7)               NOT NULL,
+    trader_code                 VARCHAR2(5)                   NULL,
+    order_request_number        VARCHAR2(9)               NOT NULL,
+    mrf_fund_code               VARCHAR2(1)                   NULL,
+    cancel_div                  VARCHAR2(1)                   NULL,
+    order_date                  DATE                          NULL,
+    status                      VARCHAR2(1)                   NULL
+);
+
+-- MRF取消受付キューテーブル
+CREATE TABLE host_mrf_cancel_accept (
+    request_code                VARCHAR2(5)              NOT NULL,
+    institution_code            VARCHAR2(2)              NOT NULL,
+    branch_code                 VARCHAR2(3)              NOT NULL,
+    account_code                VARCHAR2(7)              NOT NULL,
+    trader_code                 VARCHAR2(5)                  NULL,
+    order_request_number        VARCHAR2(9)              NOT NULL,
+    accept_status               VARCHAR2(1)                  NULL,
+    error_code                  VARCHAR2(4)                  NULL,
+    status                      VARCHAR2(1)                  NULL
+);
+
+
+-- MRF注文受付キューテーブル
+CREATE TABLE host_mrf_order_accept (
+    request_code                VARCHAR2(5)               NOT NULL,
+    institution_code            VARCHAR2(2)               NOT NULL,
+    branch_code                 VARCHAR2(3)               NOT NULL,
+    account_code                VARCHAR2(7)               NOT NULL,
+    trader_code                 VARCHAR2(5)                   NULL,
+    order_request_number        VARCHAR2(9)               NOT NULL,
+    accept_status               VARCHAR2(1)                   NULL,
+    error_code                  VARCHAR2(4)                   NULL,
+    status                      VARCHAR2(1)                   NULL
+);
+
+-- 累投解約キューテーブル
+CREATE TABLE host_ruito_sell (
+    request_code                VARCHAR2(5)               NOT NULL,
+    institution_code            VARCHAR2(2)               NOT NULL,
+    branch_code                 VARCHAR2(3)               NOT NULL,
+    account_code                VARCHAR2(7)               NOT NULL,
+    trader_code                 VARCHAR2(5)                   NULL,
+    order_request_number        VARCHAR2(9)               NOT NULL,
+    course                      VARCHAR2(1)                   NULL,
+    plan                        VARCHAR2(1)                   NULL,
+    loan_div                    VARCHAR2(1)                   NULL,
+    product_issue_code          VARCHAR2(9)                   NULL,
+    tax_div                     VARCHAR2(1)                   NULL,
+    return_div                  VARCHAR2(1)                   NULL,
+    amount                      NUMBER(11)                    NULL,
+    quantity                    NUMBER(11)                    NULL,
+    mortgage_sell               VARCHAR2(1)                   NULL,
+    delivery_date               DATE                          NULL,
+    order_date                  DATE                          NULL,
+    status                      VARCHAR2(1)                   NULL
+);
+
+@

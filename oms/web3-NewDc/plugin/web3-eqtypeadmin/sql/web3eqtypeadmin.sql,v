@@ -1,0 +1,224 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.39.52;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8704d7eed731715;
+filename	web3eqtypeadmin.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--商品管理（株式）サービス
+-------------------------------------------------------------------------------
+
+--1. Table名: 株式銘柄条件設定テーブル
+
+CREATE TABLE eqtype_product_condition (
+    eqtype_product_condition_id	NUMBER(18)	NOT NULL,
+    institution_code		VARCHAR2(3)	NOT NULL,
+    product_code		VARCHAR2(10)	NOT NULL,
+    product_id			NUMBER(18)	NOT NULL,
+    market_code			VARCHAR2(2)	NOT NULL,
+    market_id			NUMBER(18)	NOT NULL,
+    table_name			VARCHAR2(30)	NOT NULL,
+    column_name			VARCHAR2(30)	NOT NULL,
+    data_type			VARCHAR2(1)	NULL,
+    large_item_div		VARCHAR2(1)	NOT NULL,
+    small_item_div		VARCHAR2(2)	NOT NULL,
+    data_today			VARCHAR2(50)	NULL,
+    data_next_day		VARCHAR2(50)	NULL,
+    data_plan			VARCHAR2(50)	NULL,
+    term_from			DATE		NULL,
+    term_to			DATE		NULL,
+    delete_flg			VARCHAR2(1)	NULL,
+    last_updater		VARCHAR2(20)	NULL,
+    created_timestamp		DATE		NOT NULL,
+    last_updated_timestamp	DATE		NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKeqtype_product_condition ON eqtype_product_condition 
+(
+       eqtype_product_condition_id
+);
+CREATE UNIQUE INDEX XAK1eqtype_product_condition ON eqtype_product_condition 
+(
+       institution_code		      ,
+       product_code		      ,
+       market_code		      ,
+       large_item_div		      ,
+       small_item_div		      ,
+       delete_flg
+);
+CREATE UNIQUE INDEX XAK2eqtype_product_condition ON eqtype_product_condition 
+(
+       product_id		      ,
+       market_id		      ,
+       large_item_div		      ,
+       small_item_div		      ,
+       delete_flg
+);
+CREATE INDEX XIE1eqtype_product_condition ON eqtype_product_condition 
+(
+       institution_code		      ,
+       product_code		      ,
+       delete_flg		      ,
+       market_code
+);
+
+--PK
+ALTER TABLE eqtype_product_condition 
+      ADD  (PRIMARY KEY (eqtype_product_condition_id));
+
+
+--2. Table名: 強制決済注文照会テーブル
+CREATE TABLE forced_settle_order_inq (
+    forced_settle_order_inq_id         NUMBER(18)        NOT NULL,
+    order_id                           NUMBER(18)        NULL,
+    account_id                         NUMBER(18)        NOT NULL,
+    sub_account_id                     NUMBER(18)        NOT NULL,
+    branch_id                          NUMBER(18)        NOT NULL,
+    order_type                         NUMBER(6)         NOT NULL,
+    order_categ                        NUMBER(6)         NOT NULL,
+    market_id                          NUMBER(18)        NULL,
+    quantity                           DECIMAL(18,6)     NOT NULL,
+    limit_price                        DECIMAL(18,6)     NULL,
+    delivery_date                      DATE              NOT NULL,
+    biz_date                           VARCHAR2(8)       NOT NULL,
+    product_id                         NUMBER(18)        NOT NULL,
+    received_date_time                 DATE              NULL,
+    error_reason_code                  VARCHAR2(4)       NULL,
+    forced_settle_reason_type          VARCHAR2(1)       NULL,
+    approve_status_type                VARCHAR2(1)       NULL,
+    margin_maintenance_rate            DECIMAL(18,6)     NULL,
+    additional_margin_date             DATE              NULL,
+    additional_margin_accrued_days     NUMBER(18)        NULL,
+    contract_id                        NUMBER(18)        NOT NULL,
+    org_contract_quantity              DECIMAL(18,6)     NOT NULL,
+    contract_quantity                  DECIMAL(18,6)     NOT NULL,
+    original_contract_price            DECIMAL(18,6)     NOT NULL,
+    contract_price                     DECIMAL(18,6)     NOT NULL,
+    contract_type                      NUMBER(6)         NOT NULL,
+    open_date                          DATE              NOT NULL,
+    close_date                         DATE              NOT NULL,
+    tax_type                           NUMBER(6)         NULL,
+    repayment_type                     VARCHAR2(1)       NULL,
+    repayment_num                      NUMBER(7)         NULL,
+    created_timestamp                  DATE   DEFAULT sysdate   NOT NULL,
+    last_updated_timestamp             DATE   DEFAULT sysdate   NOT NULL,
+    approver_code                      VARCHAR2(20)      NULL,
+    approve_timestamp                  DATE              NULL,
+    account_code                       VARCHAR2(6)       NOT NULL,
+    product_code                       VARCHAR2(10)      NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKforced_settle_order_inq ON forced_settle_order_inq
+(
+       forced_settle_order_inq_id
+);
+CREATE INDEX XIE1forced_settle_order_inq ON forced_settle_order_inq
+(
+       forced_settle_order_inq_id   ,
+       account_id                   ,
+       sub_account_id               ,
+       branch_id                    ,
+       market_id                    ,
+       product_id
+);
+
+--Primary Key
+ALTER TABLE forced_settle_order_inq
+      ADD  (PRIMARY KEY (forced_settle_order_inq_id));
+
+--3. Table名: 注意情報履歴テーブル
+CREATE TABLE attention_info_history (
+    attention_info_history_id          NUMBER(18)          NOT NULL,
+    attention_info_type                VARCHAR2(1)         NOT NULL,
+    institution_code                   VARCHAR2(3)         NOT NULL,
+    product_id                         NUMBER(18)          NULL,
+    standard_name                      VARCHAR2(50)        NULL,
+    market_id                          NUMBER(18)          NULL,
+    valid_until_biz_date               VARCHAR2(8)         NOT NULL,
+    attention_info_div_code            VARCHAR2(4)         NOT NULL,
+    old_estimation_price               DECIMAL(18,6)       NULL,
+    new_estimation_price               DECIMAL(18,6)       NULL,
+    old_last_closing_price             DECIMAL(18,6)       NULL,
+    new_last_closing_price             DECIMAL(18,6)       NULL,
+    old_base_price                     DECIMAL(18,6)       NULL,
+    new_base_price                     DECIMAL(18,6)       NULL,
+    old_price_range_type               VARCHAR2(1)         NULL,
+    new_price_range_type               VARCHAR2(1)         NULL,
+    old_price_range_unit_type          VARCHAR2(1)         NULL,
+    new_price_range_unit_type          VARCHAR2(1)         NULL,
+    old_high_comp_price_range          DECIMAL(18,6)       NULL,
+    new_high_price_range               DECIMAL(18,6)       NULL,
+    old_low_comp_price_range           DECIMAL(18,6)       NULL,
+    new_low_price_range                DECIMAL(18,6)       NULL,
+    old_last_closing_price_updq        DECIMAL(18,6)       NULL,
+    new_last_closing_price_updq        DECIMAL(18,6)       NULL,
+    old_base_price_updq                DECIMAL(18,6)       NULL,
+    new_base_price_updq                DECIMAL(18,6)       NULL,
+    free_format_title                  VARCHAR2(60)        NULL,
+    free_format_text                   VARCHAR2(600)       NULL,
+    info_generation_timestamp          TIMESTAMP           NOT NULL,
+    ord_receipt_restart_timestamp      TIMESTAMP           NULL,
+    trade_stop_restart_timestamp       TIMESTAMP           NULL,
+    process_result_div                 VARCHAR2(1)         NOT NULL,
+    created_timestamp                  DATE        DEFAULT sysdate NOT NULL,
+    last_updated_timestamp             DATE        DEFAULT sysdate NOT NULL
+);
+
+--Primary Key
+ALTER TABLE attention_info_history 
+      ADD  (PRIMARY KEY (attention_info_history_id));
+
+--4. Table名: 注意情報通知キューテーブル
+CREATE TABLE host_attention_info_notify (
+    request_code                       VARCHAR2(5)         NULL,
+    institution_code                   VARCHAR2(3)         NULL,
+    product_code                       VARCHAR2(10)        NULL,
+    sonar_market_code                  VARCHAR2(1)         NULL,
+    attention_info_div_code            VARCHAR2(4)         NULL,
+    base_price                         DECIMAL(18,6)       NULL,
+    high_price_range                   DECIMAL(18,6)       NULL,
+    low_price_range                    DECIMAL(18,6)       NULL,
+    free_format_title                  VARCHAR2(60)        NULL,
+    free_format_text                   VARCHAR2(600)       NULL,
+    info_generation_timestamp          TIMESTAMP           NULL,
+    ord_receipt_restart_timestamp      TIMESTAMP           NULL,
+    trade_stop_restart_timestamp       TIMESTAMP           NULL,
+    status                             VARCHAR2(1)         NULL,
+    created_timestamp                  DATE        DEFAULT sysdate NULL,
+    last_updated_timestamp             DATE        DEFAULT sysdate NULL
+);
+
+--FOREIGN KEY
+ALTER TABLE eqtype_product_condition 
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product );
+
+ALTER TABLE forced_settle_order_inq
+        ADD  (FOREIGN KEY (branch_id) REFERENCES branch);
+
+ALTER TABLE forced_settle_order_inq
+        ADD  (FOREIGN KEY (market_id) REFERENCES market);
+@

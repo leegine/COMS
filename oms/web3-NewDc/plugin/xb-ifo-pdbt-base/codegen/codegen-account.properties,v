@@ -1,0 +1,128 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.06.45;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5cc4d904f795afc;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file for generating data bind layer
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.xbifo.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/xb-ifo.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=IfoAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/xbifo_account_triggers.sql
+
+enums=\
+  ifo_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  ifo_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  ifo_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  ifo_order_unit.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_unit.confirmed_exec_condition_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  ifo_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  ifo_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  ifo_order_unit.org_w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_unit.w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_unit.w_limit_before_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_unit.submit_order_delay_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  ifo_order_unit.evening_session_carryover_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  ifo_order_action.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  ifo_order_action.order_event_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum \
+  ifo_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  ifo_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  ifo_order_action.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_action.org_w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_action.w_limit_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_action.w_limit_before_exec_cond_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_order_action.confirmed_exec_condition_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoOrderExecutionConditionType \
+  ifo_fin_transaction.fin_transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  ifo_fin_transaction.fin_transaction_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg \
+  ifo_fin_transaction.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  ifo_contract.contract_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ContractTypeEnum \
+  ifo_contract.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  ifo_order_execution.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  ifo_order_execution.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  ifo_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  ifo_fin_transaction.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  ifo_order_execution.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  ifo_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  ifo_order.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  ifo_order_action.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum
+
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  ifo_order:inv=?.account_id \
+  ifo_order_unit:inv=?.account_id \
+  ifo_order_action:inv=?.account_id \
+  ifo_order_execution:inv=?.account_id \
+  ifo_closing_contract_spec:inv=?.account_id \
+  ifo_fin_transaction:inv=?.account_id \
+  ifo_contract:inv=?.account_id \
+  ifo_locked_contract_details:inv=?.account_id
+
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

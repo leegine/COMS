@@ -1,0 +1,498 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.4
+date	2011.03.29.02.20.45;	author zhang-tengyu;	state Exp;
+branches;
+next	1.3;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d9141fd72f1;
+filename	.classpath;
+
+1.3
+date	2011.03.29.01.42.51;	author zhang-tengyu;	state Exp;
+branches;
+next	1.2;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	3f04d91391a55eb;
+filename	.classpath;
+
+1.2
+date	2011.03.16.06.01.56;	author liu-lei;	state Exp;
+branches;
+next	1.1;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b44d805254247f;
+filename	.classpath;
+
+1.1
+date	2011.03.15.06.54.34;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	86c4d7f0d2a7ea6;
+filename	.classpath;
+
+
+desc
+@@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="application/front/test/java" kind="src"/>
+	<classpathentry path="plugin/web3-cache-statistics/java" kind="src"/>
+	<classpathentry path="plugin/web3-trialcalc/java" kind="src"/>
+	<classpathentry path="plugin/eqtype-base/java" kind="src"/>
+	<classpathentry path="plugin/gtl-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-accountinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-accountopen/java" kind="src"/>
+	<classpathentry path="plugin/web3-adminmc/java" kind="src"/>
+	<classpathentry path="plugin/web3-adminorderexecinquiry/java" kind="src"/>
+	<classpathentry path="plugin/web3-admintriggerorder/java" kind="src"/>
+	<classpathentry path="plugin/web3-common/java" kind="src"/>
+	<classpathentry path="plugin/web3-dirsec/java" kind="src"/>
+	<classpathentry path="plugin/web3-docadmin/java" kind="src"/>
+	<classpathentry path="plugin/web3-eqtypeadmin/java" kind="src"/>
+	<classpathentry path="plugin/web3-equity/java" kind="src"/>
+	<classpathentry path="plugin/web3-faq/java" kind="src"/>
+	<classpathentry path="plugin/web3-gentrade/java" kind="src"/>
+	<classpathentry path="plugin/web3-ifoadmin/java" kind="src"/>
+	<classpathentry path="plugin/web3-inform/java" kind="src"/>
+	<classpathentry path="plugin/web3-inform-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-ipo/java" kind="src"/>
+	<classpathentry path="plugin/web3-ipo-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-login/java" kind="src"/>
+	<classpathentry path="plugin/web3-mailinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-mq-gateway/java" kind="src"/>
+	<classpathentry path="plugin/web3-point/java" kind="src"/>
+	<classpathentry path="plugin/web3-pvinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-quote/java" kind="src"/>
+	<classpathentry path="plugin/web3-rich-push/java" kind="src"/>
+	<classpathentry path="plugin/web3-rls-gateway/java" kind="src"/>
+	<classpathentry path="plugin/web3-rls-omsadaptor/java" kind="src"/>
+	<classpathentry path="plugin/web3-servlet/java" kind="src"/>
+	<classpathentry path="plugin/web3-sle-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-sle-gateway/java" kind="src"/>
+	<classpathentry path="plugin/web3-srvregi/java" kind="src"/>
+	<classpathentry path="plugin/web3-sync-clt/java" kind="src"/>
+	<classpathentry path="plugin/web3-system/java" kind="src"/>
+	<classpathentry path="plugin/web3-tp-admin/java" kind="src"/>
+	<classpathentry path="plugin/web3-tpinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-tplib/java" kind="src"/>
+	<classpathentry path="plugin/web3-tradehistory/java" kind="src"/>
+	<classpathentry path="plugin/web3-trademanagement/java" kind="src"/>
+	<classpathentry path="plugin/web3-triggerorder/java" kind="src"/>
+	<classpathentry path="plugin/web3-triggerorder-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbaio/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbbd/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbfeq/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbifo/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbmf/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbruito/java" kind="src"/>
+	<classpathentry path="plugin/xb-aio-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-bd-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-feq-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-ifo-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-mf-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-ruito-pdbt-base/java" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_22" kind="con"/>
+	<classpathentry path="application/front/test/lib/junit.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/protomatter-1.1.7.jar" kind="lib"/>
+	<classpathentry path="ant/lib/ant.jar" kind="lib"/>
+	<classpathentry path="ant/lib/fitech-ant-build.jar" kind="lib"/>
+	<classpathentry path="ant/lib/xercesImpl.jar" kind="lib"/>
+	<classpathentry path="ant/lib/xml-apis.jar" kind="lib"/>
+	<classpathentry path="build-results/core/jars/xtrade.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/xtrade-lws.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jaxp/crimson.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jaxp/jaxp.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jsdk/servlet.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jta_1_0_1a/jta.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-security-oplogin/jars/plug-security-oplogin.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-util-jobs/jars/plug-util-jobs.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-util-queries/jars/plug-util-queries.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-gtl/jars/plug-gtl.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-eqtype/jars/plug-eqtype.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-aio-pdbt/jars/plug-xb-aio-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-feq-pdbt/jars/plug-xb-feq-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-mf-pdbt/jars/plug-xb-mf-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-ruito-pdbt/jars/plug-xb-ruito-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-ifo-pdbt/jars/plug-xb-ifo-pdbt.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/aspectjrt.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/cactus.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/cactus-ant.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/commons-logging.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/httpunit.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/nekohtml.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-util-rac/jars/plug-util-rac.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-mq-gateway/lib/wolf2-mq.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-bd-pdbt/jars/plug-xb-bd-pdbt.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/jmx/jmxri.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/xtier/xtier.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/oms.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/jmx/jmxtools.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/xtier/xtier-jmx-rmi.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/xtier/xtier-std-mk.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rich-push/lib/rc_push_message.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-sle-gateway/lib/gl-base.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-sle-gateway/lib/gl-sle-connector.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-sle-gateway/lib/gl-sle-connector-client.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/log4j/log4j-1.2.8.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-quote/lib/web3-feed-client.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/oracle/oracle11g/ojdbc6.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-xbaio/lib/gft_connection.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-xbaio/lib/tfx_connection.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/activation-1.1.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axiom-api-1.2.10.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axiom-dom-1.2.10.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axiom-impl-1.2.10.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-adb-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-jaxws-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-kernel-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-metadata-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-saaj-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-transport-http-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/axis2-transport-local-1.5.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/commons-codec-1.3.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/commons-httpclient-3.1.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/commons-logging-1.1.1.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/httpcore-4.0.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/mail-1.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/neethi-2.0.4.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/wsdl4j-1.6.2.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/wstx-asl-3.2.9.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/xml-resolver-1.2.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/XmlSchema-1.4.3.jar" kind="lib"/>
+	<classpathentry path="tmp/classes" kind="output"/>
+</classpath>
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a3 1
+	<classpathentry path="plugin/test/java" kind="src"/>
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 126
+a128 123
+	<classpathentry kind="src" path="application/front/test/java"/>
+	<classpathentry kind="src" path="plugin/web3-cache-statistics/java"/>
+	<classpathentry kind="src" path="plugin/web3-trialcalc/java"/>
+	<classpathentry kind="src" path="plugin/eqtype-base/java"/>
+	<classpathentry kind="src" path="plugin/gtl-base/java"/>
+	<classpathentry kind="src" path="plugin/web3-accountinfo/java"/>
+	<classpathentry kind="src" path="plugin/web3-accountopen/java"/>
+	<classpathentry kind="src" path="plugin/web3-adminmc/java"/>
+	<classpathentry kind="src" path="plugin/web3-adminorderexecinquiry/java"/>
+	<classpathentry kind="src" path="plugin/web3-admintriggerorder/java"/>
+	<classpathentry kind="src" path="plugin/web3-common/java"/>
+	<classpathentry kind="src" path="plugin/web3-dirsec/java"/>
+	<classpathentry kind="src" path="plugin/web3-docadmin/java"/>
+	<classpathentry kind="src" path="plugin/web3-eqtypeadmin/java"/>
+	<classpathentry kind="src" path="plugin/web3-equity/java"/>
+	<classpathentry kind="src" path="plugin/web3-faq/java"/>
+	<classpathentry kind="src" path="plugin/web3-gentrade/java"/>
+	<classpathentry kind="src" path="plugin/web3-ifoadmin/java"/>
+	<classpathentry kind="src" path="plugin/web3-inform/java"/>
+	<classpathentry kind="src" path="plugin/web3-inform-base/java"/>
+	<classpathentry kind="src" path="plugin/web3-ipo/java"/>
+	<classpathentry kind="src" path="plugin/web3-ipo-base/java"/>
+	<classpathentry kind="src" path="plugin/web3-login/java"/>
+	<classpathentry kind="src" path="plugin/web3-mailinfo/java"/>
+	<classpathentry kind="src" path="plugin/web3-mq-gateway/java"/>
+	<classpathentry kind="src" path="plugin/web3-point/java"/>
+	<classpathentry kind="src" path="plugin/web3-pvinfo/java"/>
+	<classpathentry kind="src" path="plugin/web3-quote/java"/>
+	<classpathentry kind="src" path="plugin/web3-rich-push/java"/>
+	<classpathentry kind="src" path="plugin/web3-rls-gateway/java"/>
+	<classpathentry kind="src" path="plugin/web3-rls-omsadaptor/java"/>
+	<classpathentry kind="src" path="plugin/web3-servlet/java"/>
+	<classpathentry kind="src" path="plugin/web3-sle-base/java"/>
+	<classpathentry kind="src" path="plugin/web3-sle-gateway/java"/>
+	<classpathentry kind="src" path="plugin/web3-srvregi/java"/>
+	<classpathentry kind="src" path="plugin/web3-sync-clt/java"/>
+	<classpathentry kind="src" path="plugin/web3-system/java"/>
+	<classpathentry kind="src" path="plugin/web3-tp-admin/java"/>
+	<classpathentry kind="src" path="plugin/web3-tpinfo/java"/>
+	<classpathentry kind="src" path="plugin/web3-tplib/java"/>
+	<classpathentry kind="src" path="plugin/web3-tradehistory/java"/>
+	<classpathentry kind="src" path="plugin/web3-trademanagement/java"/>
+	<classpathentry kind="src" path="plugin/web3-triggerorder/java"/>
+	<classpathentry kind="src" path="plugin/web3-triggerorder-base/java"/>
+	<classpathentry kind="src" path="plugin/web3-xbaio/java"/>
+	<classpathentry kind="src" path="plugin/web3-xbbd/java"/>
+	<classpathentry kind="src" path="plugin/web3-xbfeq/java"/>
+	<classpathentry kind="src" path="plugin/web3-xbifo/java"/>
+	<classpathentry kind="src" path="plugin/web3-xbmf/java"/>
+	<classpathentry kind="src" path="plugin/web3-xbruito/java"/>
+	<classpathentry kind="src" path="plugin/xb-aio-pdbt-base/java"/>
+	<classpathentry kind="src" path="plugin/xb-bd-pdbt-base/java"/>
+	<classpathentry kind="src" path="plugin/xb-feq-pdbt-base/java"/>
+	<classpathentry kind="src" path="plugin/xb-ifo-pdbt-base/java"/>
+	<classpathentry kind="src" path="plugin/xb-mf-pdbt-base/java"/>
+	<classpathentry kind="src" path="plugin/xb-ruito-pdbt-base/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_22"/>
+	<classpathentry kind="lib" path="application/front/test/lib/junit.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/protomatter-1.1.7.jar"/>
+	<classpathentry kind="lib" path="ant/lib/ant.jar"/>
+	<classpathentry kind="lib" path="ant/lib/fitech-ant-build.jar"/>
+	<classpathentry kind="lib" path="ant/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="ant/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="build-results/core/jars/xtrade.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/xtrade-lws.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/jaxp/crimson.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/jaxp/jaxp.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/jsdk/servlet.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/jta_1_0_1a/jta.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-security-oplogin/jars/plug-security-oplogin.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-util-jobs/jars/plug-util-jobs.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-util-queries/jars/plug-util-queries.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-gtl/jars/plug-gtl.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-eqtype/jars/plug-eqtype.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-xb-aio-pdbt/jars/plug-xb-aio-pdbt.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-xb-feq-pdbt/jars/plug-xb-feq-pdbt.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-xb-mf-pdbt/jars/plug-xb-mf-pdbt.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-xb-ruito-pdbt/jars/plug-xb-ruito-pdbt.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-xb-ifo-pdbt/jars/plug-xb-ifo-pdbt.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/cactus.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/cactus-ant.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/httpunit.jar"/>
+	<classpathentry kind="lib" path="application/front/test/lib/nekohtml.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-util-rac/jars/plug-util-rac.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-mq-gateway/lib/wolf2-mq.jar"/>
+	<classpathentry kind="lib" path="build-results/plug-xb-bd-pdbt/jars/plug-xb-bd-pdbt.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rls-gateway/lib/jmx/jmxri.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rls-gateway/lib/xtier/xtier.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rls-gateway/lib/oms.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rls-gateway/lib/jmx/jmxtools.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rls-gateway/lib/xtier/xtier-jmx-rmi.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rls-gateway/lib/xtier/xtier-std-mk.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-rich-push/lib/rc_push_message.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-sle-gateway/lib/gl-base.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-sle-gateway/lib/gl-sle-connector.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-sle-gateway/lib/gl-sle-connector-client.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/webservices.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-gentrade/lib/weblogic.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-gentrade/lib/webserviceclient.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/log4j/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-quote/lib/web3-feed-client.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/gft_connection.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/tfx_connection.jar"/>
+	<classpathentry kind="lib" path="build-results/core/lib/oracle/oracle11g/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/axiom-api-1.2.10.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/axiom-impl-1.2.10.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/axis2-adb-1.5.4.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/axis2-kernel-1.5.4.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/axis2-transport-http-1.5.4.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/axis2-transport-local-1.5.4.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/httpcore-4.0.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/mail-1.4.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/neethi-2.0.4.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/wsdl4j-1.6.2.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/wstx-asl-3.2.9.jar"/>
+	<classpathentry kind="lib" path="plugin/web3-xbaio/lib/XmlSchema-1.4.3.jar"/>
+	<classpathentry kind="output" path="tmp/classes"/>
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d3 123
+a125 158
+	<classpathentry path="application/front/test/java" kind="src"/>
+	<classpathentry path="plugin/web3-cache-statistics/java" kind="src"/>
+	<classpathentry path="plugin/web3-trialcalc/java" kind="src"/>
+	<classpathentry path="plugin/eqtype-base/java" kind="src"/>
+	<classpathentry path="plugin/gtl-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-accountinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-accountopen/java" kind="src"/>
+	<classpathentry path="plugin/web3-adminmc/java" kind="src"/>
+	<classpathentry path="plugin/web3-adminorderexecinquiry/java" kind="src"/>
+	<classpathentry path="plugin/web3-admintriggerorder/java" kind="src"/>
+	<classpathentry path="plugin/web3-common/java" kind="src"/>
+	<classpathentry path="plugin/web3-dirsec/java" kind="src"/>
+	<classpathentry path="plugin/web3-docadmin/java" kind="src"/>
+	<classpathentry path="plugin/web3-eqtypeadmin/java" kind="src"/>
+	<classpathentry path="plugin/web3-equity/java" kind="src"/>
+	<classpathentry path="plugin/web3-faq/java" kind="src"/>
+	<classpathentry path="plugin/web3-gentrade/java" kind="src"/>
+	<classpathentry path="plugin/web3-ifoadmin/java" kind="src"/>
+	<classpathentry path="plugin/web3-inform/java" kind="src"/>
+	<classpathentry path="plugin/web3-inform-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-ipo/java" kind="src"/>
+	<classpathentry path="plugin/web3-ipo-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-login/java" kind="src"/>
+	<classpathentry path="plugin/web3-mailinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-mq-gateway/java" kind="src"/>
+	<classpathentry path="plugin/web3-point/java" kind="src"/>
+	<classpathentry path="plugin/web3-pvinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-quote/java" kind="src"/>
+	<classpathentry path="plugin/web3-rich-push/java" kind="src"/>
+	<classpathentry path="plugin/web3-rls-gateway/java" kind="src"/>
+	<classpathentry path="plugin/web3-rls-omsadaptor/java" kind="src"/>
+	<classpathentry path="plugin/web3-servlet/java" kind="src"/>
+	<classpathentry path="plugin/web3-sle-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-sle-gateway/java" kind="src"/>
+	<classpathentry path="plugin/web3-srvregi/java" kind="src"/>
+	<classpathentry path="plugin/web3-sync-clt/java" kind="src"/>
+	<classpathentry path="plugin/web3-system/java" kind="src"/>
+	<classpathentry path="plugin/web3-tp-admin/java" kind="src"/>
+	<classpathentry path="plugin/web3-tpinfo/java" kind="src"/>
+	<classpathentry path="plugin/web3-tplib/java" kind="src"/>
+	<classpathentry path="plugin/web3-tradehistory/java" kind="src"/>
+	<classpathentry path="plugin/web3-trademanagement/java" kind="src"/>
+	<classpathentry path="plugin/web3-triggerorder/java" kind="src"/>
+	<classpathentry path="plugin/web3-triggerorder-base/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbaio/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbbd/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbfeq/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbifo/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbmf/java" kind="src"/>
+	<classpathentry path="plugin/web3-xbruito/java" kind="src"/>
+	<classpathentry path="plugin/xb-aio-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-bd-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-feq-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-ifo-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-mf-pdbt-base/java" kind="src"/>
+	<classpathentry path="plugin/xb-ruito-pdbt-base/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-mock-object/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-mock-object-test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-common/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-gentrade/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-gentrade/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-login/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-triggerorder/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-triggerorder/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-triggerorder-base/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-triggerorder-base/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-Compliance/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-Compliance/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-docadmin/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-docadmin/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbifo/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbifo/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-tplib/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-tplib/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-equity/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-equity/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-accountinfo/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-accountinfo/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbmf/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbmf/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-dirsec/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-dirsec/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-srvregi/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-srvregi/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbaio/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbaio/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbfeq/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-xbfeq/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-inform/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-inform/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-eqtypeadmin/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-eqtypeadmin/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-accountopen/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-accountopen/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-adminorderexecinquiry/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-ifoadmin/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-admintriggerorder/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-admintriggerorder/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-trademanagement/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-trademanagement/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-tp-admin/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-tp-admin/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-tpinfo/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-tpinfo/mock/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-pvinfo/test/java" kind="src"/>
+	<classpathentry path="application/front/test/web3-pvinfo/mock/java" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.22" kind="con"/>
+	<classpathentry path="application/front/test/lib/junit.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/protomatter-1.1.7.jar" kind="lib"/>
+	<classpathentry path="ant/lib/ant.jar" kind="lib"/>
+	<classpathentry path="ant/lib/fitech-ant-build.jar" kind="lib"/>
+	<classpathentry path="ant/lib/xercesImpl.jar" kind="lib"/>
+	<classpathentry path="ant/lib/xml-apis.jar" kind="lib"/>
+	<classpathentry path="build-results/core/jars/xtrade.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/xtrade-lws.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jaxp/crimson.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jaxp/jaxp.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jsdk/servlet.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/jta_1_0_1a/jta.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-security-oplogin/jars/plug-security-oplogin.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-util-jobs/jars/plug-util-jobs.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-util-queries/jars/plug-util-queries.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-gtl/jars/plug-gtl.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-eqtype/jars/plug-eqtype.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-aio-pdbt/jars/plug-xb-aio-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-feq-pdbt/jars/plug-xb-feq-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-mf-pdbt/jars/plug-xb-mf-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-ruito-pdbt/jars/plug-xb-ruito-pdbt.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-ifo-pdbt/jars/plug-xb-ifo-pdbt.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/aspectjrt.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/cactus.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/cactus-ant.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/commons-logging.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/httpunit.jar" kind="lib"/>
+	<classpathentry path="application/front/test/lib/nekohtml.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-util-rac/jars/plug-util-rac.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-mq-gateway/lib/wolf2-mq.jar" kind="lib"/>
+	<classpathentry path="build-results/plug-xb-bd-pdbt/jars/plug-xb-bd-pdbt.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/jmx/jmxri.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/xtier/xtier.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/oms.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/jmx/jmxtools.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/xtier/xtier-jmx-rmi.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rls-gateway/lib/xtier/xtier-std-mk.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-rich-push/lib/rc_push_message.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-sle-gateway/lib/gl-base.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-sle-gateway/lib/gl-sle-connector.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-sle-gateway/lib/gl-sle-connector-client.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-xbaio/lib/webservices.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/weblogic.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-gentrade/lib/webserviceclient.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/log4j/log4j-1.2.8.jar" kind="lib"/>
+	<classpathentry path="build-results/core/lib/oracle/oracle9.2.0.3/ojdbc14.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-quote/lib/web3-feed-client.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-xbaio/lib/gft_connection.jar" kind="lib"/>
+	<classpathentry path="plugin/web3-xbaio/lib/tfx_connection.jar" kind="lib"/>
+	<classpathentry path="tmp/classes" kind="output"/>
+@
+

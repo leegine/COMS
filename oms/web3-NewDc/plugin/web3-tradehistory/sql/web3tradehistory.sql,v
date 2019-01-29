@@ -1,0 +1,391 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.04.01;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	2344d912ffc3825;
+filename	web3tradehistory.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+--1. Table名: 決済明細履歴テーブル
+CREATE TABLE settle_detail_history (
+       settle_detail_history_id     NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(2)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       trader_code                  VARCHAR2(5)     NULL,
+       delivery_date                DATE            NOT NULL,
+       commodity_code               VARCHAR2(2)     NULL,
+       trade_code                   VARCHAR2(2)     NULL,
+       product_code                 VARCHAR2(9)     NULL,
+       market_div                   VARCHAR2(1)     NULL,
+       buy_sell_div                 VARCHAR2(1)     NULL,
+       open_exec_date               DATE            NULL,
+       close_exec_date              DATE            NULL,
+       contract_price               DECIMAL(18,6)   NULL,
+       close_contract_price         DECIMAL(18,6)   NULL,
+       contract_amount              DECIMAL(18,6)   NULL,
+       close_contract_amount        DECIMAL(18,6)   NULL,
+       open_commission              DECIMAL(18,6)   NULL,
+       close_commission             DECIMAL(18,6)   NULL,
+       open_commission_tax          DECIMAL(18,6)   NULL,
+       close_commission_tax         DECIMAL(18,6)   NULL,
+       management_fee               DECIMAL(18,6)   NULL,
+       management_fee_tax           DECIMAL(18,6)   NULL,
+       name_transfer_fee            DECIMAL(18,6)   NULL,
+       name_transfer_fee_tax        DECIMAL(18,6)   NULL,
+       account_div                  VARCHAR2(1)     NULL,
+       capital_gain_tax             DECIMAL(18,6)   NULL,
+       debit_daily_interest         DECIMAL(18,6)   NULL,
+       credit_daily_interest        DECIMAL(18,6)   NULL,
+       loan_equity_fee              DECIMAL(18,6)   NULL,
+       dividend_amount              DECIMAL(18,6)   NULL,
+       adjust_amount                DECIMAL(18,6)   NULL,
+       net_amount                   DECIMAL(18,6)   NULL,
+       repayment_type               VARCHAR2(1)     NULL,
+       status                       VARCHAR2(1)     NOT NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKsettle_detail_history ON settle_detail_history
+(
+       settle_detail_history_id
+);
+
+
+CREATE INDEX XIE1settle_detail_history ON settle_detail_history
+(
+       institution_code        ,
+       branch_code             ,
+       account_code            ,
+       delivery_date           ,
+       product_code            ,
+       close_contract_price    ,
+       net_amount              ,
+       status                  ,
+       account_div             ,
+       close_exec_date         
+);
+
+CREATE INDEX XIE2settle_detail_history ON settle_detail_history
+(
+       delivery_date
+);
+
+--PK
+
+ALTER TABLE settle_detail_history
+      ADD  (PRIMARY KEY (settle_detail_history_id));
+
+--2. Table名: 顧客勘定残高履歴テーブル
+CREATE TABLE transaction_history (
+       transaction_history_id     NUMBER(18)      NOT NULL,
+       institution_code           VARCHAR2(2)     NOT NULL,
+       branch_code                VARCHAR2(3)     NOT NULL,
+       account_code               VARCHAR2(7)     NOT NULL,
+       trader_code                VARCHAR2(5)     NULL,
+       delivery_date              DATE            NOT NULL,
+       confirmed_balance          DECIMAL(18,6)   NOT NULL,
+       deposit_margin_div         VARCHAR2(1)     NOT NULL,
+       product_code               VARCHAR2(7)     NULL,
+       created_timestamp          DATE            NOT NULL,
+       last_updated_timestamp     DATE            NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKtransaction_history ON transaction_history
+(
+       transaction_history_id
+);
+
+CREATE UNIQUE INDEX XAK1transaction_history ON transaction_history
+(
+       institution_code       ,
+       branch_code            ,
+       account_code           ,
+       delivery_date          ,
+       deposit_margin_div
+);
+
+CREATE INDEX XIE1transaction_history ON transaction_history
+(
+       delivery_date          ,
+       deposit_margin_div
+);
+
+--PK
+
+ALTER TABLE transaction_history
+      ADD  (PRIMARY KEY (transaction_history_id));
+
+--3. Table名: 取引明細履歴テーブル
+CREATE TABLE trade_detail_history (
+       trade_detail_history_id      NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(2)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       trader_code                  VARCHAR2(5)     NULL,
+       delivery_date                DATE            NOT NULL,
+       commodity_code               VARCHAR2(2)     NULL,
+       trade_code                   VARCHAR2(2)     NULL,
+       product_code                 VARCHAR2(9)     NULL,
+       market_div                   VARCHAR2(1)     NULL,
+       buy_sell_div                 VARCHAR2(1)     NULL,
+       exec_date                    DATE            NULL,
+       quantity                     DECIMAL(18,6)   NULL,
+       price                        DECIMAL(18,6)   NULL,
+       executed_amount              DECIMAL(18,6)   NULL,
+       commission_fee               DECIMAL(18,6)   NULL,
+       commission_fee_tax           DECIMAL(18,6)   NULL,
+       account_div                  VARCHAR2(1)     NULL,
+       capital_gain_tax             DECIMAL(18,6)   NULL,
+       net_amount                   DECIMAL(18,6)   NULL,
+       status                       VARCHAR2(1)     NOT NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL,
+       monetary_unit                VARCHAR2(2)     NULL,
+       fstk_exch_div                VARCHAR2(2)     NULL,
+       monetary_unit_executed_amount DECIMAL(18,6)   NULL,
+       monetary_unit_comission      DECIMAL(18,6)   NULL,
+       monetary_unit_trade_tax      DECIMAL(18,6)   NULL,
+       monetary_unit_interest       DECIMAL(18,6)   NULL,
+       local_settle_amount          DECIMAL(18,6)   NULL,
+       local_settle_amount_yen      DECIMAL(18,6)   NULL,
+       exec_exchange                DECIMAL(11,7)   NULL,
+       domestic_commission          DECIMAL(18,6)   NULL,
+       PAYMENT_DIV                  VARCHAR2(1)     NULL,
+       ACCRUED_INTEREST_YEN         DECIMAL(18,6)   NULL,
+       ACCRUED_INTEREST             DECIMAL(18,6)   NULL,
+       DENOMINATION                 DECIMAL(18,6)   NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKtrade_detail_history ON trade_detail_history
+(
+       trade_detail_history_id
+);
+
+CREATE INDEX XIE1trade_detail_history ON trade_detail_history
+(
+       institution_code       ,
+       branch_code            ,
+       account_code           ,
+       delivery_date          ,
+       product_code           ,
+       quantity               ,
+       price                  ,
+       account_div            ,
+       net_amount             ,
+       status                 ,
+       exec_date              
+);
+
+CREATE INDEX XIE2trade_detail_history ON trade_detail_history
+(
+       delivery_date
+);
+
+--PK
+
+ALTER TABLE trade_detail_history
+      ADD  (PRIMARY KEY (trade_detail_history_id));
+
+--4. Table名: 取引履歴テーブル
+CREATE TABLE trade_history (
+       trade_history_id             NUMBER(18)      NOT NULL,
+       institution_code             VARCHAR2(2)     NOT NULL,
+       branch_code                  VARCHAR2(3)     NOT NULL,
+       account_code                 VARCHAR2(7)     NOT NULL,
+       trader_code                  VARCHAR2(5)     NULL,
+       details_management_no        NUMBER(18)      NULL,
+       delivery_date                DATE            NOT NULL,
+       exec_date                    DATE            NULL,
+       commodity_code               VARCHAR2(2)     NULL,
+       trade_code                   VARCHAR2(2)     NULL,
+       remark_code                  VARCHAR2(4)     NULL,
+       remark_name                  VARCHAR2(60)    NULL,
+       product_code                 VARCHAR2(9)     NULL,
+       product_name                 VARCHAR2(60)    NULL,
+       quantity                     DECIMAL(18,6)   NULL,
+       quantity_type                VARCHAR2(1)     NULL,
+       price                        DECIMAL(18,6)   NULL,
+       account_div                  VARCHAR2(1)     NULL,
+       capital_gain                 DECIMAL(18,6)   NULL,
+       net_amount                   DECIMAL(18,6)   NULL,
+       io_div                       VARCHAR2(1)     NULL,
+       buy_sell_div                 VARCHAR2(1)     NULL,
+       repayment_type               VARCHAR2(1)     NULL,
+       created_timestamp            DATE            NOT NULL,
+       last_updated_timestamp       DATE            NOT NULL,
+       monetary_unit                VARCHAR2(2)     NULL,
+       payment_div                  VARCHAR2(1)     NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKtrade_history ON trade_history
+(
+       trade_history_id
+);
+
+CREATE INDEX XIE1trade_history ON trade_history
+(
+       institution_code       ,
+       branch_code            ,
+       account_code           ,
+       delivery_date
+);
+
+CREATE INDEX XIE2trade_history ON trade_history
+(
+       delivery_date
+);
+
+--PK
+
+ALTER TABLE trade_history
+      ADD  (PRIMARY KEY (trade_history_id));
+
+--5. Table名: 簿価単価明細テーブル
+CREATE TABLE book_value_spec (
+       book_value_spec_id           NUMBER(18)       NOT NULL,
+       institution_code             VARCHAR2(3)      NULL,
+       branch_code                  VARCHAR2(3)      NULL,
+       account_code                 VARCHAR2(7)      NULL,
+       tax_type                     VARCHAR2(1)      NULL,
+       work_date                    DATE             NULL,
+       rec_div                      VARCHAR2(1)      NULL,
+       commodity_code               VARCHAR2(2)      NULL,
+       product_code                 VARCHAR2(9)      NULL,
+       sort_no                      VARCHAR2(6)      NULL,
+       calc_date                    DATE             NULL,
+       exec_date                    DATE             NULL,
+       delivery_date                DATE             NULL,
+       stock_exchg                  VARCHAR2(1)      NULL,
+       trade_type                   VARCHAR2(2)      NULL,
+       buy_sell_div                 VARCHAR2(1)      NULL,
+       debit_bal_div                VARCHAR2(1)      NULL,
+       quantity                     DECIMAL(18,6)    NULL,
+       price                        DECIMAL(18,6)    NULL,
+       ccy_code                     VARCHAR2(2)      NULL,
+       net_amount                   DECIMAL(18,6)    NULL,
+       calc_amount                  DECIMAL(18,6)    NULL,
+       bal_quantity                 DECIMAL(18,6)    NULL,
+       book_value                   DECIMAL(18,6)    NULL,
+       book_amount                  DECIMAL(18,6)    NULL,
+       proloss1                     DECIMAL(18,6)    NULL,
+       proloss2                     DECIMAL(18,6)    NULL,
+       remark                       VARCHAR2(1)      NULL,
+       created_timestamp            DATE             NOT NULL,
+       last_updated_timestamp       DATE             NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKbook_value_spec ON book_value_spec
+(
+       book_value_spec_id
+);
+
+CREATE INDEX XIE1book_value_spec ON book_value_spec
+(
+       institution_code       ,
+       branch_code            ,
+       account_code           ,
+       commodity_code         ,
+       product_code
+);
+
+--PK
+
+ALTER TABLE book_value_spec
+      ADD  (PRIMARY KEY (book_value_spec_id));
+
+--6. Table名: 損益明細テーブル
+CREATE TABLE profit_loss_spec (
+       profit_loss_spec_id        NUMBER(18)       NOT NULL,
+       institution_code           VARCHAR2(3)      NULL,
+       branch_code                VARCHAR2(3)      NULL,
+       account_code               VARCHAR2(7)      NULL,
+       trader_code_sonar          VARCHAR2(5)      NULL,
+       work_date                  DATE             NULL,
+       tax_type                   VARCHAR2(1)      NULL,
+       rec_div                    VARCHAR2(2)      NULL,
+       sort_no                    VARCHAR2(10)     NULL,
+       calc_date                  DATE             NULL,
+       delivery_date              DATE             NULL,
+       commodity_div              VARCHAR2(2)      NULL,
+       application_code           VARCHAR2(2)      NULL,
+       product_code               VARCHAR2(9)      NULL,
+       standard_name              VARCHAR2(26)     NULL,
+       term_div                   VARCHAR2(1)      NULL,
+       quantity                   DECIMAL(19,5)    NULL,
+       pass_date                  DATE             NULL,
+       pass_amount                DECIMAL(18,6)    NULL,
+       get_date                   DATE             NULL,
+       get_amount                 DECIMAL(18,6)    NULL,
+       proloss_amount             DECIMAL(18,6)    NULL,
+       total_proloss_amount       DECIMAL(18,6)    NULL,
+       taxable_amount             DECIMAL(18,6)    NULL,
+       collect_tax_amount         DECIMAL(18,6)    NULL,
+       collect_tax_n_amount       DECIMAL(18,6)    NULL,
+       collect_tax_l_amount       DECIMAL(18,6)    NULL,
+       return_div                 VARCHAR2(1)      NULL,
+       colltax_amount_curr        DECIMAL(18,6)    NULL,
+       colltax_n_amount_curr      DECIMAL(18,6)    NULL,
+       colltax_l_amount_curr      DECIMAL(18,6)    NULL,
+       colltax_amount_nxt         DECIMAL(18,6)    NULL,
+       colltax_n_amount_nxt       DECIMAL(18,6)    NULL,
+       colltax_l_amount_nxt       DECIMAL(18,6)    NULL,
+       remark                     VARCHAR2(2)      NULL,
+       proloss_amount_cps         DECIMAL(18,6)    NULL,
+       created_timestamp          DATE             NOT NULL,
+       last_updated_timestamp     DATE             NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKprofit_loss_spec ON profit_loss_spec
+(
+       profit_loss_spec_id
+);
+
+CREATE INDEX XIE1profit_loss_spec ON profit_loss_spec
+(
+       institution_code       ,
+       branch_code            ,
+       account_code           ,
+       rec_div
+);
+
+--PK
+
+ALTER TABLE profit_loss_spec
+      ADD  (PRIMARY KEY (profit_loss_spec_id));
+@

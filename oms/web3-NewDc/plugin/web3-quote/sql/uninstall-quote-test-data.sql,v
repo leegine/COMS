@@ -1,0 +1,55 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.17;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3d04d912e303247;
+filename	uninstall-quote-test-data.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-- 時価情報
+delete from web3_quote_proto where quote_data_id=9901675800;
+delete from web3_quote_proto where quote_data_id=9901650300;
+delete from web3_quote_proto where quote_data_id=9901001801;
+delete from web3_quote_proto where quote_data_id=9901001811;
+delete from web3_quote_proto where quote_data_id=9901001812;
+delete from web3_quote_proto where quote_data_id=9901000001;
+delete from web3_quote_proto where quote_data_id=9901000002;
+delete from web3_quote_proto where quote_data_id=9901000004;
+
+-- 取引銘柄
+delete from ifo_traded_product where institution_code='99';
+delete from eqtype_traded_product where institution_code='99';
+delete from traded_product where institution_code='99';
+
+-- 銘柄
+delete from ifo_product where institution_code='99';
+delete from eqtype_product where institution_code='99';
+delete from product where institution_code='99';
+
+-- 市場
+delete from market where institution_code='99';
+
+-- 証券会社
+delete from institution where institution_code='99';
+
+commit;
+@

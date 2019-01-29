@@ -1,0 +1,321 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.59.40;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	4d04d7ef1b224f3;
+filename	web3inform.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--連絡管理
+-------------------------------------------------------------------------------
+
+--Table: 各種連絡テーブル
+CREATE TABLE various_inform (
+    institution_code                VARCHAR2(3)         NOT NULL,
+    inform_div                      VARCHAR2(2)         NOT NULL,
+    request_number                  VARCHAR2(13)        NOT NULL,
+    branch_code                     VARCHAR2(3)         NOT NULL,
+    account_code                    VARCHAR2(7)         NULL,
+    trader_code                     VARCHAR2(5)         NULL,
+    account_name                    VARCHAR2(40)        NULL,
+    email_address                   VARCHAR2(100)       NULL,
+    ext_div1                        VARCHAR2(2)         NULL,
+    ext_div2                        VARCHAR2(2)         NULL,
+    ext_div3                        VARCHAR2(2)         NULL,
+    ext_div4                        VARCHAR2(2)         NULL,
+    ext_div5                        VARCHAR2(2)         NULL,
+    ext_div6                        VARCHAR2(2)         NULL,
+    ext_div7                        VARCHAR2(2)         NULL,
+    ext_div8                        VARCHAR2(2)         NULL,
+    ext_div9                        VARCHAR2(2)         NULL,
+    ext_div10                       VARCHAR2(2)         NULL,
+    ext_div11                       VARCHAR2(2)         NULL,
+    ext_div12                       VARCHAR2(2)         NULL,
+    ext_div13                       VARCHAR2(2)         NULL,
+    ext_div14                       VARCHAR2(2)         NULL,
+    ext_div15                       VARCHAR2(2)         NULL,
+    ext_div16                       VARCHAR2(2)         NULL,
+    ext_div17                       VARCHAR2(2)         NULL,
+    ext_div18                       VARCHAR2(2)         NULL,
+    ext_div19                       VARCHAR2(2)         NULL,
+    ext_div20                       VARCHAR2(2)         NULL,
+    ext_div21                       VARCHAR2(2)         NULL,
+    ext_div22                       VARCHAR2(2)         NULL,
+    ext_div23                       VARCHAR2(2)         NULL,
+    ext_div24                       VARCHAR2(2)         NULL,
+    ext_div25                       VARCHAR2(2)         NULL,
+    ext_div26                       VARCHAR2(2)         NULL,
+    ext_div27                       VARCHAR2(2)         NULL,
+    ext_div28                       VARCHAR2(2)         NULL,
+    ext_div29                       VARCHAR2(2)         NULL,
+    ext_div30                       VARCHAR2(2)         NULL,
+    ext_div31                       VARCHAR2(2)         NULL,
+    ext_div32                       VARCHAR2(2)         NULL,
+    ext_div33                       VARCHAR2(2)         NULL,
+    ext_div34                       VARCHAR2(2)         NULL,
+    ext_div35                       VARCHAR2(2)         NULL,
+    ext_div36                       VARCHAR2(2)         NULL,
+    ext_div37                       VARCHAR2(2)         NULL,
+    ext_div38                       VARCHAR2(2)         NULL,
+    ext_div39                       VARCHAR2(2)         NULL,
+    ext_div40                       VARCHAR2(2)         NULL,
+    ext_code1                       VARCHAR2(10)        NULL,
+    ext_code2                       VARCHAR2(10)        NULL,
+    ext_code3                       VARCHAR2(10)        NULL,
+    ext_code4                       VARCHAR2(10)        NULL,
+    ext_code5                       VARCHAR2(10)        NULL,
+    ext_code6                       VARCHAR2(10)        NULL,
+    ext_code7                       VARCHAR2(10)        NULL,
+    ext_code8                       VARCHAR2(10)        NULL,
+    ext_code9                       VARCHAR2(10)        NULL,
+    ext_code10                      VARCHAR2(10)        NULL,
+    ext_text1                       VARCHAR2(50)        NULL,
+    ext_text2                       VARCHAR2(50)        NULL,
+    ext_text3                       VARCHAR2(50)        NULL,
+    ext_text4                       VARCHAR2(50)        NULL,
+    ext_text5                       VARCHAR2(50)        NULL,
+    ext_text6                       VARCHAR2(50)        NULL,
+    ext_text7                       VARCHAR2(50)        NULL,
+    ext_text8                       VARCHAR2(50)        NULL,
+    ext_text9                       VARCHAR2(50)        NULL,
+    ext_text10                      VARCHAR2(50)        NULL,
+    ext_text11                      VARCHAR2(50)        NULL,
+    ext_text12                      VARCHAR2(50)        NULL,
+    ext_text13                      VARCHAR2(50)        NULL,
+    ext_text14                      VARCHAR2(50)        NULL,
+    ext_text15                      VARCHAR2(50)        NULL,
+    ext_text16                      VARCHAR2(50)        NULL,
+    ext_text17                      VARCHAR2(50)        NULL,
+    ext_text18                      VARCHAR2(50)        NULL,
+    ext_text19                      VARCHAR2(50)        NULL,
+    ext_text20                      VARCHAR2(50)        NULL,
+    ext_text21                      VARCHAR2(50)        NULL,
+    ext_text22                      VARCHAR2(50)        NULL,
+    ext_text23                      VARCHAR2(50)        NULL,
+    ext_text24                      VARCHAR2(50)        NULL,
+    ext_text25                      VARCHAR2(50)        NULL,
+    ext_text26                      VARCHAR2(50)        NULL,
+    ext_text27                      VARCHAR2(50)        NULL,
+    ext_text28                      VARCHAR2(50)        NULL,
+    ext_text29                      VARCHAR2(50)        NULL,
+    ext_text30                      VARCHAR2(50)        NULL,
+    ext_text31                      VARCHAR2(50)        NULL,
+    ext_text32                      VARCHAR2(50)        NULL,
+    ext_text33                      VARCHAR2(50)        NULL,
+    ext_text34                      VARCHAR2(50)        NULL,
+    ext_text35                      VARCHAR2(50)        NULL,
+    ext_text36                      VARCHAR2(50)        NULL,
+    ext_text37                      VARCHAR2(50)        NULL,
+    ext_text38                      VARCHAR2(50)        NULL,
+    ext_text39                      VARCHAR2(50)        NULL,
+    ext_text40                      VARCHAR2(50)        NULL,
+    ext_value1                      NUMBER(15)          NULL,
+    ext_value2                      NUMBER(15)          NULL,
+    ext_value3                      NUMBER(15)          NULL,
+    ext_value4                      NUMBER(15)          NULL,
+    ext_value5                      NUMBER(15)          NULL,
+    ext_value6                      NUMBER(15)          NULL,
+    ext_value7                      NUMBER(15)          NULL,
+    ext_value8                      NUMBER(15)          NULL,
+    ext_value9                      NUMBER(15)          NULL,
+    ext_value10                     NUMBER(15)          NULL,
+    ext_value11                     NUMBER(15)          NULL,
+    ext_value12                     NUMBER(15)          NULL,
+    ext_value13                     NUMBER(15)          NULL,
+    ext_value14                     NUMBER(15)          NULL,
+    ext_value15                     NUMBER(15)          NULL,
+    ext_value16                     NUMBER(15)          NULL,
+    ext_value17                     NUMBER(15)          NULL,
+    ext_value18                     NUMBER(15)          NULL,
+    ext_value19                     NUMBER(15)          NULL,
+    ext_value20                     NUMBER(15)          NULL,
+    ext_value21                     NUMBER(15)          NULL,
+    ext_value22                     NUMBER(15)          NULL,
+    ext_value23                     NUMBER(15)          NULL,
+    ext_value24                     NUMBER(15)          NULL,
+    ext_value25                     NUMBER(15)          NULL,
+    ext_value26                     NUMBER(15)          NULL,
+    ext_value27                     NUMBER(15)          NULL,
+    ext_value28                     NUMBER(15)          NULL,
+    ext_value29                     NUMBER(15)          NULL,
+    ext_value30                     NUMBER(15)          NULL,
+    ext_note1                       VARCHAR2(200)       NULL,
+    ext_note2                       VARCHAR2(1000)      NULL,
+    last_updater                    VARCHAR2(20)        NULL,
+    created_timestamp               DATE                DEFAULT sysdate NOT NULL,
+    last_updated_timestamp          DATE                DEFAULT sysdate NOT NULL,
+    fund_code                       VARCHAR2(9)         NULL,
+    sonar_trader_code               VARCHAR2(5)         NULL,
+    status                          VARCHAR2(1)         NULL,
+    error_reason_code               VARCHAR2(4)         NULL,
+    order_request_number            VARCHAR2(9)         NULL,
+    request_code                    VARCHAR2(5)         NULL,
+    send_timestamp                  DATE                Null,
+    receipt_timestamp               DATE                Null
+);
+
+--Index
+CREATE UNIQUE INDEX XPKvarious_inform ON various_inform
+(
+    institution_code,
+    inform_div,
+    request_number,
+    branch_code
+);
+
+--Primary Key
+ALTER TABLE various_inform
+        ADD  (PRIMARY KEY (institution_code,inform_div,request_number,branch_code));
+
+
+--Table: 連絡管理項目マスタ
+CREATE TABLE inform_ctrl_item_master (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    inform_div                  VARCHAR2(2)         NOT NULL,
+    item_symbol_name            VARCHAR2(30)        NOT NULL,
+    item_name                   VARCHAR2(50)        NULL,
+    necessary_flag              NUMBER(1)           NOT NULL,
+    item_min                    NUMBER(6)           NULL,
+    item_max                    NUMBER(6)           NULL,
+    item_check_mode             VARCHAR2(2)         NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKinform_ctrl_item_master ON inform_ctrl_item_master
+(
+    institution_code,
+    branch_code,
+    inform_div,
+    item_symbol_name
+);
+
+--Primary Key
+ALTER TABLE inform_ctrl_item_master
+        ADD  (PRIMARY KEY (institution_code, branch_code, inform_div, item_symbol_name));
+
+
+--Table: 連絡管理項目属性
+CREATE TABLE inform_ctrl_item_attribute (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    inform_div                  VARCHAR2(2)         NOT NULL,
+    item_symbol_name            VARCHAR2(30)        NOT NULL,
+    attribute_name              VARCHAR2(32)        NOT NULL,
+    attribute_value             VARCHAR2(2)         NOT NULL,
+    range_from                  DECIMAL(15)         NULL,
+    range_to                    DECIMAL(15)         NULL
+);
+
+--Index
+CREATE  INDEX XPKinform_ctrl_item_attribute ON inform_ctrl_item_attribute
+(
+    institution_code,
+    branch_code,
+    inform_div,
+    item_symbol_name,
+    attribute_value
+);
+
+--Primary Key
+ALTER TABLE inform_ctrl_item_attribute
+        ADD  (PRIMARY KEY (institution_code, branch_code, inform_div, item_symbol_name,attribute_value));
+
+
+--Table: 連絡管理識別コード
+CREATE TABLE inform_ctrl_request_number (
+    institution_code                VARCHAR2(3)         NOT NULL,
+    inform_div                      VARCHAR2(2)         NOT NULL,
+    last_info_ctrl_request_number   VARCHAR2(13)        NOT NULL,
+    created_timestamp               DATE                NOT NULL,
+    last_updated_timestamp          DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKinform_ctrl_request_number ON inform_ctrl_request_number
+(
+    institution_code,
+    inform_div
+);
+
+--Primary Key
+ALTER TABLE inform_ctrl_request_number
+        ADD  (PRIMARY KEY (institution_code, inform_div));
+
+
+--Table: 連絡情報ＤＬフォームマスタ
+CREATE TABLE inform_dl_form_master (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)         NOT NULL,
+    inform_div                  VARCHAR2(2)         NOT NULL,
+    column_number               NUMBER(6)           NOT NULL,
+    column_label                VARCHAR2(30)        NULL,
+    column_type                 NUMBER(6)           NOT NULL,
+    date_format                 VARCHAR2(30)        NULL,
+    input_item_symbol_name      VARCHAR2(30)        NOT NULL,
+    cat_delimitter              VARCHAR2(1)         NULL,
+    section_number              NUMBER(6)           NULL
+);
+
+--Index
+CREATE  UNIQUE INDEX XPKinform_dl_form_master ON inform_dl_form_master
+(
+    institution_code,
+    branch_code,
+    inform_div,
+    column_number
+);
+
+--Primary Key
+ALTER TABLE inform_dl_form_master
+        ADD  (PRIMARY KEY (institution_code, branch_code, inform_div, column_number));
+
+--Table: 連絡種別用プリファレンス
+CREATE TABLE inform_div_preferences (
+    branch_id                    NUMBER(18)              NOT NULL,
+    inform_div                   VARCHAR2(2)             NOT NULL,
+    name                         VARCHAR2(80)            NOT NULL,
+    name_serial_no               NUMBER(6)               NOT NULL,
+    value                        VARCHAR2(200)           NOT NULL,
+    created_timestamp            DATE  DEFAULT sysdate   NOT NULL,
+    last_updated_timestamp       DATE  DEFAULT sysdate   NOT NULL    
+);            
+
+--Index
+CREATE  UNIQUE INDEX XPKinform_div_preferences ON inform_div_preferences
+(
+    branch_id,
+    inform_div,
+    name,
+    name_serial_no
+);
+
+--Primary Key
+ALTER TABLE inform_div_preferences
+        ADD  (PRIMARY KEY (branch_id, inform_div, name, name_serial_no));
+        
+--FOREIGN KEY
+ALTER TABLE inform_div_preferences
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+@

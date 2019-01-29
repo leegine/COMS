@@ -1,0 +1,139 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.05.36.28;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8f04d80403d696d;
+filename	web3feqtrans.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--外国株式（外部連携）
+-------------------------------------------------------------------------------
+
+--1. UWG振替状況テーブル
+CREATE TABLE uwg_transfer_status(
+        institution_code                VARCHAR2(3)     NOT NULL,
+        branch_code                     VARCHAR2(3)     NOT NULL,
+        account_code                    VARCHAR2(7)     NOT NULL,
+        order_request_number            VARCHAR2(9)     NOT NULL,
+        operation_div                   VARCHAR2(2)     NOT NULL,
+        feq_account_code                VARCHAR2(9)     NOT NULL,
+        amount                          NUMBER(14)      NULL,
+        transfer_date                   VARCHAR2(8)     NULL,
+        transfer_status_div             VARCHAR2(1)     NOT NULL,
+        send_rcv_div                    VARCHAR2(1)     NOT NULL,
+        result_code                     VARCHAR2(1)     NULL,
+        error_reason_code               VARCHAR2(8)     NULL,
+        send_time                       VARCHAR2(14)    NULL,
+        receive_time                    VARCHAR2(14)    NULL,
+        mrg_trn_order_request_number    VARCHAR2(9)     NULL,
+        first_transfer_div              VARCHAR2(1)     NOT NULL,
+        last_updater                    VARCHAR2(20)    NULL,
+        created_timestamp               DATE            NOT NULL,
+        last_updated_timestamp          DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKuwg_transfer_status ON uwg_transfer_status
+(
+        institution_code,
+        branch_code     ,
+        order_request_number
+);
+
+--Primary Key
+ALTER TABLE uwg_transfer_status
+        ADD  (PRIMARY KEY (institution_code,branch_code,order_request_number));
+
+
+--2. UWG口座開設状況テーブル
+CREATE TABLE uwg_account_open_status (
+        institution_code          VARCHAR2(3)     NOT NULL,
+        branch_code               VARCHAR2(3)     NOT NULL,
+        account_code              VARCHAR2(7)     NOT NULL,
+        order_request_number      VARCHAR2(9)     NOT NULL,
+        last_name                 VARCHAR2(50)    NULL,
+        first_name                VARCHAR2(50)    NULL,
+        mail_address              VARCHAR2(50)    NULL,
+        feq_account_code          VARCHAR2(9)     NULL,
+        password                  VARCHAR2(32)    NULL,
+        account_open_status_div   VARCHAR2(1)     NOT NULL,
+        send_rcv_div              VARCHAR2(1)     NOT NULL,
+        result_code               VARCHAR2(1)     NULL,
+        error_reason_code         VARCHAR2(8)     NULL,
+        last_updater              VARCHAR2(20)    NULL,
+        created_timestamp         DATE            NOT NULL,
+        last_updated_timestamp    DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKuwg_account_open_status ON uwg_account_open_status
+(
+        institution_code    ,
+        branch_code         ,
+        order_request_number
+);
+
+--Primary Key
+ALTER TABLE uwg_account_open_status
+        ADD  (PRIMARY KEY (institution_code,branch_code,order_request_number));
+
+
+--3. 外国株式顧客テーブル
+CREATE TABLE feq_account (
+        feq_account_id            NUMBER(18)      NOT NULL,
+        institution_code          VARCHAR2(3)     NOT NULL,
+        branch_code               VARCHAR2(3)     NOT NULL,
+        account_code              VARCHAR2(7)     NOT NULL,
+        last_name                 VARCHAR2(50)    NULL,
+        first_name                VARCHAR2(50)    NULL,
+        feq_account_code          VARCHAR2(9)     NOT NULL,
+        account_open_div          VARCHAR2(1)     NOT NULL,
+        first_transfer_flag       VARCHAR2(1)     NOT NULL,
+        last_updater              VARCHAR2(20)    NULL,
+        created_timestamp         DATE            NOT NULL,
+        last_updated_timestamp    DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfeq_account ON feq_account
+(
+        feq_account_id
+);
+CREATE UNIQUE INDEX XAK1feq_account ON feq_account
+(
+        institution_code,
+        branch_code,
+        account_code
+);
+CREATE UNIQUE INDEX XAK2feq_account ON feq_account
+(
+        institution_code,
+        branch_code,
+        feq_account_code
+);
+--Primary Key
+ALTER TABLE feq_account
+        ADD  (PRIMARY KEY (feq_account_id));
+
+
+@

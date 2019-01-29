@@ -1,0 +1,57 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.28.09;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d9135854a39;
+filename	codegen.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D)                          -->
+<!-- ============================================ -->
+<!-- Build plugin's binding layer                 -->
+<!-- Author: L.Charny - AUTO-GENERATED FILE       -->
+<!-- Date: Fri Mar 11 11:42:34 CST 2011           -->
+<!-- ============================================ -->
+<project name="do-codegen" default="build" basedir=".">
+	<target name="build">
+<!-- ============================================ -->
+<!-- GENERATING BINDING LAYER FOR == codegen-session.properties ==   -->
+		<echo message="">
+ Building Plugin's Binding Layer (codegen-session.properties) for ${PLUGIN_NAME}: 
+ ${REPORTED_VERSION}
+		</echo>
+		<ant antfile="build-plugin-binding-layer.xml">
+		    <property name="CODEGEN_FILE" value="${COMP_ABS_HOME}/${codegen}/codegen-session.properties"/>
+		</ant>
+<!-- ============================================ -->
+<!-- GENERATING BINDING LAYER FOR == codegen-session-qtp.properties ==   -->
+		<echo message="">
+ Building Plugin's Binding Layer (codegen-session-qtp.properties) for ${PLUGIN_NAME}: 
+ ${REPORTED_VERSION}
+		</echo>
+		<ant antfile="build-plugin-binding-layer.xml">
+		    <property name="CODEGEN_FILE" value="${COMP_ABS_HOME}/${codegen}/codegen-session-qtp.properties"/>
+		</ant>
+	</target>
+</project>
+@

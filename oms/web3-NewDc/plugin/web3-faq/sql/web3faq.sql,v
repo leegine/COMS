@@ -1,0 +1,76 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.44.14;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8c44d7eee8a1aa4;
+filename	web3faq.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--問合せ管理
+-------------------------------------------------------------------------------
+
+--Table: 問合せコード
+CREATE TABLE faq_number (
+    institution_code            VARCHAR2(3)         NOT NULL,
+    last_faq_number             VARCHAR2(13)        NOT NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfaq_number ON faq_number
+(
+    institution_code
+);
+
+--Primary Key
+ALTER TABLE faq_number
+        ADD  (PRIMARY KEY (institution_code));
+
+
+--Table: 問合せテーブル
+CREATE TABLE faq (
+    faq_number                  VARCHAR2(13)        NOT NULL,
+    institution_code            VARCHAR2(3)         NOT NULL,
+    branch_code                 VARCHAR2(3)             NULL,
+    account_code                VARCHAR2(7)             NULL,
+    name                        VARCHAR2(40)        NOT NULL,
+    email_address               VARCHAR2(100)           NULL,
+    subject                     VARCHAR2(1000)          NULL,
+    faq_text                    VARCHAR2(2000)      NOT NULL,
+    transaction_id              VARCHAR2(5)             NULL,
+    created_timestamp           DATE                NOT NULL,
+    last_updated_timestamp      DATE                NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfaq ON faq
+(
+    faq_number,
+    institution_code
+);
+
+--Primary Key
+ALTER TABLE faq
+        ADD  (PRIMARY KEY (faq_number, institution_code));
+@

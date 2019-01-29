@@ -1,0 +1,944 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.30.13;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1744d9128041e20;
+filename	web3tplib.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE tp_asset_history (
+      tp_asset_history_id         NUMBER(18)            NOT NULL,
+      account_id                  NUMBER(18)            NOT NULL,
+      calc_date                   DATE                  NOT NULL,
+      account_balance             DECIMAL(18,6) DEFAULT 0   NULL,
+      equity_asset_delivered      DECIMAL(18,6) DEFAULT 0   NULL,
+      mini_stock_asset_delivered  DECIMAL(18,6) DEFAULT 0   NULL,
+      ruito_asset_delivered       DECIMAL(18,6) DEFAULT 0   NULL,
+      mutual_fund_asset_delivered DECIMAL(18,6) DEFAULT 0   NULL,
+      bond_asset_delivered        DECIMAL(18,6) DEFAULT 0   NULL,
+      created_timestamp           DATE DEFAULT sysdate  NOT NULL,
+      last_updated_timestamp      DATE DEFAULT sysdate  NOT NULL
+);
+
+CREATE UNIQUE INDEX XAKtp_asset_history ON tp_asset_history
+(
+       account_id,
+       calc_date
+);
+
+ALTER TABLE tp_asset_history
+       ADD  ( PRIMARY KEY (tp_asset_history_id) ) ;
+
+CREATE TABLE eqtype_fixed_contract (
+       fixed_contract_id          NUMBER(18) NOT NULL,
+       account_id                 NUMBER(18) NOT NULL,
+       sub_account_id             NUMBER(18) NOT NULL,
+       market_id                  NUMBER(18) NOT NULL,
+       original_quantity          DECIMAL(18,6) NOT NULL,
+       quantity                   DECIMAL(18,6) NOT NULL,
+       original_contract_price    DECIMAL(18,6) NOT NULL,
+       contract_price             DECIMAL(18,6) NOT NULL,
+       contract_type              NUMBER(6) NOT NULL,
+       open_date                  DATE NOT NULL,
+       close_date                 DATE NOT NULL,
+       setup_fee                  DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       setup_fee_tax              DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       name_transfer_fee          DECIMAL(18,6) NULL,
+       name_transfer_fee_tax      DECIMAL(18,6) NULL,
+       management_fee             DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       management_fee_tax         DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       interest_fee               DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       interest_fee_tax           DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       pay_interest_fee           DECIMAL(18,6) NULL,
+       pay_interest_fee_tax       DECIMAL(18,6) NULL,
+       loan_equity_fee            DECIMAL(18,6) NULL,
+       other                      DECIMAL(18,6) NULL,
+       margin_deposit_rate        DECIMAL(18,6) NULL,
+       cash_margin_deposit_rate   DECIMAL(18,6) NULL,
+       contract_asset_profit_loss DECIMAL(18,6) NULL,
+       product_id                 NUMBER(18) NOT NULL,
+       tax_type                   NUMBER(6) NULL,
+       repayment_type             VARCHAR2(1) NULL,
+       repayment_num              NUMBER(7) NULL,
+       created_timestamp          DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp     DATE DEFAULT sysdate NOT NULL,
+       first_open_date            DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKeqtype_fixed_contract ON eqtype_fixed_contract
+(
+       fixed_contract_id                    
+);
+
+CREATE INDEX XIE1eqtype_fixed_contract ON eqtype_fixed_contract
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2eqtype_fixed_contract ON eqtype_fixed_contract
+(
+       account_id                       ,
+       sub_account_id           ,
+       market_id                  ,
+       contract_price           ,
+       contract_type            ,
+       open_date                 ,
+       close_date                ,
+       product_id                ,
+       tax_type            ,
+       repayment_type            ,
+       repayment_num,
+       first_open_date
+);
+
+
+ALTER TABLE eqtype_fixed_contract
+       ADD  ( PRIMARY KEY (fixed_contract_id) ) ;
+
+
+CREATE TABLE fixed_fin_transaction (
+       fixed_fin_transaction_id       NUMBER(18)                    NOT NULL,
+       account_id                     NUMBER(18)                    NOT NULL,
+       sub_account_id                 NUMBER(18)                    NOT NULL,
+       product_id                     NUMBER(18)                    NOT NULL,
+       fin_transaction_type           NUMBER(6)                     NOT NULL,
+       fin_transaction_categ          NUMBER(6)                     NOT NULL,
+       fin_transaction_timestamp      DATE                          NOT NULL,
+       tax_type                       NUMBER(6)                     NOT NULL,
+       delivery_date                  DATE                          NOT NULL,
+       net_amount                     DECIMAL(18,6)                 NOT NULL,
+       product_type                   NUMBER(6)                     NOT NULL,
+       price                          DECIMAL(18,6)                 NULL,
+       quantity                       DECIMAL(18,6)                 NOT NULL,
+       commission_fee                 DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       commission_fee_tax             DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_paid_value            DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_setup_fee             DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_setup_fee_tax         DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_name_transfer_fee     DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_name_transfer_fee_tax DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       capital_gain                   DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       capital_gain_tax               DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       fixed_contract_id              NUMBER(18)                    NULL,
+       imported_management_fee        DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_management_fee_tax    DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_interest_fee          DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_interest_fee_tax      DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_pay_interest_fee      DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_pay_interest_fee_tax  DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_loan_equity_fee       DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       imported_other                 DECIMAL(18,6) DEFAULT 0       NOT NULL,
+       delete_flag                    NUMBER(1)     DEFAULT 0       NOT NULL,
+       created_timestamp              DATE          DEFAULT sysdate NOT NULL,
+       last_updated_timestamp         DATE          DEFAULT sysdate NOT NULL,
+       order_unit_id                  NUMBER(18)                    NULL
+);
+
+CREATE UNIQUE INDEX XPKfixed_fin_tran ON fixed_fin_transaction
+(
+       fixed_fin_transaction_id             
+);
+
+CREATE INDEX XIE1fixed_fin_tran ON fixed_fin_transaction
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2fixed_fin_tran ON fixed_fin_transaction
+(
+       product_type                     ,
+       order_unit_id                 
+);
+
+ALTER TABLE fixed_fin_transaction
+       ADD  ( PRIMARY KEY (fixed_fin_transaction_id) ) ;
+       
+       
+CREATE TABLE tp_cash_balance (
+       tp_cash_balance_id	NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       cash_balance0        DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       cash_balance1        DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       cash_balance2        DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       cash_balance3        DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       cash_balance4        DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       cash_balance5        DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       mrf_balance          DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       current_term_capital_gain DECIMAL(18,6) DEFAULT 0 NULL,
+       next_month_capital_gain DECIMAL(18,6) DEFAULT 0 NULL,
+       created_timestamp    DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKtp_cash_balance ON tp_cash_balance
+(
+	tp_cash_balance_id
+);
+
+CREATE UNIQUE INDEX XAK1tp_cash_balance ON tp_cash_balance
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+ALTER TABLE tp_cash_balance
+       ADD  ( PRIMARY KEY (tp_cash_balance_id) ) ;       
+
+---
+CREATE TABLE tp_calc_result_exec_notify (
+       occurred_div					VARCHAR2(1)	DEFAULT 0 	NOT NULL,
+       account_id						NUMBER(18) 							NOT NULL,
+       real_calc_flag					VARCHAR2(1)	DEFAULT 0 	NOT NULL,
+       mark_to_market_div 			VARCHAR2(1)	DEFAULT 0 	NOT NULL,
+       status    						VARCHAR2(1)	DEFAULT 0 	NOT NULL,
+       created_timestamp       	DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp  	DATE DEFAULT sysdate NOT NULL
+);
+---
+
+
+
+CREATE TABLE tp_calc_result_equity (
+    calc_result_equity_id       NUMBER(18)            NOT NULL,
+    account_id                  NUMBER(18)            NOT NULL,
+    account_balance_0           DECIMAL(18,6)         NOT NULL,
+    account_balance_1           DECIMAL(18,6)         NOT NULL,
+    account_balance_2           DECIMAL(18,6)         NOT NULL,
+    account_balance_3           DECIMAL(18,6)         NOT NULL,
+    account_balance_4           DECIMAL(18,6)         NOT NULL,
+    account_balance_5           DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_0     DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_1     DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_2     DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_3     DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_4     DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_5     DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_0   DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_1   DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_2   DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_3   DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_4   DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_5   DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_0       DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_1       DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_2       DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_3       DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_4       DECIMAL(18,6)         NOT NULL,
+    other_restraint_0           DECIMAL(18,6)         NOT NULL,
+    other_restraint_1           DECIMAL(18,6)         NOT NULL,
+    other_restraint_2           DECIMAL(18,6)         NOT NULL,
+    other_restraint_3           DECIMAL(18,6)         NOT NULL,
+    other_restraint_4           DECIMAL(18,6)         NOT NULL,
+    other_restraint_5           DECIMAL(18,6)         NOT NULL,
+    trust_security_asset_0      DECIMAL(18,6)         NOT NULL,
+    trust_security_asset_1      DECIMAL(18,6)         NOT NULL,
+    trust_security_asset_2      DECIMAL(18,6)         NOT NULL,
+    trust_security_asset_3      DECIMAL(18,6)         NOT NULL,
+    trust_security_asset_4      DECIMAL(18,6)         NOT NULL,
+    trust_security_asset_5      DECIMAL(18,6)         NOT NULL,
+    created_timestamp           TIMESTAMP DEFAULT systimestamp  NOT NULL,
+    last_updated_timestamp      TIMESTAMP DEFAULT systimestamp  NOT NULL,
+    cash_deposit_restraint_0    DECIMAL(18,6)         NOT NULL,
+    cash_deposit_restraint_1    DECIMAL(18,6)         NOT NULL,
+    cash_deposit_restraint_2    DECIMAL(18,6)         NOT NULL,
+    cash_deposit_restraint_3    DECIMAL(18,6)         NOT NULL,
+    cash_deposit_restraint_4    DECIMAL(18,6)         NOT NULL,
+    cash_deposit_restraint_5    DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_5       DECIMAL(18,6)         NULL
+);
+
+CREATE INDEX XIE1tp_calc_result_equity ON tp_calc_result_equity
+(
+    account_id,
+    created_timestamp
+);
+
+ALTER TABLE tp_calc_result_equity
+       ADD  ( PRIMARY KEY (calc_result_equity_id) ) ;
+
+ALTER TABLE tp_calc_result_equity
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+CREATE TABLE tp_calc_result_equity_detail (
+       calc_result_equity_id                 NUMBER(18) NOT NULL,
+       account_id                            NUMBER(18) NOT NULL,
+       equity_asset_delivered                DECIMAL(18,6) DEFAULT 0 NULL,
+       equity_asset_executed                 DECIMAL(18,6) DEFAULT 0 NULL,
+       mini_stock_asset_delivered            DECIMAL(18,6) DEFAULT 0 NULL,
+       mini_stock_asset_executed             DECIMAL(18,6) DEFAULT 0 NULL,
+       ruito_asset_delivered                 DECIMAL(18,6) DEFAULT 0 NULL,
+       ruito_asset_executed                  DECIMAL(18,6) DEFAULT 0 NULL,
+       mutual_fund_asset_delivered           DECIMAL(18,6) DEFAULT 0 NULL,
+       mutual_fund_asset_executed            DECIMAL(18,6) DEFAULT 0 NULL,
+       bond_asset_delivered                  DECIMAL(18,6) DEFAULT 0 NULL,
+       bond_asset_executed                   DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_0            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_1            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_2            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_3            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_4            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_5            DECIMAL(18,6) DEFAULT 0 NULL,
+       created_timestamp    TIMESTAMP DEFAULT systimestamp  NOT NULL,
+       last_updated_timestamp TIMESTAMP DEFAULT systimestamp  NOT NULL,
+       foreign_equity_asset_delivered        DECIMAL(18,6) NULL,
+       foreign_equity_asset_executed         DECIMAL(18,6) NULL
+);
+
+CREATE INDEX XIEtp_calc_result_equity_dtl ON tp_calc_result_equity_detail
+(
+       account_id                     ,
+       created_timestamp                 
+);
+
+ALTER TABLE tp_calc_result_equity_detail
+       ADD  ( PRIMARY KEY (calc_result_equity_id) ) ;       
+
+ALTER TABLE tp_calc_result_equity_detail
+       ADD  ( FOREIGN KEY (calc_result_equity_id)
+                             REFERENCES tp_calc_result_equity ) ;
+
+ALTER TABLE tp_calc_result_equity_detail
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+CREATE TABLE tp_calc_result_margin (
+    calc_result_margin_id           NUMBER(18)            NOT NULL,
+    account_id                      NUMBER(18)            NOT NULL,
+    account_balance_0               DECIMAL(18,6)         NOT NULL,
+    account_balance_1               DECIMAL(18,6)         NOT NULL,
+    account_balance_2               DECIMAL(18,6)         NOT NULL,
+    account_balance_3               DECIMAL(18,6)         NOT NULL,
+    account_balance_4               DECIMAL(18,6)         NOT NULL,
+    account_balance_5               DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_0         DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_1         DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_2         DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_3         DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_4         DECIMAL(18,6)         NOT NULL,
+    today_executed_amount_5         DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_0       DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_1       DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_2       DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_3       DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_4       DECIMAL(18,6)         NOT NULL,
+    today_unexecuted_amount_5       DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_0           DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_1           DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_2           DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_3           DECIMAL(18,6)         NOT NULL,
+    day_trade_restraint_4           DECIMAL(18,6)         NOT NULL,
+    other_restraint_0               DECIMAL(18,6)         NOT NULL,
+    other_restraint_1               DECIMAL(18,6)         NOT NULL,
+    other_restraint_2               DECIMAL(18,6)         NOT NULL,
+    other_restraint_3               DECIMAL(18,6)         NOT NULL,
+    other_restraint_4               DECIMAL(18,6)         NOT NULL,
+    other_restraint_5               DECIMAL(18,6)         NOT NULL,
+    substitute_security_asset_0     DECIMAL(18,6)         NOT NULL,
+    substitute_security_asset_1     DECIMAL(18,6)         NOT NULL,
+    substitute_security_asset_2     DECIMAL(18,6)         NOT NULL,
+    substitute_security_asset_3     DECIMAL(18,6)         NOT NULL,
+    substitute_security_asset_4     DECIMAL(18,6)         NOT NULL,
+    substitute_security_asset_5     DECIMAL(18,6)         NOT NULL,
+    contract_amount_0               DECIMAL(18,6)         NOT NULL,
+    contract_amount_1               DECIMAL(18,6)         NOT NULL,
+    contract_amount_2               DECIMAL(18,6)         NOT NULL,
+    contract_amount_3               DECIMAL(18,6)         NOT NULL,
+    contract_amount_4               DECIMAL(18,6)         NOT NULL,
+    contract_amount_5               DECIMAL(18,6)         NOT NULL,
+    day_repay_contract_amount_0     DECIMAL(18,6)         NOT NULL,
+    day_repay_contract_amount_1     DECIMAL(18,6)         NOT NULL,
+    day_repay_contract_amount_2     DECIMAL(18,6)         NOT NULL,
+    day_repay_contract_amount_3     DECIMAL(18,6)         NOT NULL,
+    day_repay_contract_amount_4     DECIMAL(18,6)         NOT NULL,
+    day_repay_contract_amount_5     DECIMAL(18,6)         NOT NULL,
+    margin_deposit_0               DECIMAL(18,6)         NOT NULL,
+    margin_deposit_1               DECIMAL(18,6)         NOT NULL,
+    margin_deposit_2               DECIMAL(18,6)         NOT NULL,
+    margin_deposit_3               DECIMAL(18,6)         NOT NULL,
+    margin_deposit_4               DECIMAL(18,6)         NOT NULL,
+    margin_deposit_5               DECIMAL(18,6)         NOT NULL,
+    cash_margin_deposit_0          DECIMAL(18,6)         NOT NULL,
+    cash_margin_deposit_1          DECIMAL(18,6)         NOT NULL,
+    cash_margin_deposit_2          DECIMAL(18,6)         NOT NULL,
+    cash_margin_deposit_3          DECIMAL(18,6)         NOT NULL,
+    cash_margin_deposit_4          DECIMAL(18,6)         NOT NULL,
+    cash_margin_deposit_5          DECIMAL(18,6)         NOT NULL,
+    contract_asset_profit_loss      DECIMAL(18,6)         NOT NULL,
+    undeli_contract_amount_0        DECIMAL(18,6)         NOT NULL,
+    undeli_contract_amount_1        DECIMAL(18,6)         NOT NULL,
+    undeli_contract_amount_2        DECIMAL(18,6)         NOT NULL,
+    undeli_contract_amount_3        DECIMAL(18,6)         NOT NULL,
+    undeli_margin_deposit_0        DECIMAL(18,6)         NOT NULL,
+    undeli_margin_deposit_1        DECIMAL(18,6)         NOT NULL,
+    undeli_margin_deposit_2        DECIMAL(18,6)         NOT NULL,
+    undeli_margin_deposit_3        DECIMAL(18,6)         NOT NULL,
+    undeli_cash_margin_deposit_0   DECIMAL(18,6)         NOT NULL,
+    undeli_cash_margin_deposit_1   DECIMAL(18,6)         NOT NULL,
+    undeli_cash_margin_deposit_2   DECIMAL(18,6)         NOT NULL,
+    undeli_cash_margin_deposit_3   DECIMAL(18,6)         NOT NULL,
+    undeli_contract_loss_0          DECIMAL(18,6)         NOT NULL,
+    undeli_contract_loss_1          DECIMAL(18,6)         NOT NULL,
+    undeli_contract_loss_2          DECIMAL(18,6)         NOT NULL,
+    undeli_contract_loss_3          DECIMAL(18,6)         NOT NULL,
+    undeli_contract_profit_0        DECIMAL(18,6)         NOT NULL,
+    undeli_contract_profit_1        DECIMAL(18,6)         NOT NULL,
+    undeli_contract_profit_2        DECIMAL(18,6)         NOT NULL,
+    undeli_contract_profit_3        DECIMAL(18,6)         NOT NULL,
+    contract_total_cost             DECIMAL(18,6)         NOT NULL,
+    mark_to_market_div              VARCHAR2(1) DEFAULT 0 NULL,
+    created_timestamp           TIMESTAMP DEFAULT systimestamp  NOT NULL,
+    last_updated_timestamp      TIMESTAMP DEFAULT systimestamp  NOT NULL,
+    contract_asset_profit_loss_1	DECIMAL(18,6) NULL,
+    contract_asset_profit_loss_2	DECIMAL(18,6) NULL,
+    contract_asset_profit_loss_3	DECIMAL(18,6) NULL,
+    contract_asset_profit_loss_4	DECIMAL(18,6) NULL,
+    contract_asset_profit_loss_5	DECIMAL(18,6) NULL,
+    day_trade_restraint_5           DECIMAL(18,6) NULL,
+    contract_total_cost_1			DECIMAL(18,6) NULL,						
+	contract_total_cost_2			DECIMAL(18,6) NULL,						
+	contract_total_cost_3			DECIMAL(18,6) NULL,						
+	contract_total_cost_4			DECIMAL(18,6) NULL,						
+	contract_total_cost_5			DECIMAL(18,6) NULL					
+);
+
+CREATE INDEX XIE1tp_calc_result_margin ON tp_calc_result_margin
+(
+    account_id,
+    created_timestamp
+);
+
+
+ALTER TABLE tp_calc_result_margin
+       ADD  ( PRIMARY KEY (calc_result_margin_id) );
+       
+       
+       
+CREATE TABLE tp_calc_result_margin_detail (
+       calc_result_margin_id                 NUMBER(18) NOT NULL,
+       account_id                            NUMBER(18) NOT NULL,
+       equity_asset_delivered                DECIMAL(18,6) DEFAULT 0 NULL,
+       equity_asset_executed                 DECIMAL(18,6) DEFAULT 0 NULL,
+       mini_stock_asset_delivered            DECIMAL(18,6) DEFAULT 0 NULL,
+       mini_stock_asset_executed             DECIMAL(18,6) DEFAULT 0 NULL,
+       ruito_asset_delivered                 DECIMAL(18,6) DEFAULT 0 NULL,
+       ruito_asset_executed                  DECIMAL(18,6) DEFAULT 0 NULL,
+       mutual_fund_asset_delivered           DECIMAL(18,6) DEFAULT 0 NULL,
+       mutual_fund_asset_executed            DECIMAL(18,6) DEFAULT 0 NULL,
+       bond_asset_delivered                  DECIMAL(18,6) DEFAULT 0 NULL,
+       bond_asset_executed                   DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_substi_security_asset_0        DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_substi_security_asset_1        DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_substi_security_asset_2        DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_substi_security_asset_3        DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_substi_security_asset_4        DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_substi_security_asset_5        DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_asset_loss                   DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_asset_profit                 DECIMAL(18,6) DEFAULT 0 NULL,
+       setup_fee                             DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_interest_loss                DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_interest_profit              DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_other_cost                   DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_contract_amount_0              DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_contract_amount_1              DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_contract_amount_2              DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_contract_amount_3              DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_contract_amount_4              DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_contract_amount_5              DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_margin_deposit_0               DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_margin_deposit_1               DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_margin_deposit_2               DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_margin_deposit_3               DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_margin_deposit_4               DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_margin_deposit_5               DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_cash_margin_deposit_0          DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_cash_margin_deposit_1          DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_cash_margin_deposit_2          DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_cash_margin_deposit_3          DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_cash_margin_deposit_4          DECIMAL(18,6) DEFAULT 0 NULL,
+       unexec_cash_margin_deposit_5          DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_margin_deposit_0            DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_margin_deposit_1            DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_margin_deposit_2            DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_margin_deposit_3            DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_margin_deposit_4            DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_margin_deposit_5            DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_cash_margin_deposit0        DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_cash_margin_deposit1        DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_cash_margin_deposit2        DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_cash_margin_deposit3        DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_cash_margin_deposit4        DECIMAL(18,6) DEFAULT 0 NULL,
+       day_repay_cash_margin_deposit5        DECIMAL(18,6) DEFAULT 0 NULL,
+       today_repay_contract_loss             DECIMAL(18,6) DEFAULT 0 NULL,
+       today_repay_contract_profit           DECIMAL(18,6) DEFAULT 0 NULL,
+       today_repay_contract_pre_asset        DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_loss_designate_1             DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_loss_designate_2             DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_loss_designate_3             DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_loss_designate_4             DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_loss_designate_5             DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_profit_designate_1           DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_profit_designate_2           DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_profit_designate_3           DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_profit_designate_4           DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_profit_designate_5           DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_0            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_1            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_2            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_3            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_4            DECIMAL(18,6) DEFAULT 0 NULL,
+       payment_amount_designate_5            DECIMAL(18,6) DEFAULT 0 NULL,
+       created_timestamp    TIMESTAMP DEFAULT systimestamp  NOT NULL,
+       last_updated_timestamp TIMESTAMP DEFAULT systimestamp  NOT NULL,
+       today_dep_fund_restraint_0            DECIMAL(18,6) DEFAULT 0 NULL,
+       today_dep_fund_restraint_1            DECIMAL(18,6) DEFAULT 0 NULL,
+       today_dep_fund_restraint_2            DECIMAL(18,6) DEFAULT 0 NULL,
+       today_dep_fund_restraint_3            DECIMAL(18,6) DEFAULT 0 NULL,
+       today_dep_fund_restraint_4            DECIMAL(18,6) DEFAULT 0 NULL,
+       today_dep_fund_restraint_5            DECIMAL(18,6) DEFAULT 0 NULL,
+       contract_asset_loss_1            DECIMAL(18,6) NULL,
+       contract_asset_loss_2            DECIMAL(18,6) NULL,
+       contract_asset_loss_3            DECIMAL(18,6) NULL,
+       contract_asset_loss_4            DECIMAL(18,6) NULL,
+       contract_asset_loss_5            DECIMAL(18,6) NULL,
+       contract_asset_profit_1            DECIMAL(18,6) NULL,
+       contract_asset_profit_2            DECIMAL(18,6) NULL,
+       contract_asset_profit_3            DECIMAL(18,6) NULL,
+       contract_asset_profit_4            DECIMAL(18,6) NULL,
+       contract_asset_profit_5            DECIMAL(18,6) NULL,
+       foreign_equity_asset_delivered        DECIMAL(18,6) NULL,
+       foreign_equity_asset_executed         DECIMAL(18,6) NULL,
+       today_repay_contract_amount           DECIMAL(18,6) NULL,
+       substitute_asset_old_day_value        DECIMAL(18,6) NULL,
+       setup_fee_1                           DECIMAL(18,6) NULL,
+       setup_fee_2                           DECIMAL(18,6) NULL,	
+       setup_fee_3                           DECIMAL(18,6) NULL,	
+       setup_fee_4                           DECIMAL(18,6) NULL,
+       setup_fee_5                           DECIMAL(18,6) NULL,
+       contract_interest_loss_1              DECIMAL(18,6) NULL,
+       contract_interest_loss_2              DECIMAL(18,6) NULL,
+       contract_interest_loss_3              DECIMAL(18,6) NULL,
+       contract_interest_loss_4              DECIMAL(18,6) NULL,
+       contract_interest_loss_5              DECIMAL(18,6) NULL,
+       contract_interest_profit_1            DECIMAL(18,6) NULL,
+       contract_interest_profit_2            DECIMAL(18,6) NULL,
+       contract_interest_profit_3            DECIMAL(18,6) NULL,
+       contract_interest_profit_4            DECIMAL(18,6) NULL,
+       contract_interest_profit_5            DECIMAL(18,6) NULL,
+       contract_other_cost_1                 DECIMAL(18,6) NULL,
+       contract_other_cost_2                 DECIMAL(18,6) NULL,
+       contract_other_cost_3                 DECIMAL(18,6) NULL,
+       contract_other_cost_4                 DECIMAL(18,6) NULL,
+       contract_other_cost_5                 DECIMAL(18,6) NULL
+);
+
+CREATE INDEX XIEtp_calc_result_margin_dtl ON tp_calc_result_margin_detail
+(
+       account_id                     ,
+       created_timestamp                 
+);
+
+CREATE TABLE orix_tp_calc_result_equity (
+    calc_result_equity_id            NUMBER(18)  NOT NULL,
+    account_id                       NUMBER(18)  NOT NULL,
+    institution_code                 VARCHAR2(3) NOT NULL,
+    work_date                        VARCHAR2(8) NOT NULL,
+    branch_code                      VARCHAR2(3) NOT NULL,
+    account_code                     VARCHAR2(7) NOT NULL,
+    asset_evaluation_div             VARCHAR2(1),
+    account_balance_0                NUMBER(14),
+    account_balance_1                NUMBER(14),
+    account_balance_2                NUMBER(14),
+    account_balance_3                NUMBER(14),
+    account_balance_4                NUMBER(14),
+    today_unexecuted_amount_1        NUMBER(14),
+    today_unexecuted_amount_2        NUMBER(14),
+    today_unexecuted_amount_3        NUMBER(14),
+    today_unexecuted_amount_4        NUMBER(14),
+    day_trade_restraint_0            NUMBER(14),
+    day_trade_restraint_1            NUMBER(14),
+    day_trade_restraint_2            NUMBER(14),
+    day_trade_restraint_3            NUMBER(14),
+    day_trade_restraint_4            NUMBER(14),
+    other_restraint_0                NUMBER(14),
+    other_restraint_1                NUMBER(14),
+    other_restraint_2                NUMBER(14),
+    other_restraint_3                NUMBER(14),
+    other_restraint_4                NUMBER(14),
+    trust_security_asset_3           NUMBER(14),
+    trust_security_asset_4           NUMBER(14),
+    equity_trading_power_3           NUMBER(14),
+    equity_trading_power_4           NUMBER(14),
+    equity_trading_power_4_dash      NUMBER(14),
+    actual_account_balance_3         NUMBER(14),
+    actual_account_balance_4         NUMBER(14),
+    actual_account_balance_4_dash    NUMBER(14),
+    actual_payment_balance_1         NUMBER(14),
+    actual_payment_balance_2         NUMBER(14),
+    actual_payment_balance_3         NUMBER(14),
+    actual_payment_balance_4         NUMBER(14),
+    payment_amount_designate_0       NUMBER(14),
+    payment_amount_designate_1       NUMBER(14),
+    payment_amount_designate_2       NUMBER(14),
+    equity_asset_executed            NUMBER(14),
+    ruito_asset_executed             NUMBER(14),
+    mutual_fund_asset_executed       NUMBER(14),
+    bond_asset_executed              NUMBER(14),
+    trading_stop                     VARCHAR2(1),
+    payment_stop                     VARCHAR2(1),
+    other_trading_stop               VARCHAR2(1),
+    created_timestamp                DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp           DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE INDEX XIE1orix_tp_calc_result_equity ON orix_tp_calc_result_equity
+(
+    account_id
+);
+
+CREATE INDEX XIE2orix_tp_calc_result_equity ON orix_tp_calc_result_equity
+(
+    account_code
+);
+
+ALTER TABLE orix_tp_calc_result_equity
+       ADD  ( PRIMARY KEY (calc_result_equity_id) ) ;
+
+CREATE TABLE orix_tp_calc_result_margin (
+    calc_result_margin_id            NUMBER(18)  NOT NULL,
+    account_id                       NUMBER(18)  NOT NULL,
+    institution_code                 VARCHAR2(3) NOT NULL,
+    work_date                        VARCHAR2(8) NOT NULL,
+    branch_code                      VARCHAR2(3) NOT NULL,
+    account_code                     VARCHAR2(7) NOT NULL,
+    asset_evaluation_div             VARCHAR2(1),
+    account_balance_0                NUMBER(14),
+    account_balance_1                NUMBER(14),
+    account_balance_2                NUMBER(14),
+    account_balance_3                NUMBER(14),
+    account_balance_4                NUMBER(14),
+    today_unexecuted_amount_1        NUMBER(14),
+    today_unexecuted_amount_2        NUMBER(14),
+    today_unexecuted_amount_3        NUMBER(14),
+    today_unexecuted_amount_4        NUMBER(14),
+    day_trade_restraint_0            NUMBER(14),
+    day_trade_restraint_1            NUMBER(14),
+    day_trade_restraint_2            NUMBER(14),
+    day_trade_restraint_3            NUMBER(14),
+    day_trade_restraint_4            NUMBER(14),
+    other_restraint_0                NUMBER(14),
+    other_restraint_1                NUMBER(14),
+    other_restraint_2                NUMBER(14),
+    other_restraint_3                NUMBER(14),
+    other_restraint_4                NUMBER(14),
+    margin_account_balance_0         NUMBER(14),
+    margin_account_balance_1         NUMBER(14),
+    margin_account_balance_2         NUMBER(14),
+    margin_account_balance_3         NUMBER(14),
+    margin_account_balance_4         NUMBER(14),
+    substitute_security_asset_0      NUMBER(14),
+    substitute_security_asset_1      NUMBER(14),
+    substitute_security_asset_2      NUMBER(14),
+    substitute_security_asset_3      NUMBER(14),
+    substitute_security_asset_4      NUMBER(14),
+    contract_asset_profit_loss       NUMBER(14),
+    contract_total_cost              NUMBER(14),
+    undeli_contract_loss_0           NUMBER(14),
+    undeli_contract_loss_1           NUMBER(14),
+    undeli_contract_loss_2           NUMBER(14),
+    undeli_contract_loss_3           NUMBER(14),
+    today_repay_contract_pre_asset   NUMBER(14),
+    contract_amount_day_repay_0      NUMBER(14),
+    contract_amount_day_repay_1      NUMBER(14),
+    contract_amount_day_repay_2      NUMBER(14),
+    contract_amount_day_repay_3      NUMBER(14),
+    contract_amount_day_repay_4      NUMBER(14),
+    margin_power_0                   NUMBER(14),
+    margin_power_1                   NUMBER(14),
+    margin_power_2                   NUMBER(14),
+    margin_power_3                   NUMBER(14),
+    margin_power_4                   NUMBER(14),
+    margin_trading_power_1           NUMBER(14),
+    margin_trading_power_2           NUMBER(14),
+    margin_trading_power_3           NUMBER(14),
+    margin_trading_power_4           NUMBER(14),
+    margin_deposit_rate_0            DECIMAL(26,12),
+    margin_deposit_rate_1            DECIMAL(26,12),
+    margin_deposit_rate_2            DECIMAL(26,12),
+    margin_deposit_rate_3            DECIMAL(26,12),
+    margin_deposit_rate_4            DECIMAL(26,12),
+    act_rec_trading_power_3          NUMBER(14),
+    act_rec_trading_power_4          NUMBER(14),
+    act_rec_trading_power_4_dash     NUMBER(14),
+    equity_trading_power_3           NUMBER(14),
+    equity_trading_power_4           NUMBER(14),
+    equity_trading_power_4_dash      NUMBER(14),
+    undeli_contract_amount_0         NUMBER(14),
+    undeli_contract_amount_1         NUMBER(14),
+    undeli_contract_amount_2         NUMBER(14),
+    undeli_contract_amount_3         NUMBER(14),
+    margin_draw_power_0              NUMBER(14),
+    margin_draw_power_1              NUMBER(14),
+    margin_draw_power_2              NUMBER(14),
+    margin_draw_power_3              NUMBER(14),
+    margin_draw_power_4              NUMBER(14),
+    other_trading_power_1            NUMBER(14),
+    other_trading_power_2            NUMBER(14),
+    other_trading_power_3            NUMBER(14),
+    other_trading_power_4            NUMBER(14),
+    demandamount0                    NUMBER(14),
+    demandamount1                    NUMBER(14),
+    demandamount2                    NUMBER(14),
+    demandamount3                    NUMBER(14),
+    demandamount4                    NUMBER(14),
+    payment_amount_designate0        NUMBER(14),
+    payment_amount_designate1        NUMBER(14),
+    payment_amount_designate2        NUMBER(14),
+    margin_sec_product_code          VARCHAR2(5),
+    margin_sec_rate                  NUMBER(5,2),
+    equity_asset_executed            NUMBER(14),
+    ruito_asset_executed             NUMBER(14),
+    mutual_fund_asset_executed       NUMBER(14),
+    bond_asset_executed              NUMBER(14),
+    trading_stop                     VARCHAR2(1),
+    margin_open_position_stop        VARCHAR2(1),
+    payment_stop                     VARCHAR2(1),
+    other_trading_stop               VARCHAR2(1),
+    created_timestamp                DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp           DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE INDEX XIE1orix_tp_calc_result_margin ON orix_tp_calc_result_margin
+(
+    account_id
+);
+
+CREATE INDEX XIE2orix_tp_calc_result_margin ON orix_tp_calc_result_margin
+(
+    account_code
+);
+
+ALTER TABLE orix_tp_calc_result_margin
+       ADD  ( PRIMARY KEY (calc_result_margin_id) ) ;
+
+ALTER TABLE tp_calc_result_margin_detail
+       ADD  ( PRIMARY KEY (calc_result_margin_id) ) ;       
+
+CREATE TABLE payment_requisit_mng ( 
+       account_id	                    NUMBER(18)                  NOT NULL,
+       institution_code	                VARCHAR2(3)                 NOT NULL,
+       branch_code	                    VARCHAR2(20)                NOT NULL,
+       account_code	                    VARCHAR2(7)                 NOT NULL,
+       trader_code	                    VARCHAR2(5)                     NULL,
+       family_name	                    VARCHAR2(40)                NOT NULL,
+       account_attribute	            VARCHAR2(1)                 NOT NULL,
+       calc_date	                    DATE                        NOT NULL,
+       account_balance	                NUMBER(18,6) DEFAULT 0          NULL,
+       today_executed_amount	        NUMBER(18,6) DEFAULT 0          NULL,
+       today_unexecuted_amount	        NUMBER(18,6) DEFAULT 0          NULL,
+       sonar_cash_margin_deposit	    NUMBER(18,6) DEFAULT 0          NULL,
+       transfer_to_margin_deposit	    NUMBER(18,6) DEFAULT 0          NULL,
+       transfer_from_margin_deposit	    NUMBER(18,6) DEFAULT 0          NULL,
+       cash_margin_deposit	            NUMBER(18,6) DEFAULT 0          NULL,
+       account_cash	                    NUMBER(18,6) DEFAULT 0          NULL,
+       day_trade_restraint	            NUMBER(18,6) DEFAULT 0          NULL,
+       contract_amount	                NUMBER(18,6) DEFAULT 0          NULL,
+       contract_asset_profit_loss	    NUMBER(18,6) DEFAULT 0          NULL,
+       contract_total_cost	            NUMBER(18,6) DEFAULT 0          NULL,
+       undeli_contract_loss	            NUMBER(18,6) DEFAULT 0          NULL,
+       substitute_security_asset	    NUMBER(18,6) DEFAULT 0          NULL,
+       margin_deposit_rate	            NUMBER(18,6) DEFAULT 0          NULL,
+       margin_deposit_rate_prebizdate	NUMBER(18,6) DEFAULT 0          NULL,
+       substitute_security_asset_pre	NUMBER(18,6) DEFAULT 0          NULL,
+       today_repay_contract_amount	    NUMBER(18,6) DEFAULT 0          NULL,
+       account_balance_non_pay	        NUMBER(18,6) DEFAULT 0          NULL,
+       account_balance_non_pay_date	    DATE                            NULL,
+       debit_amount	                    NUMBER(18,6) DEFAULT 0          NULL,
+       special_debit_amount	            NUMBER(18,6) DEFAULT 0          NULL,
+       lack_account_balance	            NUMBER(18,6) DEFAULT 0          NULL,
+       first_deposit_amount	            NUMBER(18,6) DEFAULT 0          NULL,
+       first_settlement	                NUMBER(18,6) DEFAULT 0          NULL,
+       first_deposit_pass_day	        NUMBER(18,6)                    NULL,
+       first_deposit_occurred_date	    DATE                            NULL,
+       second_deposit_non_pay	        NUMBER(18,6) DEFAULT 0          NULL,
+       second_settlement_non_pay	    NUMBER(18,6) DEFAULT 0          NULL,
+       second_deposit_1	                NUMBER(18,6) DEFAULT 0          NULL,
+       second_settlement_1	            NUMBER(18,6) DEFAULT 0          NULL,
+       second_deposit_2	                NUMBER(18,6) DEFAULT 0          NULL,
+       second_settlement_2	            NUMBER(18,6) DEFAULT 0          NULL,
+       first_deposit_rate	            NUMBER(18,6) DEFAULT 0          NULL,
+       second_deposit_rate	            NUMBER(18,6) DEFAULT 0          NULL,
+       second_deposit_back_rate	        NUMBER(18,6) DEFAULT 0          NULL,
+       first_deposit_pass_day_valid	    NUMBER(18,6) 			        NULL,
+       created_timestamp	            DATE     DEFAULT sysdate    NOT NULL,
+       last_updated_timestamp	        DATE     DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKpayment_requisit_mng ON payment_requisit_mng
+(
+       account_id
+);
+
+CREATE UNIQUE INDEX XAK1payment_requisit_mng ON payment_requisit_mng
+(
+	   calc_date,
+       institution_code,
+       branch_code,
+       account_code
+);
+
+ALTER TABLE payment_requisit_mng
+       ADD  ( PRIMARY KEY (account_id) ) ;
+
+CREATE TABLE tp_cash_balance_frgn (
+       tp_cash_balance_frgn_id  NUMBER(18)                      NOT NULL,
+       account_id               NUMBER(18)                      NOT NULL,
+       sub_account_id           NUMBER(18)                      NOT NULL,
+       currency_code            VARCHAR2(2)                     NOT NULL,
+       cash_balance_frgn0       DECIMAL(18,6)  DEFAULT 0        NOT NULL,
+       cash_balance_frgn1       DECIMAL(18,6)  DEFAULT 0        NOT NULL,
+       cash_balance_frgn2       DECIMAL(18,6)  DEFAULT 0        NOT NULL,
+       cash_balance_frgn3       DECIMAL(18,6)  DEFAULT 0        NOT NULL,
+       cash_balance_frgn4       DECIMAL(18,6)  DEFAULT 0        NOT NULL,
+       cash_balance_frgn5       DECIMAL(18,6)  DEFAULT 0        NOT NULL,
+       created_timestamp        DATE           DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp   DATE           DEFAULT sysdate  NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKtp_cash_balance_frgn ON tp_cash_balance_frgn
+(
+       tp_cash_balance_frgn_id
+);
+
+CREATE UNIQUE INDEX XAK1tp_cash_balance_frgn ON tp_cash_balance_frgn
+(
+       account_id,
+       currency_code
+);
+
+ALTER TABLE tp_cash_balance_frgn
+       ADD  ( PRIMARY KEY (tp_cash_balance_frgn_id) ) ;
+
+CREATE TABLE tp_other_temp_restraint (
+       account_id               NUMBER(18)                      NOT NULL,
+       restraint_div            VARCHAR2(1)                     NOT NULL,
+       amount                   DECIMAL(18,6)                   NOT NULL,
+       transaction_date         DATE                                NULL,
+       delivery_date            DATE                            NOT NULL,
+       delete_key1              VARCHAR2(30)                        NULL,
+       delete_key2              VARCHAR2(30)                        NULL,
+       delete_flag              NUMBER(1)                       NOT NULL,
+       created_timestamp        DATE           DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp   DATE           DEFAULT sysdate  NOT NULL
+);
+
+CREATE INDEX XAK1tp_other_temp_restraint ON tp_other_temp_restraint
+(
+       account_id,
+       delete_flag
+);
+
+CREATE INDEX XAK2tp_other_temp_restraint ON tp_other_temp_restraint
+(
+       restraint_div,
+       delete_key1
+);
+
+----------------------------------------------------------------------------
+--FOREIGN KEY
+----------------------------------------------------------------------------
+
+ALTER TABLE tp_calc_result_margin_detail
+       ADD  ( FOREIGN KEY (calc_result_margin_id)
+                             REFERENCES tp_calc_result_margin ) ;
+
+ALTER TABLE tp_calc_result_margin_detail
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE eqtype_fixed_contract
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE eqtype_fixed_contract
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE eqtype_fixed_contract
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE eqtype_fixed_contract
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE fixed_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE fixed_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE fixed_fin_transaction
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE fixed_fin_transaction
+       ADD  ( FOREIGN KEY (fixed_contract_id)
+                             REFERENCES eqtype_fixed_contract ) ;
+
+
+ALTER TABLE tp_cash_balance
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+ALTER TABLE tp_calc_result_margin
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+ALTER TABLE tp_calc_result_exec_notify
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+ALTER TABLE orix_tp_calc_result_equity
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+ALTER TABLE orix_tp_calc_result_margin
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+ALTER TABLE tp_cash_balance_frgn
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+@

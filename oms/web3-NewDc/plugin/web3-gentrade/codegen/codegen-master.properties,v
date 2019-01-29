@@ -1,0 +1,156 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.05.32;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7f0185589f;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.gentrade.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3gtl.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3GenTradeMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3gtl_master_triggers.sql
+
+enums=\
+  enable_order_condition.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  administrator_type.all_branch_permission_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  admin_permission.update_permission_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  daily_asset.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  daily_asset.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  daily_asset.mini_stock_div:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  order_switching.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  product_estimation_ratio.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  orderexecution_end.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  virtual_server_information.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  virtual_server_change.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  inst_branch_product:inv=0 \
+  branch_market_dealt_cond:inv=0 \
+  branch_market_repay_dealt_cond:inv=0 \
+  calendar:inv=0 \
+  trading_time:inv=0 \
+  tradingpower_calc_condition:inv=0 \
+  tax_rate_table:inv=0 \
+  order_accept_status:inv=0 \
+  inst_branch_product:inv=0 \
+  fin_institution:inv=0 \
+  transfered_fin_institution:inv=0 \
+  fin_institution_available:inv=0 \
+  enable_order_condition:inv=0 \
+  equity_comm_account_cond_mst:inv=0 \
+  equity_comm_rev_mst:inv=0 \
+  equity_comm_cond:inv=0 \
+  equity_comm_cond_mst:inv=0 \
+  branch_index_dealt_cond:inv=0 \
+  administrator:inv=0 \
+  mail_info:inv=0 \
+  srv_regi_application:inv=0 \
+  administrator_type:inv=0 \
+  admin_permission:inv=0 \
+  process_management:inv=0 \
+  yellow_customer:inv=0 \
+  fin_institution_bank:inv=0 \
+  daily_asset:inv=0 \
+  question:inv=0 \
+  other_org_srv_time:inv=0 \
+  other_org_out_of_srv_date:inv=0 \
+  other_org_out_of_srv_week:inv=0 \
+  last_closing_price:inv=0 \
+  bato_function_pref:inv=0 \
+  bato_branch_product_pref:inv=0 \
+  bato_inst_branch_pref:inv=0 \
+  bato_doctype_management:inv=0 \
+  order_switching:inv=0 \
+  request_codes_for_read:inv=0 \
+  product_estimation_ratio:inv=0 \
+  orderexecution_end:inv=0 \
+  feq_calendar:inv=0 \
+  feq_branch_market_dealt_cond:inv=0 \
+  branch_preferences:inv=0 \
+  virtual_server_change:inv=0 \
+  virtual_server_information:inv=0 \
+  exchange_rate:inv=0 \
+  code_translation:inv=0 \
+  exclusive_use_account_cond:inv=0 \
+  soap_connect_pref_msg:inv=0 \
+  soap_connect_pref_rpc:inv=0 \
+  gen_currency:inv=0 \
+  stock_option_product:inv=0 \
+  comm_code_chg_mst:inv=0 \
+  market_margin_ratio:inv=0 \
+  frgn_mmf_exchange_rate:inv=0 \
+  f_trans_fin_institution:inv=0 \
+  direct_debit:inv=0 \
+  login_wdog_attribute:inv=0 \
+  branch_listmarket_dealt_cond:inv=0 \
+  doc_div_management:inv=0 \
+  bato_product_management:inv=0 \
+  sonar_trader:inv=0 \
+  feq_last_closing_price:inv=0 \
+  branch_market_pts_dealt_cond:inv=0 \
+  pts_orderexecution_end:inv=0 \
+  doc_category_management:inv=0 \
+  institution_preferences:inv=0 \
+  era:inv=0 \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.eqtype.data.* , com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@

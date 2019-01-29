@@ -1,0 +1,73 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.40.00;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8704d7eed731715;
+filename	web3-eqtypeadmin-fake.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@--Table名: 強制決済注文テーブル
+CREATE TABLE admin_eq_forced_settle_order (
+        order_unit_id                        NUMBER(18)            NULL,
+        account_id                           NUMBER(18)            NOT NULL,
+        sub_account_id                       NUMBER(18)            NOT NULL,
+        branch_id                            NUMBER(18)            NOT NULL,
+        trader_id                            NUMBER(18)            NULL,
+        order_id                             NUMBER(18)            NULL,
+        order_type                           NUMBER(6)             NULL,
+        order_categ                          NUMBER(6)             NULL,
+        market_id                            NUMBER(18)            NULL,
+        quantity                             DECIMAL(18,6)         NOT NULL,
+        limit_price                          DECIMAL(18,6)         NULL,
+        delivery_date                        DATE                  NOT NULL,
+        order_status                         NUMBER(6)  DEFAULT 1  NULL,
+        order_open_status                    NUMBER(6)  DEFAULT 1  NULL,
+        expiration_status                    NUMBER(6)             NULL,
+        biz_date                             VARCHAR2(8)           NOT NULL,
+        product_id                           NUMBER(18)            NOT NULL,
+        received_date_time                   DATE                  NULL,
+        error_reason_code                    VARCHAR2(4)           NULL,
+        created_timestamp                    DATE DEFAULT sysdate  NOT NULL,
+        last_updated_timestamp               DATE DEFAULT sysdate  NOT NULL,
+        forced_settle_reason_type            VARCHAR2(1)           NULL,
+        approve_status_type                  VARCHAR2(1)           NULL,
+        approver_code                        VARCHAR2(20)          NULL,
+        approve_timestamp                    DATE                  NULL,
+        margin_maintenance_rate              DECIMAL(18,6)         NULL,
+        additional_margin_date               DATE                  NULL,
+        additional_margin_accrued_days       NUMBER(18)            NULL,
+        forced_expire_type                   VARCHAR2(1)           NULL,
+        contract_id                          NUMBER(18)            NOT NULL,
+        org_contract_quantity                DECIMAL(18,6)         NOT NULL,
+        contract_quantity                    DECIMAL(18,6)         NOT NULL,
+        original_contract_price              DECIMAL(18,6)         NOT NULL,
+        contract_price                       DECIMAL(18,6)         NOT NULL,
+        contract_type                        NUMBER(6)             NOT NULL,
+        open_date                            DATE                  NOT NULL,
+        close_date                           DATE                  NOT NULL,
+        tax_type                             NUMBER(6)             NOT NULL,
+        repayment_type                       VARCHAR2(1)           NULL,
+        repayment_num                        NUMBER(7)             NULL,
+        contract_amount                      DECIMAL(18,6)         NOT NULL,
+        account_code                         VARCHAR2(6)           NOT NULL,
+        product_code                         VARCHAR2(10)          NOT NULL
+);@

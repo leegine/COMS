@@ -1,0 +1,293 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.27.47;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d9135854a39;
+filename	web3-rich-push-fake.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@--1. Table名: リッチクライアントにプッシュ株式注文受付データVIEWの仮テーブル
+CREATE TABLE rich_push_equity_order_accept
+(
+    tpk                          VARCHAR2(50)       NOT NULL,
+    type                         VARCHAR2(5)        NOT NULL,
+    request_code                 VARCHAR2(5)        NULL,
+    institution_code             VARCHAR2(3)        NULL,
+    branch_code                  VARCHAR2(3)        NULL,
+    account_code                 VARCHAR2(7)        NULL,
+    trader_code                  VARCHAR2(5)        NULL,
+    accept_status                VARCHAR2(1)        NULL,
+    error_message                VARCHAR2(4)        NULL,
+    status                       VARCHAR2(1)        NULL,
+    order_id                     NUMBER(18,0)       NOT NULL,
+    account_id                   NUMBER(18,0)       NOT NULL,
+    submit_order_route_div       VARCHAR2(1)        NULL,
+    product_code                 VARCHAR2(10)       NOT NULL,
+    market_code                  VARCHAR2(10)       NOT NULL, 
+    created_timestamp	         DATE DEFAULT sysdate   NULL,
+    last_updated_timestamp       DATE DEFAULT sysdate   NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_equity_order_accept ADD (PRIMARY KEY (serlnum));
+
+--2. Table名: リッチクライアントにプッシュ株式現引現渡受付データVIEWの仮テーブル
+CREATE TABLE rich_push_swap_order_accept
+(
+    tpk                          VARCHAR2(50)       NOT NULL,
+    type                         VARCHAR2(5)        NOT NULL,
+    request_code                 VARCHAR2(5)        NULL,
+    institution_code             VARCHAR2(3)        NULL,
+    branch_code                  VARCHAR2(3)        NULL,
+    account_code                 VARCHAR2(7)        NULL,
+    trader_code                  VARCHAR2(5)        NULL,
+    accept_status                VARCHAR2(1)        NULL,
+    error_message                VARCHAR2(4)        NULL,
+    status                       VARCHAR2(1)        NULL,
+    order_id                     NUMBER(18,0)       NOT NULL,
+    account_id                   NUMBER(18,0)       NOT NULL,
+    submit_order_route_div       VARCHAR2(1)        NULL,
+    product_code                 VARCHAR2(10)       NOT NULL,
+    market_code                  VARCHAR2(10)       NOT NULL, 
+    created_timestamp	         DATE DEFAULT sysdate   NULL,
+    last_updated_timestamp       DATE DEFAULT sysdate   NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_swap_order_accept ADD (PRIMARY KEY (serlnum));
+
+
+--3. Table名: リッチクライアントにプッシュ株式注文訂正取消通知データVIEWの仮テーブル
+CREATE TABLE rich_push_equity_change_cancel
+(
+    tpk                          	VARCHAR2(50)       NOT NULL,
+    type                         	VARCHAR2(5)        NOT NULL,
+    request_code                 	VARCHAR2(5)        NULL,
+    institution_code             	VARCHAR2(3)        NULL,
+    branch_code                  	VARCHAR2(3)        NULL,
+    account_code                 	VARCHAR2(7)        NULL,
+    trader_code                  	VARCHAR2(5)        NULL,
+    modified_quantity				DECIMAL(18,6)	   NULL,
+    modified_limit_price            DECIMAL(18,6)      NULL,
+    modified_execution_type      	VARCHAR2(1)        NULL,
+    modified_price_condition_type   VARCHAR2(1)        NULL,
+    modified_result          	 	VARCHAR2(2)        NULL,
+    canmod_receipt_type        		VARCHAR2(1)        NULL,
+	status        				 	VARCHAR2(1)        NULL,
+    order_id                     	NUMBER(18,0)       NOT NULL,
+    account_id                   	NUMBER(18,0)       NOT NULL,
+    submit_order_route_div       	VARCHAR2(1)        NULL,
+    product_code                 	VARCHAR2(10)       NOT NULL,
+    market_code                  	VARCHAR2(10)       NOT NULL, 
+    created_timestamp	         	DATE DEFAULT sysdate   NULL,
+    last_updated_timestamp       	DATE DEFAULT sysdate   NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_equity_change_cancel ADD (PRIMARY KEY (serlnum));
+
+--4. Table名: リッチクライアントにプッシュ株式出来通知データVIEWの仮テーブル
+CREATE TABLE rich_push_equity_cont
+(
+    tpk                          VARCHAR2(50)       NOT NULL,
+    type                         VARCHAR2(5)        NOT NULL,
+    request_code                 VARCHAR2(5)        NULL,
+    institution_code             VARCHAR2(3)        NULL,
+    branch_code                  VARCHAR2(3)        NULL,
+    account_code                 VARCHAR2(7)        NULL,
+    trader_code                  VARCHAR2(5)        NULL,
+    exec_quantity                DECIMAL(18,6)      NULL,
+    exec_price					 DECIMAL(18,6)      NULL,
+    exec_timestamp               DATE		        NULL,
+	dealed_type					 VARCHAR2(1)		NULL,
+    status                       VARCHAR2(1)        NULL,
+    order_id                     NUMBER(18,0)       NOT NULL,
+    account_id                   NUMBER(18,0)       NOT NULL,
+    submit_order_route_div       VARCHAR2(1)        NULL,
+    product_code                 VARCHAR2(10)       NOT NULL,
+    market_code                  VARCHAR2(10)       NOT NULL, 
+    created_timestamp	         DATE DEFAULT sysdate   NULL,
+    last_updated_timestamp       DATE DEFAULT sysdate   NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_equity_cont ADD (PRIMARY KEY (serlnum));
+
+
+--5. Table名: リッチクライアントにプッシュ株式失効通知データVIEWの仮テーブル
+CREATE TABLE rich_push_equity_lapse
+(
+    tpk                          VARCHAR2(50)       NOT NULL,
+    type                         VARCHAR2(5)        NOT NULL,
+    request_code                 VARCHAR2(5)        NULL,
+    institution_code             VARCHAR2(3)        NULL,
+    branch_code                  VARCHAR2(3)        NULL,
+    account_code                 VARCHAR2(7)        NULL,
+    trader_code                  VARCHAR2(5)        NULL,
+    executed_quantity            DECIMAL(18,6)      NULL,
+    reason_code                	 VARCHAR2(1)        NULL,
+    close_notify_type            VARCHAR2(1)        NULL,
+    error_message                VARCHAR2(4)        NULL,
+    status                       VARCHAR2(1)        NULL,
+    order_id                     NUMBER(18,0)       NOT NULL,
+    account_id                   NUMBER(18,0)       NOT NULL,
+    submit_order_route_div       VARCHAR2(1)        NULL,
+    product_code                 VARCHAR2(10)       NOT NULL,
+    market_code                  VARCHAR2(10)       NOT NULL, 
+    created_timestamp	         DATE DEFAULT sysdate   NULL,
+    last_updated_timestamp       DATE DEFAULT sysdate   NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_equity_lapse ADD (PRIMARY KEY (serlnum));
+
+
+--6. Table名: リッチクライアントにプッシュ先物OP注文受付通知データVIEWの仮テーブル
+CREATE TABLE rich_push_ifo_order_accept
+(
+    tpk							VARCHAR2(50)		NOT NULL,
+    type                        VARCHAR2(5)        	NOT NULL,
+    request_code                VARCHAR2(5)        	NULL,
+    institution_code            VARCHAR2(3)        	NULL,
+    branch_code                 VARCHAR2(3)        	NULL,
+    account_code                VARCHAR2(7)        	NULL,
+    trader_code                 VARCHAR2(5)        	NULL,
+    accept_status               VARCHAR2(1)        	NULL,
+    error_message               VARCHAR2(4)        	NULL,
+    status                      VARCHAR2(1)        	NULL,
+    order_id                    NUMBER(18,0)       	NOT NULL,
+    account_id                  NUMBER(18,0)       	NOT NULL,
+    product_code                VARCHAR2(9)        	NULL,
+    order_type                  NUMBER(6,0)        	NOT NULL,
+    market_code                 VARCHAR2(10)       	NOT NULL,
+    underlying_product_code     VARCHAR2(9)        	NOT NULL,
+    month_of_delivery           VARCHAR2(6)        	NOT NULL,
+    derivative_type             NUMBER(6,0)        	NOT NULL,
+    strike_price                DECIMAL(18,6)      	NOT NULL,
+    created_timestamp	        DATE DEFAULT sysdate	NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate	NULL,
+    serlnum                        NUMBER(18,0)    NOT NULL
+);
+
+ALTER TABLE rich_push_ifo_order_accept ADD (PRIMARY KEY (serlnum));
+
+--7. Table名: リッチクライアントにプッシュ先物OP訂正取消通知データVIEWの仮テーブル
+CREATE TABLE rich_push_ifo_change_cancel
+(
+    tpk								VARCHAR2(50)		NOT NULL,
+    type                         	VARCHAR2(5)        	NOT NULL,
+    request_code                 	VARCHAR2(5)        	NOT NULL,
+    institution_code             	VARCHAR2(3)        	NOT NULL,
+    branch_code                  	VARCHAR2(3)        	NOT NULL,
+    account_code                 	VARCHAR2(7)        	NOT NULL,
+    trader_code                  	VARCHAR2(5)        	NULL,
+    modified_quantity            	DECIMAL(18,6)      	NOT NULL,
+    modified_limit_price         	DECIMAL(18,6)      	NOT NULL,
+    modified_execution_type      	VARCHAR2(1)        	NOT NULL,
+    modified_result              	VARCHAR2(2)        	NOT NULL,
+    canmod_receipt_type          	VARCHAR2(1)        	NOT NULL,
+    status                       	VARCHAR2(1)        	NOT NULL,
+    order_id                     	NUMBER(18,0)       	NOT NULL,
+    account_id                   	NUMBER(18,0)       	NOT NULL,
+    product_code                 	VARCHAR2(9)       	NULL,
+    order_type                    	NUMBER(6,0)        	NOT NULL,
+    market_code                  	VARCHAR2(10)       	NOT NULL,
+    underlying_product_code      	VARCHAR2(9)        	NOT NULL,
+    month_of_delivery            	VARCHAR2(6)        	NOT NULL,
+    derivative_type              	NUMBER(6,0)        	NOT NULL,
+    strike_price                 	DECIMAL(18,6)      	NOT NULL,
+    created_timestamp            	DATE DEFAULT sysdate	NULL,
+    last_updated_timestamp       	DATE DEFAULT sysdate	NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_ifo_change_cancel ADD (PRIMARY KEY (serlnum));
+
+--8. Table名: リッチクライアントにプッシュ先物OP出来通知データVIEWの仮テーブル
+CREATE TABLE rich_push_ifo_cont
+(
+    tpk							VARCHAR2(50)		NOT NULL,
+    type                        VARCHAR2(5)       	NOT NULL,
+    request_code                VARCHAR2(5)       	NOT NULL,
+    institution_code            VARCHAR2(3)       	NOT NULL,
+    branch_code                 VARCHAR2(3)       	NOT NULL,
+    account_code                VARCHAR2(7)       	NULL,
+    trader_code                 VARCHAR2(5)       	NULL,
+    exec_quantity				DECIMAL(18,6)       	NULL,
+    exec_price         			DECIMAL(18,6)       	NULL,
+    exec_timestamp      		DATE        	  	NULL,
+    dealed_type                	VARCHAR2(1)       	NOT NULL,
+    status                      VARCHAR2(1)       	NULL,
+    order_id                    NUMBER(18,0)      	NOT NULL,
+    account_id                  NUMBER(18,0)      	NOT NULL,
+    product_code                VARCHAR2(9)       	NULL,
+    order_type                  NUMBER(6,0)       	NOT NULL,
+    market_code                 VARCHAR2(10)      	NOT NULL,
+    underlying_product_code     VARCHAR2(9)       	NOT NULL,
+    month_of_delivery           VARCHAR2(6)       	NOT NULL,
+    derivative_type             NUMBER(6,0)       	NOT NULL,
+    strike_price                DECIMAL(18,6)     	NOT NULL,
+    created_timestamp	        DATE DEFAULT sysdate	NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate	NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+
+ALTER TABLE rich_push_ifo_cont ADD (PRIMARY KEY (serlnum));
+
+--9. Table名: リッチクライアントにプッシュ先物OP失効通知データVIEWの仮テーブル
+CREATE TABLE rich_push_ifo_lapse
+(
+    tpk							VARCHAR2(50)		NOT NULL,
+    type                        VARCHAR2(5)       	NOT NULL,
+    request_code                VARCHAR2(5)       	NOT NULL,
+    institution_code            VARCHAR2(3)       	NOT NULL,
+    branch_code                 VARCHAR2(3)       	NOT NULL,
+    account_code                VARCHAR2(7)       	NULL,
+    trader_code                 VARCHAR2(5)       	NULL,
+    executed_quantity			DECIMAL(18,6)     	NULL,
+    reason_code         		VARCHAR2(1)       	NULL,
+    close_notify_type      		VARCHAR2(1)      	NOT NULL,
+    error_message               VARCHAR2(4)        	NULL,
+    status                      VARCHAR2(1)        	NULL,
+    order_id                    NUMBER(18,0)       	NOT NULL,
+    account_id                  NUMBER(18,0)       	NOT NULL,
+    product_code                VARCHAR2(9)      	NULL,
+    order_type                  NUMBER(6,0)        	NOT NULL,
+    market_code                 VARCHAR2(10)       	NOT NULL,
+    underlying_product_code     VARCHAR2(9)        	NOT NULL,
+    month_of_delivery           VARCHAR2(6)        	NOT NULL,
+    derivative_type             NUMBER(6,0)        	NOT NULL,
+    strike_price                DECIMAL(18,6)      	NOT NULL,
+    created_timestamp	        DATE DEFAULT sysdate   NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate   NULL,
+    serlnum                        NUMBER(18,0)     NOT NULL
+);
+ALTER TABLE rich_push_ifo_lapse ADD (PRIMARY KEY (serlnum));
+
+--10. Table名: リッチクライアントにプッシュ履歴VIEWの仮テーブル
+CREATE TABLE rich_push_history_top
+(
+    tpk							VARCHAR2(50)		NOT NULL,
+    type                        VARCHAR2(5)       	NOT NULL,
+    serlnum                        NUMBER(18,0)     NULL
+);
+ALTER TABLE rich_push_history_top ADD (PRIMARY KEY (serlnum));@

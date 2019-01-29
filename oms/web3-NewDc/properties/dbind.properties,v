@@ -1,0 +1,50 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.25.05.29.25;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	75c4d8c28354acf;
+filename	dbind.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# Properties controlling low-level features of the database binding layer. 
+# (values shown are defaults except where indicated)
+#
+#
+#
+# Invalidator timeout properties
+#invalidator.heartbeatMillis=8000
+#invalidator.exprationSecs=24
+#invalidator.threadCount=4
+#invalidator.threadPriority=7
+
+#
+# The address for the database server to use when performing invalidation on this machine.
+# By default, if this is not specified the hostname of the machine is used.
+#invalidator.serverAddress=myhostname
+
+#
+# Port begin and end specify a range to scan for an available port on the server machine.
+# The first available port in this range will be used for the invalidation server.
+#invalidator.serverPortBegin=2121
+#invalidator.serverPortEnd=2141
+
+@

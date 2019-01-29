@@ -1,0 +1,84 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.04.06;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2344d912ffc3825;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.tradehistory.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3tradehistory.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3TradeHistorySessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3tradehistory_session_triggers.sql
+
+enums=\
+
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  settle_detail_history \
+  transaction_history \
+  trade_detail_history \
+  trade_history \
+  book_value_spec \
+  profit_loss_spec \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@

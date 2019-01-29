@@ -1,0 +1,112 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.02.28.44;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	7004d9143b9789a;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.triggerorder.base.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3triggerorder.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3TriggerOrderAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3triggerorder_account_triggers.sql
+
+enums=\
+  rsv_eq_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  rsv_eq_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  rsv_eq_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  rsv_eq_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  rsv_eq_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  rsv_eq_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  rsv_eq_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  rsv_eq_order_unit.swap_tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  rsv_eq_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  rsv_eq_order_action.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  rsv_eq_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  rsv_ifo_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  rsv_ifo_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  rsv_ifo_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  rsv_ifo_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  rsv_ifo_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  rsv_ifo_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  rsv_ifo_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  rsv_ifo_order_unit.evening_session_carryover_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  rsv_ifo_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  rsv_ifo_order_action.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  rsv_ifo_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  rsv_eq_order_unit:inv=?.account_id \
+  rsv_eq_order_action:inv=?.account_id \
+  rsv_eq_closing_contract_spec:inv=?.account_id \
+  rsv_ifo_order_unit:inv=?.account_id \
+  rsv_ifo_order_action:inv=?.account_id \
+  rsv_ifo_closing_contract_spec:inv=?.account_id \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+  com.fitechlabs.xtrade.plugin.tc.eqtype.data.* \
+  com.fitechlabs.xtrade.plugin.tc.xbifo.data.*
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

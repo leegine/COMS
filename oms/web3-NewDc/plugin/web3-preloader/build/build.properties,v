@@ -1,0 +1,78 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.24.48;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	7204d9134dc4811;
+filename	build.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@##############################################################
+#
+# PLUGIN Build Propety File
+#
+# Build properties file for plug-tutorial4-base
+#
+##############################################################
+
+
+# Plugin unique name
+#
+PLUGIN_NAME=plug-web3-preloader
+
+# Versioning info
+#
+MAJOR_VERSION=1
+MINOR_VERSION=0
+
+# List of other plugins, including the core, this plugin/application depend on
+PLUGINS_NAMES=core,\
+	plug-security-oplogin,\
+	plug-gtl-base,\
+	plug-eqtype-base,\
+	plug-gtl,\
+	plug-eqtype,\
+	plug-web3-common,\
+	plug-web3-system,\
+	plug-web3-gentrade,\
+	plug-web3-equity,\
+	plug-web3-tplib,\
+	plug-web3-preloader
+	
+
+# List of codegen files.
+#CODEGEN=codegen-master.properties, codegen-account.properties
+
+# Application unique name
+#
+#APP_NAME=app-tutorial4-base
+
+# Warfile contents
+#WEBXML=build/web.xml
+#WAR_JARS=xtrade.jar,plug-*.jar,app-*.jar
+#WAR_LIBS=log4*,oracle816*,crimson*
+
+# SQL Files not used in create db
+#EXCLUDE_SQLS=sql-plug-tutorial4-base.zip
+
+
+
+@

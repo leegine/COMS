@@ -1,0 +1,113 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.05.46.25;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8f04d80403d696d;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.aio.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3aio.sql, sql/web3fx.sql, sql/web3feqtrans.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3AioSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3aio_session_triggers.sql
+
+#enums=\
+    aio_deposit_inform_send_mail.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum 
+
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  host_payment_accept \
+  host_payment_order \
+  host_cash_transfer:rowid_pk=true \
+  host_cash_trans_order \
+  host_cash_trans_order_accept \
+  host_transfer_accept \
+  host_transfer_order \
+  host_transfer_receipt:rowid_pk=true \
+  host_mrgsec_trans_notify \
+  host_mrgsec_trans_accept \
+  host_mrgsec_transfer \
+  host_spsec_trans_notify \
+  bank_cash_transfer_status \
+  bank_settle_start_request:rowid_pk=true \
+  bank_settle_result_response:rowid_pk=true \
+  bank_order_request:rowid_pk=true \
+  aio_deposit_inform_send_mail \
+  deposit_inform \
+  gft_account_open_status \
+  gft_transfer_status \
+  gft_message \
+  uwg_transfer_status \
+  uwg_account_open_status \
+  host_sec_delivery_transfer:rowid_pk=true \
+  host_transfer_payment:rowid_pk=true \
+  bank_deposit_notify \
+  bank_deposit_error_history \
+  host_foreign_cash_transfer:rowid_pk=true \
+  host_foreign_cash_trans_order \
+  host_f_cash_trans_order_accept \
+  pay_required_amount \
+  sso_message \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+  webbroker3.gentrade.data.* \  
+
+@

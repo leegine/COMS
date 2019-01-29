@@ -1,0 +1,58 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.37.40;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8644d7eed0c15c5;
+filename	web3docadmin.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--ドキュメント管理
+-------------------------------------------------------------------------------
+
+--1. Table名: 書面未承諾 強制ログアウト実行結果テーブル
+
+CREATE TABLE doc_force_logout_run_status (
+    institution_code                  VARCHAR2(3)      NOT NULL,
+    account_id_from                   NUMBER(18)       NOT NULL,
+    account_id_to                     NUMBER(18)       NOT NULL,
+    start_timestamp                   DATE             NOT NULL,
+    end_timestamp                     DATE                 NULL,
+    document_category_list            VARCHAR2(40)     NOT NULL,
+    process_count                     NUMBER(18)           NULL,
+    status                            VARCHAR2(1)      NOT NULL,
+    last_updater                      VARCHAR2(20)         NULL,
+    created_timestamp                 DATE  DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp            DATE  DEFAULT sysdate  NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKdoc_force_logout_run_status ON doc_force_logout_run_status 
+(
+    institution_code,
+    account_id_from
+);
+
+--PK
+ALTER TABLE doc_force_logout_run_status 
+      ADD  (PRIMARY KEY (institution_code, account_id_from));
+@

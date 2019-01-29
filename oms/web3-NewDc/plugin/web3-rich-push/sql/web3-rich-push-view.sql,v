@@ -1,0 +1,360 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.27.56;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d9135854a39;
+filename	web3-rich-push-view.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE OR REPLACE VIEW rich_push_history_top 
+AS
+SELECT  
+  tpk,type,account_id,serlnum  from (select * from RICH_PUSH_HISTORY  where status='0' order by PROC_TIMESTAMP,type )where rownum <=600
+;  
+  
+ 
+
+CREATE OR REPLACE VIEW rich_push_equity_order_accept
+AS
+SELECT  /*+ ORDERED */
+	a.rowid					as tpk,
+	'00'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.accept_status				as accept_status,
+	a.error_message				as error_message,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	b.submit_order_route_div		as submit_order_route_div,
+	decode(substr(c.product_code, 5, 1), '0', substr(c.product_code, 1, 4), c.product_code)
+								as product_code,
+	d.market_code				as market_code,
+	a.created_timestamp	    		as created_timestamp,
+	a.last_updated_timestamp    		as last_updated_timestamp,
+	f.serlnum    		                as serlnum
+FROM 	 RICH_PUSH_HISTORY_TOP f,HOST_EQTYPE_ORDER_ACCEPT a,EQTYPE_ORDER_UNIT b,EQTYPE_PRODUCT c, MARKET d, MAIN_ACCOUNT e
+WHERE	 
+        f.type='00'
+AND  a.rowid=f.tpk
+AND	a.status = '1'
+AND  b.order_request_number=a.order_request_number
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_swap_order_accept
+AS
+SELECT  /*+ ORDERED */
+	a.rowid						as tpk,
+	'01'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.accept_status				as accept_status,
+	a.error_message				as error_message,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	b.submit_order_route_div	as submit_order_route_div,
+	decode(substr(c.product_code, 5, 1), '0', substr(c.product_code, 1, 4), c.product_code)
+								as product_code,
+	d.market_code				as market_code,
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum
+FROM 	RICH_PUSH_HISTORY_TOP f,HOST_EQTYPE_SWAP_ACCEPT a,EQTYPE_ORDER_UNIT b,  EQTYPE_PRODUCT c, MARKET d, MAIN_ACCOUNT e
+WHERE	 
+        f.type='01'
+AND  a.rowid=f.tpk
+AND	a.status = '1'
+AND	b.order_request_number=a.order_request_number
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_equity_change_cancel
+AS
+SELECT  /*+ ORDERED */
+	a.rowid							as tpk,
+	'02'							as type,
+	a.request_code					as request_code,
+	a.institution_code				as institution_code,
+	a.branch_code					as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code					as trader_code,
+	a.modified_quantity				as modified_quantity,
+	a.modified_limit_price			as modified_limit_price,
+	a.modified_execution_type		as modified_execution_type,
+	a.modified_price_condition_type	as modified_price_condition_type,
+	a.modified_result				as modified_result,
+	a.canmod_receipt_type			as canmod_receipt_type,
+	a.status						as status,
+	b.order_id						as order_id,
+	b.account_id					as account_id,
+	b.submit_order_route_div		as submit_order_route_div,
+	decode(substr(c.product_code, 5, 1), '0', substr(c.product_code, 1, 4), c.product_code)
+									as product_code,
+	d.market_code					as market_code,
+	a.created_timestamp	    		as created_timestamp,
+	a.last_updated_timestamp    	as last_updated_timestamp,
+	f.serlnum    		                as serlnum
+FROM 	 RICH_PUSH_HISTORY_TOP f,HOST_EQTYPE_ORDER_CLMD_RECEIPT a,EQTYPE_ORDER_UNIT b, EQTYPE_PRODUCT c, MARKET d, MAIN_ACCOUNT e
+WHERE	
+        f.type='02'
+AND  a.rowid=f.tpk
+AND	a.status = '1'
+AND  b.order_request_number=a.order_request_number 
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_equity_cont
+AS
+SELECT   /*+ ORDERED */
+	a.rowid						as tpk,
+	'03'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.exec_quantity				as exec_quantity,
+	a.exec_price				as exec_price,
+	a.exec_timestamp			as exec_timestamp,
+	a.dealed_type				as dealed_type,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	b.submit_order_route_div	as submit_order_route_div,
+	decode(substr(c.product_code, 5, 1), '0', substr(c.product_code, 1, 4), c.product_code)
+								as product_code,
+	d.market_code				as market_code,
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum
+FROM 	RICH_PUSH_HISTORY_TOP f,HOST_EQUITY_ORDER_EXEC_NOTIFY a,EQTYPE_ORDER_UNIT b,  EQTYPE_PRODUCT c, MARKET d, MAIN_ACCOUNT e
+WHERE	
+       f.type='03'
+AND a.rowid= f.tpk
+AND a.status = '1'
+AND  b.order_request_number=a.order_request_number 
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_equity_lapse
+AS
+SELECT   /*+ ORDERED */
+	a.rowid						as tpk,
+	'04'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.executed_quantity			as executed_quantity,
+	a.reason_code				as reason_code,
+	a.close_notify_type			as close_notify_type,
+	a.error_message				as error_message,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	b.submit_order_route_div	as submit_order_route_div,
+	decode(substr(c.product_code, 5, 1), '0', substr(c.product_code, 1, 4), c.product_code)
+								as product_code,
+	d.market_code				as market_code,
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum	
+FROM 	RICH_PUSH_HISTORY_TOP f,HOST_EQTYPE_CLOSE_ORDER_NOTIFY a, EQTYPE_ORDER_UNIT b, EQTYPE_PRODUCT c, MARKET d, MAIN_ACCOUNT e 
+WHERE	 
+        f.type='04'
+AND  a.rowid=f.tpk
+AND  a.status = '1'
+AND  b.order_request_number=a.order_request_number 
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_ifo_order_accept
+AS
+SELECT    /*+ ORDERED */
+	a.rowid						as tpk,
+	'10'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.accept_status				as accept_status,
+	a.error_message				as error_message,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	c.product_code				as product_code,
+	b.order_type				as order_type,
+	d.market_code				as market_code,
+	c.underlying_product_code	as underlying_product_code,
+	c.month_of_delivery			as month_of_delivery,
+  	c.derivative_type			as derivative_type,	
+  	c.strike_price				as strike_price,
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum	
+FROM 	RICH_PUSH_HISTORY_TOP f,HOST_FOTYPE_ORDER_ACCEPT a,IFO_ORDER_UNIT b, IFO_PRODUCT c,  MARKET d, MAIN_ACCOUNT e
+WHERE	 
+        f.type='10'
+AND  a.rowid=f.tpk
+AND  a.status = '1'
+AND  b.order_request_number=a.order_request_number 
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_ifo_change_cancel
+AS
+SELECT    /*+ ORDERED */
+	a.rowid						as tpk,
+	'12'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.modified_quantity			as modified_quantity,
+	a.modified_limit_price		as modified_limit_price,
+	a.modified_execution_type	as modified_execution_type,
+	a.modified_result			as modified_result,
+	a.canmod_receipt_type		as canmod_receipt_type,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	c.product_code				as product_code,
+	b.order_type				as order_type,
+	d.market_code				as market_code,
+	c.underlying_product_code	as underlying_product_code,
+	c.month_of_delivery			as month_of_delivery,
+  	c.derivative_type			as derivative_type,	
+  	c.strike_price				as strike_price,
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum	
+FROM 	 RICH_PUSH_HISTORY_TOP f,HOST_FOTYPE_ORDER_CLMD_NOTIFY a, IFO_ORDER_UNIT b, IFO_PRODUCT c, MARKET d, MAIN_ACCOUNT e 
+WHERE	 
+        f.type='12'
+AND  a.rowid=f.tpk
+AND	a.status = '1'
+AND  b.order_request_number=a.order_request_number
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+CREATE OR REPLACE VIEW rich_push_ifo_cont
+AS
+SELECT    /*+ ORDERED */
+	a.rowid						as tpk,
+	'13'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.exec_quantity				as exec_quantity,
+	a.exec_price				as exec_price,
+	a.exec_timestamp			as exec_timestamp,
+	a.dealed_type				as dealed_type,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	c.product_code				as product_code,
+	b.order_type				as order_type,
+	d.market_code				as market_code,
+	c.underlying_product_code	as underlying_product_code,
+	c.month_of_delivery			as month_of_delivery,
+  	c.derivative_type			as derivative_type,	
+  	c.strike_price				as strike_price,	
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum	
+FROM 	RICH_PUSH_HISTORY_TOP f,HOST_OPTION_ORDER_EXEC_NOTIFY a,IFO_ORDER_UNIT b,  IFO_PRODUCT c, MARKET d, MAIN_ACCOUNT e 
+WHERE	 
+        f.type='13'
+AND	a.rowid=f.tpk
+AND	a.status = '1'
+AND	b.order_request_number=a.order_request_number
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+
+
+CREATE OR REPLACE VIEW rich_push_ifo_lapse
+AS
+SELECT    /*+ ORDERED */
+	a.rowid						as tpk,
+	'14'						as type,
+	a.request_code				as request_code,
+	a.institution_code			as institution_code,
+	a.branch_code				as branch_code,
+	substr(e.account_code, 1, 6)	as account_code,
+	a.trader_code				as trader_code,
+	a.executed_quantity			as executed_quantity,
+	a.reason_code				as reason_code,
+	a.close_notify_type			as close_notify_type,
+	a.error_message				as error_message,
+	a.status					as status,
+	b.order_id					as order_id,
+	b.account_id				as account_id,
+	c.product_code				as product_code,
+	b.order_type				as order_type,
+	d.market_code				as market_code,
+	c.underlying_product_code	as underlying_product_code,
+	c.month_of_delivery			as month_of_delivery,
+  	c.derivative_type			as derivative_type,	
+  	c.strike_price				as strike_price,	
+	a.created_timestamp	    	as created_timestamp,
+	a.last_updated_timestamp    as last_updated_timestamp,
+	f.serlnum    		                as serlnum	
+FROM 	RICH_PUSH_HISTORY_TOP f,HOST_FOTYPE_CLOSE_ORDER_NOTIFY a, IFO_ORDER_UNIT b, IFO_PRODUCT c, MARKET d, MAIN_ACCOUNT e 
+WHERE	 
+        f.type='14'
+AND  a.rowid=f.tpk
+AND	a.status = '1'
+AND	b.order_request_number=a.order_request_number 
+AND	b.product_id = c.product_id
+AND	b.market_id = d.market_id
+AND	b.account_id = e.account_id
+;
+@

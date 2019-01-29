@@ -1,0 +1,90 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.28.13;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1e84d9135854a39;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.rcp.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3-rich-push.sql,sql/web3-rich-push-fake.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3RcpSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+enums=\
+  rich_push_ifo_order_accept.derivative_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum \
+  rich_push_ifo_change_cancel.derivative_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum \
+  rich_push_ifo_cont.derivative_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum \
+  rich_push_ifo_lapse.derivative_type:class=com.fitechlabs.xtrade.plugin.tc.xbifo.IfoDerivativeTypeEnum \
+  rich_push_ifo_order_accept.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  rich_push_ifo_change_cancel.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  rich_push_ifo_cont.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  rich_push_ifo_lapse.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  rich_push_history \
+  rich_push_equity_order_accept \
+  rich_push_swap_order_accept \
+  rich_push_equity_change_cancel \
+  rich_push_equity_cont \
+  rich_push_equity_lapse \
+  rich_push_ifo_order_accept \
+  rich_push_ifo_change_cancel \
+  rich_push_ifo_cont \
+  rich_push_ifo_lapse \
+  rich_push_history_top \
+
+imports=\
+@

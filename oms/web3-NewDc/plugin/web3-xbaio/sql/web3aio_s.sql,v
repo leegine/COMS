@@ -1,0 +1,89 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.05.36.44;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8f04d80403d696d;
+filename	web3aio_s.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--入出庫
+-------------------------------------------------------------------------------
+
+--1.入出庫履歴テーブル
+CREATE TABLE sec_receipt_delivery_action(
+        sec_receipt_delivery_action_id             NUMBER(18)         NOT NULL,
+        institution_code                           VARCHAR2(3)        NOT NULL,
+        branch_code                                VARCHAR2(3)        NOT NULL,
+        account_code                               VARCHAR2(7)        NOT NULL,
+        trader_code                                VARCHAR2(5)        NULL,
+        work_date                                  DATE               NULL,
+        execute_date                               DATE               NULL,
+        delivery_date                              DATE               NULL,
+        record_div	                               VARCHAR2(1)	      NULL,
+        product_div                                VARCHAR2(2)        NULL,   	
+        product_group                              VARCHAR2(1)	      NULL,
+        product_code                               VARCHAR2(9)	      NULL,	
+        name_method_div                            VARCHAR2(1)	      NULL,	
+        remarks_div                                VARCHAR2(2)	      NULL,	
+        custdy_div                                 VARCHAR2(1)	      NULL,	
+        deal_div                                   VARCHAR2(2)	      NULL,	
+        io_div                                     VARCHAR2(1)	      NULL,	
+        io_group                                   VARCHAR2(1)	      NULL,
+        sec_receipt_delivery_group	               VARCHAR2(1)	      NULL,
+        market_div                                 VARCHAR2(1)	      NULL,
+        quantity                                   NUMBER(15)	      NULL,
+        executed_price                             NUMBER(10,2)	      NULL,
+        executed_amount                            NUMBER(15)	      NULL,
+        quantity_unit                              VARCHAR2(1)	      NULL,
+        delivery_method                            VARCHAR2(1)	      NULL,
+        foreign_sec_div                            VARCHAR2(1)	      NULL,
+        settlement_div                             VARCHAR2(1)	      NULL,
+        exchange_rate                              NUMBER(15,8)	      NULL,
+        account_name                               VARCHAR2(40)	      NULL,
+        product_name                               VARCHAR2(100)      NULL,
+        specific_account_div                       VARCHAR2(1)	      NULL,
+        delivery_div                               VARCHAR2(1)	      NULL,
+        created_timestamp                          DATE               NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKsec_receipt_delivery_action ON sec_receipt_delivery_action
+(
+        sec_receipt_delivery_action_id
+);
+
+--INDEX
+CREATE INDEX XIEsec_receipt_delivery_action ON sec_receipt_delivery_action
+(
+        institution_code,
+        branch_code,
+        account_code,
+        delivery_date,
+        product_group,
+        product_code,
+        io_group
+);
+
+--Primary Key
+ALTER TABLE sec_receipt_delivery_action
+        ADD  (PRIMARY KEY (sec_receipt_delivery_action_id));@

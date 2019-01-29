@@ -1,0 +1,49 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.06.19;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5cc4d904f795afc;
+filename	addtables.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!--                                              -->
+<!-- Author: Warlu                                -->
+<!-- ============================================ -->
+<project name="tables" default="build">
+
+
+	<target name="build">
+		
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/xb-ifo.sql"/>
+		
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/xbifo_master_triggers.sql" delimiter="${DELIM}"/>
+		
+		
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/xbifo_account_triggers.sql" delimiter="${DELIM}"/>
+
+	</target>
+	
+	
+</project>
+@

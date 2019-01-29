@@ -1,0 +1,160 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.29.57;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1744d9128041e20;
+filename	web3tplib-ifodeposit.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE ifo_deposit_calc_result (
+    deposit_info_id                                NUMBER(18)	    NOT NULL,
+    account_id                                     NUMBER(18)	    NOT NULL,
+    base_date                                      CHAR(8)	    NULL,
+    balance_0                                      VARCHAR2(18)	    NULL,
+    balance_1                                      VARCHAR2(18)	    NULL,
+    balance_2                                      VARCHAR2(18)	    NULL,
+    ifo_deposit_balance_0                          VARCHAR2(18)	    NULL,
+    ifo_deposit_balance_1                          VARCHAR2(18)	    NULL,
+    ifo_deposit_balance_2                          VARCHAR2(18)	    NULL,
+    ifo_deposit_balance_f0                         VARCHAR2(18)	    NULL,
+    ifo_deposit_balance_f1                         VARCHAR2(18)	    NULL,
+    ifo_deposit_balance_f2                         VARCHAR2(18)	    NULL,
+    today_transfer_amt_0                           VARCHAR2(18)	    NULL,
+    today_transfer_amt_1                           VARCHAR2(18)	    NULL,
+    today_transfer_amt_2                           VARCHAR2(18)	    NULL,
+    today_fut_settle_profit_0                      VARCHAR2(18)	    NULL,
+    today_fut_settle_profit_1                      VARCHAR2(18)	    NULL,
+    today_fut_settle_profit_2                      VARCHAR2(18)	    NULL,
+    today_op_net_amt_0                             VARCHAR2(18)	    NULL,
+    today_op_net_amt_1                             VARCHAR2(18)	    NULL,
+    today_op_net_amt_2                             VARCHAR2(18)	    NULL,
+    fut_eval_profit_0                              VARCHAR2(18)	    NULL,
+    fut_eval_profit_1                              VARCHAR2(18)	    NULL,
+    fut_eval_profit_2                              VARCHAR2(18)	    NULL,
+    long_fut_eval_profit_0                         VARCHAR2(18)	    NULL,
+    long_fut_eval_profit_1                         VARCHAR2(18)	    NULL,
+    long_fut_eval_profit_2                         VARCHAR2(18)	    NULL,
+    short_fut_eval_profit_0                        VARCHAR2(18)	    NULL,
+    short_fut_eval_profit_1                        VARCHAR2(18)	    NULL,
+    short_fut_eval_profit_2                        VARCHAR2(18)	    NULL,
+    acceptance_ifo_deposit_bal_0                   VARCHAR2(18)	    NULL,
+    acceptance_ifo_deposit_bal_1                   VARCHAR2(18)	    NULL,
+    acceptance_ifo_deposit_bal_2                   VARCHAR2(18)	    NULL,
+    acceptance_ifo_deposit_bal_f0                  VARCHAR2(18)	    NULL,
+    acceptance_ifo_deposit_bal_f1                  VARCHAR2(18)	    NULL,
+    acceptance_ifo_deposit_bal_f2                  VARCHAR2(18)	    NULL,
+    net_op_value_total_amt_0                       VARCHAR2(18)	    NULL,
+    net_op_value_total_amt_1                       VARCHAR2(18)	    NULL,
+    net_op_value_total_amt_2                       VARCHAR2(18)	    NULL,
+    net_op_value_total_amt_f0                      VARCHAR2(18)	    NULL,
+    net_op_value_total_amt_f1                      VARCHAR2(18)	    NULL,
+    net_op_value_total_amt_f2                      VARCHAR2(18)	    NULL,
+    ifo_deposit_necessary_amt_0                    VARCHAR2(18)	    NULL,
+    ifo_deposit_necessary_amt_1                    VARCHAR2(18)	    NULL,
+    ifo_deposit_necessary_amt_2                    VARCHAR2(18)	    NULL,
+    ifo_deposit_necessary_amt_f0                   VARCHAR2(18)	    NULL,
+    ifo_deposit_necessary_amt_f1                   VARCHAR2(18)	    NULL,
+    ifo_deposit_necessary_amt_f2                   VARCHAR2(18)	    NULL,
+    ifo_deposit_power_0                            VARCHAR2(18)	    NULL,
+    ifo_deposit_power_1                            VARCHAR2(18)	    NULL,
+    ifo_deposit_power_2                            VARCHAR2(18)	    NULL,
+    ifo_deposit_transfer_power_0                   VARCHAR2(18)	    NULL,
+    ifo_deposit_transfer_power_1                   VARCHAR2(18)	    NULL,
+    ifo_deposit_transfer_power_2                   VARCHAR2(18)	    NULL,
+    bull_quantity_nk225_0                          VARCHAR2(18)	    NULL,
+    bull_quantity_nk225_1                          VARCHAR2(18)	    NULL,
+    bull_quantity_nk225_2                          VARCHAR2(18)	    NULL,
+    bear_quantity_nk225_0                          VARCHAR2(18)	    NULL,
+    bear_quantity_nk225_1                          VARCHAR2(18)	    NULL,
+    bear_quantity_nk225_2                          VARCHAR2(18)	    NULL,
+    long_pos_nk225_0                               VARCHAR2(18)	    NULL,
+    long_pos_nk225_1                               VARCHAR2(18)	    NULL,
+    long_pos_nk225_2                               VARCHAR2(18)	    NULL,
+    part_long_pos_nk225_0                          VARCHAR2(18)	    NULL,
+    part_long_pos_nk225_1                          VARCHAR2(18)	    NULL,
+    part_long_pos_nk225_2                          VARCHAR2(18)	    NULL,
+    short_pos_nk225_0                              VARCHAR2(18)	    NULL,
+    short_pos_nk225_1                              VARCHAR2(18)	    NULL,
+    short_pos_nk225_2                              VARCHAR2(18)	    NULL,
+    part_short_pos_nk225_0                         VARCHAR2(18)	    NULL,
+    part_short_pos_nk225_1                         VARCHAR2(18)	    NULL,
+    part_short_pos_nk225_2                         VARCHAR2(18)	    NULL,
+    bull_quantity_nk225_mini_0                     VARCHAR2(18)	    NULL,
+    bull_quantity_nk225_mini_1                     VARCHAR2(18)	    NULL,
+    bull_quantity_nk225_mini_2                     VARCHAR2(18)	    NULL,
+    bear_quantity_nk225_mini_0                     VARCHAR2(18)	    NULL,
+    bear_quantity_nk225_mini_1                     VARCHAR2(18)	    NULL,
+    bear_quantity_nk225_mini_2                     VARCHAR2(18)	    NULL,
+    long_pos_nk225_mini_0                          VARCHAR2(18)	    NULL,
+    long_pos_nk225_mini_1                          VARCHAR2(18)	    NULL,
+    long_pos_nk225_mini_2                          VARCHAR2(18)	    NULL,
+    part_long_pos_nk225_mini_0                     VARCHAR2(18)	    NULL,
+    part_long_pos_nk225_mini_1                     VARCHAR2(18)	    NULL,
+    part_long_pos_nk225_mini_2                     VARCHAR2(18)	    NULL,
+    short_pos_nk225_mini_0                         VARCHAR2(18)	    NULL,
+    short_pos_nk225_mini_1                         VARCHAR2(18)	    NULL,
+    short_pos_nk225_mini_2                         VARCHAR2(18)	    NULL,
+    part_short_pos_nk225_mini_0                    VARCHAR2(18)	    NULL,
+    part_short_pos_nk225_mini_1                    VARCHAR2(18)	    NULL,
+    part_short_pos_nk225_mini_2                    VARCHAR2(18)	    NULL,
+    buy_contract_amt_0                             VARCHAR2(18)	    NULL,
+    buy_contract_amt_1                             VARCHAR2(18)	    NULL,
+    buy_contract_amt_2                             VARCHAR2(18)	    NULL,
+    buy_contract_amt_f0                            VARCHAR2(18)	    NULL,
+    buy_contract_amt_f1                            VARCHAR2(18)	    NULL,
+    buy_contract_amt_f2                            VARCHAR2(18)	    NULL,
+    sell_contract_amt_0                            VARCHAR2(18)	    NULL,
+    sell_contract_amt_1                            VARCHAR2(18)	    NULL,
+    sell_contract_amt_2                            VARCHAR2(18)	    NULL,
+    sell_contract_amt_f0                           VARCHAR2(18)	    NULL,
+    sell_contract_amt_f1                           VARCHAR2(18)	    NULL,
+    sell_contract_amt_f2                           VARCHAR2(18)	    NULL,
+    non_pay_amt                                    VARCHAR2(18)	    NULL,
+    today_claim_amt                                VARCHAR2(18)	    NULL,
+    tomorrow_claim_amt                             VARCHAR2(18)	    NULL,
+    delivery_date                                  DATE	      	    NULL,
+    ifo_deposit_insufficient_flag                  VARCHAR2(18)	    NULL,
+    ifo_deposit_index_nk225                        VARCHAR2(18)	    NULL,
+    ifo_deposit_index_nk225_mini                   VARCHAR2(18)	    NULL,
+    after_tomorrow_claim_amt                       VARCHAR2(18)	    NULL,
+    tomorrow_claim_amt_evening                     VARCHAR2(18)	    NULL,
+    status                                         NUMBER(6)	    NULL,
+    error_message                                  VARCHAR2(100)    NULL,
+    created_timestamp                              DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp                         DATE DEFAULT sysdate NOT NULL
+);
+
+ALTER TABLE ifo_deposit_calc_result
+       ADD  ( PRIMARY KEY (deposit_info_id) ) ;
+
+CREATE TABLE ifo_deposit_calc_lock
+(
+    service_name         	VARCHAR2(100) not null,
+    thread_no                   NUMBER(18) not null,
+    ap_host_name         	VARCHAR2(100) not null,
+    status                   	VARCHAR2(1) DEFAULT '0' not null,
+    created_timestamp           DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate NOT NULL
+);
+
+ALTER TABLE ifo_deposit_calc_lock
+    add (PRIMARY KEY (service_name,thread_no));@

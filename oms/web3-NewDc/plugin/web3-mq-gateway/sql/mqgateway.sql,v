@@ -1,0 +1,48 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.52.57;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3f04d912d572f83;
+filename	mqgateway.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+CREATE TABLE mq_message_id_mappings (
+    institution_code       VARCHAR2(3)          NOT NULL,
+    data_code              VARCHAR2(6)          NOT NULL,
+    message_id             VARCHAR2(10)         NOT NULL,
+    created_timestamp      DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmq_message_id_mappings ON mq_message_id_mappings
+(
+    institution_code,
+    data_code
+);
+
+ALTER TABLE mq_message_id_mappings
+    ADD ( PRIMARY KEY (
+        institution_code, 
+        data_code) 
+    );
+@

@@ -1,0 +1,1072 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.05.36.00;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8f04d80403d696d;
+filename	web3aio.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--金融機関決済連携
+-------------------------------------------------------------------------------
+
+--1. 会社別決済機関条件テーブル
+CREATE TABLE comp_bank_condition (
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        pay_scheme_id           VARCHAR2(11)    NOT NULL,
+        max_amount_daily        NUMBER(12)      NULL   ,
+        max_amount_once         NUMBER(12)      NULL   ,
+        min_amount_once         NUMBER(12)      NULL   ,
+        amount_unit             NUMBER(12)      NULL   ,
+        max_count               NUMBER(3)       NULL   ,
+        shop_id                 VARCHAR2(8)     NOT NULL,
+        access_key              VARCHAR2(8)     NULL   ,
+        sonar_code              VARCHAR2(2)     NULL   ,
+        payment_method          VARCHAR2(1)     NULL   ,
+        complete_flag           VARCHAR2(1)     NULL   ,
+        limit_time              VARCHAR2(6)     DEFAULT '235959'  NULL,
+        suspension_start_time   VARCHAR2(6)     NULL   ,
+        suspension_end_time     VARCHAR2(6)     NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKcomp_bank_condition ON comp_bank_condition
+(
+        institution_code,
+        branch_code,
+        pay_scheme_id
+);
+
+--Primary Key
+ALTER TABLE comp_bank_condition
+        ADD  (PRIMARY KEY (institution_code,branch_code,pay_scheme_id));
+
+
+--2. 金融機関連携入出金状況テーブル
+CREATE TABLE bank_cash_transfer_status (
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NULL   ,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        pay_scheme_id           VARCHAR2(11)    NOT NULL,
+        amount                  NUMBER(12)      NULL   ,
+        order_date_time         DATE            NULL   ,
+        delivery_scheduled_date DATE            NULL   ,
+        base_date               DATE            NULL   ,
+        input_div               VARCHAR2(1)     NULL   ,
+        comondebi_capture_date  DATE            NULL   ,
+        center_pay_id           VARCHAR2(15)    NULL   ,
+        order_status_flag       VARCHAR2(1)     NOT NULL,
+        order_request_time      DATE            NULL   ,
+        order_response_time     DATE            NULL   ,
+        start_status_flag        VARCHAR2(1)     NOT NULL,
+        start_request_time      DATE            NULL   ,
+        start_response_time     DATE            NULL   ,
+        result_status_flag      VARCHAR2(1)     NOT NULL,
+        result_request_time     DATE            NULL   ,
+        result_response_time    DATE            NULL   ,
+        transaction_status      VARCHAR2(1)     NOT NULL,
+        transaction_time        DATE            NULL   ,
+        batch_flag              VARCHAR2(1)     NULL   ,
+        last_update_timestamp   DATE            NULL   ,
+        last_update_user        VARCHAR2(20)    NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKbank_cash_transfer_status ON bank_cash_transfer_status
+(
+        institution_code    ,
+        branch_code         ,
+        order_request_number
+);
+CREATE INDEX XIEbank_cash_transfer_status ON bank_cash_transfer_status
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        pay_scheme_id       ,
+        base_date
+);
+--Primary Key
+ALTER TABLE bank_cash_transfer_status
+        ADD  (PRIMARY KEY (institution_code,branch_code,order_request_number));
+
+
+
+--3. 決済開始要求テーブル
+CREATE TABLE bank_settle_start_request (
+        created_timestamp       VARCHAR2(14)    NOT NULL,
+        protocol_version        VARCHAR2(10)    NOT NULL,
+        linked_1                VARCHAR2(80)    NOT NULL,
+        shop_id                 VARCHAR2(8)     NOT NULL,
+        order_date_time         VARCHAR2(14)    NOT NULL,
+        center_pay_id           VARCHAR2(15)    NOT NULL,
+        pay_scheme_id           VARCHAR2(11)    NOT NULL,
+        access_key              VARCHAR2(8)     NOT NULL,
+        pay_status              VARCHAR2(5)     NOT NULL
+);
+
+--7. 決済結果通知テーブル
+CREATE TABLE bank_settle_result_response (
+        created_timestamp       VARCHAR2(14)    NOT NULL,
+        protocol_version        VARCHAR2(10)    NOT NULL,
+        linked_1                VARCHAR2(80)    NOT NULL,
+        shop_id                 VARCHAR2(8)     NOT NULL,
+        order_date_time         VARCHAR2(14)    NOT NULL,
+        center_pay_id           VARCHAR2(15)    NOT NULL,
+        comondebi_sales_slip    VARCHAR2(5)     NULL,
+        comondebi_auth_date     VARCHAR2(14)    NULL,
+        pay_status              VARCHAR2(8)     NOT NULL,
+        comondebi_authres_code  VARCHAR2(7)     NULL,
+        comondebi_capture_date  VARCHAR2(8)         NULL,
+        amount                  VARCHAR2(8)     NULL,
+        pay_scheme_id           VARCHAR2(11)    NOT NULL,
+        access_key              VARCHAR2(8)     NOT NULL,
+        description             VARCHAR2(3)     NULL
+);
+
+--8. 注文情報要求テーブル
+CREATE TABLE bank_order_request (
+        created_timestamp       VARCHAR2(14)    NOT NULL,
+        protocol_version        VARCHAR2(10)    NOT NULL,
+        linked_1                VARCHAR2(80)    NOT NULL,
+        shop_id                 VARCHAR2(8)     NOT NULL,
+        order_date_time         VARCHAR2(14)    NOT NULL,
+        center_pay_id           VARCHAR2(15)    NOT NULL,
+        pay_scheme_id           VARCHAR2(11)    NOT NULL,
+        access_key              VARCHAR2(8)     NOT NULL
+);
+--9. 提携決済機関テーブル
+CREATE TABLE cooperate_bank_master (
+        pay_scheme_id   VARCHAR2(11)    NOT NULL,
+        name            VARCHAR2(40)    NOT NULL,
+        short_name      VARCHAR2(40)    NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKcooperate_bank_master ON cooperate_bank_master
+(
+        pay_scheme_id
+);
+
+--Primary Key
+ALTER TABLE cooperate_bank_master
+        ADD  (PRIMARY KEY (pay_scheme_id));
+
+
+--13. その他用注文件数テーブル
+CREATE TABLE other_order_executed_count (
+        institution_code              VARCHAR2(3)     NOT NULL,
+        branch_code                   VARCHAR2(3)     NOT NULL,
+        record_div                    VARCHAR2(1)     NOT NULL,
+        product_div                   VARCHAR2(2)     NOT NULL,
+        pay_scheme_id                 VARCHAR2(11)    NOT NULL,
+        order_chanel                  VARCHAR2(1)     NOT NULL,
+        order_root_div                VARCHAR2(1)     NOT NULL,
+        biz_date                      VARCHAR2(8)     NOT NULL,
+        buy_order_count               NUMBER(8)       NOT NULL,
+        sell_order_count              NUMBER(8)       NOT NULL,
+        execute_count                 NUMBER(8)       NOT NULL,
+        change_count                  NUMBER(8)       NOT NULL,
+        cancel_count                  NUMBER(8)       NOT NULL,
+        expire_count                  NUMBER(8)       NOT NULL,
+        last_updater                  VARCHAR2(20)    NULL,
+        created_timestamp             DATE            NOT NULL,
+        last_updated_timestamp        DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKother_order_executed_count ON other_order_executed_count
+(
+        institution_code        ,
+        branch_code             ,
+        record_div              ,
+        product_div             ,
+        pay_scheme_id           ,
+        order_chanel            ,
+        order_root_div          ,
+        biz_date
+);
+
+--Primary Key
+ALTER TABLE other_order_executed_count
+        ADD  (PRIMARY KEY (institution_code, branch_code, record_div, product_div, pay_scheme_id, order_chanel, order_root_div, biz_date));
+
+-------------------------------------------------------------------------------
+--入出金
+-------------------------------------------------------------------------------
+
+--10. 会社別取引金額テーブル
+CREATE TABLE amount_range (
+        institution_code        VARCHAR2(3)     NOT NULL,
+        fund_type               VARCHAR2(1)     NOT NULL,
+        transaction_type        VARCHAR2(1)     NOT NULL,
+        max_amount              NUMBER  (11)    NULL   ,
+        min_amount              NUMBER  (11)    NULL   ,
+        created_timestamp       DATE            NULL   ,
+        last_updated_timestamp  DATE            NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKamount_range ON amount_range
+(
+        institution_code        ,
+        fund_type               ,
+        transaction_type
+);
+
+
+--PK
+ALTER TABLE amount_range
+        ADD  (PRIMARY KEY (institution_code, fund_type, transaction_type));
+
+--11. 入金連絡テーブル
+CREATE TABLE deposit_inform (
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        worked_timestamp        DATE            NULL   ,
+        transfer_date           DATE            NULL   ,
+        fin_institution_code    VARCHAR2(15)    NOT NULL,
+        amount                  NUMBER  (10)    NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKdeposit_inform ON deposit_inform
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+--PK
+ALTER TABLE deposit_inform
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_code,order_request_number));
+
+--12. 入金連絡メール送信テーブル
+CREATE TABLE aio_deposit_inform_send_mail (
+        institution_code                VARCHAR2(3)     NOT NULL,
+        branch_code                     VARCHAR2(3)     NOT NULL,
+        account_code                    VARCHAR2(7)     NOT NULL,
+        order_request_number            VARCHAR2(9)     NOT NULL,
+        worked_timestamp                DATE            NULL   ,
+        transfer_date                   DATE            NULL   ,
+        fin_institution_code            VARCHAR2(15)    NOT NULL,
+        amount                          NUMBER  (10)    NULL   ,
+        status                          VARCHAR2(1)     NOT NULL,
+        send_process_date_time          DATE            NULL   ,
+        resend_status                   VARCHAR2(1)     NOT NULL,
+        resend_process_date_time        DATE            NULL   ,
+        email_address                   VARCHAR2(100)   NULL   ,
+        delete_flag                     NUMBER  (1)     NOT NULL,
+        created_timestamp               DATE            NULL   ,
+        last_updated_timestamp          DATE            NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKaio_deposit_inform_send_mai ON aio_deposit_inform_send_mail
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+--PK
+ALTER TABLE aio_deposit_inform_send_mail
+        ADD  (PRIMARY KEY (institution_code, branch_code, account_code,order_request_number));
+
+--13. 銀行入金通知テーブル
+CREATE TABLE bank_deposit_notify(
+        bank_deposit_notify_id               NUMBER(18)     NOT NULL,
+        institution_code                     VARCHAR2(3)    NOT NULL,
+        bank_code                            VARCHAR2(4)    NOT NULL,
+        bank_branch_code                     VARCHAR2(3)    NOT NULL,
+        bank_account_no                      VARCHAR2(10)   NOT NULL,
+        deposit_data_reference_no            VARCHAR2(22)    NOT NULL,
+        deposit_data_account_date            VARCHAR2(6)    NOT NULL,
+        deposit_data_bank_account_type       VARCHAR2(1)    NULL,
+        deposit_data_base_date               VARCHAR2(6)    NULL,
+        deposit_data_deposit_amount          VARCHAR2(12)   NULL,
+        deposit_data_trans_person_code       VARCHAR2(10)   NULL,
+        deposit_data_trans_person_name       VARCHAR2(96)   NULL,
+        cash_transfer_div                    VARCHAR2(1)    NOT NULL,
+        trade_div                            VARCHAR2(2)    NULL,
+        delivered_bank_name                  VARCHAR2(30)   NULL,
+        delivered_bank_branch_name           VARCHAR2(30)   NULL,
+        summary                              VARCHAR2(40)   NULL,
+        edi_info                             VARCHAR2(40)   NULL,
+        status                               VARCHAR2(1)    NULL,
+        deposit_error_comment                VARCHAR2(100)  NULL,
+        remark                               VARCHAR2(100)  NULL,
+        branch_code                          VARCHAR2(20)   NULL,
+        account_code                         VARCHAR2(7)    NULL,
+        last_error_history_serial_no         NUMBER(8)      DEFAULT 0   NOT NULL,
+        update_person                        VARCHAR2(50)   NULL,
+        created_timestamp                    DATE           NULL,
+        last_updated_timestamp               DATE           NULL,
+        currency_code                        VARCHAR2(3)    NULL,
+	    data_load_div						 VARCHAR2(1)    NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKbank_deposit_notify ON bank_deposit_notify
+(
+        bank_deposit_notify_id,
+        institution_code,
+        data_load_div
+);
+
+CREATE UNIQUE INDEX XAKbank_deposit_notify ON bank_deposit_notify
+(
+        institution_code,
+        bank_code,
+        bank_branch_code,
+        bank_account_no,
+        deposit_data_reference_no,
+        deposit_data_account_date,
+        data_load_div
+);
+
+--PK
+ALTER TABLE bank_deposit_notify
+        ADD  (PRIMARY KEY (bank_deposit_notify_id, institution_code, data_load_div));
+
+--14. 銀行入金通知処理エラー履歴テーブル
+CREATE TABLE bank_deposit_error_history(
+        bank_deposit_error_history_id       NUMBER(18)     NOT NULL,
+        bank_deposit_notify_id              NUMBER(18)     NOT NULL,
+        serial_no                           NUMBER(8)      NOT NULL,
+        deposit_error_comment               VARCHAR2(100)  NULL,
+        remark                              VARCHAR2(100)  NULL,
+        update_person                       VARCHAR2(50)   NULL,
+        created_timestamp                   DATE           NULL,
+        last_updated_timestamp              DATE           NULL,
+        institution_code					VARCHAR2(3)    NOT NULL,		
+		data_load_div						VARCHAR2(1)    NOT NULL		
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKbank_deposit_error_history ON bank_deposit_error_history
+(
+        bank_deposit_error_history_id
+);
+
+CREATE UNIQUE INDEX XAKbank_deposit_error_history ON bank_deposit_error_history
+(
+        bank_deposit_notify_id,
+        institution_code,
+        data_load_div,
+        serial_no
+);
+
+--PK
+ALTER TABLE bank_deposit_error_history
+        ADD  (PRIMARY KEY (bank_deposit_error_history_id));
+
+--15. 会社別金融機関キャリア取扱テーブル
+CREATE TABLE comp_bank_career_management(
+        institution_code                    VARCHAR2(3)    NOT NULL,
+        branch_code                         VARCHAR2(3)    NOT NULL,
+        pay_scheme_id                       VARCHAR2(11)   NOT NULL,
+        career_div                          VARCHAR2(1)    NOT NULL,
+        mg_flg                              VARCHAR2(1)    NOT NULL,
+        last_update_timestamp               DATE           NULL,
+        last_update_user                    VARCHAR2(20)   NULL
+);
+
+--PK
+ALTER TABLE comp_bank_career_management
+        ADD  (PRIMARY KEY (institution_code, branch_code, pay_scheme_id, career_div));
+
+--16. キャリア別加盟店ＩＤテーブル
+CREATE TABLE career_shop_id(
+        institution_code                    VARCHAR2(3)    NOT NULL,
+        branch_code                         VARCHAR2(3)    NOT NULL,
+        career_div                          VARCHAR2(1)    NOT NULL,
+        shop_id                             VARCHAR2(8)    NOT NULL,
+        pf_url                              VARCHAR2(200)  NOT NULL,
+        return_url                          VARCHAR2(200)  NOT NULL,
+        last_update_timestamp               DATE           NULL,
+        last_update_user                    VARCHAR2(20)   NULL
+);
+
+--PK
+ALTER TABLE career_shop_id
+        ADD  (PRIMARY KEY (institution_code, branch_code, career_div));
+
+-------------------------------------------------------------------------------
+--SONAR関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 出金請求受付キューテーブル
+CREATE TABLE host_payment_accept (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        trader_code             VARCHAR2(5)     NULL   ,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        accept_div              VARCHAR2(1)     NOT NULL,
+        error_message           VARCHAR2(4)     NULL   ,
+        status                  VARCHAR2(1)     NOT NULL,
+        created_timestamp       DATE DEFAULT sysdate           NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_payment_accept ON host_payment_accept
+(
+        request_code        ,
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+CREATE INDEX XIEhost_payment_accept ON host_payment_accept
+(
+        request_code    ,
+        status
+);
+--PK
+ALTER TABLE host_payment_accept
+       ADD  (PRIMARY KEY (request_code, institution_code, branch_code,account_code,
+                          order_request_number));
+
+
+--2. Table名: 出金請求注文キューテーブル
+CREATE TABLE host_payment_order (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        trader_code             VARCHAR2(5)     NULL   ,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        payment_amount          NUMBER  (9)     NULL   ,
+        est_transfer_date       DATE            NULL   ,
+        ordered_timestamp       DATE            NULL   ,
+        status                  VARCHAR2(1)     NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_payment_order ON host_payment_order
+(
+        request_code        ,
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+CREATE INDEX XIEhost_payment_order ON host_payment_order
+(
+        request_code    ,
+        status
+
+);
+
+--PK
+ALTER TABLE host_payment_order
+       ADD  (PRIMARY KEY (request_code, institution_code, branch_code,account_code,
+                          order_request_number));
+
+
+--3. Table名: 入出金テーブル
+CREATE TABLE host_cash_transfer (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        trader_code             VARCHAR2(5)     NULL   ,
+        order_div               VARCHAR2(1)     NOT NULL,
+        amount                  NUMBER  (12)    NULL   ,
+        cash_trans_date         DATE            NULL   ,
+        created_timestamp       VARCHAR2(14)    NULL   ,
+        status                  VARCHAR2(1)     NOT NULL,
+        order_request_number    VARCHAR2(9)     NULL
+);
+
+--INDEX
+CREATE INDEX XIEhost_cash_transfer ON host_cash_transfer
+(
+        request_code    ,
+        status
+);
+
+
+--4. Table名: 入出金伝票キューテーブル
+CREATE TABLE host_cash_trans_order (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        trader_code             VARCHAR2(5)     NULL   ,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        debit_amount            NUMBER(12)      NULL   ,
+        credit_amount           NUMBER(12)      NULL   ,
+        cash_transfer_type      VARCHAR2(1)     NOT NULL,
+        remittance_fee          NUMBER(5)       NULL   ,
+        delivery_type           VARCHAR2(1)     NOT NULL,
+        advance_settlement_date VARCHAR2(4)     NULL   ,
+        pay_temporarily_div     VARCHAR2(1)     NULL   ,
+        order_original_date     VARCHAR2(4)     NULL   ,
+        sonar_code              VARCHAR2(2)     NOT NULL,
+        cancel_div              VARCHAR2(1)     NULL   ,
+        reciept_div             VARCHAR2(1)     NULL   ,
+        guarantee_div           VARCHAR2(1)     NULL   ,
+        ordered_timestamp       DATE            NULL   ,
+        status                  VARCHAR2(1)     NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_cash_trans_order ON host_cash_trans_order
+(
+        request_code    ,
+        institution_code,
+        branch_code    ,
+        account_code    ,
+        order_request_number
+);
+
+--PK
+ALTER TABLE host_cash_trans_order
+       ADD  (PRIMARY KEY (request_code,institution_code,branch_code,account_code,order_request_number));
+
+
+--5. Table名: 入出金伝票受付キューテーブル
+CREATE TABLE host_cash_trans_order_accept (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        trader_code             VARCHAR2(5)     NULL   ,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        accept_div              VARCHAR2(1)     NOT NULL,
+        error_message           VARCHAR2(4)     NULL   ,
+        status                  VARCHAR2(1)     NOT NULL,
+        created_timestamp       DATE DEFAULT sysdate           NULL
+);
+--INDEX
+CREATE UNIQUE INDEX XPKhost_cash_trans_order_accep ON host_cash_trans_order_accept
+(
+        request_code        ,
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+CREATE INDEX XIEhost_cash_trans_order_accep ON host_cash_trans_order_accept
+(
+        request_code    ,
+        status
+);
+
+--PK
+ALTER TABLE host_cash_trans_order_accept
+       ADD  (PRIMARY KEY (request_code, institution_code, branch_code,account_code,
+                          order_request_number));
+
+--6. Table名: 振替請求受付キューテーブル
+CREATE TABLE host_transfer_accept (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        accept_div              VARCHAR2(1)     NOT NULL,
+        error_message           VARCHAR2(4)     NOT NULL,
+        status                  VARCHAR2(1)     NOT NULL,
+        created_timestamp       DATE DEFAULT sysdate           NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_transfer_accept ON host_transfer_accept
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+CREATE INDEX XIEhost_transfer_accept ON host_transfer_accept
+(
+        request_code    ,
+        status
+);
+
+--PK
+ALTER TABLE host_transfer_accept
+       ADD  (PRIMARY KEY (institution_code,branch_code,account_code,order_request_number));
+
+
+--7. Table名: 振替請求注文キューテーブル
+CREATE TABLE host_transfer_order (
+        request_code                    VARCHAR2(5)     NOT NULL,
+        institution_code                VARCHAR2(3)     NOT NULL,
+        branch_code                     VARCHAR2(3)     NOT NULL,
+        account_code                    VARCHAR2(7)     NOT NULL,
+        trader_code                     VARCHAR2(5)     NULL   ,
+        transfer_amount_debitor         NUMBER(9)       NULL   ,
+        transfer_amount_creditor        NUMBER(9)       NULL   ,
+        remark_code                     VARCHAR2(2)     NOT NULL,
+        remark_name                     VARCHAR2(10)    NULL   ,
+        involuntary_transfer            VARCHAR2(1)     NULL   ,
+        original_transfer_date          VARCHAR2(4)     NULL   ,
+        cancel_div                      VARCHAR2(1)     NULL   ,
+        order_request_number            VARCHAR2(9)     NOT NULL,
+        transfer_date                   DATE            NULL   ,
+        transfer_time                   DATE            NULL   ,
+        status                          VARCHAR2(1)     NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_transfer_order ON host_transfer_order
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+
+--PK
+ALTER TABLE host_transfer_order
+       ADD  (PRIMARY KEY (institution_code,branch_code,account_code,order_request_number));
+
+--8. Table名: 振替入力通知キューテーブル
+CREATE TABLE host_transfer_receipt (
+        request_code            VARCHAR2(5)     NOT NULL,
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        trader_code             VARCHAR2(5)     NULL   ,
+        deposit_type_div        VARCHAR2(2)     NOT NULL,
+        transfer_amount         NUMBER(9)       NULL   ,
+        cancel_div              VARCHAR2(1)     NULL   ,
+        transfer_time           DATE            NULL   ,
+        order_request_number    VARCHAR2(9)     NOT NULL,
+        status                  VARCHAR2(1)     NOT NULL,
+        remark_code             VARCHAR2(2)     NOT NULL,
+        transfer_date           VARCHAR2(8)     NULL,
+        created_timestamp       DATE DEFAULT sysdate           NULL
+);
+
+CREATE INDEX XIEhost_transfer_receipt ON host_transfer_receipt
+(
+        request_code    ,
+        status
+);
+
+--9. Table名: 代用振替強制テーブル
+CREATE TABLE host_mrgsec_trans_notify (
+        request_code             VARCHAR2(5)        NOT NULL,
+        institution_code         VARCHAR2(3)        NOT NULL,
+        branch_code              VARCHAR2(3)        NOT NULL,
+        account_code             VARCHAR2(7)        NOT NULL,
+        trader_code              VARCHAR2(5)        NULL,
+        transfer_flag            VARCHAR2(2)        NOT NULL,
+        original_transfer_date   VARCHAR2(4)        NULL,
+        cancel_flag              VARCHAR2(1)        NULL,
+        commodity_div            VARCHAR2(1)        NOT NULL,
+        product_code             VARCHAR2(10)       NULL,
+        quantity                 NUMBER(12)         NULL,
+        price                    NUMBER(9)          NULL,
+        deliv_type               VARCHAR2(1)        NOT NULL,
+        transfer_time            DATE               NULL,
+        order_request_number     VARCHAR2(9)        NOT NULL,
+        status                   VARCHAR2(1)        NOT NULL,
+        specific_account_div     VARCHAR2(1)        NOT NULL,
+        interlock                VARCHAR2(1)        NULL,
+        deposit                  VARCHAR2(1)        NULL
+);
+
+--INDEX
+CREATE INDEX XIE1host_mrgsec_trans_notify ON host_mrgsec_trans_notify
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+CREATE INDEX XIE2host_mrgsec_trans_notify ON host_mrgsec_trans_notify
+(
+        request_code       ,
+        status
+);
+
+--10. Table名: 代用振替受付テーブル
+CREATE TABLE host_mrgsec_trans_accept (
+        request_code             VARCHAR2(5)        NOT NULL,
+        institution_code         VARCHAR2(3)        NOT NULL,
+        branch_code              VARCHAR2(3)        NOT NULL,
+        account_code             VARCHAR2(7)        NOT NULL,
+        order_request_number     VARCHAR2(9)        NOT NULL,
+        accept_div               VARCHAR2(1)        NOT NULL,
+        error_message            VARCHAR2(4)        NOT NULL,
+        status                   VARCHAR2(1)        NOT NULL
+);
+
+--INDEX
+CREATE INDEX XIE1host_mrgsec_trans_accept ON host_mrgsec_trans_accept
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+CREATE INDEX XIE2host_mrgsec_trans_accept ON host_mrgsec_trans_accept
+(
+        request_code       ,
+        status
+);
+
+--11.Table名: 代用振替請求テーブル
+CREATE TABLE host_mrgsec_transfer(
+        request_code             VARCHAR2(5)        NOT NULL,
+        institution_code         VARCHAR2(3)        NOT NULL,
+        branch_code              VARCHAR2(3)        NOT NULL,
+        account_code             VARCHAR2(7)        NOT NULL,
+        trader_code              VARCHAR2(5)        NULL,
+        transfer_flag            VARCHAR2(2)        NOT NULL,
+        original_transfer_date   VARCHAR2(4)        NULL,
+        cancel_flag              VARCHAR2(1)        NULL,
+        commodity                VARCHAR2(1)        NOT NULL,
+        product_code             VARCHAR2(10)       NULL,
+        quantity                 NUMBER(12)         NULL,
+        price                    NUMBER(9)          NULL,
+        deliv_type               VARCHAR2(1)        NOT NULL,
+        order_request_number     VARCHAR2(9)        NOT NULL,
+        transfer_date            DATE               NULL,
+        transfer_time            DATE               NULL,
+        status                   VARCHAR2(1)        NOT NULL,
+        specific_account_div     VARCHAR2(1)        NOT NULL,
+        interlock                VARCHAR2(1)        NULL,
+        deposit                  VARCHAR2(1)        NULL
+);
+
+--INDEX
+CREATE INDEX XIEhost_mrgsec_transfer ON host_mrgsec_transfer
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+--12.Table名: 特定口座強制振替キューテーブル
+CREATE TABLE host_spsec_trans_notify(
+        request_code             VARCHAR2(5)        NOT NULL,
+        institution_code         VARCHAR2(3)        NOT NULL,
+        branch_code              VARCHAR2(3)        NOT NULL,
+        account_code             VARCHAR2(7)        NOT NULL,
+        trader_code              VARCHAR2(5)        NULL,
+        transfer_flag            VARCHAR2(1)        NOT NULL,
+        commodity_div            VARCHAR2(1)        NOT NULL,
+        product_code             VARCHAR2(10)       NULL,
+        quantity                 NUMBER(9)          NULL,
+        custody_div              VARCHAR2(1)        NOT NULL,
+        title_div                VARCHAR2(1)        NOT NULL,
+        deliv_type               VARCHAR2(1)        NOT NULL,
+        transfer_time            DATE               NULL,
+        order_request_number     VARCHAR2(9)        NOT NULL,
+        specific_account_div     VARCHAR2(1)        NOT NULL,
+        mini_stock_div           VARCHAR2(1)        NOT NULL,
+        status                   VARCHAR2(1)        NOT NULL
+);
+
+--INDEX
+CREATE INDEX XIE1host_spsec_trans_notify ON host_spsec_trans_notify
+(
+        institution_code    ,
+        branch_code         ,
+        account_code        ,
+        order_request_number
+);
+
+CREATE INDEX XIE2host_spsec_trans_notify ON host_spsec_trans_notify
+(
+        request_code    ,
+        status
+);
+
+--13.Table名: 証券出庫請求伝票キューテーブル
+CREATE TABLE host_sec_delivery_transfer(
+        request_code             VARCHAR2(5)        NULL,
+        institution_code         VARCHAR2(3)        NULL,
+        branch_code              VARCHAR2(3)        NOT NULL,
+        account_code             VARCHAR2(7)        NOT NULL,
+        trader_code              VARCHAR2(5)        NULL,
+        cancel_div               VARCHAR2(1)        NULL,
+        commodity_div            VARCHAR2(1)        NOT NULL,
+        product_code             VARCHAR2(10)       NOT NULL,
+        quantity                 NUMBER(12)         NOT NULL,
+        custody_div              VARCHAR2(1)        NOT NULL,
+        title_div                VARCHAR2(1)        NULL,
+        deliv_type               VARCHAR2(1)        NULL,
+        specific_div             VARCHAR2(1)        NULL,
+        remark                   VARCHAR2(2)        NULL,
+        status                   VARCHAR2(1)        NULL,
+        created_timestamp        DATE               NOT NULL
+);
+
+--INDEX
+CREATE INDEX XIEhost_sec_delivery_transfer ON host_sec_delivery_transfer
+(
+        request_code        ,
+        status
+);
+
+--14.Table名: 振替請求伝票キューテーブル
+CREATE TABLE host_transfer_payment (
+        request_code             VARCHAR2(5)        NULL,
+        institution_code         VARCHAR2(3)        NULL,
+        transfer_flag            VARCHAR2(1)        NOT NULL,
+        branch_code              VARCHAR2(3)        NOT NULL,
+        account_code             VARCHAR2(7)        NOT NULL,
+        trader_code              VARCHAR2(5)        NULL,
+        commodity_div            VARCHAR2(1)        NOT NULL,
+        product_code             VARCHAR2(10)       NOT NULL,
+        sonar_code               VARCHAR2(7)        NOT NULL,
+        quantity                 NUMBER(8)          NOT NULL,
+        transfer_div             VARCHAR2(1)        NULL,
+        purpose_div              VARCHAR2(5)        NULL,
+        once_stop_div            VARCHAR2(2)        NULL,
+        custody_div              VARCHAR2(1)        NOT NULL,
+        name_method_div          VARCHAR2(1)        NULL,
+        complete                 VARCHAR2(1)        NULL,
+        force                    VARCHAR2(1)        NULL,
+        specific_div             VARCHAR2(1)        NULL,
+        transfer_date            VARCHAR2(8)        NULL,
+        transfer_amount          VARCHAR2(9)        NULL,
+        status                   VARCHAR2(1)        NULL,
+        created_timestamp        DATE               NOT NULL
+);
+
+--INDEX
+CREATE INDEX XIEhost_transfer_payment ON host_transfer_payment 
+(
+        request_code        ,
+        transfer_flag       ,
+        status               
+);
+
+--15.Table名: 外貨入出金テーブル
+CREATE TABLE host_foreign_cash_transfer (
+       request_code          VARCHAR2(5)          NOT NULL,
+       institution_code      VARCHAR2(3)          NOT NULL,
+       branch_code           VARCHAR2(3)          NOT NULL,
+       account_code          VARCHAR2(7)          NOT NULL,
+       trader_code           VARCHAR2(5)              NULL,
+       order_div             VARCHAR2(1)          NOT NULL,
+       currency_code         VARCHAR2(3)          NOT NULL,
+       amount                DECIMAL(18,6)        NOT NULL,
+       convert_amount        DECIMAL(21,6)            NULL,
+       remark_code           VARCHAR2(2)              NULL,
+       remark_name           VARCHAR2(23)             NULL,
+       cash_trans_date       DATE                     NULL,
+       credit_div            VARCHAR2(1)              NULL,
+       force_div             VARCHAR2(1)              NULL,
+       cancel_div            VARCHAR2(1)              NULL,
+       sonar_code            VARCHAR2(2)              NULL,
+       cash_transfer_type    VARCHAR2(1)              NULL,
+       rate                  VARCHAR2(9)              NULL,
+       created_timestamp     VARCHAR2(14)             NULL,
+       status                VARCHAR2(1)          NOT NULL
+);
+
+--INDEX
+CREATE INDEX XIEhost_foreign_cash_transfer ON host_foreign_cash_transfer 
+(
+        request_code        ,
+        status               
+);
+
+--16.Table名: 外貨入出金伝票キューテーブル
+CREATE TABLE host_foreign_cash_trans_order (
+       request_code               VARCHAR2(5)        NOT NULL,
+       institution_code           VARCHAR2(3)        NOT NULL,
+       branch_code                VARCHAR2(3)        NOT NULL,
+       account_code               VARCHAR2(7)        NOT NULL,
+       trader_code                VARCHAR2(5)            NULL,
+       order_request_number       VARCHAR2(9)        NOT NULL,
+       currency_code              VARCHAR2(3)        NOT NULL,
+       order_div                  VARCHAR2(1)        NOT NULL,
+       debit_amount               DECIMAL(13,2)          NULL,
+       credit_amount              DECIMAL(13,2)          NULL,
+       remark_code                VARCHAR2(2)            NULL,
+       debit_convert_amount       NUMBER(12)             NULL,
+       credit_convert_amount      NUMBER(12)             NULL,
+       remark_name                VARCHAR2(23)           NULL,
+       cash_trans_date            VARCHAR2(4)            NULL,
+       credit_div                 VARCHAR2(1)            NULL,
+       force_div                  VARCHAR2(1)            NULL,
+       cancel_div                 VARCHAR2(1)            NULL,
+       cash_transfer_type         VARCHAR2(1)            NULL,
+       sonar_code                 VARCHAR2(2)            NULL,
+       rate                       VARCHAR2(9)            NULL,
+       ordered_timestamp          DATE                   NULL,
+       status                     VARCHAR2(1)        NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_f_cash_trans_order ON host_foreign_cash_trans_order 
+(
+       request_code,
+       institution_code,
+       branch_code,
+       account_code,
+       order_request_number
+);
+
+--PK
+ALTER TABLE host_foreign_cash_trans_order
+       ADD  (PRIMARY KEY (request_code, institution_code, branch_code, account_code, order_request_number));
+
+--17.Table名: 外貨入出金伝票受付キューテーブル
+CREATE TABLE host_f_cash_trans_order_accept (
+       request_code              VARCHAR2(5)     NOT NULL,
+       institution_code          VARCHAR2(3)     NOT NULL,
+       branch_code               VARCHAR2(3)     NOT NULL,
+       account_code              VARCHAR2(7)     NOT NULL,
+       trader_code               VARCHAR2(5)         NULL,
+       order_request_number      VARCHAR2(9)     NOT NULL,
+       accept_div                VARCHAR2(1)     NOT NULL,
+       error_message             VARCHAR2(4)         NULL,
+       status                    VARCHAR2(1)     NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKhost_f_cash_trans_order_acc ON host_f_cash_trans_order_accept 
+(
+       request_code,
+       institution_code,
+       branch_code,
+       account_code,
+       order_request_number
+);
+
+CREATE INDEX XIEhost_f_cash_trans_order_acc ON host_f_cash_trans_order_accept 
+(
+       request_code,
+       status
+);
+
+--PK
+ALTER TABLE host_f_cash_trans_order_accept
+       ADD  (PRIMARY KEY (request_code, institution_code, branch_code, account_code, order_request_number));
+
+--18.Table名: 返済必要額データテーブル
+CREATE TABLE pay_required_amount (
+       account_id                  NUMBER(18)      NOT NULL,
+       proc_date                   VARCHAR2(8)     NOT NULL,
+       institution_code            VARCHAR2(3)     NOT NULL,
+       branch_code                 VARCHAR2(3)     NOT NULL,
+       account_code                VARCHAR2(7)     NOT Null,
+       pay_required_amount         DECIMAL(18,6)     NULL,
+       decision_pay_amount         DECIMAL(18,6)     NULL,
+       status                      VARCHAR2(2)     NULL,
+       decision_pay_created_flag   VARCHAR2(2)     NULL,
+       transfer_created_flag       VARCHAR2(2)     NULL,
+       last_updater                VARCHAR2(20)    NULL,
+       created_timestamp           DATE            NOT Null,
+       last_updated_timestamp      DATE            NOT Null       
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKpay_required_amount ON pay_required_amount 
+(
+       account_id,
+       proc_date
+);
+
+--PK
+ALTER TABLE pay_required_amount
+       ADD  (PRIMARY KEY (account_id, proc_date));
+
+--19.Table名: 担保銘柄テーブル
+CREATE TABLE security_product (
+       product_id                  NUMBER(18)      NOT NULL,
+       institution_code            VARCHAR2(3)     NOT NULL,
+       product_code                VARCHAR2(10)    NOT NULL,
+       product_type                NUMBER(6)       NOT NULL,
+       estimation_ratio            DECIMAL(18,6)   NOT NULL,
+       fit_flg                     VARCHAR2(1)     NOT NULL,
+       apply_term_from             DATE            NOT Null,
+       apply_term_to               DATE            Null,
+       reason                      VARCHAR2(200)   NULL,
+       last_updater                VARCHAR2(20)    NULL,
+       created_timestamp           DATE            NOT Null,
+       last_updated_timestamp      DATE            NOT Null
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKsecurity_product ON security_product
+(
+       product_id,
+       apply_term_from
+);
+
+CREATE INDEX XIE1security_product ON security_product
+(
+       institution_code,
+       product_code
+);
+
+--PK
+ALTER TABLE security_product
+       ADD  (PRIMARY KEY (product_id, apply_term_from));
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+--1. Table名: 会社別決済機関条件テーブル
+ALTER TABLE comp_bank_condition
+       ADD  ( FOREIGN KEY (pay_scheme_id)
+                             REFERENCES cooperate_bank_master );
+
+--2. 金融機関連携入出金状況テーブル
+ALTER TABLE bank_cash_transfer_status
+       ADD  ( FOREIGN KEY (pay_scheme_id)
+                             REFERENCES cooperate_bank_master );
+
+--11. 入金連絡テーブル
+ALTER TABLE deposit_inform
+       ADD  ( FOREIGN KEY (institution_code , fin_institution_code)
+                             REFERENCES fin_institution );
+
+--12. 入金連絡メール送信テーブル
+ALTER TABLE aio_deposit_inform_send_mail
+       ADD  ( FOREIGN KEY (institution_code , fin_institution_code)
+                             REFERENCES fin_institution );
+
+--14. 銀行入金通知処理エラー履歴テーブル
+ALTER TABLE bank_deposit_error_history
+       ADD  ( FOREIGN KEY (bank_deposit_notify_id , institution_code , data_load_div)
+                             REFERENCES bank_deposit_notify );
+
+--19. 担保銘柄テーブル
+ALTER TABLE security_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product);
+@

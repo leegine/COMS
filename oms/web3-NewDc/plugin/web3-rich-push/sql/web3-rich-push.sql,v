@@ -1,0 +1,77 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.27.52;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1e84d9135854a39;
+filename	web3-rich-push.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--.リッチクライアント連携関連
+-------------------------------------------------------------------------------
+--1. Table名: リッチクライアントにプッシュデータの履歴テーブル
+CREATE TABLE rich_push_history
+(
+    serlnum                        NUMBER(18,0) NOT NULL,
+    tpk                            VARCHAR2(50) NOT NULL,
+    type                           VARCHAR2(5) NOT NULL,
+    account_id                     NUMBER(18,0) DEFAULT '0' NOT NULL,
+    status                             VARCHAR2(1) DEFAULT '0' NOT NULL,
+    proc_timestamp                 DATE DEFAULT sysdate,
+    created_timestamp              DATE DEFAULT sysdate,
+    last_updated_timestamp         DATE DEFAULT sysdate
+);
+
+CREATE UNIQUE INDEX XPKrich_push_history ON rich_push_history
+(
+   serlnum
+);
+
+
+CREATE INDEX XAK1rich_push_history ON rich_push_history
+(
+   account_id,
+   status
+);
+
+CREATE INDEX XAK2rich_push_history ON rich_push_history
+(
+   status,
+   proc_timestamp,
+   type
+);
+
+CREATE UNIQUE INDEX XAK3rich_push_history ON rich_push_history
+(
+   tpk,
+   type
+);
+
+CREATE INDEX XAK4rich_push_history ON rich_push_history
+(
+   type,
+   created_timestamp
+);
+
+ALTER TABLE rich_push_history ADD (PRIMARY KEY (serlnum));
+
+@

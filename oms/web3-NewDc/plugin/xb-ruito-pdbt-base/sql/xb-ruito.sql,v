@@ -1,0 +1,548 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.09.16;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5644d9050285d38;
+filename	xb-ruito.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE ruito_fin_transaction (
+       fin_transaction_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       fin_transaction_type NUMBER(6) NOT NULL,
+       fin_transaction_categ NUMBER(6) NOT NULL,
+       fin_transaction_timestamp DATE NOT NULL,
+       tax_type             NUMBER(6) NOT NULL,
+       delivery_date        DATE NOT NULL,
+       net_amount           DECIMAL(18,6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       price                DECIMAL(18,6) NULL,
+       quantity             DECIMAL(18,6) NOT NULL,
+       order_id             NUMBER(18) NULL,
+       order_unit_id        NUMBER(18) NULL,
+       order_execution_id   NUMBER(18) NULL,
+       commission_fee       DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       commission_fee_tax   DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       asset_id             NUMBER(18) NULL,
+       capital_gain         DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       capital_gain_tax     DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       transfered_asset_mng_fee DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_mng_fee_tax DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee_tax DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_book_value DECIMAL(18,6) NULL,
+       quantity_type        NUMBER(6) DEFAULT 1 NOT NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKruito_fin_transaction ON ruito_fin_transaction
+(
+       fin_transaction_id
+);
+
+CREATE INDEX XIE1ruito_fin_transaction ON ruito_fin_transaction
+(
+       account_id                     ,
+       sub_account_id
+);
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( PRIMARY KEY (fin_transaction_id) ) ;
+
+
+
+CREATE TABLE ruito_order_execution (
+       order_execution_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       branch_id            NUMBER(18) NOT NULL,
+       trader_id            NUMBER(18) NULL,
+       order_id             NUMBER(18) NOT NULL,
+       order_unit_id        NUMBER(18) NOT NULL,
+       order_type           NUMBER(6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       delivery_date        DATE NOT NULL,
+       exec_price           DECIMAL(18,6) NULL,
+       exec_quantity        DECIMAL(18,6) NOT NULL,
+       exec_timestamp       DATE NOT NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       biz_date             VARCHAR2(8) NOT NULL,
+       quantity_type        NUMBER(6) DEFAULT 1 NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKruito_order_execution ON ruito_order_execution
+(
+       order_execution_id
+);
+
+CREATE INDEX XIE1ruito_order_execution ON ruito_order_execution
+(
+       account_id                     ,
+       sub_account_id
+);
+
+CREATE INDEX XIE2ruito_order_execution ON ruito_order_execution
+(
+       order_unit_id
+);
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( PRIMARY KEY (order_execution_id) ) ;
+
+
+
+--累投取引銘柄テーブル
+CREATE TABLE ruito_traded_product (
+    traded_product_id              NUMBER(18)         NOT NULL,
+    valid_for_biz_date             VARCHAR2(8)            NULL,
+    institution_code               VARCHAR2(3)        NOT NULL,
+    order_close_time               VARCHAR2(6)            NULL,
+    market_id                     NUMBER(18)         NOT NULL,
+    product_id                     NUMBER(18)         NOT NULL,
+    last_closing_price             DECIMAL(18,6)          NULL,
+    buy_stop                       VARCHAR2(1)            NULL,
+    sell_stop                      VARCHAR2(1)            NULL,
+    buy_delivery_date_shift_days   NUMBER(2)              NULL,
+    sell_delivery_date_shift_days  NUMBER(2)              NULL,
+	last_updater            VARCHAR2(20)      NOT NULL,
+	online_updated_timestamp DATE             NOT NULL,
+    created_timestamp              DATE               NOT NULL,
+    last_updated_timestamp         DATE               NOT NULL
+);
+
+
+CREATE UNIQUE INDEX XPKruito_traded_product on ruito_traded_product (
+    traded_product_id
+);
+
+CREATE UNIQUE INDEX XAK1ruito_traded_product on ruito_traded_product (
+    product_id,
+    market_id
+);
+
+ALTER TABLE ruito_traded_product
+    ADD (PRIMARY KEY (traded_product_id));
+
+--累投銘柄テーブル
+CREATE TABLE ruito_product (
+    product_id              NUMBER(18)        NOT NULL,
+    institution_code        VARCHAR2(3)       NOT NULL,
+    product_code            VARCHAR2(10)      NOT NULL,
+    product_issue_code      VARCHAR2(10)      NOT NULL,
+    ruito_type               NUMBER(6)        NOT NULL,
+    init_purchase_min_qty   NUMBER(10)        NOT NULL,
+    addtl_purchase_min_qty  NUMBER(10)        NOT NULL,
+    standard_name           VARCHAR2(64)          NULL,
+    course                  VARCHAR2(1)           NULL,
+    plan                    VARCHAR2(1)           NULL,
+    mrf_fund_code           VARCHAR2(1)           NULL,
+    buy_max_price           NUMBER(11)            NULL,
+    buy_min_price           NUMBER(11)            NULL,
+    sell_max_price          NUMBER(11)            NULL,
+    sell_min_price          NUMBER(11)            NULL,
+    buy_designate_method    VARCHAR2(1)           NULL,
+    sell_designate_method   VARCHAR2(1)           NULL,
+    payment_method          VARCHAR2(1)           NULL,
+	buy_start_date          DATE                  NULL,
+	buy_end_date            DATE                  NULL,
+	sell_start_date         DATE                  NULL,
+	sell_end_date           DATE                  NULL,
+	last_updater            VARCHAR2(20)      NOT NULL,
+	online_updated_timestamp DATE             NOT NULL,
+    created_timestamp       DATE              NOT NULL,
+    last_updated_timestamp  DATE              NOT NULL
+);
+
+
+CREATE UNIQUE INDEX XPKruito_product on ruito_product (
+    product_id
+);
+
+CREATE UNIQUE INDEX XAK1ruito_product on ruito_product (
+    institution_code,
+    product_code,
+    product_issue_code
+);
+
+ALTER TABLE ruito_product
+    ADD (PRIMARY KEY (product_id));
+
+
+--累投取引銘柄一時テーブル
+CREATE TABLE ruito_traded_product_updq (
+    traded_product_id                NUMBER(18)      NOT NULL,
+    valid_for_biz_date               VARCHAR2(8)     NOT NULL,
+    institution_code                 VARCHAR2(3)     NOT NULL,
+    order_close_time                 VARCHAR2(6)         NULL,
+    market_id                        NUMBER(18)      NOT NULL,
+    product_id                       NUMBER(18)      NOT NULL,
+    last_closing_price               DECIMAL(18,6)       NULL,
+    buy_stop                         VARCHAR2(1)         NULL,
+    sell_stop                        VARCHAR2(1)         NULL,
+    buy_delivery_date_shift_days     NUMBER(2)           NULL,
+    sell_delivery_date_shift_days    NUMBER(2)           NULL,
+	last_updater                     VARCHAR2(20)    NOT NULL,
+	online_updated_timestamp         DATE            NOT NULL,
+    created_timestamp                DATE            NOT NULL,
+    last_updated_timestamp           DATE            NOT NULL
+);
+
+
+CREATE UNIQUE INDEX XPKruito_traded_product_updq on ruito_traded_product_updq (
+    traded_product_id,
+    valid_for_biz_date
+);
+
+CREATE UNIQUE INDEX XAK1ruito_traded_product_updq on ruito_traded_product_updq (
+    product_id,
+    market_id,
+    valid_for_biz_date
+);
+
+ALTER TABLE ruito_traded_product_updq
+    ADD (PRIMARY KEY (traded_product_id,valid_for_biz_date));
+
+
+--注文テーブル（ヘッダ）
+CREATE TABLE ruito_order (
+    order_id                    NUMBER(18)              NOT NULL,
+    account_id                  NUMBER(18)              NOT NULL,
+    sub_account_id              NUMBER(18)              NOT NULL,
+    product_type                NUMBER(6)                   NULL,
+    created_timestamp           DATE                    NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKruito_order on ruito_order (
+    order_id
+);
+
+CREATE  INDEX XIE1ruito_order on ruito_order (
+    account_id,
+    sub_account_id
+);
+
+
+ALTER TABLE ruito_order
+    ADD (PRIMARY KEY (order_id));
+
+
+
+--累投注文単位テーブル
+CREATE TABLE ruito_order_unit (
+    order_unit_id               NUMBER(18)           NOT NULL,
+    account_id                  NUMBER(18)           NOT NULL,
+    sub_account_id              NUMBER(18)           NOT NULL,
+    branch_id                   NUMBER(18)           NOT NULL,
+    trader_id                   NUMBER(18)               NULL,
+    order_id                    NUMBER(18)           NOT NULL,
+    order_type                  NUMBER(6)            NOT NULL,
+    order_categ                 NUMBER(6)            NOT NULL,
+    last_order_action_serial_no NUMBER(8)            NOT NULL,
+    product_type                NUMBER(6)            NOT NULL,
+    market_id                   NUMBER(18)               NULL,
+    quantity                    DECIMAL(18,6)        NOT NULL,
+    delivery_date               DATE                 NOT NULL,
+    expiration_date             DATE                     NULL,
+    confirmed_quantity          DECIMAL(18,6)            NULL,
+    executed_quantity           DECIMAL(18,6)            NULL,
+    executed_amount             DECIMAL(18,6)            NULL,
+    order_status                NUMBER(6)            NOT NULL,
+    order_open_status           NUMBER(6)            NOT NULL,
+    expiration_status           NUMBER(6)            NOT NULL,
+    tax_type                    NUMBER(6)            NOT NULL,
+    biz_date                    VARCHAR2(8)          NOT NULL,
+    product_id                  NUMBER(18)           NOT NULL,
+    quantity_type               NUMBER(6)            NOT NULL,
+    order_chanel                VARCHAR2(1)              NULL,
+    received_date_time          DATE                     NULL,
+    sonar_trader_code           VARCHAR2(5)              NULL,
+    order_request_number        VARCHAR2(9)              NULL,
+    payment_method              VARCHAR2(1)              NULL,
+    mrf_order_request_number    VARCHAR2(9)              NULL,
+    ruito_type                  NUMBER(6)                NULL,
+    gp_sell_div                 VARCHAR2(1)              NULL,
+    return_method               VARCHAR2(1)              NULL,
+    order_root_div              VARCHAR2(1)              NULL,
+    balance_add_flag            VARCHAR2(1)              NULL,
+    error_reason_code           VARCHAR2(4)              NULL,
+    created_timestamp           DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate NOT NULL
+);
+
+
+CREATE UNIQUE INDEX XPKruito_order_unit on ruito_order_unit (
+    order_unit_id
+);
+
+CREATE  INDEX XIE1ruito_order_unit on ruito_order_unit (
+    account_id,
+    sub_account_id,
+    order_open_status
+);
+
+CREATE  INDEX XIE2ruito_order_unit on ruito_order_unit (
+    order_id
+);
+
+ALTER TABLE ruito_order_unit
+    ADD (PRIMARY KEY (order_unit_id));
+
+
+
+--累投注文履歴テーブル
+CREATE TABLE ruito_order_action (
+    order_action_id             NUMBER(18)           NOT NULL,
+    account_id                  NUMBER(18)           NOT NULL,
+    sub_account_id              NUMBER(18)           NOT NULL,
+    order_id                    NUMBER(18)           NOT NULL,
+    order_unit_id               NUMBER(18)           NOT NULL,
+    market_id                   NUMBER(18)               NULL,
+    order_type                  NUMBER(6)            NOT NULL,
+    order_event_type            NUMBER(6)            NOT NULL,
+    quantity                    DECIMAL(18,6)        NOT NULL,
+    confirmed_quantity          DECIMAL(18,6)            NULL,
+    executed_quantity           DECIMAL(18,6)            NULL,
+    order_status                NUMBER(6)            NOT NULL,
+    expiration_status           NUMBER(6)            NOT NULL,
+    order_action_serial_no      NUMBER(8)            NOT NULL,
+    executed_price              DECIMAL(18,6)            NULL,
+    product_type                NUMBER(6)                NULL,
+    product_id                  NUMBER(18)           NOT NULL,
+    quantity_type               NUMBER(6)            NOT NULL,
+    error_reason_code           VARCHAR2(4)              NULL,
+    created_timestamp           DATE                 NOT NULL,
+    last_updated_timestamp      DATE                 NOT NULL
+);
+
+
+CREATE UNIQUE INDEX XPKruito_order_action on ruito_order_action (
+    order_action_id
+);
+
+CREATE  INDEX XIE1ruito_order_action on ruito_order_action (
+    account_id,
+    sub_account_id
+);
+
+CREATE  INDEX XIE2ruito_order_action on ruito_order_action (
+    order_unit_id
+);
+
+ALTER TABLE ruito_order_action
+    ADD (PRIMARY KEY (order_action_id));
+
+
+ALTER TABLE ruito_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES ruito_order ) ;
+
+
+ALTER TABLE ruito_order_action
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES ruito_order_unit ) ;
+
+
+ALTER TABLE ruito_order_action
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE ruito_order_action
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE ruito_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE ruito_order_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ruito_product ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES ruito_order ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE ruito_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ruito_product ) ;
+
+ALTER TABLE ruito_order
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE ruito_order
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE ruito_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE ruito_traded_product_updq
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE ruito_traded_product_updq
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+ALTER TABLE ruito_traded_product_updq
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ruito_product ) ;
+
+ALTER TABLE ruito_traded_product
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE ruito_traded_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ruito_product ) ;
+
+
+ALTER TABLE ruito_traded_product
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ruito_product ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES ruito_order ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES ruito_order_unit ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (order_execution_id)
+                             REFERENCES ruito_order_execution ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (asset_id)
+                             REFERENCES asset ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE ruito_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ruito_product ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES ruito_order ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES ruito_order_unit ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE ruito_order_execution
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+@

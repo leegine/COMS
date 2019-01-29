@@ -1,0 +1,94 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.03.25;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8004d7f01265769;
+filename	web3market.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+CREATE TABLE host_request_order_number
+(
+       institution_code                VARCHAR2(3)         NOT NULL,
+       branch_code                     VARCHAR2(3)         NOT NULL,
+       product_type                    NUMBER(2)         NOT NULL,
+       latest_order_request_number     VARCHAR2(9)         NULL,
+       created_timestamp               DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp         DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKhost_request_order_number ON host_request_order_number
+(
+       institution_code,
+       branch_code,
+       product_type
+);
+
+ALTER TABLE host_request_order_number
+       ADD  ( PRIMARY KEY (institution_code,
+                           branch_code,
+                           product_type) ) ;
+
+CREATE TABLE host_orderexecution_end (
+    request_code       VARCHAR2(5) NULL,
+    institution_code   VARCHAR2(3) NULL,
+    product_type       NUMBER (6) NOT NULL,
+    future_option_div    VARCHAR2(1) NULL,
+    status             VARCHAR2(1) NULL
+);
+
+CREATE INDEX XPKhost_orderexecution_end ON host_orderexecution_end
+(
+    request_code,
+    institution_code,
+    product_type,
+    future_option_div
+);
+
+CREATE TABLE daemon_trigger 
+(
+    trigger_type         VARCHAR2(1) not null,
+    thread_no            NUMBER(18) not null,
+    order_request_number VARCHAR2(2) not null,
+    range_from         NUMBER(18) DEFAULT 0 not null,
+    range_to             NUMBER(18) DEFAULT 999999999999999999 not null,
+    trigger_status      VARCHAR2(1) DEFAULT '0' not null,
+    trigger_date         DATE
+);
+
+CREATE UNIQUE INDEX XPKdaemon_trigger ON daemon_trigger
+(
+       thread_no
+);
+
+CREATE  UNIQUE INDEX XAKdaemon_trigger on daemon_trigger (
+    trigger_type,
+    order_request_number,
+    range_from,
+    range_to
+);
+
+ALTER TABLE daemon_trigger
+    add (PRIMARY KEY (thread_no));
+
+
+@

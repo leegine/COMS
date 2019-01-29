@@ -1,0 +1,39 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.34.19;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8484d7eec351306;
+filename	addtables.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!--                                              -->
+<!-- Author: guoying                                 -->
+<!-- ============================================ -->
+<project name="tables" default="build">
+    <target name="build">
+        <sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/web3dirsec.sql"/>
+        <sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/web3dirsec_master_triggers.sql" delimiter="${DELIM}"/>
+    </target>
+</project>
+@

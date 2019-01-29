@@ -1,0 +1,45 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.02.28.19;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	7004d9143b9789a;
+filename	addtables.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!--                                              -->
+<!-- ============================================ -->
+<project name="tables" default="build">
+	<target name="build">
+		<!-- add database tables and indexes -->
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/web3triggerorder.sql"/>
+		
+		
+		<!-- add account type triggers -->
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/web3triggerorder_account_triggers.sql" delimiter="${DELIM}"/>	
+
+		<!-- add master type triggers -->
+		<sql driver="${DB_DRIVER}" url="${DB_URL}" userid="${DB_USERNAME}" password="${DB_PASSWORD}" onerror="continue" src="${DDD}/web3triggerorder_master_triggers.sql" delimiter="${DELIM}"/>	
+	</target>
+</project>
+@

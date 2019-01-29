@@ -1,0 +1,235 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.50;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	6004d80209d0226;
+filename	web3bond.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+--1.Table: カストディアンマスタテーブル
+CREATE TABLE custodian (
+    institution_code          VARCHAR2(3)                NOT NULL,
+    custodian_code            VARCHAR2(2)                NOT NULL,
+    custodian_name            VARCHAR2(50)               NOT NULL,
+    last_updater              VARCHAR2(20)                   NULL,
+    created_timestamp         DATE      DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp    DATE      DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKcustodian ON custodian
+(
+    institution_code,
+    custodian_code
+);
+
+--Primary Key
+ALTER TABLE custodian
+       ADD  ( PRIMARY KEY (institution_code, custodian_code) ) ;
+
+--2.Table: 債券自動約定枠履歴テーブル
+CREATE TABLE bond_auto_exec_limit_action (
+    product_id                 NUMBER(18)                 NOT NULL,
+    execution_update_date      DATE                       NOT NULL,
+    auto_exec_amount           DECIMAL(18,6)                  NULL,
+    auto_exec_limit            DECIMAL(18,6)                  NULL,
+    last_updater               VARCHAR2(20)                   NULL,
+    online_disp_div            VARCHAR2(1)                NOT NULL,
+    created_timestamp          DATE     DEFAULT sysdate   NOT NULL,
+    last_updated_timestamp     DATE     DEFAULT sysdate   NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbond_auto_exec_limit_action ON bond_auto_exec_limit_action
+(
+    product_id,
+    execution_update_date
+);
+
+CREATE INDEX XIEbond_auto_exec_limit_action ON bond_auto_exec_limit_action
+(
+    product_id,
+    online_disp_div
+);
+
+--Primary Key
+ALTER TABLE bond_auto_exec_limit_action
+       ADD  ( PRIMARY KEY (product_id, execution_update_date) ) ;
+
+--3.Table: 債券銘柄利率
+CREATE TABLE bond_product_coupon (
+    product_id                NUMBER(18)                 NOT NULL,
+    interest_payment_day      DATE                       NOT NULL,
+    coupon                    DECIMAL(18,6)              NOT NULL,
+    last_updater              VARCHAR2(20)                   NULL,
+    created_timestamp         DATE     DEFAULT sysdate   NOT NULL,
+    last_updated_timestamp    DATE     DEFAULT sysdate   NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbond_product_coupon ON bond_product_coupon
+(
+    product_id,
+    interest_payment_day
+);
+
+--Primary Key
+ALTER TABLE bond_product_coupon
+       ADD  ( PRIMARY KEY (product_id, interest_payment_day) ) ;
+
+--4.Table: 経過利子計算条件テーブル
+CREATE TABLE accrued_interest_calc_cond (
+    accrued_interest_calc_type    VARCHAR2(3)     NOT NULL,
+    calc_type_name                VARCHAR2(60)    NOT NULL,
+    base_date_div                 VARCHAR2(1)     NOT NULL,
+    base_days_div                 VARCHAR2(1)     NOT NULL,
+    elapsed_days_div              VARCHAR2(1)     NOT NULL,
+    non_elapsed_days_div          VARCHAR2(1)     NOT NULL,
+    taxation_div                  VARCHAR2(1)     NOT NULL,
+    calc_base_form                VARCHAR2(1)     NOT NULL,
+    unit_price_scale              NUMBER(2)           NULL,
+    unit_round_div                VARCHAR2(1)         NULL,
+    amount_round_div              VARCHAR2(1)     NOT NULL,
+    created_timestamp             DATE            NOT NULL,
+    last_updated_timestamp        DATE            NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKaccrued_interest_calc_cond ON accrued_interest_calc_cond
+(
+    accrued_interest_calc_type
+);
+
+--Primary Key
+ALTER TABLE accrued_interest_calc_cond
+       ADD  ( PRIMARY KEY (accrued_interest_calc_type) ) ;
+
+--5.Table: 債券部店別条件テーブル
+CREATE TABLE bond_branch_condition (
+    branch_id                   NUMBER(18)            NOT NULL,
+    enforce_div                 VARCHAR2(1)               NULL,
+    asset_check_div             VARCHAR2(1)               NULL,
+    order_lock_use_div          VARCHAR2(1)               NULL,
+    payment_date_set_div        VARCHAR2(1)               NULL,
+    created_timestamp           DATE     DEFAULT sysdate  NULL,
+    last_updated_timestamp      DATE     DEFAULT sysdate  NULL,
+    branch_recruit_limit_div    VARCHAR2(1)               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbond_branch_condition ON bond_branch_condition
+(
+    branch_id
+);
+
+--Primary Key
+ALTER TABLE bond_branch_condition
+       ADD  ( PRIMARY KEY (branch_id) ) ;
+
+--6.Table: 債券発行券種テーブル
+CREATE TABLE bond_issue_coupon_type (
+    product_id                  NUMBER(18)            NOT NULL,
+    issue_coupon_type           VARCHAR2(10)          NOT NULL,
+    last_updater                VARCHAR2(20)              NULL,
+    created_timestamp           DATE     DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp      DATE     DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE INDEX XIE1bond_issue_coupon_type ON bond_issue_coupon_type
+(
+    product_id
+);
+
+--7.Table: 債券注文受付履歴テーブル
+CREATE TABLE bond_order_accept_action (
+    product_id                  NUMBER(18)            NOT NULL,
+    institution_code            VARCHAR2(3)           NOT NULL,
+    branch_code                 VARCHAR2(3)           NOT NULL,
+    order_accept_date           DATE                  NOT NULL,
+    order_amount                DECIMAL(18,6)         NULL,
+    order_count                 NUMBER(8)             NULL,
+    total_order_amount          DECIMAL(18,6)         NULL,
+    last_updater                VARCHAR2(20)          NULL,
+    created_timestamp           DATE     DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp      DATE     DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbond_order_accept_action ON bond_order_accept_action
+(
+    product_id,
+    institution_code,
+    branch_code,
+    order_accept_date
+);
+CREATE INDEX XIE1bond_order_accept_action ON bond_order_accept_action
+(
+    product_id,
+    institution_code,
+    branch_code
+);
+
+--Primary Key
+ALTER TABLE bond_order_accept_action
+       ADD  ( PRIMARY KEY (product_id,institution_code, branch_code, order_accept_date) ) ;
+
+
+--8.Table: 債券部店別応募枠テーブル
+CREATE TABLE bond_branch_recruit_limit (
+    product_id                  NUMBER(18)            NOT NULL,
+    institution_code            VARCHAR2(3)           NOT NULL,
+    branch_code                 VARCHAR2(3)           NOT NULL,
+    recruit_limit               DECIMAL(18,6)         NULL,
+    last_updater                VARCHAR2(20)          NULL,
+    created_timestamp           DATE     DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp      DATE     DEFAULT sysdate  NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKbond_branch_recruit_limit ON bond_branch_recruit_limit
+(
+    product_id,
+    institution_code,
+    branch_code
+);
+CREATE INDEX XIE1bond_branch_recruit_limit ON bond_branch_recruit_limit
+(
+    product_id
+);
+
+--Primary Key
+ALTER TABLE bond_branch_recruit_limit
+       ADD  ( PRIMARY KEY (product_id, institution_code, branch_code) ) ;
+
+----------------------------------------------------------------------------
+--FOREIGN KEY
+--------------------------------------------------------------------------------
+
+ALTER TABLE bond_auto_exec_limit_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+ALTER TABLE bond_product_coupon
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;@

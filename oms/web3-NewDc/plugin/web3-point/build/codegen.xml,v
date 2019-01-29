@@ -1,0 +1,70 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2011.03.31.02.14.28;	author zhang-tengyu;	state Exp;
+branches;
+next	1.1;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	68c4d93dfcb7e3d;
+filename	codegen.xml;
+
+1.1
+date	2011.03.29.02.36.04;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	46c4d9145937ea6;
+filename	codegen.xml;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited  by LC (R&D)                          -->
+<!-- ============================================ -->
+<!-- Build plugin's binding layer                 -->
+<!-- Author: L.Charny - AUTO-GENERATED FILE       -->
+<!-- Date: Thu Mar 31 10:48:11 CST 2011           -->
+<!-- ============================================ -->
+<project name="do-codegen" default="build" basedir=".">
+	<target name="build">
+<!-- ============================================ -->
+<!-- GENERATING BINDING LAYER FOR == codegen-master.properties ==   -->
+		<echo message="">
+ Building Plugin's Binding Layer (codegen-master.properties) for ${PLUGIN_NAME}: 
+ ${REPORTED_VERSION}
+		</echo>
+		<ant antfile="build-plugin-binding-layer.xml">
+		    <property name="CODEGEN_FILE" value="${COMP_ABS_HOME}/${codegen}/codegen-master.properties"/>
+		</ant>
+	</target>
+</project>
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d6 1
+a6 1
+<!-- Date: Fri Mar 11 11:38:29 CST 2011           -->
+@
+

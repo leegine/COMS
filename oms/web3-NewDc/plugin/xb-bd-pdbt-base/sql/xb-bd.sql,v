@@ -1,0 +1,723 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.01.51;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5e44d904e62576d;
+filename	xb-bd.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+CREATE TABLE bond_fin_transaction (
+       fin_transaction_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       fin_transaction_type NUMBER(6) NOT NULL,
+       fin_transaction_categ NUMBER(6) NOT NULL,
+       fin_transaction_timestamp DATE NOT NULL,
+       tax_type             NUMBER(6) NOT NULL,
+       delivery_date        DATE NOT NULL,
+       net_amount           DECIMAL(18,6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       price                DECIMAL(18,6) NULL,
+       quantity             DECIMAL(18,6) NOT NULL,
+       order_id             NUMBER(18) NULL,
+       order_unit_id        NUMBER(18) NULL,
+       order_execution_id   NUMBER(18) NULL,
+       commission_fee       DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       commission_fee_tax   DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       asset_id             NUMBER(18) NULL,
+       capital_gain         DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       capital_gain_tax     DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       transfered_asset_mng_fee DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_mng_fee_tax DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee_tax DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_book_value DECIMAL(18,6) NULL,
+       accrued_interest     DECIMAL(18,6) NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_fin_transaction ON bond_fin_transaction
+(
+       fin_transaction_id             
+);
+
+CREATE INDEX XIE1bond_fin_transaction ON bond_fin_transaction
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2bond_fin_transaction ON bond_fin_transaction
+(
+    account_id,
+    sub_account_id,
+    product_id,
+    order_unit_id,
+    order_execution_id,
+    asset_id
+);
+
+CREATE INDEX XIE3bond_fin_transaction ON bond_fin_transaction
+(
+    order_unit_id
+);
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( PRIMARY KEY (fin_transaction_id) ) ;
+
+
+CREATE TABLE bond_order (
+       order_id             NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       product_type         NUMBER(6) NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_order ON bond_order
+(
+       order_id                       
+);
+
+CREATE INDEX XIE1bond_order ON bond_order
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+
+ALTER TABLE bond_order
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+
+CREATE TABLE bond_order_action (
+       order_action_id      NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       trader_id            NUMBER(18) NULL,
+       order_id             NUMBER(18) NOT NULL,
+       order_unit_id        NUMBER(18) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       order_type           NUMBER(6) NOT NULL,
+       deal_type            VARCHAR2(2) NOT NULL,
+       order_event_type     NUMBER(6) NOT NULL,
+       price                DECIMAL(18,6) NULL,
+       execution_condition_type NUMBER(6) NULL,
+       quantity             DECIMAL(18,6) NOT NULL,
+       limit_price          DECIMAL(18,6) NULL,
+       confirmed_quantity   DECIMAL(18,6) NULL,
+       confirmed_price      DECIMAL(18,6) NULL,
+       executed_quantity    DECIMAL(18,6) NULL,
+       order_status         NUMBER(6) NOT NULL,
+       expiration_status    NUMBER(6) NOT NULL,
+       order_exec_status    VARCHAR2(1) NOT NULL,
+       order_action_serial_no NUMBER(8) NOT NULL,
+       executed_price       DECIMAL(18,6) NULL,
+       product_type         NUMBER(6) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       exec_date            DATE NULL,
+       foreign_exec_date    DATE NULL,
+       delivery_date        DATE NULL,
+       foreign_delivery_date DATE NULL,
+       payment_date         DATE NULL,
+       base_fx_rate         NUMBER(18,6) NULL,
+       exec_fx_rate         NUMBER(18,6) NULL,
+       trading_price        DECIMAL(21,6) NULL,
+       foreign_trading_price DECIMAL(18,6) NULL,
+       accrued_interest     DECIMAL(21,6) NULL,
+       foreign_accrued_interest DECIMAL(18,6) NULL,
+       estimated_price      DECIMAL(21,6) NULL,
+       foreign_estimated_price DECIMAL(18,6) NULL,
+       adjustment_before_maturity DECIMAL(18,6) NULL,
+       elapsed_days         NUMBER(5) NULL,
+       calc_base_days       NUMBER(5) NULL,
+       custodian_code        VARCHAR2(2) NULL,
+       order_root_div       VARCHAR2(1) NULL,
+       administrator_code   VARCHAR2(20) NULL,
+       error_reason_code    VARCHAR2(4) NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_order_action ON bond_order_action
+(
+       order_action_id                
+);
+
+CREATE INDEX XIE1bond_order_action ON bond_order_action
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2bond_order_action ON bond_order_action
+(
+       order_unit_id                  
+);
+
+
+ALTER TABLE bond_order_action
+       ADD  ( PRIMARY KEY (order_action_id) ) ;
+
+
+CREATE TABLE bond_order_execution (
+       order_execution_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       branch_id            NUMBER(18) NOT NULL,
+       trader_id            NUMBER(18) NULL,
+       order_id             NUMBER(18) NOT NULL,
+       order_unit_id        NUMBER(18) NOT NULL,
+       order_type           NUMBER(6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       delivery_date        DATE NOT NULL,
+       exec_serial_no       NUMBER(8) NOT NULL,
+       exec_price           DECIMAL(18,6) NULL,
+       exec_quantity        DECIMAL(18,6) NOT NULL,
+       exec_timestamp       DATE NOT NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       biz_date             VARCHAR2(8) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_order_execution ON bond_order_execution
+(
+       order_execution_id             
+);
+
+CREATE INDEX XIE1bond_fund_order_execution ON bond_order_execution
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2bond_order_execution ON bond_order_execution
+(
+       order_unit_id                  
+);
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( PRIMARY KEY (order_execution_id) ) ;
+
+
+CREATE TABLE bond_order_unit (
+       order_unit_id        NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       branch_id            NUMBER(18) NOT NULL,
+       trader_id            NUMBER(18) NULL,
+       order_id             NUMBER(18) NOT NULL,
+       order_type           NUMBER(6) NOT NULL,
+       order_categ          NUMBER(6) NOT NULL,
+       deal_type            VARCHAR2(2) NOT NULL,
+       last_order_action_serial_no NUMBER(8) DEFAULT 0 NOT NULL,
+       last_execution_serial_no NUMBER(8) DEFAULT 0 NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       quantity             DECIMAL(18,6) NOT NULL,
+       limit_price          DECIMAL(18,6) NULL,
+       execution_condition_type NUMBER(6) NULL,
+       delivery_date        DATE NOT NULL,
+       foreign_delivery_date DATE NULL,
+       expiration_date      DATE NULL,
+       confirmed_quantity   DECIMAL(18,6) NULL,
+       confirmed_price      DECIMAL(18,6) NULL,
+       executed_quantity    DECIMAL(18,6) NULL,
+       executed_amount      DECIMAL(18,6) NULL,
+       order_status         NUMBER(6) DEFAULT 1 NOT NULL,
+       order_open_status    NUMBER(6) DEFAULT 1 NOT NULL,
+       expiration_status    NUMBER(6) NOT NULL,
+       lock_status          VARCHAR2(1) NOT NULL,
+       order_exec_status    VARCHAR2(1) NOT NULL,
+       tax_type             NUMBER(6) NOT NULL,
+       biz_date             VARCHAR2(8) NOT NULL,
+       foreign_biz_date     VARCHAR2(8) NULL,
+       product_id           NUMBER(18) NOT NULL,
+       order_chanel         VARCHAR2(1) NULL,
+       received_date_time   DATE NULL,
+       sonar_trader_code    VARCHAR2(5) NULL,
+       price                DECIMAL(18,6) NULL,
+       order_request_number VARCHAR2(9) NULL,
+       bond_type            NUMBER(6) NULL,
+       currency_code        VARCHAR2(3) NULL,
+       settlement_div       VARCHAR2(1) NULL,
+       auto_exec_div        VARCHAR2(1) NULL,
+       executed_price       DECIMAL(18,6) NULL,
+       base_fx_rate         NUMBER(18,6) NULL,
+       exec_fx_rate         NUMBER(18,6) NULL,
+       trading_price        DECIMAL(21,6) NULL,
+       foreign_trading_price DECIMAL(18,6) NULL,
+       accrued_interest     DECIMAL(21,6) NULL,
+       foreign_accrued_interest DECIMAL(18,6) NULL,
+       estimated_price      DECIMAL(21,6) NULL,
+       foreign_estimated_price DECIMAL(18,6) NULL,
+       adjustment_before_maturity DECIMAL(18,6) NULL,
+       elapsed_days         NUMBER(5) NULL,
+       calc_base_days       NUMBER(5) NULL,
+       exec_date            DATE NULL,
+       foreign_exec_date    DATE NULL,
+       payment_date         DATE NOT NULL,
+       custodian_code        VARCHAR2(2) NULL,
+       order_root_div       VARCHAR2(1) NULL,
+       host_send_div        VARCHAR2(1) NULL,
+       administrator_code   VARCHAR2(20) NULL,
+       error_reason_code    VARCHAR2(4) NULL,
+       exec_host_reflect_div VARCHAR2(1) NULL,
+       cancel_host_reflect_div VARCHAR2(1) NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_order_unit ON bond_order_unit
+(
+       order_unit_id                  
+);
+
+CREATE INDEX XIE1bond_order_unit ON bond_order_unit
+(
+       account_id                     ,
+       sub_account_id                 ,
+       order_open_status              
+);
+
+CREATE INDEX XIE2bond_order_unit ON bond_order_unit
+(
+       order_id                       
+);
+
+CREATE INDEX XIE3bond_order_unit ON bond_order_unit
+(
+    branch_id,
+    order_type,
+    deal_type
+);
+
+CREATE INDEX XIE4bond_order_unit ON bond_order_unit
+(
+    branch_id,
+    order_exec_status
+);
+
+CREATE INDEX XIE5bond_order_unit ON bond_order_unit
+(
+    branch_id,
+    biz_date
+);
+
+CREATE INDEX XIE6bond_order_unit ON bond_order_unit
+(
+    branch_id,
+    currency_code
+);
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( PRIMARY KEY (order_unit_id) ) ;
+
+
+CREATE TABLE bond_product (
+       product_id           NUMBER(18) NOT NULL,
+       institution_code     VARCHAR2(20) NOT NULL,
+       product_code         VARCHAR2(10) NOT NULL,
+       product_issue_code   VARCHAR2(10) NOT NULL,
+       bond_type            NUMBER(6) NOT NULL,
+       host_product_code    VARCHAR2(10) NOT NULL,
+       host_product_issue_code VARCHAR2(10) NOT NULL,
+       issue_date           DATE NOT NULL,
+       issue_price          DECIMAL(18,6) NOT NULL,
+       issue_amount         DECIMAL(18,6) NULL,
+       par_value            DECIMAL(18,6) NOT NULL,
+       maturity_date        DATE NOT NULL,
+       redemption_price     DECIMAL(18,6) NOT NULL,
+       coupon_type          NUMBER(6) NOT NULL,
+       coupon               DECIMAL(18,6) NOT NULL,
+       yearly_interest_payments NUMBER(8) DEFAULT 0 NOT NULL,
+       interest_payment_day_1st VARCHAR2(4) NULL,
+       interest_payment_day_2nd VARCHAR2(4) NULL,
+       first_interest_payment_day DATE NULL,
+       interest_payment_day DATE NULL,
+       interest_payment_day2 DATE NULL,
+       interest_payment_day3 DATE NULL,
+       interest_payment_day4 DATE NULL,
+       host_recruit_start_date DATE NULL,
+       host_recruit_end_date DATE NULL,
+       trade_handle_div     VARCHAR2(1) NOT NULL,
+       trade_start_date     DATE NULL,
+       trade_end_date       DATE NULL,
+       recruit_start_date   DATE NULL,
+       recruit_end_date     DATE NULL,
+       trade_type           VARCHAR2(1) NULL,
+       product_name         VARCHAR2(64) NULL,
+       buy_price            DECIMAL(18,6) NULL,
+       sell_price           DECIMAL(18,6) NULL,
+       trade_unit           DECIMAL(18,6) NOT NULL,
+       min_face_amount      DECIMAL(18,6) NOT NULL,
+       max_face_amount      DECIMAL(18,6) NULL,
+       cal_linked_market_code  VARCHAR2(2) NULL,
+       buy_delivery_date_shiftdays NUMBER(1) NULL,
+       sell_delivery_date_shiftdays NUMBER(1) NULL,
+       auto_exec_div        VARCHAR2(1) NOT NULL,
+       auto_exec_amount     DECIMAL(18,6) NULL,
+       auto_exec_limit      DECIMAL(18,6) NULL,
+       custodian_code       VARCHAR2(2) NULL,
+       host_product_name_1  VARCHAR2(50) NULL,
+       host_product_name_2  VARCHAR2(50) NULL,
+       host_short_product_name VARCHAR2(30) NULL,
+       isin_code            VARCHAR2(12) NULL,
+       bond_categ_code      VARCHAR2(6) NULL,
+       currency_code        VARCHAR2(3) NULL,
+       issue_market_code    VARCHAR2(1) NULL,
+       issue_association_code VARCHAR2(1) NULL,
+       accrued_interest_calc_type VARCHAR2(2) NULL,
+       accrued_interest_start_day DATE NULL,
+       special_payment_div  VARCHAR2(1) NULL,
+       floating_interest_period_div VARCHAR2(1) NULL,
+       floating_interest_period VARCHAR2(2) NULL,
+       floating_interest_type VARCHAR2(2) NULL,
+       floating_interest_spread DECIMAL(18,6) NULL,
+       floating_min_coupon  DECIMAL(18,6) NULL,
+       tax_free_div         VARCHAR2(1) NULL,
+       s_and_p              VARCHAR2(10) NULL,
+       moodys               VARCHAR2(10) NULL,
+       cusip                VARCHAR2(10) NULL,
+       buying_fx_rate       DECIMAL(18,6) NULL,
+       trading_time_check_div VARCHAR2(1) NULL,
+       mediator_commission_rate DECIMAL(18,6) NULL,
+       last_updater         VARCHAR2(20) NULL,
+       admin_last_updated_timestamp DATE NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL,
+       recruit_invitation_div VARCHAR2(2)  NULL,
+       recruit_accept_div     VARCHAR2(2)  NULL,
+       redemption_term       NUMBER(3) NULL,
+       min_issue_coupon_type  VARCHAR2(10) NULL,
+       delivery_date          DATE  NULL,
+       prospectus_check_div   VARCHAR2(1)  NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_product ON bond_product
+(
+       product_id                     
+);
+
+CREATE UNIQUE INDEX XAK1bond_product ON bond_product
+(
+       institution_code               ,
+       product_code                   ,
+       product_issue_code             
+);
+
+CREATE INDEX XIE1bond_product ON bond_product
+(
+    institution_code,
+    bond_type
+);
+
+CREATE INDEX XIE2bond_product ON bond_product
+(
+    institution_code,
+    trade_handle_div,
+    trade_type
+);
+
+CREATE INDEX XIE3bond_product ON bond_product
+(
+    institution_code,
+    currency_code
+);
+
+
+ALTER TABLE bond_product
+       ADD  ( PRIMARY KEY (product_id) ) ;
+
+
+CREATE TABLE bond_traded_product (
+       traded_product_id    NUMBER(18) NOT NULL,
+       valid_for_biz_date   VARCHAR2(8) NULL,
+       institution_code     VARCHAR2(20) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       market_id            NUMBER(18) NOT NULL,
+       min_par_value        DECIMAL(18,6) NOT NULL,
+       weekly_order_allowed_flag NUMBER(6) NOT NULL,
+       last_closing_price   DECIMAL(18,6) NULL,
+       stop_high_price      DECIMAL(18,6) NULL,
+       stop_low_price       DECIMAL(18,6) NULL,
+       last_updater         VARCHAR2(20) NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_traded_product ON bond_traded_product
+(
+       traded_product_id              
+);
+
+CREATE UNIQUE INDEX XAK1bond_traded_product ON bond_traded_product
+(
+       product_id                     ,
+       market_id                      
+);
+
+
+ALTER TABLE bond_traded_product
+       ADD  ( PRIMARY KEY (traded_product_id) ) ;
+
+
+CREATE TABLE bond_traded_product_updq (
+       traded_product_id    NUMBER(18) NOT NULL,
+       valid_for_biz_date   VARCHAR2(8) NOT NULL,
+       institution_code     VARCHAR2(20) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       market_id            NUMBER(18) NOT NULL,
+       min_par_value        DECIMAL(18,6) NOT NULL,
+       weekly_order_allowed_flag NUMBER(6) NOT NULL,
+       last_closing_price   DECIMAL(18,6) NULL,
+       stop_high_price      DECIMAL(18,6) NULL,
+       stop_low_price       DECIMAL(18,6) NULL,
+       last_updater         VARCHAR2(20) NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKbond_traded_product_updq ON bond_traded_product_updq
+(
+       traded_product_id              ,
+       valid_for_biz_date             
+);
+
+CREATE UNIQUE INDEX XAK1bond_traded_product_updq ON bond_traded_product_updq
+(
+       product_id                     ,
+       market_id                      ,
+       valid_for_biz_date             
+);
+
+
+ALTER TABLE bond_traded_product_updq
+       ADD  ( PRIMARY KEY (traded_product_id, valid_for_biz_date) ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (asset_id)
+                             REFERENCES asset ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (order_execution_id)
+                             REFERENCES bond_order_execution ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES bond_order_unit ) ;
+
+
+ALTER TABLE bond_fin_transaction
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES bond_order ) ;
+
+
+ALTER TABLE bond_order
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE bond_order
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES bond_order_unit ) ;
+
+
+ALTER TABLE bond_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES bond_order ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES bond_order_unit ) ;
+
+
+ALTER TABLE bond_order_execution
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES bond_order ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE bond_order_unit
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES bond_order ) ;
+
+
+ALTER TABLE bond_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE bond_traded_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+
+ALTER TABLE bond_traded_product
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE bond_traded_product
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE bond_traded_product_updq
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE bond_traded_product_updq
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE bond_traded_product_updq
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES bond_product ) ;
+
+@

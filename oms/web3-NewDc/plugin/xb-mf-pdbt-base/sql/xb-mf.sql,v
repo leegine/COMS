@@ -1,0 +1,685 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.07.59;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	1444d904fd25c1f;
+filename	xb-mf.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--1. 投信取引銘柄マスタテーブル
+
+CREATE TABLE mutual_fund_traded_product (
+       traded_product_id             NUMBER(18)                                 NOT NULL,
+       valid_for_biz_date            VARCHAR2(8)                                NULL,
+       institution_code              VARCHAR2(3)                                NOT NULL,
+       order_close_time              VARCHAR2(6)                                NULL,
+       product_id                    NUMBER(18)                                 NOT NULL,
+       market_id                     NUMBER(18)                                 NOT NULL,
+       last_closing_price            DECIMAL(18,6)                              NULL,
+       buy_possible_div              VARCHAR2(1)                                NULL,
+       sell_possible_div             VARCHAR2(1)                                NULL,
+       swt_possible_div              VARCHAR2(1)                                NULL,
+       exec_date_shiftdays           NUMBER(2)                                  NULL,
+       buy_undelivering_term         NUMBER(2)        DEFAULT  4                NULL,
+       sell_undelivering_term        NUMBER(2)        DEFAULT  4                NULL,
+	   scram_biz_date                DATE                                       NULL,
+       last_updater                  VARCHAR2(20)                               NOT NULL,
+	   online_updated_timestamp      DATE                                       NOT NULL,
+       created_timestamp             DATE             DEFAULT  sysdate          NOT NULL,
+       last_updated_timestamp        DATE             DEFAULT  sysdate          NOT NULL,
+       recruit_possible_div          VARCHAR2(1)                                NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_traded_product ON mutual_fund_traded_product
+(
+       traded_product_id
+);
+
+CREATE UNIQUE INDEX XAK1mutual_fund_traded_product ON mutual_fund_traded_product
+(
+       product_id                     ,
+       market_id
+);
+
+--Primary Key
+
+ALTER TABLE mutual_fund_traded_product
+       ADD  ( PRIMARY KEY (traded_product_id) ) ;
+
+
+--2. 投信取引銘柄マスタ一時テーブル
+
+CREATE TABLE mf_traded_product_updq (
+       traded_product_id           NUMBER(18)                            NOT NULL,
+       valid_for_biz_date          VARCHAR2(8)                           NOT NULL,
+       institution_code            VARCHAR2(3)                           NOT NULL,
+       order_close_time            VARCHAR2(6)                           NULL,
+       product_id                  NUMBER(18)                            NOT NULL,
+       market_id                   NUMBER(18)                            NOT NULL,
+       last_closing_price          DECIMAL(18,6)                         NULL,
+       buy_possible_div            VARCHAR2(1)                           NULL,
+       sell_possible_div           VARCHAR2(1)                           NULL,
+       swt_possible_div            VARCHAR2(1)                           NULL,
+       exec_date_shiftdays         NUMBER(2)                             NULL,
+       buy_undelivering_term       NUMBER(2)        DEFAULT  4           NULL,
+       sell_undelivering_term      NUMBER(2)        DEFAULT  4           NULL,
+	   scram_biz_date              DATE                                  NULL,
+       last_updater                VARCHAR2(20)                          NOT NULL,
+	   online_updated_timestamp    DATE                                  NOT NULL,
+       created_timestamp           DATE             DEFAULT sysdate      NOT NULL,
+       last_updated_timestamp      DATE             DEFAULT sysdate      NOT NULL,
+       recruit_possible_div        VARCHAR2(1)                           NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmf_traded_product_updq ON mf_traded_product_updq
+(
+       traded_product_id              ,
+       valid_for_biz_date
+);
+
+CREATE UNIQUE INDEX XAK1mf_traded_product_updq ON mf_traded_product_updq
+(
+       product_id                     ,
+       market_id                      ,
+       valid_for_biz_date
+);
+
+--Primary Key
+
+ALTER TABLE mf_traded_product_updq
+       ADD  ( PRIMARY KEY (traded_product_id, valid_for_biz_date) ) ;
+
+--3. 投信銘柄マスタテーブル
+
+CREATE TABLE mutual_fund_product (
+       product_id                       NUMBER(18)            NOT NULL,
+       institution_code                 VARCHAR2(3)           NOT NULL,
+       product_code                     VARCHAR2(10)          NOT NULL,
+       product_issue_code               VARCHAR2(10)          NOT NULL,
+       fund_type                        NUMBER(6)             NOT NULL,
+       init_purchase_min_qty            NUMBER(10)            NOT NULL,
+       addtl_purchase_min_qty           NUMBER(10)            NOT NULL,
+       mutualassoc_product_code         VARCHAR2(8)           NULL,
+       system_handling_div              VARCHAR2(1)           NULL,
+       buy_limit_div                    VARCHAR2(1)           NULL,
+       standard_name                    VARCHAR2(64)          NULL,
+       eng_product_name                 VARCHAR2(64)          NULL,
+       setting_date                     DATE                  NULL,
+       redemption_date                  DATE                  NULL,
+       sell_ban_date                    DATE                  NULL,
+       swt_possible_group_id            NUMBER(6)             NULL,
+       category_code                    VARCHAR2(2)           NULL,
+       indication_ranking               NUMBER(3)             NULL,
+       buy_constant_value               DECIMAL(18,6)         NULL,
+       sell_constant_value              DECIMAL(18,6)         NULL,
+       reference_constant_value         DECIMAL(18,6)         NULL,
+       constant_value_app_date          DATE                  NULL,
+       currency_code                    VARCHAR2(2)           NULL,
+       constant_value_calc_unit         NUMBER(9)             NULL,
+       buy_settlement_div               VARCHAR2(1)           NULL,
+       sell_settlement_div              VARCHAR2(1)           NULL,
+       delivery_method                  VARCHAR2(1)           NULL,
+       buy_specity_div                  VARCHAR2(1)           NULL,
+       sell_specify_div                 VARCHAR2(1)           NULL,
+       swt_specify_div                  VARCHAR2(1)           NULL,
+       stock_type_bond_type             VARCHAR2(1)           NULL,
+       contract_institution_type        VARCHAR2(1)           NULL,
+       perference_money_div             VARCHAR2(1)           NULL,
+       input_unit                       VARCHAR2(1)           NULL,
+       new_buy_min_qty                  NUMBER(10)            NULL,
+       add_buy_min_qty                  NUMBER(10)            NULL,
+       sell_min_qty                     NUMBER(10)            NULL,
+       swt_min_qty                      NUMBER(10)            NULL,
+       new_buy_unit_qty                 NUMBER(10)            NULL,
+       add_buy_unit_qty                 NUMBER(10)            NULL,
+       sell_unit_qty                    NUMBER(10)            NULL,
+       swt_unit_qty                     NUMBER(10)            NULL,
+       new_buy_min_amt                  NUMBER(10)            NULL,
+       add_buy_min_amt                  NUMBER(10)            NULL,
+       sell_min_amt                     NUMBER(10)            NULL,
+       swt_min_amt                      NUMBER(10)            NULL,
+       new_buy_unit_amt                 NUMBER(10)            NULL,
+       add_buy_unit_amt                 NUMBER(10)            NULL,
+       sell_unit_amt                    NUMBER(10)            NULL,
+       swt_unit_amt                     NUMBER(10)            NULL,
+       buy_start_date                   DATE                  NULL,
+       buy_end_date                     DATE                  NULL,
+       sell_swt_start_date              DATE                  NULL,
+       sell_swt_end_date                DATE                  NULL,
+       buy_claim_start_date             DATE                  NULL,
+       buy_claim_end_date               DATE                  NULL,
+       last_updater                     VARCHAR2(20)          NOT NULL,
+       online_updated_timestamp         DATE                  NOT NULL,
+       created_timestamp                DATE                  NOT NULL,
+       last_updated_timestamp           DATE                  NOT NULL,
+       recruit_constant_value           DECIMAL(18,6)         NULL,
+       recruit_settlement_div           VARCHAR2(1)           NULL,
+       recruit_specity_div              VARCHAR2(1)           NULL,
+       recruit_min_qty                  NUMBER(10)            NULL,
+       recruit_unit_qty                 NUMBER(10)            NULL,
+       recruit_min_amt                  NUMBER(10)            NULL,
+       recruit_unit_amt                 NUMBER(10)            NULL,
+       recruit_start_date               DATE                  NULL,
+       recruit_end_date                 DATE                  NULL,
+       cal_price_div                    VARCHAR2(1)           NULL,
+       plowback_product_div             VARCHAR2(1)           NULL,
+       recruit_start_date_sonar         DATE                  NULL,
+       recruit_end_date_sonar           DATE                  NULL,
+       fixed_buy_possible_div           VARCHAR2(1)           NULL,
+       unit_type_product_div            VARCHAR2(1)           NULL,
+       frgn_new_buy_min_amt             NUMBER(10)            NULL,
+       frgn_add_buy_min_amt             NUMBER(10)            NULL,
+       frgn_sell_min_amt                NUMBER(10)            NULL,
+       frgn_new_buy_unit_amt            NUMBER(10)            NULL,
+       frgn_add_buy_unit_amt            NUMBER(10)            NULL,
+       frgn_sell_unit_amt               NUMBER(10)            NULL,
+       recruit_commission_div           VARCHAR2(1)           NULL,
+       open_close_div                   VARCHAR2(1)           NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_product ON mutual_fund_product
+(
+       product_id
+);
+
+CREATE UNIQUE INDEX XAK1mutual_fund_product ON mutual_fund_product
+(
+       institution_code               ,
+       product_code                   ,
+       product_issue_code
+);
+
+CREATE INDEX XIE1mutual_fund_product ON mutual_fund_product
+(
+       institution_code               ,
+       swt_possible_group_id
+);
+
+--Primary Key
+
+ALTER TABLE mutual_fund_product
+       ADD  ( PRIMARY KEY (product_id) ) ;
+
+
+CREATE TABLE mutual_fund_fin_transaction (
+       fin_transaction_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       fin_transaction_type NUMBER(6) NOT NULL,
+       fin_transaction_categ NUMBER(6) NOT NULL,
+       fin_transaction_timestamp DATE NOT NULL,
+       tax_type             NUMBER(6) NOT NULL,
+       delivery_date        DATE NOT NULL,
+       net_amount           DECIMAL(18,6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       price                DECIMAL(18,6) NULL,
+       quantity             DECIMAL(18,6) NOT NULL,
+       order_id             NUMBER(18) NULL,
+       order_unit_id        NUMBER(18) NULL,
+       order_execution_id   NUMBER(18) NULL,
+       commission_fee       DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       commission_fee_tax   DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       asset_id             NUMBER(18) NULL,
+       capital_gain         DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       capital_gain_tax     DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       transfered_asset_mng_fee DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_mng_fee_tax DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee_tax DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_book_value DECIMAL(18,6) NULL,
+       quantity_type        NUMBER(6) DEFAULT 1 NOT NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmutual_fund_fin_transaction ON mutual_fund_fin_transaction
+(
+       fin_transaction_id
+);
+
+CREATE INDEX XIE1mf_fin_transaction ON mutual_fund_fin_transaction
+(
+       account_id                     ,
+       sub_account_id
+);
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( PRIMARY KEY (fin_transaction_id) ) ;
+
+-------------------------------------------------------------------------------
+--注文
+-------------------------------------------------------------------------------
+
+--1. Table名: 投信注文テーブル（ヘッダ）
+
+CREATE TABLE mutual_fund_order (
+       order_id               NUMBER(18)           NOT NULL,
+       account_id             NUMBER(18)           NOT NULL,
+       sub_account_id         NUMBER(18)           NOT NULL,
+       product_type           NUMBER(6)            NULL,
+       created_timestamp      DATE                 NOT NULL,
+       last_updated_timestamp DATE                 NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_order ON mutual_fund_order
+(
+       order_id
+);
+
+CREATE INDEX XIE1mutual_fund_order ON mutual_fund_order
+(
+       account_id                     ,
+       sub_account_id
+);
+
+--PK
+
+ALTER TABLE mutual_fund_order
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+--2. Table名: 投信注文履歴テーブル
+
+CREATE TABLE mutual_fund_order_action (
+       order_action_id        NUMBER(18)                NOT NULL,
+       account_id             NUMBER(18)                NOT NULL,
+       sub_account_id         NUMBER(18)                NOT NULL,
+       order_id               NUMBER(18)                NOT NULL,
+       order_unit_id          NUMBER(18)                NOT NULL,
+       market_id              NUMBER(18)                NULL,
+       order_type             NUMBER(6)                 NOT NULL,
+       order_event_type       NUMBER(6)                 NOT NULL,
+       quantity               DECIMAL(18,6)             NOT NULL,
+       confirmed_quantity     DECIMAL(18,6)             NULL,
+       executed_quantity      DECIMAL(18,6)             NULL,
+       order_status           NUMBER(6)                 NOT NULL,
+       expiration_status      NUMBER(6)                 NOT NULL,
+       order_action_serial_no NUMBER(8)                 NOT NULL,
+       executed_price         DECIMAL(18,6)             NULL,
+       product_type           NUMBER(6)                 NULL,
+       product_id             NUMBER(18)                NOT NULL,
+       quantity_type          NUMBER(6)      DEFAULT 1  NOT NULL,
+       error_reason_code      VARCHAR2(4)               NULL,
+       created_timestamp      DATE                      NOT NULL,
+       last_updated_timestamp DATE                      NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_order_action ON mutual_fund_order_action
+(
+       order_action_id
+);
+
+CREATE INDEX XIE1mutual_fund_order_action ON mutual_fund_order_action
+(
+       account_id                     ,
+       sub_account_id
+);
+
+CREATE INDEX XIE2mutual_fund_order_action ON mutual_fund_order_action
+(
+       order_unit_id
+);
+
+--PK
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( PRIMARY KEY (order_action_id) ) ;
+
+
+--3. Table名: 投信注文単位テーブル
+
+CREATE TABLE mutual_fund_order_unit (
+       order_unit_id                  NUMBER(18)                    NOT NULL,
+       account_id                     NUMBER(18)                    NOT NULL,
+       sub_account_id                 NUMBER(18)                    NOT NULL,
+       branch_id                      NUMBER(18)                    NOT NULL,
+       trader_id                      NUMBER(18)                    NULL,
+       order_id                       NUMBER(18)                    NOT NULL,
+       order_type                     NUMBER(6)                     NOT NULL,
+       order_categ                    NUMBER(6)                     NOT NULL,
+       last_order_action_serial_no    NUMBER(8)        DEFAULT 0    NOT NULL,
+       product_type                   NUMBER(6)                     NOT NULL,
+       market_id                      NUMBER(18)                    NULL,
+       quantity                       DECIMAL(18,6)                 NOT NULL,
+       delivery_date                  DATE                          NOT NULL,
+       expiration_date                DATE                          NULL,
+       confirmed_quantity             DECIMAL(18,6)                 NULL,
+       executed_quantity              DECIMAL(18,6)                 NULL,
+       executed_amount                DECIMAL(18,6)                 NULL,
+       order_status                   NUMBER(6)        DEFAULT 1    NOT NULL,
+       order_open_status              NUMBER(6)        DEFAULT 1    NOT NULL,
+       expiration_status              NUMBER(6)                     NOT NULL,
+       tax_type                       NUMBER(6)                     NOT NULL,
+       biz_date                       VARCHAR2(8)                   NOT NULL,
+       product_id                     NUMBER(18)                    NOT NULL,
+       quantity_type                  NUMBER(6)        DEFAULT 1    NOT NULL,
+       order_chanel                   VARCHAR2(1)                   NULL,
+       received_date_time             DATE                          NULL,
+       sonar_trader_code              VARCHAR2(5)                   NULL,
+       order_request_number           VARCHAR2(9)                   NULL,
+       calc_constant_value            DECIMAL(18,6)                 NULL,
+       swt_calc_constant_value        DECIMAL(18,6)                 NULL,
+       constant_value_app_date        DATE                          NULL,
+       estimated_price                DECIMAL(18,6)                 NULL,
+       estimate_dealing_qty           DECIMAL(18,6)                 NULL,
+       swt_estimate_dealing_qty       DECIMAL(18,6)                 NULL,
+       swt_tax_type                   NUMBER(6)                     NULL,
+       swt_product_code               VARCHAR2(10)                  NULL,
+       payment_method                 VARCHAR2(1)                   NULL,
+       fund_type                      NUMBER(6)                     NULL,
+       fund_sell_div                  VARCHAR2(1)                   NULL,
+       exec_date                      DATE                          NULL,
+       exec_status                    VARCHAR2(1)                   NULL,
+       settlement_div                 VARCHAR2(1)                   NULL,
+       no_contract_commission_div     VARCHAR2(1)                   NULL,
+       request_div                    VARCHAR2(1)                   NULL,
+       order_root_div                 VARCHAR2(1)                   NULL,
+       error_reason_code              VARCHAR2(4)                   NULL,
+       created_timestamp              DATE                          NOT NULL,
+       last_updated_timestamp         DATE                          NOT NULL,
+       payment_date                   DATE                          NULL,
+       withholding_tax_restriction    DECIMAL(18,6)                 NULL,
+       payment_order_req_number       VARCHAR2(9)                   NULL,
+       cpu_no                         VARCHAR2(5)                   NULL,
+       swt_exec_date                  DATE            DEFAULT NULL  NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_order_unit ON mutual_fund_order_unit
+(
+       order_unit_id
+);
+
+CREATE INDEX XIE1mutual_fund_order_unit ON mutual_fund_order_unit
+(
+       account_id                     ,
+       sub_account_id                 ,
+       order_open_status
+);
+
+CREATE INDEX XIE2mutual_fund_order_unit ON mutual_fund_order_unit
+(
+       order_id
+);
+
+--PK
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( PRIMARY KEY (order_unit_id) ) ;
+
+
+CREATE TABLE mutual_fund_order_execution (
+       order_execution_id   NUMBER(18) NOT NULL,
+       account_id           NUMBER(18) NOT NULL,
+       sub_account_id       NUMBER(18) NOT NULL,
+       branch_id            NUMBER(18) NOT NULL,
+       trader_id            NUMBER(18) NULL,
+       order_id             NUMBER(18) NOT NULL,
+       order_unit_id        NUMBER(18) NOT NULL,
+       order_type           NUMBER(6) NOT NULL,
+       product_type         NUMBER(6) NOT NULL,
+       market_id            NUMBER(18) NULL,
+       delivery_date        DATE NOT NULL,
+       exec_price           DECIMAL(18,6) NULL,
+       exec_quantity        DECIMAL(18,6) NOT NULL,
+       exec_timestamp       DATE NOT NULL,
+       delete_flag          NUMBER(1) DEFAULT 0 NOT NULL,
+       biz_date             VARCHAR2(8) NOT NULL,
+       quantity_type        NUMBER(6) DEFAULT 1 NOT NULL,
+       product_id           NUMBER(18) NOT NULL,
+       created_timestamp    DATE NOT NULL,
+       last_updated_timestamp DATE NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmutual_fund_order_execution ON mutual_fund_order_execution
+(
+       order_execution_id
+);
+
+CREATE INDEX XIE1mf_fund_order_execution ON mutual_fund_order_execution
+(
+       account_id                     ,
+       sub_account_id
+);
+
+CREATE INDEX XIE2mf_order_execution ON mutual_fund_order_execution
+(
+       order_unit_id
+);
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( PRIMARY KEY (order_execution_id) ) ;
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--1. 銘柄関連.投信取引銘柄マスタテーブル
+
+ALTER TABLE mutual_fund_traded_product
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE mutual_fund_traded_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE mutual_fund_traded_product
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+--2. 銘柄関連.投信取引銘柄マスタ一時テーブル
+
+ALTER TABLE mf_traded_product_updq
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE mf_traded_product_updq
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE mf_traded_product_updq
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES mutual_fund_product ) ;
+
+--3. 銘柄関連.投信銘柄マスタテーブル
+
+ALTER TABLE mutual_fund_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES mutual_fund_product ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (asset_id)
+                             REFERENCES asset ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (order_execution_id)
+                             REFERENCES mutual_fund_order_execution ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES mutual_fund_order_unit ) ;
+
+
+ALTER TABLE mutual_fund_fin_transaction
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES mutual_fund_order ) ;
+
+
+ALTER TABLE mutual_fund_order
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES mutual_fund_product ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES mutual_fund_order_unit ) ;
+
+
+ALTER TABLE mutual_fund_order_execution
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES mutual_fund_order ) ;
+
+
+--1. 注文.投信注文テーブル（ヘッダ）
+
+ALTER TABLE mutual_fund_order
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+--2. 注文.投信注文履歴テーブル
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES mutual_fund_product ) ;
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES mutual_fund_order ) ;
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES mutual_fund_order_unit ) ;
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE mutual_fund_order_action
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+--3. 注文.投信注文単位テーブル
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES mutual_fund_product ) ;
+
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE mutual_fund_order_unit
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES mutual_fund_order ) ;
+@

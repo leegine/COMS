@@ -1,0 +1,114 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.02.04;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5e44d904e62576d;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.xbbd.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/xb-bd.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=BondAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/xbbd_account_triggers.sql
+
+enums=\
+  bond_order_unit.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  bond_order_unit.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  bond_order_unit.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  bond_order_unit.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  bond_order_unit.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  bond_order_unit.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  bond_order_action.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  bond_order_action.order_event_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderEventTypeEnum \
+  bond_order_action.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  bond_order_action.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  bond_fin_transaction.fin_transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  bond_fin_transaction.fin_transaction_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg \
+  bond_fin_transaction.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  bond_order_execution.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  bond_order_execution.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  bond_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  bond_fin_transaction.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  bond_order_execution.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  bond_order_unit.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  bond_order.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  bond_order_action.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+  bond_order_unit.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.xbbd.BondExecutionConditionType \
+  bond_order_action.execution_condition_type:class=com.fitechlabs.xtrade.plugin.tc.xbbd.BondExecutionConditionType \
+  bond_order_unit.bond_type:class=com.fitechlabs.xtrade.plugin.tc.xbbd.BondTypeEnum \
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  bond_order:inv=?.account_id \
+  bond_order_unit:inv=?.account_id \
+  bond_order_action:inv=?.account_id \
+  bond_order_execution:inv=?.account_id \
+  bond_fin_transaction:inv=?.account_id \
+
+
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS
+@

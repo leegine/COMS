@@ -1,0 +1,87 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.51;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	6004d80209d0226;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.feq.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3feq.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3FeqMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3feq_master_triggers.sql
+
+enums=\
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  feq_tick_values_mst:inv=0 \
+  feq_limit_price_range_mst:inv=0 \
+  feq_orderexecution_end:inv=0 \
+  foreign_cost:inv=0 \
+  special_product_foreign_cost:inv=0 \
+  
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* 
+
+  
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS@

@@ -1,0 +1,126 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.39.48;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8704d7eed731715;
+filename	web3-eqtypeadmin-view.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE OR REPLACE VIEW admin_eq_forced_settle_order
+AS
+SELECT
+ O.order_unit_id,
+ O.account_id,
+ O.sub_account_id,
+ O.branch_id,
+ O.trader_id,
+ O.order_id,
+ O.order_type,
+ O.order_categ,
+ O.market_id,
+ O.quantity,
+ O.limit_price,
+ O.delivery_date,
+ O.order_status,
+ O.order_open_status,
+ O.expiration_status,
+ O.biz_date,
+ O.product_id,
+ O.received_date_time,
+ O.error_reason_code,
+ O.created_timestamp,
+ O.last_updated_timestamp,
+ O.forced_settle_reason_type,
+ O.approve_status_type,
+ O.approver_code,
+ O.approve_timestamp,
+ O.margin_maintenance_rate,
+ O.additional_margin_date,
+ O.additional_margin_accrued_days,
+ O.forced_expire_type,
+ C.contract_id,
+ C.original_quantity AS org_contract_quantity,
+ C.quantity AS contract_quantity,
+ C.original_contract_price,
+ C.contract_price,
+ C.contract_type,
+ C.open_date,
+ C.close_date,
+ C.tax_type,
+ C.repayment_type,
+ C.repayment_num,
+ TRUNC(C.original_quantity * C.original_contract_price, 0) AS contract_amount,
+ SUBSTR(C.account_id,9,6) AS account_code,
+ SUBSTR(C.product_id,5,5) AS product_code
+FROM eqtype_order_unit O, eqtype_closing_contract_spec S, eqtype_contract C
+WHERE
+ O.order_unit_id = S.order_unit_id
+ AND S.contract_id = C.contract_id
+ AND O.forced_settle_reason_type is not null
+UNION
+SELECT
+ NULL as order_unit_id,
+ account_id,
+ sub_account_id,
+ branch_id,
+ NULL as trader_id,
+ order_id,
+ NULL as order_type,
+ NULL as order_categ,
+ market_id,
+ quantity,
+ limit_price,
+ delivery_date,
+ NULL as order_status,
+ NULL as order_open_status,
+ NULL as expiration_status,
+ biz_date,
+ product_id,
+ received_date_time,
+ error_reason_code,
+ created_timestamp,
+ last_updated_timestamp,
+ forced_settle_reason_type,
+ approve_status_type,
+ approver_code,
+ approve_timestamp,
+ margin_maintenance_rate,
+ additional_margin_date,
+ additional_margin_accrued_days,
+ NULL as forced_expire_type,
+ contract_id,
+ org_contract_quantity AS org_contract_quantity,
+ contract_quantity AS contract_quantity,
+ original_contract_price,
+ contract_price,
+ contract_type,
+ open_date,
+ close_date,
+ tax_type,
+ repayment_type,
+ repayment_num,
+ TRUNC(org_contract_quantity * original_contract_price, 0) AS contract_amount,
+ account_code,
+ product_code
+FROM forced_settle_order_inq
+;
+@

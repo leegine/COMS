@@ -1,0 +1,43 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.01.29.09;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7004d9135dc4b55;
+filename	web3syncclt.sql.honban;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE sync_proc_status 
+(
+    service_name         	VARCHAR2(100) not null,
+    ap_host_name         	VARCHAR2(100) not null,
+    status                   	VARCHAR2(1) DEFAULT '0' not null,
+    created_timestamp          DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp    DATE DEFAULT sysdate NOT NULL
+)TABLESPACE WBRK3_REF_DATA01 PCTFREE 20 PCTUSED 80 STORAGE(FREELISTS 8 FREELIST GROUPS 3);
+
+CREATE UNIQUE INDEX XPKsync_proc_status ON sync_proc_status
+(
+       service_name
+)TABLESPACE WBRK3_REF_INDEX01 PCTFREE 10 STORAGE(FREELISTS 8 FREELIST GROUPS 3);
+
+ALTER TABLE sync_proc_status
+    add (PRIMARY KEY (service_name));@

@@ -1,0 +1,104 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.14.09.43.36;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	7a84d7de2372e68;
+filename	package.html;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<html>
+<head></head>
+<body>
+  <p> 時価サービスを構成する主要なインターフェースとクラスが定義されている。</p>
+  <p>
+      時価サービスには、標準実装とプロトタイプ用実装の2つの実装が用意されている。
+      それぞれの実装は別プラグインとなっているので、
+      動作する環境にあわせて必要な方をプラグインする必要がある。
+  </p>
+  <p>
+      標準実装プラグインクラス：
+      <a href="./stdimpls/WEB3QuotePlugin.html">webbroker3.quoteadapter.stdimpls.WEB3QuotePlugin</a><br/>
+      プロトタイプ用実装プラグインクラス：
+      <a href="./prototype/WEB3ProtoQuotePlugin.html">webbroker3.quoteadapter.stdimpls.WEB3ProtoQuotePlugin</a><br/>
+  </p>
+  <p>
+      以下に、業務アプリケーションからの、時価サービスの使用法@を示す。
+  </p>
+  <p>
+      株式の時価情報を取得する場合は、
+      <code><pre>
+      EqTypeTradedProduct tradedProduct = // 時価を取得する株式取引銘柄;
+      RealType realType = // 時価を取得するリアル区分;
+      TradingModule tm = GtlUtils.getTradingModule(ProductTypeEnum.EQUITY);
+      WEB3QuoteDataSupplierService supplier =
+          (WEB3QuoteDataSupplierService) tm.getQuoteDataSupplierService();
+      WEB3EqTypeQuoteData quoteData = 
+          supplier.getEqTypeQuoteData(tradedProduct, realType);
+      </pre></code>
+      または、
+      <code><pre>
+      EqTypeTradedProduct tradedProduct = // 時価を取得する株式取引銘柄;
+      TradingModule tm = GtlUtils.getTradingModule(ProductTypeEnum.EQUITY);
+      WEB3QuoteDataSupplierService supplier =
+          (WEB3QuoteDataSupplierService) tm.getQuoteDataSupplierService();
+      WEB3EqTypeQuoteData quoteData = 
+          (WEB3EqTypeQuoteData) supplier.getEqTypeQuoteData(tradedProduct);
+      </pre></code>
+      とする。引数にリアル区分を指定しない場合は、RealType.REALの時価情報を取得する。
+  </p>
+  <p>
+      先物・オプションの時価情報を取得する場合は、
+      <code><pre>
+      IfoTradedProduct tradedProduct = // 時価を取得する先物・オプションの取引銘柄;
+      RealType realType = // 時価を取得するリアル区分;
+      TradingModule tm = GtlUtils.getTradingModule(ProductTypeEnum.IFO);
+      WEB3QuoteDataSupplierService supplier =
+          (WEB3QuoteDataSupplierService) tm.getQuoteDataSupplierService();
+      WEB3IfoQuoteData quoteData = 
+          supplier.getIfoQuoteData(tradedProduct, realType);
+      </pre></code>
+      または、
+      <code><pre>
+      IfoTradedProduct tradedProduct = // 時価を取得する先物・オプションの取引銘柄;
+      TradingModule tm = GtlUtils.getTradingModule(ProductTypeEnum.IFO);
+      WEB3QuoteDataSupplierService supplier =
+          (WEB3QuoteDataSupplierService) tm.getQuoteDataSupplierService();
+      WEB3IfoQuoteData quoteData = 
+          (WEB3IfoQuoteData) supplier.getIfoQuoteData(tradedProduct);
+      </pre></code>
+      とする。引数にリアル区分を指定しない場合は、RealType.REALの時価情報を取得する。
+  </p>
+  <p>
+      各種指数の時価情報を取得する場合は、
+      <code><pre>
+      IndexType indexType = // 時価を取得する指数種類;
+      RealType realType = // 時価を取得するリアル区分;
+      TradingModule tm = GtlUtils.getTradingModule(ProductTypeEnum.EQTYPE);
+      WEB3QuoteDataSupplierService supplier =
+          (WEB3QuoteDataSupplierService) tm.getQuoteDataSupplierService();
+      WEB3IndexQuoteData quoteData = 
+          supplier.getIndexQuoteData(indexType, realType);
+      </pre></code>
+      とする。
+  </p>
+</body>
+</html>@

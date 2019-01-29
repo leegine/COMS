@@ -1,0 +1,44 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.14.09.41.48;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	7a84d7de2372e68;
+filename	package.html;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<html>
+<head></head>
+<body>
+
+  <p> 時価サービス・プラグインの標準実装クラスが定義されている。</p>
+  <p>
+      標準実装では、時価サーバーから受信した時価情報を、
+      <code>QuoteDataSupplierService</code>インターフェースを、
+      経由して、業務アプリケーションを提供する。
+      <br/>
+      時価サービス・プラグインの標準実装を使用するには、
+      <code>WEB3QuotePlugin</code>をプラグインする必要がある。
+  </p>
+
+</body>
+</html>
+@

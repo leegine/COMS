@@ -1,0 +1,669 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.04.15;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5284d904f03597b;
+filename	xb-feq.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+CREATE TABLE feq_fin_transaction (
+       fin_transaction_id              NUMBER(18)              NOT NULL,
+       account_id                      NUMBER(18)              NOT NULL,
+       sub_account_id                  NUMBER(18)              NOT NULL,
+       product_id                      NUMBER(18)              NOT NULL,
+       fin_transaction_type            NUMBER(6)               NOT NULL,
+       fin_transaction_categ           NUMBER(6)               NOT NULL,
+       fin_transaction_timestamp       DATE                    NOT NULL,
+       tax_type                        NUMBER(6)               NOT NULL,
+       settle_div                      VARCHAR2(1)             NULL,
+       biz_date                        VARCHAR2(8)             NOT NULL,
+       delivery_date                   DATE                    NOT NULL,
+       currency_code                   VARCHAR2(8)             NOT NULL,
+       net_amount                      DECIMAL(18,6)           NOT NULL,
+       net_amount_fc                   DECIMAL(18,6)           NOT NULL,
+       fx_rate                         DECIMAL(18,6)           NOT NULL,
+       product_type                    NUMBER(6)               NOT NULL,
+       market_id                       NUMBER(18)              NULL,
+       price                           DECIMAL(18,6)           NULL,
+       quantity                        DECIMAL(18,6)           NOT NULL,
+       order_id                        NUMBER(18)              NULL,
+       order_unit_id                   NUMBER(18)              NULL,
+       order_execution_id              NUMBER(18)              NULL,
+       commission_fee                  DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       commission_fee_tax              DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       reg_no                          VARCHAR2(3)             NULL,
+       charge_ratio                    DECIMAL(18,6)           NULL,
+       balance_amount                  DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       commission_fee_fc               DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       commission_fee_tax_fc           DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       balance_amount_fc               DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       foreign_commission_fee          DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       foreign_tax                     DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       foreign_fee_ext1                DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       foreign_fee_ext2                DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       asset_id                        NUMBER(18)              NULL,
+       capital_gain                    DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       capital_gain_tax                DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       capital_gain_fc                 DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       capital_gain_tax_fc             DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       transfered_asset_mng_fee        DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_mng_fee_tax    DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee      DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_setup_fee_tax  DECIMAL(18,6) DEFAULT 0 NULL,
+       transfered_asset_book_value     DECIMAL(18,6)           NULL,
+       delete_flag                     NUMBER(1)     DEFAULT 0 NOT NULL,
+       order_exec_route_div            VARCHAR2(1)             NULL,
+       last_updater                    VARCHAR2(20)            NULL,
+       created_timestamp               DATE DEFAULT sysdate    NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_fin_transaction ON feq_fin_transaction
+(
+       fin_transaction_id             
+);
+
+CREATE INDEX XIE1feq_fin_transaction ON feq_fin_transaction
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( PRIMARY KEY (fin_transaction_id) ) ;
+
+
+CREATE TABLE feq_order (
+       order_id                        NUMBER(18)           NOT NULL,
+       account_id                      NUMBER(18)           NOT NULL,
+       sub_account_id                  NUMBER(18)           NOT NULL,
+       product_type                    NUMBER(6)            NOT NULL,
+       last_updater                    VARCHAR2(20)         NULL,
+       created_timestamp               DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_order ON feq_order
+(
+       order_id                       
+);
+
+CREATE INDEX XIE1feq_order ON feq_order
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+
+ALTER TABLE feq_order
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+
+CREATE TABLE feq_order_action (
+       order_action_id                 NUMBER(18)           NOT NULL,
+       account_id                      NUMBER(18)           NOT NULL,
+       sub_account_id                  NUMBER(18)           NOT NULL,
+       order_id                        NUMBER(18)           NOT NULL,
+       order_unit_id                   NUMBER(18)           NOT NULL,
+       market_id                       NUMBER(18)           NULL,
+       order_type                      NUMBER(6)            NOT NULL,
+       order_event_type                NUMBER(6)            NOT NULL,
+       price                           DECIMAL(18,6)        NULL,
+       execution_condition_type        NUMBER(6)            NULL,
+       order_condition_type            VARCHAR2(1)          NULL,
+       order_cond_operator	           VARCHAR2(1)          NULL,
+       stop_order_price                DECIMAL(18,6)        NULL,
+       w_limit_price                   DECIMAL(18,6)        NULL,
+       expiration_date                 DATE                 NULL,
+       quantity                        DECIMAL(18,6)        NOT NULL,
+       confirmed_price                 DECIMAL(18,6)        NULL,
+       confirmed_quantity              DECIMAL(18,6)        NULL,
+       executed_quantity               DECIMAL(18,6)        NULL,
+       order_status                    NUMBER(6)            NOT NULL,
+       expiration_status               NUMBER(6)            NOT NULL,
+       order_action_serial_no          NUMBER(8)            NOT NULL,
+       executed_price                  DECIMAL(18,6)        NULL,
+       exec_timestamp                  DATE                 NULL,
+       product_id                      NUMBER(18)           NOT NULL,
+       estimated_price                 DECIMAL(18,6)        NULL,
+       f_estimated_price               DECIMAL(18,6)        NULL,
+       modify_cancel_type              VARCHAR2(1)          NULL,
+       order_root_div                  VARCHAR2(1)          NULL,
+       confirmed_order_price           DECIMAL(18,6)        NULL,
+       confirmed_estimated_price       DECIMAL(18,6)        NULL,
+       confirmed_f_estimated_price     DECIMAL(18,6)        NULL,
+       confirmed_exec_condition_type   NUMBER(6)            NULL,
+       error_reason_code               VARCHAR2(4)          NULL,
+       last_updater                    VARCHAR2(20)         NULL,
+       created_timestamp               DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_order_action ON feq_order_action
+(
+       order_action_id                
+);
+
+CREATE INDEX XIE1feq_order_action ON feq_order_action
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2feq_order_action ON feq_order_action
+(
+       order_unit_id                  
+);
+
+CREATE INDEX XIE3feq_order_action ON feq_order_action
+(
+         order_id,
+         order_action_serial_no                  
+);
+
+ALTER TABLE feq_order_action
+       ADD  ( PRIMARY KEY (order_action_id) ) ;
+
+
+CREATE TABLE feq_order_execution (
+       order_execution_id              NUMBER(18)           NOT NULL,
+       account_id                      NUMBER(18)           NOT NULL,
+       sub_account_id                  NUMBER(18)           NOT NULL,
+       branch_id                       NUMBER(18)           NOT NULL,
+       trader_id                       NUMBER(18)           NULL,
+       order_id                        NUMBER(18)           NOT NULL,
+       order_unit_id                   NUMBER(18)           NOT NULL,
+       order_type                      NUMBER(6)            NOT NULL,
+       product_type                    NUMBER(6)            NOT NULL,
+       market_id                       NUMBER(18)           NULL,
+       delivery_date                   DATE                 NULL,
+       f_delivery_date                 DATE                 NULL,
+       exec_serial_no                  NUMBER(8)            NOT NULL,
+       exec_price                      DECIMAL(18,6)        NULL,
+       fx_rate                         DECIMAL(18,6)        NOT NULL,
+       exec_quantity                   DECIMAL(18,6)        NOT NULL,
+       exec_timestamp                  DATE                 NOT NULL,
+       delete_flag                     NUMBER(1) DEFAULT 0  NOT NULL,
+       biz_date                        VARCHAR2(8)          NOT NULL,
+       product_id                      NUMBER(18)           NOT NULL,
+       settle_div                      VARCHAR2(1)          NULL,
+       order_request_number            VARCHAR2(9)          NULL,
+       order_emp_code                  VARCHAR2(7)          NULL,
+       order_exec_route_div            VARCHAR2(1)          NULL,
+       last_updater                    VARCHAR2(20)         NULL,
+       created_timestamp               DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate NOT NULL,
+       foreign_trade_price             DECIMAL(18,6)        NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_order_execution ON feq_order_execution
+(
+       order_execution_id             
+);
+
+CREATE INDEX XIE1feq_order_execution ON feq_order_execution
+(
+       account_id                     ,
+       sub_account_id                 
+);
+
+CREATE INDEX XIE2feq_order_execution ON feq_order_execution
+(
+       order_unit_id                  
+);
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( PRIMARY KEY (order_execution_id) ) ;
+
+
+CREATE TABLE feq_order_unit (
+       order_unit_id                   NUMBER(18)           NOT NULL,
+       institution_code                VARCHAR2(3)          NOT NULL,
+       account_id                      NUMBER(18)           NOT NULL,
+       sub_account_id                  NUMBER(18)           NOT NULL,
+       branch_id                       NUMBER(18)           NOT NULL,
+       trader_id                       NUMBER(18)           NULL,
+       order_id                        NUMBER(18)           NOT NULL,
+       order_type                      NUMBER(6)            NOT NULL,
+       order_categ                     NUMBER(6)            NOT NULL,
+       last_order_action_serial_no     NUMBER(8) DEFAULT 0  NOT NULL,
+       last_execution_serial_no        NUMBER(8) DEFAULT 0  NOT NULL,
+       product_type                    NUMBER(6)            NOT NULL,
+       market_id                       NUMBER(18)           NULL,
+       quantity                        DECIMAL(18,6)        NOT NULL,
+       limit_price                     DECIMAL(18,6)        NULL,
+       execution_condition_type        NUMBER(6)            NULL,
+       order_condition_type            VARCHAR2(1)          NULL,
+       order_cond_operator             VARCHAR2(1)          NULL,
+       stop_order_price                DECIMAL(18,6)        NULL,
+       w_limit_price                   DECIMAL(18,6)        NULL,
+       settle_div                      VARCHAR2(1)          NULL,
+       delivery_date                   DATE                 NOT NULL,
+       expiration_date                 DATE                 NULL,
+       confirmed_quantity              DECIMAL(18,6)        NULL,
+       confirmed_price                 DECIMAL(18,6)        NULL,
+       executed_quantity               DECIMAL(18,6)        NULL,
+       executed_amount                 DECIMAL(18,6)        NULL,
+       executed_amount_yen             DECIMAL(18,6)        NULL,
+       order_status                    NUMBER(6) DEFAULT 1  NOT NULL,
+       order_open_status               NUMBER(6) DEFAULT 1  NOT NULL,
+       expiration_status               NUMBER(6)            NOT NULL,
+       tax_type                        NUMBER(6)            NOT NULL,
+       biz_date                        VARCHAR2(8)          NOT NULL,
+       product_id                      NUMBER(18)           NOT NULL,
+       currency_code                   VARCHAR2(8)          NOT NULL,
+       order_chanel                    VARCHAR2(1)          NULL,
+       received_date_time              DATE                 NULL,
+       voucher_no                      VARCHAR2(4)          NULL,
+       comm_tbl_no                     VARCHAR2(2)          NULL,
+       comm_tbl_sub_no                 VARCHAR2(1)          NULL,
+       sonar_trader_code               VARCHAR2(5)          NULL,
+       price                           DECIMAL(18,6)        NULL,
+       order_request_number            VARCHAR2(9)          NULL,
+       estimated_price                 DECIMAL(18,6)        NULL,
+       f_estimated_price               DECIMAL(18,6)        NULL,
+       sonar_traded_code               VARCHAR2(2)          NULL,
+       sonar_market_code               VARCHAR2(1)          NULL,
+       comm_product_code               VARCHAR2(2)          NULL,
+       capital_gain                    DECIMAL(18,6)        NULL,
+       capital_gain_tax                DECIMAL(18,6)        NULL,
+       modify_cancel_type              VARCHAR2(1)          NULL,
+       order_root_div                  VARCHAR2(1)          NULL,
+       confirmed_order_price           DECIMAL(18,6)        NULL,
+       confirmed_estimated_price       DECIMAL(18,6)        NULL,
+       confirmed_f_estimated_price     DECIMAL(18,6)        NULL,
+       confirmed_exec_condition_type   NUMBER(6)            NULL,
+       error_reason_code               VARCHAR2(4)          NULL,
+       factor                          VARCHAR2(1)          NULL,
+       order_emp_code                  VARCHAR2(7)          NULL,
+       account_div                     VARCHAR2(1)          NULL,
+       exec_end_timestamp              DATE                 NULL,
+       exec_file_send_flag             VARCHAR2(1)          NULL,
+       first_order_unit_id             NUMBER(18)           NULL,
+       last_updater                    VARCHAR2(20)         NULL,
+       created_timestamp               DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate NOT NULL,
+       execution_seq_no                NUMBER(8) DEFAULT null NULL,
+       temporary_execution_flag        VARCHAR2(1) DEFAULT 0 NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_order_unit ON feq_order_unit
+(
+       order_unit_id                  
+);
+
+CREATE INDEX XIE1feq_order_unit ON feq_order_unit
+(
+       account_id                     ,
+       sub_account_id                 ,
+       order_open_status              
+);
+
+CREATE INDEX XIE2feq_order_unit ON feq_order_unit
+(
+       order_id                       
+);
+
+CREATE UNIQUE INDEX XIE3feq_order_unit ON feq_order_unit
+(
+       biz_date                       ,
+       order_emp_code
+);
+
+CREATE UNIQUE INDEX XIE4feq_order_unit ON feq_order_unit
+(
+       order_request_number
+);
+
+CREATE INDEX XIE5feq_order_unit ON feq_order_unit
+(
+       institution_code               ,
+       branch_id                      ,
+       market_id                      ,
+       biz_date                       ,
+       order_open_status
+);
+
+ALTER TABLE feq_order_unit
+       ADD  ( PRIMARY KEY (order_unit_id) ) ;
+
+
+CREATE TABLE feq_product (
+       product_id                      NUMBER(18)           NOT NULL,
+       institution_code                VARCHAR2(3)          NOT NULL,
+       product_code                    VARCHAR2(10)         NOT NULL,
+       product_type                    NUMBER(6)            NOT NULL,
+       standard_name_kana              VARCHAR2(50)         NULL,
+       standard_name_kanji             VARCHAR2(50)         NULL,
+       offshore_product_code           VARCHAR2(9)          NULL,
+       market_code                     VARCHAR2(2)          NOT NULL,
+       currency_code                   VARCHAR2(3)          NOT NULL,
+       books_closing_ym1               VARCHAR2(4)          NULL,
+       books_closing_ym2               VARCHAR2(4)          NULL,
+       offering_date                   DATE                 NULL,
+       ex_right_date                   DATE                 NULL,
+       capital_gain_tax_dealings_reg   NUMBER(1)            NULL,
+       last_updater                    VARCHAR2(20)         NULL,
+       created_timestamp               DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_product ON feq_product
+(
+       product_id                     
+);
+
+CREATE UNIQUE INDEX XAK1feq_product ON feq_product
+(
+       institution_code               ,
+       product_code                   
+);
+
+CREATE UNIQUE INDEX XAK2feq_product ON feq_product
+(
+       institution_code               ,
+       market_code                    ,
+       product_code                   
+);
+
+CREATE INDEX XIE1feq_product ON feq_product
+(
+       institution_code               ,
+       product_code                   ,
+       offshore_product_code          
+);
+
+ALTER TABLE feq_product
+       ADD  ( PRIMARY KEY (product_id) ) ;
+
+
+CREATE TABLE feq_traded_product (
+       traded_product_id               NUMBER(18)              NOT NULL,
+       institution_code                VARCHAR2(3)             NOT NULL,
+       product_id                      NUMBER(18)              NOT NULL,
+       market_id                       NUMBER(18)              NOT NULL,
+       list_flag                       NUMBER(1) DEFAULT 1     NOT NULL,
+       listed_date                     DATE                    NULL,
+       unlisted_date                   DATE                    NULL,
+       last_closing_price              DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       trade_stop                      NUMBER(1)               NULL,
+       buy_stop                        NUMBER(1) DEFAULT 2     NULL,
+       sell_stop                       NUMBER(1) DEFAULT 2     NULL,
+       buy_lot_size                    DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       buy_min_qty                     DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       sell_lot_size                   DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       sell_min_qty                    DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       valid_for_biz_date              VARCHAR2(8)             NULL,
+       last_updater                    VARCHAR2(20)            NULL,
+       created_timestamp               DATE DEFAULT sysdate    NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_traded_product ON feq_traded_product
+(
+       traded_product_id
+);
+
+CREATE UNIQUE INDEX XAK1feq_traded_product ON feq_traded_product
+(
+       product_id                     ,
+       market_id
+);
+
+
+ALTER TABLE feq_traded_product
+       ADD  ( PRIMARY KEY (traded_product_id) ) ;
+
+
+CREATE TABLE feq_traded_product_updq (
+       traded_product_id               NUMBER(18)              NOT NULL,
+       valid_for_biz_date              VARCHAR2(8)             NOT NULL,
+       institution_code                VARCHAR2(3)             NOT NULL,
+       product_id                      NUMBER(18)              NOT NULL,
+       market_id                       NUMBER(18)              NOT NULL,
+       list_flag                       NUMBER(1) DEFAULT 1     NOT NULL,
+       listed_date                     DATE                    NULL,
+       unlisted_date                   DATE                    NULL,
+       last_closing_price              DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       trade_stop                      NUMBER(1)               NULL,
+       buy_stop                        NUMBER(1)               NULL,
+       sell_stop                       NUMBER(1)               NULL,
+       buy_lot_size                    DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       buy_min_qty                     DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       sell_lot_size                   DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       sell_min_qty                    DECIMAL(18,6) DEFAULT 0 NOT NULL,
+       last_updater                    VARCHAR2(20)            NULL,
+       created_timestamp               DATE DEFAULT sysdate    NOT NULL,
+       last_updated_timestamp          DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKfeq_traded_product_updq ON feq_traded_product_updq
+(
+       traded_product_id              ,
+       valid_for_biz_date             
+);
+
+CREATE UNIQUE INDEX XAK1feq_traded_product_updq ON feq_traded_product_updq
+(
+       product_id                     ,
+       market_id                      ,
+       valid_for_biz_date             
+);
+
+
+ALTER TABLE feq_traded_product_updq
+       ADD  ( PRIMARY KEY (traded_product_id, valid_for_biz_date) ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES feq_product ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES feq_order ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES feq_order_unit ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (order_execution_id)
+                             REFERENCES feq_order_execution ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (asset_id)
+                             REFERENCES asset ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE feq_fin_transaction
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE feq_order
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE feq_order
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE feq_order_action
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES feq_product ) ;
+
+
+ALTER TABLE feq_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES feq_order ) ;
+
+
+ALTER TABLE feq_order_action
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES feq_order_unit ) ;
+
+
+ALTER TABLE feq_order_action
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE feq_order_action
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE feq_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES feq_product ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES feq_order ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES feq_order_unit ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE feq_order_execution
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES feq_product ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES feq_order ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader ) ;
+
+
+ALTER TABLE feq_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+
+
+ALTER TABLE feq_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES product ) ;
+
+
+ALTER TABLE feq_traded_product
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES feq_product ) ;
+
+
+ALTER TABLE feq_traded_product
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+
+ALTER TABLE feq_traded_product
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE feq_traded_product_updq
+       ADD  ( FOREIGN KEY (traded_product_id)
+                             REFERENCES traded_product ) ;
+
+
+ALTER TABLE feq_traded_product_updq
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES feq_product ) ;
+
+
+ALTER TABLE feq_traded_product_updq
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market ) ;
+
+@

@@ -1,0 +1,267 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.54.15;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	2344d912db230ac;
+filename	web3RlsGateway.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--ルールエンジン連携関連
+-------------------------------------------------------------------------------
+
+--1. Table名: ルールエンジンへのリクエストテーブル
+CREATE TABLE oms_con_order_request (
+    account_id 			NUMBER(18)		NOT NULL,
+    sub_account_id		NUMBER(18)		NOT NULL,
+    order_type			NUMBER(6)		NOT NULL,
+    request_type			NUMBER(6)		NOT NULL,
+    order_id 			NUMBER(18)		NOT NULL,
+    product_type			NUMBER(6) 		NOT NULL,
+    sub_order_id			NUMBER(18)		DEFAULT  '0' NOT NULL,
+    sub_product_type		NUMBER(6) 		DEFAULT  '0' NOT NULL,
+    serial_no_in_parent		NUMBER(8)		DEFAULT  '0' NOT NULL,
+    status				VARCHAR2(1)		DEFAULT  '0' NOT NULL,
+    rls_accepted_timestamp	DATE 			NULL,
+    created_timestamp		DATE DEFAULT		sysdate NOT NULL,
+    last_updated_timestamp	DATE DEFAULT		sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKoms_con_order_request ON oms_con_order_request
+(
+	account_id,sub_account_id,order_type,request_type,order_id,product_type,sub_order_id,sub_product_type
+) ;
+
+CREATE  INDEX XIE1oms_con_order_request ON oms_con_order_request
+(
+	account_id,status
+) ;
+
+ALTER TABLE oms_con_order_request
+       ADD  ( CONSTRAINT oms_con_order_request_PK PRIMARY KEY (account_id,sub_account_id,order_type,request_type,order_id,product_type,sub_order_id,sub_product_type) ) ;
+       
+
+--2. Table名: ルールエンジンからの通知テーブル
+CREATE TABLE rls_con_order_hit_notify (
+    account_id 			NUMBER(18)		NOT NULL,
+    sub_account_id		NUMBER(18)		NOT NULL,
+    order_type			NUMBER(6)		NOT NULL,
+    order_id 			NUMBER(18)		NOT NULL,
+    product_type			NUMBER(6) 		NOT NULL,
+    status				VARCHAR2(1)		DEFAULT  '0' NOT NULL,
+    notify_type			VARCHAR2(1)		DEFAULT  '0' NOT NULL,
+    parent_order_id 		NUMBER(18)		NULL,
+    parent_product_type	NUMBER(6) 		NULL,
+    serial_no_in_parent           NUMBER(8)                DEFAULT  '0' NOT NULL,
+    order_submit_error_code  VARCHAR2(2)		NULL,
+    hit_tick_timestamp		DATE 			NULL,
+    rls_hit_timestamp		DATE 			NULL,
+    order_submit_timestamp	DATE 			NULL,
+    submitter_login_id		NUMBER(18)		DEFAULT NULL,
+    created_timestamp		DATE DEFAULT		sysdate NOT NULL,
+    last_updated_timestamp	DATE DEFAULT		sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKrls_con_order_hit_notify ON rls_con_order_hit_notify
+(
+	account_id,sub_account_id,order_type,order_id,product_type
+) ;
+
+CREATE  INDEX XIE1rls_con_order_hit_notify ON rls_con_order_hit_notify
+(
+	account_id,status
+) ;
+
+ALTER TABLE rls_con_order_hit_notify
+       ADD  ( CONSTRAINT rls_con_order_hit_notify_PK PRIMARY KEY (account_id,sub_account_id,order_type,order_id,product_type) ) ;       
+       
+       
+
+--3. Table名: 手動発注履歴テーブル
+CREATE TABLE rls_manual_submit_history (
+    history_id 			NUMBER(18)		NOT NULL,
+    account_id 			NUMBER(18)		NOT NULL,
+    sub_account_id		NUMBER(18)		NOT NULL,
+    order_type			NUMBER(6)		NOT NULL,
+    order_id 			NUMBER(18)		NOT NULL,
+    product_type			NUMBER(6) 		NOT NULL,
+    status				VARCHAR2(1)		DEFAULT  '0' NOT NULL,
+    notify_type			VARCHAR2(1)		DEFAULT  '0' NOT NULL,
+    parent_order_id 		NUMBER(18)		NULL,
+    parent_product_type	NUMBER(6) 		NULL,
+    serial_no_in_parent           NUMBER(8)                DEFAULT  '0' NOT NULL,
+    order_submit_error_code  VARCHAR2(2)		NULL,
+    hit_tick_timestamp		DATE 			NULL,
+    rls_hit_timestamp		DATE 			NULL,
+    order_submit_timestamp	DATE 			NULL,
+    submitter_login_id		NUMBER(18)		DEFAULT NULL,    
+    created_timestamp		DATE DEFAULT		sysdate NOT NULL,
+    last_updated_timestamp	DATE DEFAULT		sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKrls_manual_submit_history ON rls_manual_submit_history
+(
+	history_id
+) ;
+
+CREATE INDEX XIE1rls_manual_submit_history ON rls_manual_submit_history
+(
+	account_id,sub_account_id,order_type,order_id,product_type
+) ;
+
+ALTER TABLE rls_manual_submit_history
+       ADD  ( CONSTRAINT rls_manual_submit_history_PK PRIMARY KEY (history_id) ) ;       
+
+
+
+-- Table名: 発注失敗注文
+CREATE TABLE rls_order_miss (
+    miss_type                       VARCHAR2(1)                      NOT NULL,
+    account_id                      NUMBER(18)                       NOT NULL,
+    sub_account_id                  NUMBER(18)                       NOT NULL,
+    order_id                        NUMBER(18)                       NOT NULL,
+    order_unit_id                   NUMBER(18)                       NOT NULL,
+    order_action_serial_no          NUMBER(8)                        NOT NULL,
+    order_event_type                NUMBER(6)                        NOT NULL,
+    product_type                    NUMBER(6)                        NOT NULL,
+    product_id                      NUMBER(18)                       NOT NULL,
+    market_id                       NUMBER(18)                       NOT NULL,
+    oms_cond_order_type             NUMBER(6)                        NOT NULL,
+    order_cond_operator             VARCHAR2(1)                      NULL,
+    stop_order_price                DECIMAL(18,6)                    NULL,
+    hit_tick_price                  DECIMAL(18,6)                    NULL,
+    hit_tick_timestamp              DATE                             NULL,
+    order_accepted_timestamp        DATE                             NOT NULL,
+    detect_type                     VARCHAR2(1)                      NOT NULL,
+    created_timestamp               DATE            DEFAULT sysdate  NOT NULL,
+    last_updated_timestamp          DATE            DEFAULT sysdate  NOT NULL,
+    order_submit_timestamp          DATE                             NULL,
+    status                          VARCHAR2(1)                      NULL
+);
+
+CREATE UNIQUE INDEX XPKrls_order_miss ON rls_order_miss
+(
+	account_id, sub_account_id, miss_type, order_unit_id, order_action_serial_no, product_type, oms_cond_order_type, detect_type
+) ;
+
+ALTER TABLE rls_order_miss
+       ADD  ( CONSTRAINT rls_order_miss_PK PRIMARY KEY (account_id, sub_account_id, miss_type, order_unit_id, order_action_serial_no, product_type, oms_cond_order_type, detect_type) ) ;
+       
+CREATE INDEX XIE1rls_order_miss ON rls_order_miss
+(
+	order_id, product_type
+) ;
+
+
+
+
+--アカウント
+CREATE TABLE RLS_ACCOUNT
+(
+  ID  NUMBER   NOT NULL
+);
+
+--条件付き注文
+CREATE TABLE RLS_COND_ORDER
+(
+  ID          NUMBER(38)                        NOT NULL,
+  TYPE        NUMBER                            NOT NULL,
+  PARENT_ID   NUMBER,
+  STATUS      NUMBER(1)                         DEFAULT 0                     NOT NULL,
+  ACCOUNT_ID  NUMBER                            NOT NULL,
+  SEQ_NUM     NUMBER                            NOT NULL,
+  ACT_RATIO   NUMBER                            DEFAULT 1                     NOT NULL,
+  TSTAMP      TIMESTAMP(9)                      DEFAULT SYSTIMESTAMP          NOT NULL
+);
+
+--OMS注文
+CREATE TABLE RLS_OMS_ORDER
+(
+  ACCOUNT_ID   NUMBER                           NOT NULL,
+  ORD_ID       NUMBER                           NOT NULL,
+  PROD_ID      NUMBER                           NOT NULL,
+  MARKET_ID    NUMBER                           NOT NULL,
+  ORD_TYPE     NUMBER                           NOT NULL,
+  EXEC_TYPE    NUMBER                           NOT NULL,
+  SIDE         NUMBER                           NOT NULL,
+  ORIG_QTY     NUMBER                           NOT NULL,
+  PRICE        NUMBER,
+  COND_ORD_ID  NUMBER                           NOT NULL,
+  TSTAMP       TIMESTAMP(9)                     DEFAULT SYSTIMESTAMP          NOT NULL
+);
+
+--値段条件
+CREATE TABLE RLS_PRICE_COND
+(
+  COND_ORD_ID  NUMBER                           NOT NULL,
+  PRICE        NUMBER                           NOT NULL,
+  DIRECTION    NUMBER                           NOT NULL,
+  PROD_ID      NUMBER                           NOT NULL,
+  MARKET_ID    NUMBER                           NOT NULL
+);
+
+
+CREATE INDEX XIE1RLS_COND_ORDER ON RLS_COND_ORDER(ACCOUNT_ID);
+
+
+CREATE INDEX XIE2RLS_COND_ORDER ON RLS_COND_ORDER(PARENT_ID);
+
+
+CREATE UNIQUE INDEX XPKRLS_OMS_ORDER ON RLS_OMS_ORDER(ORD_ID, ORD_TYPE);
+
+
+CREATE UNIQUE INDEX XPKRLS_ACCOUNT ON RLS_ACCOUNT(ID);
+
+
+CREATE UNIQUE INDEX XPKRLS_COND_ORDER ON RLS_COND_ORDER(ID);
+
+
+CREATE UNIQUE INDEX XPKRLS_PRICE_COND ON RLS_PRICE_COND(COND_ORD_ID);
+
+
+ALTER TABLE RLS_ACCOUNT ADD (
+  CONSTRAINT RLS_ACCOUNT_PK PRIMARY KEY (ID) USING INDEX
+);
+
+ALTER TABLE RLS_COND_ORDER ADD (
+  CONSTRAINT RLS_COND_ORDER_PK PRIMARY KEY (ID) USING INDEX 
+);
+
+ALTER TABLE RLS_OMS_ORDER ADD (
+  CONSTRAINT RLS_OMS_ORDER_PK PRIMARY KEY (ORD_ID, ORD_TYPE) USING INDEX 
+);
+
+ALTER TABLE RLS_PRICE_COND ADD (
+  CONSTRAINT RLS_PRICE_COND_PK PRIMARY KEY (COND_ORD_ID) USING INDEX 
+);
+
+
+ALTER TABLE RLS_OMS_ORDER ADD (
+  CONSTRAINT RLS_OMS_ORDER_FK FOREIGN KEY (COND_ORD_ID) 
+    REFERENCES RLS_COND_ORDER (ID));
+
+
+ALTER TABLE RLS_PRICE_COND ADD (
+  CONSTRAINT RLS_PRICE_COND_FK FOREIGN KEY (COND_ORD_ID) 
+    REFERENCES RLS_COND_ORDER (ID));
+
+@

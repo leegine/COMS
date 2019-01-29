@@ -1,0 +1,173 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.43.22;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7a84d7eee2c1971;
+filename	web3equity.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 呼値テーブル
+
+CREATE TABLE equity_tick_values_mst (
+    market_code			VARCHAR2(2)             NOT NULL,
+    low_price                   DECIMAL(18,6)           NOT NULL,
+    cap_price                   DECIMAL(18,6)               NULL,
+    tick_value                  DECIMAL(18,6)               NULL,
+    created_timestamp           DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate    NOT NULL
+);
+
+
+CREATE UNIQUE INDEX XPKequity_tick_values_mst on equity_tick_values_mst (
+    market_code,
+    low_price
+);
+
+ALTER TABLE equity_tick_values_mst ADD ( PRIMARY KEY (market_code,low_price));
+
+--2. Table名: 値幅テーブル
+
+CREATE TABLE equity_limit_price_range_mst (
+    market_code			VARCHAR2(2)             NOT NULL,
+    low_price                   DECIMAL(18,6)           NOT NULL,
+    cap_price                   DECIMAL(18,6)               NULL,
+    range                       DECIMAL(18,6)               NULL,
+    created_timestamp           DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate    NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKequity_limit_price_range_ms on equity_limit_price_range_mst (
+    market_code,
+    low_price
+);
+
+ALTER TABLE equity_limit_price_range_mst ADD ( PRIMARY KEY (
+    market_code,
+    low_price
+));
+
+--3. Table名: 注文繰越スキップ銘柄テーブル
+
+CREATE TABLE order_carryover_skip_prod (
+    institution_code        VARCHAR2(3)        NOT NULL,
+    product_code            VARCHAR2(10)        NOT NULL,
+    market_code            VARCHAR2(2)        NOT NULL,
+    regist_division            VARCHAR2(1)        NULL,
+    created_timestamp        DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL
+);
+
+ALTER TABLE order_carryover_skip_prod
+    ADD ( PRIMARY KEY (institution_code,product_code,market_code));
+
+
+--4. Table名: 立会外分売銘柄テーブル
+CREATE TABLE off_floor_order_product (
+       institution_code		VARCHAR2(3)	NOT NULL,
+       product_code		VARCHAR2(10)	NOT NULL,
+       market_code		VARCHAR2(2)	NOT NULL,
+       order_start_datetime	DATE		NOT NULL,
+       order_end_datetime	DATE		NOT NULL,
+       max_apply_quantity	DECIMAL(18,6)	NULL,
+       off_floor_order_price	DECIMAL(18,6)	NULL,
+       last_closing_price	DECIMAL(18,6)	NULL,
+       daily_delivery_date	DATE 		NULL,
+       created_timestamp	DATE		NOT NULL,
+       last_updated_timestamp	DATE		NOT NULL
+);
+
+--PK
+ALTER TABLE off_floor_order_product 
+      ADD  (PRIMARY KEY (institution_code,
+			 product_code,
+			 market_code,
+			 order_end_datetime));
+
+--空売り規制時間テーブル
+CREATE TABLE short_selling_restraint_time (
+       institution_code			VARCHAR2(3)	NOT NULL,
+       branch_code				VARCHAR2(3)	NOT NULL,
+       market_code				VARCHAR2(2)	NOT NULL,
+       biz_date_type			VARCHAR2(1)	NOT NULL,
+       start_time				VARCHAR2(6)	NOT NULL,
+       end_time					VARCHAR2(6)	NOT NULL,
+       short_selling_count_method_div	VARCHAR2(1)	NOT NULL,
+       created_timestamp		DATE	DEFAULT sysdate	NOT NULL,
+       last_updated_timestamp	DATE	DEFAULT sysdate	NOT NULL
+);
+
+--PK
+ALTER TABLE short_selling_restraint_time 
+      ADD  (PRIMARY KEY (institution_code,
+			 branch_code,
+			 market_code,
+			 biz_date_type,
+			 start_time));
+
+-------------------------------------------------------------------------------
+--注文・約定
+-------------------------------------------------------------------------------
+--5. 株式約定メール送信テーブル
+
+CREATE TABLE eqtype_order_exec_send_mail(
+    institution_code		VARCHAR2(3)	NOT NULL,
+    branch_code			VARCHAR2(3)	NOT NULL,
+    account_code		VARCHAR2(7)	NOT NULL,
+    order_request_number        VARCHAR2(9)	NOT NULL,
+    product_code		VARCHAR2(10)	NULL,
+    market_code			VARCHAR2(2)	NULL,
+    order_action_id		NUMBER(18)	NOT NULL,
+    tax_type			NUMBER(6)	NOT NULL,
+    received_date_time		DATE		NULL,
+    order_exec_status		VARCHAR2(1)	NOT NULL,
+    delivaly_amount		DECIMAL(18,6)	NULL,
+    executed_quantity		DECIMAL(18,6)	NULL,
+    order_type			NUMBER(6)	NULL,
+    sonar_traded_code		VARCHAR2(2)	NULL,
+    status			VARCHAR2(1)	NULL,
+    send_process_date_time	DATE		NULL,
+    error_code			VARCHAR2(4)	NULL,
+    resend_status		VARCHAR2(1)	NULL,
+    resend_process_date_time	DATE		NULL,
+    reason_code			VARCHAR2(1)	NULL,
+    limit_price			DECIMAL(18,6)	NULL,
+    email_address		VARCHAR2(100)	NULL,
+    order_quantity		DECIMAL(18,6)	NULL,
+    delete_flag			NUMBER(1)	NULL,
+    created_timestamp		DATE     DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp	DATE     DEFAULT sysdate    NOT NULL
+);
+
+CREATE INDEX XIE1eq_order_exec_send_mail ON eqtype_order_exec_send_mail
+(
+    status
+);
+
+ALTER TABLE eqtype_order_exec_send_mail
+    ADD (PRIMARY KEY (institution_code,branch_code,account_code,order_request_number,order_action_id,order_exec_status));
+
+
+@

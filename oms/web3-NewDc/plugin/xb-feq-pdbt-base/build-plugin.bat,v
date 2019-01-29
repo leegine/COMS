@@ -1,0 +1,38 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.09.04.33;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5284d904f03597b;
+filename	build-plugin.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@::BUILD  SCRIPT
+@@echo on
+@@setlocal
+call ..\..\set-xtrade.bat
+set PLUGIN=plugin\xb-feq-pdbt-base
+
+cd %XTRADE_HOME%\ant-build
+call xbuild -plugin -latest -h %PLUGIN%
+@@endlocal
+pause
+@

@@ -1,0 +1,99 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.30;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3d04d912e303247;
+filename	web3-quote-proto.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE web3_quote_proto
+(
+	quote_data_id		NUMBER(18) NOT NULL,
+	quote_date			VARCHAR2(8) NOT NULL,
+	real_type			NUMBER(1) DEFAULT 0 NOT NULL,
+	data_type			NUMBER(1) DEFAULT 0 NOT NULL,
+	market_code			VARCHAR2(2) NOT NULL,
+	product_code		VARCHAR2(9) NOT NULL,
+	contract_month		VARCHAR2(6),
+	put_and_call		VARCHAR2(1),
+	strike_price		DECIMAL(18,6),
+	open_price			DECIMAL(18,6),
+	open_price_time		VARCHAR2(4),
+	high_price			DECIMAL(18,6),
+	high_price_time		VARCHAR2(4),
+	low_price			DECIMAL(18,6),
+	low_price_time		VARCHAR2(4),
+	current_price		DECIMAL(18,6),
+	current_price_time	VARCHAR2(4),
+	current_price_flag	VARCHAR2(1) DEFAULT 0,
+	change				DECIMAL(18,6),
+	volume				DECIMAL(18,6),
+	volume_time			VARCHAR2(4),
+	ask_price_title		VARCHAR2(1) DEFAULT 0,
+	ask_price			DECIMAL(18,6),
+	ask_price_time		VARCHAR2(4),
+	bid_price_title		VARCHAR2(1) DEFAULT 0,
+	bid_price			DECIMAL(18,6),
+	bid_price_time		VARCHAR2(4),
+	base_price			DECIMAL(18,6),
+	created_timestamp DATE DEFAULT sysdate NOT NULL,
+	last_updated_timestamp DATE DEFAULT sysdate NOT NULL
+);
+
+ALTER TABLE web3_quote_proto
+	ADD (PRIMARY KEY (quote_data_id));
+
+CREATE INDEX XIweb3_quote_proto
+	ON web3_quote_proto (
+	real_type,
+	data_type,
+	market_code,
+	product_code
+);
+
+CREATE INDEX XIweb3_quote_proto_2
+	ON web3_quote_proto (
+	real_type,
+	data_type,
+	market_code,
+	product_code,
+	contract_month
+);
+
+CREATE INDEX XIweb3_quote_proto_3
+	ON web3_quote_proto (
+	real_type,
+	data_type,
+	market_code,
+	product_code,
+	contract_month,
+	put_and_call,
+	strike_price
+);
+
+CREATE INDEX XIweb3_quote_proto_4
+	ON web3_quote_proto (
+	real_type,
+	data_type,
+	product_code
+);
+@

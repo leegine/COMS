@@ -1,0 +1,283 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.02.36.12;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	46c4d9145937ea6;
+filename	web3point.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--ポイントシステム関連
+-------------------------------------------------------------------------------
+
+--1. ポイントカテゴリーマスターテーブル
+CREATE TABLE point_category_master (
+    institution_code                          VARCHAR2(3)         NOT NULL,
+    category_no                               NUMBER(6)           NOT NULL,
+    category_name                             VARCHAR2(80)        NOT NULL,
+    category_outline                          VARCHAR2(400)       NULL,
+    last_updater                              VARCHAR2(20)        NULL,
+    created_timestamp                         DATE                NULL,
+    last_updated_timestamp                    DATE                NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpoint_category_master ON point_category_master
+(
+    institution_code,
+    category_no
+);
+
+--Primary Key
+ALTER TABLE point_category_master
+    ADD  (PRIMARY KEY (institution_code, category_no));
+
+--2. ポイント換算マスターテーブル
+CREATE TABLE point_convert_master (
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    branch_code                               VARCHAR2(3)        NOT NULL,
+    fund_type                                 VARCHAR2(2)        NOT NULL,
+    tran_type                                 VARCHAR2(2)        NOT NULL,
+    buy_sell_div                              VARCHAR2(1)        NOT NULL,
+    convert_base                              NUMBER(7,2)        NULL,
+    convert_value                             NUMBER(7,2)        NULL,
+    special_term_start                        DATE               NULL,
+    special_term_end                          DATE               NULL,
+    special_convert_base                      NUMBER(7,2)        NULL,
+    special_convert_value                     NUMBER(7,2)        NULL,
+    last_updater                              VARCHAR2(20)       NULL,
+    created_timestamp                         DATE               NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpoint_convert_master ON point_convert_master
+(
+    institution_code,
+    branch_code,
+    fund_type,
+    tran_type,
+    buy_sell_div
+);
+
+--Primary Key
+ALTER TABLE point_convert_master
+    ADD  (PRIMARY KEY (institution_code, branch_code, fund_type, tran_type, buy_sell_div));
+
+--3. ポイント景品マスターテーブル
+CREATE TABLE point_premium_master (
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    category_no                               NUMBER(6)          NOT NULL,
+    premium_no                                VARCHAR2(5)        NOT NULL,
+    premium_name                              VARCHAR2(80)       NOT NULL,
+    required_point                            NUMBER(8)          NOT NULL,
+    start_date_time                           DATE               NOT NULL,
+    end_date_time                             DATE               NOT NULL,
+    last_updater                              VARCHAR2(20)       NULL,
+    created_timestamp                         DATE               NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpoint_premium_master ON point_premium_master
+(
+    institution_code,
+    premium_no
+);
+
+--Primary Key
+ALTER TABLE point_premium_master
+    ADD  (PRIMARY KEY (institution_code, premium_no));
+
+--Foreign Key
+ALTER TABLE point_premium_master
+    ADD  (FOREIGN KEY (institution_code, category_no)
+    REFERENCES point_category_master);
+
+--4. ポイント合計テーブル
+CREATE TABLE point_total (
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    branch_code                               VARCHAR2(3)        NOT NULL,
+    account_code                              VARCHAR2(7)        NOT NULL,
+    period                                    VARCHAR2(6)        NOT NULL,
+    total_get_point                           NUMBER(9)          NULL,
+    total_apply_point                         NUMBER(9)          NULL,
+    total_adjust_point                        NUMBER(9)          NULL,
+    withdrawn_apply_point                     NUMBER(9)          NULL,
+    withdrawn_adjust_point                    NUMBER(9)          NULL,
+    last_updater                              VARCHAR2(20)       NULL,
+    created_timestamp                         DATE               NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpoint_total ON point_total
+(
+    institution_code,
+    branch_code,
+    account_code,
+    period
+);
+
+--Primary Key
+ALTER TABLE point_total
+    ADD  (PRIMARY KEY (institution_code, branch_code, account_code, period));
+
+--5. ポイント取引データテーブル
+CREATE TABLE point_trade_data (
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    branch_code                               VARCHAR2(3)        NOT NULL,
+    account_code                              VARCHAR2(7)        NOT NULL,
+    trader_code                               VARCHAR2(5)        NULL,
+    work_date                                 DATE               NULL,
+    buy_sell_div                              VARCHAR2(1)        NULL,
+    fund_type                                 VARCHAR2(2)        NULL,
+    fund_code                                 VARCHAR2(9)        NULL,
+    market_code                               VARCHAR2(1)        NULL,
+    tran_type                                 VARCHAR2(2)        NULL,
+    comm_amt                                  NUMBER(15,0)       NULL,
+    get_point                                 NUMBER(8,2)        NULL,
+    proc_div                                  VARCHAR2(1)        NULL,
+    exec_date                                 DATE               NULL,
+    delivery_date                             DATE               NULL,
+    last_updater                              VARCHAR2(20)       NULL,
+    created_timestamp                         DATE               NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE INDEX XIEpoint_trade_data ON point_trade_data
+(
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--6. ポイント申込テーブル
+CREATE TABLE point_apply (
+    apply_id                                  NUMBER(18)         NOT NULL,
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    branch_code                               VARCHAR2(3)        NOT NULL,
+    account_code                              VARCHAR2(7)        NOT NULL,
+    trader_code                               VARCHAR2(5)        NULL,
+    premium_no                                VARCHAR2(5)        NULL,
+    used_point                                NUMBER(8)          NULL,
+    apply_timestamp                           DATE               NULL,
+    apply_root_div                            VARCHAR2(1)        NOT NULL,
+    apply_accept_div                          VARCHAR2(1)        NOT NULL,
+    apply_accept_user                         VARCHAR2(20)       NULL,
+    apply_accept_timestamp                    DATE               NULL,
+    apply_cancel_div                          VARCHAR2(1)        NOT NULL,
+    apply_cancel_user                         VARCHAR2(20)       NULL,
+    apply_cancel_timestamp                    DATE               NULL,
+    last_updater                              VARCHAR2(20)       NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpoint_apply ON point_apply
+(
+    apply_id
+);
+
+CREATE INDEX XIEpoint_apply ON point_apply
+(
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--Primary Key
+ALTER TABLE point_apply
+    ADD  (PRIMARY KEY (apply_id));
+
+--7. ポイント調整テーブル
+CREATE TABLE point_adjust (
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    branch_code                               VARCHAR2(3)        NOT NULL,
+    account_code                              VARCHAR2(7)        NOT NULL,
+    adjust_point                              NUMBER(8)          NOT NULL,
+    last_updater                              VARCHAR2(20)       NULL,
+    created_timestamp                         DATE               NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE INDEX XIEpoint_adjust ON point_adjust
+(
+    institution_code,
+    branch_code,
+    account_code
+);
+
+--8. ポイント有効期限テーブル
+CREATE TABLE point_term (
+    institution_code                          VARCHAR2(3)        NOT NULL,
+    term_of_validity                          VARCHAR2(3)        NOT NULL,
+    display_period                            VARCHAR2(3)        NOT NULL,
+    created_timestamp                         DATE               NULL,
+    last_updated_timestamp                    DATE               NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKpoint_term ON point_term
+(
+    institution_code
+);
+
+--Primary Key
+ALTER TABLE point_term
+    ADD  (PRIMARY KEY (institution_code));
+
+--9. トレードボーナスプランテーブル
+CREATE TABLE orix_trade_bonus_plan (
+    institution_code                        VARCHAR2(3)           Not Null,
+    branch_code                             VARCHAR2(3)           Not Null,
+    account_code                            VARCHAR2(7)           Not Null,
+    apply_month_curr                        VARCHAR2(6)           Null,
+    trd_point_curr                          NUMBER(3)             Null,
+    cmp_point_curr                          NUMBER(3)             Null,
+    cut_rate_curr                           VARCHAR2(32)          Null,
+    apply_month_next                        VARCHAR2(6)           Null,
+    trd_point_next                          NUMBER(3)             Null,
+    cmp_point_next                          NUMBER(3)             Null,
+    cut_rate_next                           VARCHAR2(32)          Null,
+    sub_acc_code                            VARCHAR2(7)           Null,
+    free_term_from                          VARCHAR2(8)           Null,
+    free_term_to                            VARCHAR2(8)           Null,
+    last_updater                            VARCHAR2(20)          Not Null,
+    created_timestamp                       DATE                  Not Null,
+    last_updated_timestamp                  DATE                  Not Null
+);
+
+--Index
+CREATE UNIQUE INDEX XPKorix_trade_bonus_plan ON orix_trade_bonus_plan
+(
+    institution_code,
+    branch_code, 
+    account_code
+);
+
+--Primary Key
+ALTER TABLE orix_trade_bonus_plan
+    ADD  (PRIMARY KEY (institution_code, branch_code, account_code));
+@

@@ -1,0 +1,85 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.54.19;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	2344d912db230ac;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.rlsgateway.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3RlsGateway.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3RlsGatewaySessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+    oms_con_order_request \
+    rls_con_order_hit_notify \
+    rls_manual_submit_history \
+    rls_cond_order \
+    rls_oms_order \
+    rls_price_cond \
+    rls_account \
+    rls_order_miss
+
+enums=\
+oms_con_order_request.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum  \
+oms_con_order_request.sub_product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+rls_con_order_hit_notify.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+rls_con_order_hit_notify.parent_product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+rls_manual_submit_history.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+rls_manual_submit_history.parent_product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+rls_order_miss.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum
+
+@

@@ -1,0 +1,397 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.50;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	6004d80209d0226;
+filename	web3feq.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--外国株式関連
+-------------------------------------------------------------------------------
+
+--1. 外株呼値テーブル
+CREATE TABLE feq_tick_values_mst (
+    market_code                       VARCHAR2(2)             NOT NULL,
+    low_price                         DECIMAL(18,6)           NOT NULL,
+    cap_price                         DECIMAL(18,6)           NULL,
+    tick_value                        DECIMAL(18,6)           NULL,
+    scale                             NUMBER(6)               NOT NULL,
+    last_updater                      VARCHAR2(20)            NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfeq_tick_values_mst ON feq_tick_values_mst
+(
+    market_code,
+    low_price
+);
+
+--Primary Key
+ALTER TABLE feq_tick_values_mst
+    ADD  (PRIMARY KEY (market_code, low_price));
+
+--2. 外株値幅テーブル
+CREATE TABLE feq_limit_price_range_mst (
+    market_code                       VARCHAR2(2)             NOT NULL,
+    low_price                         DECIMAL(18,6)           NOT NULL,
+    cap_price                         DECIMAL(18,6)           NULL,
+    range                             DECIMAL(18,6)           NULL,
+    last_updater                      VARCHAR2(20)            NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfeq_limit_price_range_ms ON feq_limit_price_range_mst
+(
+    market_code,
+    low_price
+);
+
+--Primary Key
+ALTER TABLE feq_limit_price_range_mst
+    ADD  (PRIMARY KEY (market_code, low_price));
+
+--3. 外株出来終了テーブル
+CREATE TABLE feq_orderexecution_end (
+    institution_code                  VARCHAR2(3)             NOT NULL,
+    market_code                       VARCHAR2(2)             NOT NULL,
+    last_execute_date                 DATE                    NOT NULL,
+    status                            VARCHAR2(1)             NULL,
+    last_updater                      VARCHAR2(20)            NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfeq_orderexecution_end ON feq_orderexecution_end
+(
+    institution_code,
+    market_code
+);
+
+--Primary Key
+ALTER TABLE feq_orderexecution_end
+    ADD  (PRIMARY KEY (institution_code, market_code));
+
+--4. 外国株式運用コードテーブル
+CREATE TABLE feq_order_emp_number (
+    institution_code                  VARCHAR2(3)             NOT NULL,
+    feq_order_emp_div                 VARCHAR2(1)             NOT NULL,
+    latest_order_emp_number           VARCHAR2(4) DEFAULT 0   NOT NULL,
+    biz_date                          DATE DEFAULT sysdate    NOT NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfeq_order_emp_number ON feq_order_emp_number
+(
+    institution_code,
+    feq_order_emp_div,
+    biz_date
+);
+
+--Primary Key
+ALTER TABLE feq_order_emp_number
+    ADD  (PRIMARY KEY (institution_code, feq_order_emp_div, biz_date));
+
+--5. 海外諸経費マスタテーブル
+CREATE TABLE foreign_cost (
+    institution_code                  VARCHAR2(3)             NOT NULL,
+    market_code                       VARCHAR2(2)             NOT NULL,
+    cost_div                          VARCHAR2(2)             NOT NULL,
+    appli_start_date                  DATE                    NOT NULL,
+    appli_end_date                    DATE                    NULL,
+    amount_from                       NUMBER(13,2)            NOT NULL,
+    amount_to                         NUMBER(13,2)            NULL,
+    commision_rate                    NUMBER(8,5)             NULL,
+    add_amount                        NUMBER(14,5)            NULL,
+    scale                             NUMBER(6)               NOT NULL,
+    round_div                         VARCHAR2(1)  DEFAULT 0  NOT NULL,
+    last_updater                      VARCHAR2(20)            NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL,
+    side_div                          VARCHAR2(1)             NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKforeign_cost ON foreign_cost
+(
+    institution_code,
+    market_code,
+    cost_div,
+    appli_start_date,
+    amount_from,
+    side_div
+);
+
+--Primary Key
+ALTER TABLE foreign_cost
+    ADD  (PRIMARY KEY (institution_code, market_code, cost_div, appli_start_date, amount_from, side_div));
+
+--6. 外貨顧客勘定残高(マスタ情報)
+CREATE TABLE f_cash_balance (
+    feq_cash_balance_id               NUMBER(18)              NOT NULL,
+    account_id                        NUMBER(18)              NOT NULL,
+    sub_account_id                    NUMBER(18)              NOT NULL,
+    currency_code                     VARCHAR2(3)             NOT NULL,
+    cash_balance0                     DECIMAL(18,6)           NULL,
+    cash_balance1                     DECIMAL(18,6)           NULL,
+    cash_balance2                     DECIMAL(18,6)           NULL,
+    cash_balance3                     DECIMAL(18,6)           NULL,
+    cash_balance4                     DECIMAL(18,6)           NULL,
+    cash_balance5                     DECIMAL(18,6)           NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKf_cash_balance ON f_cash_balance
+(
+    feq_cash_balance_id
+);
+
+CREATE UNIQUE INDEX XAK1f_cash_balance ON f_cash_balance
+(
+    account_id,
+    sub_account_id,
+    currency_code
+);
+
+--Primary Key
+ALTER TABLE f_cash_balance
+    ADD  (PRIMARY KEY (feq_cash_balance_id));
+
+-------------------------------------------------------------------------------
+--SONAR関連
+-------------------------------------------------------------------------------
+
+--1. 外株失効通知キューテーブル
+CREATE TABLE host_feq_close_order_notify (
+    request_code                      VARCHAR2(5)    NULL,
+    institution_code                  VARCHAR2(3)    NULL,
+    branch_code                       VARCHAR2(3)    NULL,
+    account_code                      VARCHAR2(7)    NULL,
+    trader_code                       VARCHAR2(5)    NULL,
+    order_request_number              VARCHAR2(9)    NULL,
+    order_emp_code                    VARCHAR2(7)    NULL,
+    executed_quantity                 DECIMAL(18,6)  NULL,
+    reason_code                       VARCHAR2(1)    NULL,
+    close_notify_type                 VARCHAR2(1)    NULL,
+    error_message                     VARCHAR2(4)    NULL,
+    status                            VARCHAR2(1)    NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NULL
+);
+
+--2. 外株出来通知キューテーブル
+CREATE TABLE host_feq_order_exec_notify (
+    request_code                      VARCHAR2(5)    NULL,
+    institution_code                  VARCHAR2(3)    NULL,
+    branch_code                       VARCHAR2(3)    NULL,
+    account_code                      VARCHAR2(7)    NULL,
+    trader_code                       VARCHAR2(5)    NULL,
+    order_request_number              VARCHAR2(9)    NULL,
+    order_emp_code                    VARCHAR2(7)    NULL,
+    exec_quantity                     DECIMAL(18,6)  NULL,
+    exec_price                        DECIMAL(18,6)  NULL,
+    exec_timestamp                    DATE           NULL,
+    f_delivery_date                   DATE           NULL,
+    exec_serial_no                    VARCHAR2(3)    NULL,
+    order_biz_date                    DATE           NULL,
+    fx_rate                           DECIMAL(18,6)  NULL,
+    dealed_type                       VARCHAR2(1)    NULL,
+    status                            VARCHAR2(1)    NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NULL,
+    execution_seq_no                  NUMBER(8) DEFAULT NULL  NULL
+);
+
+--3. 外株注文キューテーブル
+CREATE TABLE host_feq_order (
+    request_code                      VARCHAR2(5)    NULL,
+    account_id                        NUMBER(18)     NULL,
+    institution_code                  VARCHAR2(3)    NULL,
+    branch_code                       VARCHAR2(3)    NULL,
+    account_code                      VARCHAR2(7)    NULL,
+    sonar_trader_code                 VARCHAR2(5)    NULL,
+    order_request_number              VARCHAR2(9)    NULL,
+    order_emp_code                    VARCHAR2(7)    NULL,
+    order_action_serial_no            NUMBER(8)      NULL,
+    product_code                      VARCHAR2(10)   NULL,
+    sell_order_quantity               DECIMAL(18,6)  NULL,
+    buy_order_quantity                DECIMAL(18,6)  NULL,
+    limit_price                       DECIMAL(18,6)  NULL,
+    execution_condition               VARCHAR2(1)    NULL,
+    sonar_traded_code                 VARCHAR2(2)    NULL,
+    sonar_market_code                 VARCHAR2(1)    NULL,
+    ticket_number                     VARCHAR2(4)    NULL,
+    received_date_time                DATE           NULL,
+    received_date_time_div            VARCHAR2(1)    NULL,
+    tax_type                          VARCHAR2(1)    NULL,
+    order_chanel                      VARCHAR2(1)    NULL,
+    factor                            VARCHAR2(1)    NULL,
+    commision_number                  VARCHAR2(2)    NULL,
+    commision_branch_number           VARCHAR2(1)    NULL,
+    commision_product_code            VARCHAR2(2)    NULL,
+    status                            VARCHAR2(1)    NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NULL
+);
+
+--4. 外株注文受付キューテーブル
+CREATE TABLE host_feq_order_accept (
+    request_code                      VARCHAR2(5)    NULL,
+    institution_code                  VARCHAR2(3)    NULL,
+    branch_code                       VARCHAR2(3)    NULL,
+    account_code                      VARCHAR2(7)    NULL,
+    order_request_number              VARCHAR2(9)    NULL,
+    order_emp_code                    VARCHAR2(7)    NULL,
+    accept_status                     VARCHAR2(1)    NULL,
+    error_message                     VARCHAR2(4)    NULL,
+    status                            VARCHAR2(1)    NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NULL
+);
+
+--5. 外株注文訂正取消キューテーブル
+CREATE TABLE host_feq_changecancel_order (
+    request_code                      VARCHAR2(5)    NULL,
+    account_id                        NUMBER(18)     NULL,
+    institution_code                  VARCHAR2(3)    NULL,
+    branch_code                       VARCHAR2(3)    NULL,
+    account_code                      VARCHAR2(7)    NULL,
+    product_code                      VARCHAR2(10)   NULL,
+    quantity                          DECIMAL(18,6)  NULL,
+    limit_price                       DECIMAL(18,6)  NULL,
+    execution_condition               VARCHAR2(1)    NULL,
+    change_order_time                 VARCHAR2(4)    NULL,
+    change_order_date_div             VARCHAR2(1)    NULL,
+    cancel_div                        VARCHAR2(1)    NULL,
+    cancel_order_time                 VARCHAR2(4)    NULL,
+    cancel_order_date_div             VARCHAR2(1)    NULL,
+    order_request_number              VARCHAR2(9)    NULL,
+    order_emp_code                    VARCHAR2(7)    NULL,
+    order_action_serial_no            VARCHAR2(8)    NULL,
+    create_datetime                   DATE           NULL,
+    status                            VARCHAR2(1)    NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NULL
+);
+
+--6. 外株訂正状況テーブル
+CREATE TABLE feq_order_change_status (
+    account_id                        NUMBER(18)     NULL,
+    institution_code                  VARCHAR2(3)    NULL,
+    branch_code                       VARCHAR2(3)    NULL,
+    account_code                      VARCHAR2(7)    NULL,
+    original_order_id                 NUMBER(18)     NULL,
+    new_order_id                      NUMBER(18)     NULL,
+    received_date_time                DATE           NULL,
+    original_order_status             VARCHAR2(1)    NULL,
+    original_order_error_message      VARCHAR2(4)    NULL,
+    new_order_status                  VARCHAR2(1)    NULL,
+    new_order_error_message           VARCHAR2(4)    NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKfeq_order_change_status ON feq_order_change_status
+(
+    account_id,
+    original_order_id
+);
+
+CREATE UNIQUE INDEX XIE1feq_order_change_status ON feq_order_change_status
+(
+    institution_code,
+    branch_code,
+    account_code,
+    original_order_id
+);
+
+CREATE UNIQUE INDEX XIE2feq_order_change_status ON feq_order_change_status
+(
+    account_id,
+    new_order_id
+);
+
+--Primary Key
+ALTER TABLE feq_order_change_status
+    ADD  (PRIMARY KEY (account_id, original_order_id));
+
+
+ALTER TABLE f_cash_balance
+       ADD  ( FOREIGN KEY (account_id, sub_account_id)
+                             REFERENCES sub_account ) ;
+
+
+--特殊銘柄用海外諸経費マスタテーブル
+CREATE TABLE special_product_foreign_cost (
+    institution_code                  VARCHAR2(3)             NOT NULL,
+    market_code                       VARCHAR2(2)             NOT NULL,
+    product_id                        NUMBER(18)              NOT NULL,
+    offshore_product_code             VARCHAR2(9)             NOT NULL,
+    cost_div                          VARCHAR2(2)             NOT NULL,
+    appli_start_date                  DATE                    NOT NULL,
+    appli_end_date                    DATE                    NULL,
+    amount_from                       NUMBER(13,2)            NOT NULL,
+    amount_to                         NUMBER(13,2)            NULL,
+    commision_rate                    NUMBER(8,5)             NULL,
+    add_amount                        NUMBER(14,5)            NULL,
+    scale                             NUMBER(6)               NOT NULL,
+    round_div                         VARCHAR2(1) DEFAULT '0' NOT NULL,
+    last_updater                      VARCHAR2(20)            NULL,
+    created_timestamp                 DATE DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp            DATE DEFAULT sysdate    NOT NULL,
+    side_div                          VARCHAR2(1)             NOT NULL
+);
+
+--Index
+CREATE UNIQUE INDEX XPKsp_product_foreign_cost ON special_product_foreign_cost
+(
+    institution_code,
+    market_code,
+    product_id,
+    offshore_product_code,
+    cost_div,
+    appli_start_date,
+    amount_from,
+    side_div
+);
+
+--Primary Key
+ALTER TABLE special_product_foreign_cost
+ADD (PRIMARY KEY (
+    institution_code, 
+    market_code, 
+    product_id, 
+    offshore_product_code, 
+    cost_div, 
+    appli_start_date, 
+    amount_from, 
+    side_div));@

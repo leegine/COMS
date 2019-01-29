@@ -1,0 +1,848 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.03.46.03;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	6004d80209d0226;
+filename	web3xbmf.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--SONAR連携関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 投信取消受付キューテーブル
+CREATE TABLE host_xbmf_cancel_accept (
+       request_code             VARCHAR2(5)      NOT NULL,
+       institution_code         VARCHAR2(2)      NOT NULL,
+       branch_code              VARCHAR2(3)      NOT NULL,
+       account_code             VARCHAR2(7)      NOT NULL,
+       trader_code              VARCHAR2(5)      NULL,
+       order_request_number     VARCHAR2(9)      NOT NULL,
+       accept_status            VARCHAR2(1)      NULL,
+       error_message            VARCHAR2(4)      NULL,
+       status                   VARCHAR2(1)      NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_xbmf_cancel_accept ON host_xbmf_cancel_accept
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_xbmf_cancel_accept
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+--2. Table名: 投信注文キューテーブル
+
+CREATE TABLE host_xbmf_order (
+       request_code             VARCHAR2(5)         NOT NULL,
+       institution_code         VARCHAR2(2)         NOT NULL,
+       branch_code              VARCHAR2(3)         NOT NULL,
+       account_code             VARCHAR2(7)         NOT NULL,
+       trader_code              VARCHAR2(5)         NULL,
+       product_code             VARCHAR2(7)         NULL,
+       specify_div              VARCHAR2(1)         NULL,
+       settlement_div           VARCHAR2(1)         NULL,
+       sell_order_quantity      NUMBER(13)          NULL,
+       buy_order_quantity       NUMBER(13)          NULL,
+       ticket_number		    NUMBER(4)	        NULL,
+       pr_div                   VARCHAR2(1)         NULL,
+       commission_div           VARCHAR2(1)         NULL,
+       deposit_check_div        VARCHAR2(1)         NULL,
+       order_request_number     VARCHAR2(9)         NOT NULL,
+       create_date              DATE                NULL,
+       create_time              DATE                NULL,
+       order_date               DATE                NULL,
+       swt_div                  VARCHAR2(1)         NULL,
+       swt_product_code         VARCHAR2(7)         NULL,
+       tax_type                 VARCHAR2(1)         NULL,
+       swt_tax_type             VARCHAR2(1)         NULL,
+       claim_div                VARCHAR2(1)         NULL,
+       order_chanel             VARCHAR2(1)         NULL,
+       status                   VARCHAR2(1)         NULL,
+       payment_date             DATE                NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_xbmf_order ON host_xbmf_order
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_xbmf_order
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+--3. Table名: 投信注文取消キューテーブル
+
+CREATE TABLE host_xbmf_order_cancel (
+       request_code              VARCHAR2(5)     NOT NULL,
+       institution_code          VARCHAR2(2)     NOT NULL,
+       branch_code               VARCHAR2(3)     NOT NULL,
+       account_code              VARCHAR2(7)     NOT NULL,
+       trader_code               VARCHAR2(5)     NULL,
+       product_code              VARCHAR2(7)     NULL,
+       cancel_div                VARCHAR2(1)     NULL,
+       order_request_number      VARCHAR2(9)     NOT NULL,
+       order_date                DATE            NULL,
+       order_time                DATE            NULL,
+       status                    VARCHAR2(1)     NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_xbmf_order_cancel ON host_xbmf_order_cancel
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_xbmf_order_cancel
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+--4. Table名: 投信注文受付キューテーブル
+
+CREATE TABLE host_xbmf_order_accept (
+       request_code            VARCHAR2(5)      NOT NULL,
+       institution_code        VARCHAR2(2)      NOT NULL,
+       branch_code             VARCHAR2(3)      NOT NULL,
+       account_code            VARCHAR2(7)      NOT NULL,
+       trader_code             VARCHAR2(5)      NULL,
+       order_request_number    VARCHAR2(9)      NOT NULL,
+       accept_status           VARCHAR2(1)      NULL,
+       error_message           VARCHAR2(4)      NULL,
+       status                  VARCHAR2(1)      NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_xbmf_order_accept ON host_xbmf_order_accept
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_xbmf_order_accept
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+--5. Table名: 投信注文通知キューテーブル
+
+CREATE TABLE host_xbmf_order_notify (
+       request_code                  VARCHAR2(5)                       NOT NULL,
+       institution_code              VARCHAR2(2)                       NOT NULL,
+       branch_code                   VARCHAR2(3)                       NOT NULL,
+       account_code                  VARCHAR2(7)                       NOT NULL,
+       trader_code                   VARCHAR2(5)                       NULL,
+       order_date_div                VARCHAR2(1)                       NOT NULL,
+       order_request_number          VARCHAR2(9)                       NOT NULL,
+       product_code                  VARCHAR2(7)                       NULL,
+       trade_type                    VARCHAR2(1)                       NULL,
+       specify_div                   VARCHAR2(1)                       NULL,
+       quantity                      DECIMAL(18,6)                     NULL,
+       pr_div                        VARCHAR2(1)                       NULL,
+       settlement_div                VARCHAR2(1)                       NULL,
+       commission_div                VARCHAR2(1)                       NULL,
+       deposit_check_div             VARCHAR2(1)                       NULL,
+       estimated_price               DECIMAL(18,6)                     NULL,
+       constant_value                DECIMAL(18,6)                     NULL,
+       estimated_unit                DECIMAL(18,6)                     NULL,
+       create_datetime               DATE                              NULL,
+       biz_datetime                  DATE                              NULL,
+       order_div                     VARCHAR2(1)                       NULL,
+       order_cancel_div              VARCHAR2(1)                       NULL,
+       order_cancel_date             DATE                              NULL,
+       delivery_date                 DATE                              NULL,
+       sonar_fund_type               VARCHAR2(2)                       NULL,
+       delivery_method               VARCHAR2(1)                       NULL,
+       check_flag                    VARCHAR2(1)       DEFAULT 0       NULL,
+       error_message                 VARCHAR2(4)                       NULL,
+       swt_div                       VARCHAR2(1)                       NULL,
+       swt_product_code              VARCHAR2(7)                       NULL,
+       tax_type                      VARCHAR2(1)                       NULL,
+       swt_tax_type                  VARCHAR2(1)                       NULL,
+       claim_div                     VARCHAR2(1)                       NULL,
+       input_div                     VARCHAR2(1)                       NULL,
+       status                        VARCHAR2(1)                       NULL,
+       payment_date                  DATE                              NULL,
+       cpu_no                        VARCHAR2(5)                       NULL,
+       created_timestamp             DATE              DEFAULT sysdate NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_xbmf_order_notify ON host_xbmf_order_notify
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_xbmf_order_notify
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+--6. Table名: 外貨MMF注文受付キューテーブル
+
+CREATE TABLE host_frgn_mmf_order_accept (
+       request_code              VARCHAR2(5)                    NOT NULL,
+       institution_code          VARCHAR2(3)                    NOT NULL,
+       branch_code               VARCHAR2(3)                    NOT NULL,
+       account_code              VARCHAR2(7)                    NOT NULL,
+       trader_code               VARCHAR2(5)                    NULL,
+       order_request_number      VARCHAR2(9)                    NOT NULL,
+       accept_status             VARCHAR2(1)                    NULL,
+       error_message             VARCHAR2(4)                    NULL,
+       status                    VARCHAR2(1)                    NULL
+
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_frgn_mmf_order_accept ON host_frgn_mmf_order_accept
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_frgn_mmf_order_accept
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+--7. Table名: 外貨MMF注文キューテーブル
+
+CREATE TABLE host_frgn_mmf_order (
+       request_code                     VARCHAR2(5)                     NOT NULL,
+       institution_code	                VARCHAR2(3)                     NOT NULL,
+       branch_code                      VARCHAR2(3)                     NOT NULL,
+       account_code                     VARCHAR2(7)                     NOT NULL,
+       trader_code                      VARCHAR2(5)                     NULL,
+       product_code                     VARCHAR2(7)                     NULL,
+       specify_div                      VARCHAR2(1)                     NULL,
+       sell_order_quantity              NUMBER(15)                      NULL,
+       buy_order_quantity               NUMBER(15)                      NULL,
+       ticket_number                    NUMBER(4)                       NULL,
+       buy_div                          VARCHAR2(1)                     NULL,
+       settlement_div                   VARCHAR2(1)                     NULL,
+       execute_div                      VARCHAR2(1)                     NULL,
+       order_request_number             VARCHAR2(9)                     NOT NULL,
+       create_date                      DATE                            NULL,
+       create_time                      DATE                            NULL,
+       order_date                       DATE                            NULL,
+       status                           VARCHAR2(1)                     NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKhost_frgn_mmf_order ON host_frgn_mmf_order
+(
+       institution_code             ,
+       branch_code                  ,
+       order_request_number
+);
+
+--PK
+
+ALTER TABLE host_frgn_mmf_order
+       ADD  (PRIMARY KEY (institution_code, branch_code, order_request_number));
+
+
+------- ------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 投信銘柄カテゴリーテーブル
+
+CREATE TABLE mutual_fund_product_category (
+       institution_code           VARCHAR2(3)        NOT NULL,
+       category_code              VARCHAR2(2)        NOT NULL,
+       category_name              VARCHAR2(100)      NOT NULL,
+       parent_category_code       VARCHAR2(2)        NULL,
+	   last_updater               VARCHAR2(20)       NOT NULL,
+       created_timestamp          DATE               NOT NULL,
+       last_updated_timestamp     DATE               NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_product_categor ON mutual_fund_product_category
+(
+       institution_code         ,
+       category_code
+);
+
+--PK
+
+ALTER TABLE mutual_fund_product_category
+      ADD  (PRIMARY KEY (institution_code, category_code));
+
+
+--2. Table名: 投信第2銘柄マスタ（SONAR）テーブル
+
+CREATE TABLE mutual_fund_2nd_product_sonar (
+       product_code                     VARCHAR2(7)       NOT NULL,
+       institution_code                 VARCHAR2(2)       NOT NULL,
+       work_date                        DATE              NULL,
+       reg_date                         DATE              NULL,
+       last_update_date                 DATE              NULL,
+       reg_div                          VARCHAR2(1)       NULL,
+       product_name_kana                VARCHAR2(16)      NULL,
+       product_name_kanji               VARCHAR2(26)      NULL,
+       recruit_unit                     NUMBER(9)         NULL,
+       dealing_unit_qty                 NUMBER(9)         NULL,
+       recruit_min_qty                  NUMBER(9)         NULL,
+       buy_min_qty                      NUMBER(9)         NULL,
+       sell_min_qty                     NUMBER(9)         NULL,
+       swt_min_qty                      NUMBER(9)         NULL,
+       recruit_unit_qty                 NUMBER(9)         NULL,
+       buy_unit_qty                     NUMBER(9)         NULL,
+       sell_unit_qty                    NUMBER(9)         NULL,
+       swt_unit_qty                     NUMBER(9)         NULL,
+       recruit_min_amt                  NUMBER(9)         NULL,
+       buy_min_amt                      NUMBER(9)         NULL,
+       sell_min_amt                     NUMBER(9)         NULL,
+       swt_min_amt                      NUMBER(9)         NULL,
+       recruit_unit_amt                 NUMBER(9)         NULL,
+       buy_unit_amt                     NUMBER(9)         NULL,
+       sell_unit_amt                    NUMBER(9)         NULL,
+       swt_unit_amt                     NUMBER(9)         NULL,
+       recruit_qty_spec_div             VARCHAR2(1)       NULL,
+       recruit_amt_spec_div             VARCHAR2(1)       NULL,
+       buy_qty_spec_div                 VARCHAR2(1)       NULL,
+       buy_amt_spec_div                 VARCHAR2(1)       NULL,
+       sell_qty_spec_div                VARCHAR2(1)       NULL,
+       sell_amt_spec_div                VARCHAR2(1)       NULL,
+       swt_qty_spec_div                 VARCHAR2(1)       NULL,
+       swt_amt_spec_div                 VARCHAR2(1)       NULL,
+       input_unit_div                   VARCHAR2(1)       NULL,
+       cal_price_div                    VARCHAR2(1)       NULL,
+       sell_exception_div               VARCHAR2(1)       NULL,
+       swt_trade_div                    VARCHAR2(1)       NULL,
+       swt_group                        VARCHAR2(3)       NULL,
+       swt_companion_subject_div        VARCHAR2(1)       NULL,
+       buy_disable_div                  VARCHAR2(1)       NULL,
+       swt_perference_enable_div        VARCHAR2(1)       NULL,
+       redemption_perference_price      DECIMAL(18,6)     NULL,
+       redemption_commission_rate       DECIMAL(18,6)     NULL,
+       pre_redemption_begin_date        DATE              NULL,
+       closing_date_cal_div             VARCHAR2(1)       NULL,
+       closing_spec_date                VARCHAR2(2)       NULL,
+       annual_profit_qty_times          VARCHAR2(2)       NULL,
+       sell_advance_order_div           VARCHAR2(1)       NULL,
+       buy_advance_order_div            VARCHAR2(1)       NULL,
+       sell_undelivering_term           VARCHAR2(2)       NULL,
+       buy_undelivering_term            VARCHAR2(2)       NULL,
+       recruit_stop_div                 VARCHAR2(1)       NULL,
+       dealing_stop_div                 VARCHAR2(1)       NULL,
+       storage_stop_div                 VARCHAR2(1)       NULL,
+       specific_corpus_app              VARCHAR2(1)       NULL,
+       perference_qualify               VARCHAR2(1)       NULL,
+       collateral_qualify               VARCHAR2(1)       NULL,
+       operate_report_send_div          VARCHAR2(1)       NULL,
+       operate_report_send_month1       VARCHAR2(2)       NULL,
+       operate_report_send_month2       VARCHAR2(2)       NULL,
+       biz_asset_code                   VARCHAR2(1)       NULL,
+       biz_asset_name                   VARCHAR2(10)      NULL,
+       prospectus_conversion_date       DATE              NULL,
+       frgn_buy_min_amt                 NUMBER(9)         NULL,
+       frgn_sell_min_amt                NUMBER(9)         NULL,
+       frgn_buy_unit_amt                NUMBER(9)         NULL,
+       frgn_sell_unit_amt               NUMBER(9)         NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_2nd_product_son ON mutual_fund_2nd_product_sonar
+(
+       product_code ,
+       institution_code
+);
+
+--PK
+
+ALTER TABLE mutual_fund_2nd_product_sonar
+      ADD  (PRIMARY KEY (product_code, institution_code));
+
+--3. Table名: 投信銘柄マスター(SONAR)
+
+CREATE TABLE mutual_fund_product_sonar (
+       product_code                     VARCHAR2(7)                               NOT NULL,
+       product_name_kana                VARCHAR2(32)                              NULL,
+       product_name_kanji               VARCHAR2(32)                              NULL,
+       product_div                      VARCHAR2(2)                               NULL,
+       work_date                        DATE                                      NULL,
+       effect_generating_date           DATE                                      NULL,
+       invalid_date                     DATE            DEFAULT to_date('99991231', 'yyyymmdd')          NULL,
+       closing_date1                    DATE                                      NULL,
+       closing_date2                    DATE                                      NULL,
+       redemption_extend_div            VARCHAR2(1)                               NULL,
+       redemption_date                  DATE            DEFAULT to_date('99991231', 'yyyymmdd')          NULL,
+       first_recruitment_date           DATE            DEFAULT to_date('00010101', 'yyyymmdd')          NULL,
+       recruit_start_date               DATE            DEFAULT to_date('00010101', 'yyyymmdd')          NULL,
+       recruit_end_date                 DATE            DEFAULT to_date('00010101', 'yyyymmdd')          NULL,
+       recruit_price                    NUMBER(5)       DEFAULT 0                 NULL,
+       payment_start_date1              DATE                                      NULL,
+       payment_start_date2              DATE                                      NULL,
+       storage_stop_flag                VARCHAR2(1)                               NULL,
+       trade_stop_flag                  VARCHAR2(1)                               NULL,
+       obliterate_type                  VARCHAR2(1)                               NULL,
+       corpus_price                     NUMBER(5)       DEFAULT 0                 NULL,
+       open_close_type                  VARCHAR2(1)                               NULL,
+       dayreport_product_code           VARCHAR2(2)                               NULL,
+       recruit_sales                    VARCHAR2(1)                               NULL,
+       stock_type_bond_type             VARCHAR2(1)                               NULL,
+       contract_institution_type        VARCHAR2(1)                               NULL,
+       purchs_deduction_start_date      DATE            DEFAULT to_date('99991231', 'yyyymmdd')          NULL,
+       spot_closing_date1               DATE                                      NULL,
+       spot_closing_date2               DATE                                      NULL,
+       calc_unit                        NUMBER(7)                                 NULL,
+       biz_asset_product_type           VARCHAR2(2)                               NULL,
+       biz_asset_evaluate_price         DECIMAL(18,6)                             NULL,
+       profit_balance_confirm_data      DATE                                      NULL,
+       profit_term_quantity             VARCHAR2(2)                               NULL,
+       general_profit_price             DECIMAL(18,6)                             NULL,
+       spcprofit_distribution_price     DECIMAL(18,6)                             NULL,
+       taxinlots_aftertax_price         DECIMAL(18,6)                             NULL,
+       taxaggregate_aftertax_price      DECIMAL(18,6)                             NULL,
+       pay_start_date_advanced_div      VARCHAR2(1)                               NULL,
+       method_type                      VARCHAR2(2)                               NULL,
+       setting_date                     DATE                                      NULL,
+       sell_forbidden_date              DATE                                      NULL,
+       adding_forbidden_date            DATE                                      NULL,
+       profit_start_date                DATE                                      NULL,
+       best_exception_product_flag      VARCHAR2(2)                               NULL,
+       currency_type                    VARCHAR2(2)                               NULL,
+       profit_distribution_regdate      DATE                                      NULL,
+       consign_contact_product_code     VARCHAR2(10)                              NULL,
+       mutualassoc_product_code         VARCHAR2(8)                               NULL,
+       trust_bank_code                  VARCHAR2(4)                               NULL,
+       consign_institution_code         VARCHAR2(4)                               NULL,
+       average_trust_price              DECIMAL(18,6)                             NULL,
+       same_check_div                   VARCHAR2(1)                               NULL,
+       same_div                         VARCHAR2(6)                               NULL,
+       recruit_short_swt_check_div      VARCHAR2(1)                               NULL,
+       buy_short_swt_check_div          VARCHAR2(1)                               NULL,
+       sell_short_swt_check_div         VARCHAR2(1)                               NULL,
+       recruit_start_stop               VARCHAR2(1)                               NULL,
+       collateral_qualified_div         VARCHAR2(1)                               NULL,
+       collateral_evaluation            DECIMAL(18,6)                             NULL,
+       collateral_ratio                 DECIMAL(18,6)                             NULL
+);
+
+--PK
+
+ALTER TABLE mutual_fund_product_sonar
+      ADD  (PRIMARY KEY (product_code));
+
+--4. Table名: 投信会社別条件テーブル（SONAR）
+
+CREATE TABLE mutual_fund_inst_cond_sonar (
+       institution_code              VARCHAR2(3)        NOT NULL,
+       product_code                  VARCHAR2(10)       NOT NULL,
+       reg_type                      VARCHAR2(1)        NULL,
+       order_accept_limit_time_usual VARCHAR2(4)        NULL,
+       order_accept_limit_time_half  VARCHAR2(4)        NULL,
+       buy_forbid_div                VARCHAR2(1)        NULL,
+       buy_forbid_end_date           VARCHAR2(8)        NULL,
+       sell_forbid_end_date          VARCHAR2(8)        NULL
+);
+
+--INDEX
+
+--PK
+
+ALTER TABLE mutual_fund_inst_cond_sonar
+      ADD  (PRIMARY KEY (institution_code, product_code));
+
+
+-------------------------------------------------------------------------------
+--計算関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 投信為替レートファイル
+
+CREATE TABLE mutual_fund_exchange_rate (
+       institution_code          VARCHAR2(3)     NOT NULL,
+       currency_code             VARCHAR2(2)     NOT NULL,
+       exec_timestamp            DATE            NOT NULL,
+       tt_selling_rate           DECIMAL(18,6)   NOT NULL,
+       tt_buying_rate            DECIMAL(18,6)   NOT NULL,
+       exchange_calc_unit        DECIMAL(18,6)   NOT NULL,
+       created_timestamp         DATE            NOT NULL,
+       last_updated_timestamp    DATE            NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_exchange_rate ON mutual_fund_exchange_rate
+(
+       institution_code         ,
+       currency_code
+);
+
+--PK
+
+ALTER TABLE mutual_fund_exchange_rate
+      ADD  (PRIMARY KEY (institution_code, currency_code));
+
+--2. Table名: 投信会社別手数料テーブル
+
+CREATE TABLE mutual_fund_inst_commission (
+       institution_code           VARCHAR2(3)     NOT NULL,
+       product_code               VARCHAR2(10)    NOT NULL,
+       deal_div                   VARCHAR2(1)     NOT NULL,
+       order_chanel               VARCHAR2(1)     NOT NULL,
+       valid_date_from            DATE            NOT NULL,
+       valid_date_to              DATE            NULL,
+       commission_div             VARCHAR2(1)     NULL,
+       unit_count                 NUMBER(9)       NULL,
+       amount_from_01             NUMBER(15)      NULL,
+       amount_to_01               NUMBER(15)      NULL,
+       commission_price_rate_01   DECIMAL(7,2)    NULL,
+       amount_from_02             NUMBER(15)      NULL,
+       amount_to_02               NUMBER(15)      NULL,
+       commission_price_rate_02   DECIMAL(7,2)    NULL,
+       amount_from_03             NUMBER(15)      NULL,
+       amount_to_03               NUMBER(15)      NULL,
+       commission_price_rate_03   DECIMAL(7,2)    NULL,
+       amount_from_04             NUMBER(15)      NULL,
+       amount_to_04               NUMBER(15)      NULL,
+       commission_price_rate_04   DECIMAL(7,2)    NULL,
+       amount_from_05             NUMBER(15)      NULL,
+       amount_to_05               NUMBER(15)      NULL,
+       commission_price_rate_05   DECIMAL(7,2)    NULL,
+       amount_from_06             NUMBER(15)      NULL,
+       amount_to_06               NUMBER(15)      NULL,
+       commission_price_rate_06   DECIMAL(7,2)    NULL,
+       amount_from_07             NUMBER(15)      NULL,
+       amount_to_07               NUMBER(15)      NULL,
+       commission_price_rate_07   DECIMAL(7,2)    NULL,
+       amount_from_08             NUMBER(15)      NULL,
+       amount_to_08               NUMBER(15)      NULL,
+       commission_price_rate_08   DECIMAL(7,2)    NULL,
+       amount_from_09             NUMBER(15)      NULL,
+       amount_to_09               NUMBER(15)      NULL,
+       commission_price_rate_09   DECIMAL(7,2)    NULL,
+       amount_from_10             NUMBER(15)      NULL,
+       amount_to_10               NUMBER(15)      NULL,
+       commission_price_rate_10   DECIMAL(7,2)    NULL,
+       open_date_from             DATE            NULL,
+       open_date_to               DATE            NULL,
+       collection_rate            DECIMAL(9,6)    NULL,
+       regist_div                 VARCHAR2(1)     NOT NULL,
+       last_updater               VARCHAR2(20)    NULL,
+       created_timestamp          DATE            NOT NULL,
+       last_updated_timestamp     DATE            NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_inst_commission ON mutual_fund_inst_commission
+(
+       institution_code         ,
+       product_code             ,
+       deal_div                 ,
+       order_chanel             ,
+       valid_date_from
+);
+
+--PK
+
+ALTER TABLE mutual_fund_inst_commission
+      ADD  (PRIMARY KEY (institution_code, product_code, deal_div, order_chanel, valid_date_from));
+
+--3. Table名: 投信控除対象顧客テーブル
+
+CREATE TABLE mf_exemption_account (
+       institution_code          VARCHAR2(3)     NOT NULL,
+       branch_code               VARCHAR2(3)     NOT NULL,
+       account_code              VARCHAR2(7)     NOT NULL,
+       exemption_div             VARCHAR2(1)     NOT NULL,
+       last_updater              VARCHAR2(20)    NULL,
+       created_timestamp         DATE            NOT NULL,
+       last_updated_timestamp    DATE            NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmf_exemption_account ON mf_exemption_account
+(
+       institution_code         ,
+       branch_code              ,
+       account_code             , 
+       exemption_div
+);
+
+--PK
+
+ALTER TABLE mf_exemption_account
+      ADD  (PRIMARY KEY (institution_code, branch_code, account_code, exemption_div));
+
+-------------------------------------------------------------------------------
+--取引時間関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 投信海外市場カレンダー
+
+CREATE TABLE mutual_fund_frgncal (
+       institution_code           VARCHAR2(20)   NOT NULL,
+       product_code               VARCHAR2(10)   NOT NULL,
+       holiday                    DATE           NOT NULL,
+       created_timestamp          DATE           NOT NULL,
+       last_updated_timestamp     DATE           NOT NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKmutual_fund_frgncal ON mutual_fund_frgncal
+(
+       institution_code         ,
+       product_code             ,
+       holiday
+);
+
+CREATE INDEX XIEmutual_fund_frgncal ON mutual_fund_frgncal
+(
+       institution_code         ,
+       product_code
+);
+
+--PK
+
+ALTER TABLE mutual_fund_frgncal
+      ADD  (PRIMARY KEY (institution_code, product_code, holiday));
+
+
+-------------------------------------------------------------------------------
+--残高関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 取得日別残高テーブル
+
+CREATE TABLE mutual_fund_day_balance (
+       institution_code           VARCHAR2(3)    NOT NULL,
+       work_day                   DATE           NULL,
+       rec_div                    VARCHAR2(1)    NOT NULL,
+       last_updated_timestamp     DATE           Null,
+       branch_code                VARCHAR2(3)    NOT NULL,
+       account_code               VARCHAR2(7)    NOT NULL,
+       trader_code                VARCHAR2(5)    Null,
+       trade_type                 VARCHAR2(1)    Null,
+       product_code               VARCHAR2(10)   NOT NULL,
+       tax_type                   VARCHAR2(1)    NOT NULL,
+       delivery_date              DATE           NOT NULL,
+       include_div                VARCHAR2(1)    Null,
+       account_div                VARCHAR2(1)    Null,
+       bal_quantity               NUMBER(12)     Null
+);
+
+--INDEX
+
+CREATE INDEX XIEmutual_fund_day_balance ON mutual_fund_day_balance
+(
+       institution_code,
+	   branch_code ,
+	   account_code,
+	   product_code,
+	   tax_type,
+	   delivery_date
+);
+
+--1. Table名: 定時定額買付条件テーブル
+CREATE TABLE mf_fixed_buying_cond (
+       institution_code        VARCHAR2(3)     NOT NULL,
+       branch_code             VARCHAR2(3)     NOT NULL,
+       account_code            VARCHAR2(7)     NOT NULL,
+       product_code            VARCHAR2(10)    NOT NULL,
+       draw_date               DATE            NOT NULL,
+       monthly_buy_amount      DECIMAL(18,6)       NULL,
+       increase_buy_amount     DECIMAL(18,6)       NULL,
+       valid_start_date        DATE            NOT NULL,
+       created_timestamp       DATE            NOT NULL,
+       last_updated_timestamp  DATE            NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmf_fixed_buying_cond ON mf_fixed_buying_cond
+(
+       institution_code,
+       branch_code,
+       account_code,
+       product_code,
+       draw_date
+);
+
+CREATE INDEX XIE1mf_fixed_buying_cond ON mf_fixed_buying_cond
+(
+       institution_code,
+       branch_code,
+       account_code,
+       draw_date
+);
+
+ALTER TABLE mf_fixed_buying_cond
+       ADD  ( PRIMARY KEY (institution_code, branch_code, account_code, product_code, draw_date) ) ;
+       
+--2. Table名: 定時定額買付引落口座テーブル
+CREATE TABLE mf_fixed_buying_draw_account (
+       institution_code         VARCHAR2(3)  NOT NULL,
+       branch_code              VARCHAR2(3)  NOT NULL,
+       account_code             VARCHAR2(7)  NOT NULL,
+       fin_institution_div      VARCHAR2(1)  NOT NULL,
+       fin_institution_code     VARCHAR2(4)  NOT NULL,
+       fin_branch_code          VARCHAR2(3)  NOT NULL,
+       deposit_div              VARCHAR2(1)      NULL,
+       draw_account_no          VARCHAR2(7)  NOT NULL,
+       draw_account_name_kana   VARCHAR2(30) NOT NULL,
+       created_timestamp        DATE         NOT NULL,
+       last_updated_timestamp   DATE         NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmf_fixed_buying_draw_acc ON mf_fixed_buying_draw_account
+(
+       institution_code,
+       branch_code,
+       account_code
+);
+
+ALTER TABLE mf_fixed_buying_draw_account
+       ADD  ( PRIMARY KEY (institution_code, branch_code, account_code) ) ;
+
+--3. Table名: 投信保有資産補助テーブル
+CREATE TABLE mf_sub_asset (
+       asset_id                  NUMBER(18)                    NOT NULL,
+       account_id                NUMBER(18)                    NOT NULL,
+       product_id                NUMBER(18)                    NOT NULL,
+       unreceive_dist            DECIMAL(18,6)                     NULL,
+       created_timestamp         DATE    DEFAULT sysdate       NOT NULL,
+       last_updated_timestamp    DATE    DEFAULT sysdate       NOT NULL
+
+);
+
+CREATE UNIQUE INDEX XPKmf_sub_asset ON mf_sub_asset
+(
+       asset_id
+);
+
+ALTER TABLE mf_sub_asset
+       ADD  ( PRIMARY KEY (asset_id) ) ;
+
+--4. Table名: 定時定額買付条件変更履歴テーブル
+CREATE TABLE mf_fixed_buying_change_hist (
+		institution_code				VARCHAR2(3)			NOT NULL,
+		branch_code						VARCHAR2(3)			NOT NULL,
+		account_code					VARCHAR2(7)			NOT NULL,
+		product_code					VARCHAR2(10)		NOT NULL,
+		valid_start_date				DATE				NOT NULL,
+		serial_no						NUMBER(8)			NOT NULL,
+		monthly_buy_amount				DECIMAL(18,6)		NULL,
+		increase_buy_amount				DECIMAL(18,6)		NULL,
+		fin_draw_increase_buy_amount	DECIMAL(18,6)		NULL,
+		change_div						VARCHAR2(1)			NULL,
+		status							VARCHAR2(1)			NULL,
+		biz_date						DATE				NULL,
+		order_timestamp					DATE				NULL,
+		order_chanel					VARCHAR2(1)  		NULL,
+		delete_flag						VARCHAR2(1)		    NULL,
+		last_updater					VARCHAR2(20)		NOT NULL,
+		created_timestamp				DATE				NOT NULL,
+		last_updated_timestamp			DATE				NOT NULL	
+);
+
+CREATE UNIQUE INDEX XPKmf_fixed_buy_change_his ON mf_fixed_buying_change_hist
+(
+		institution_code,
+		branch_code,
+		account_code,
+		product_code,
+		valid_start_date,
+		serial_no
+);
+
+
+ALTER TABLE mf_fixed_buying_change_hist
+       ADD  ( PRIMARY KEY (
+		institution_code,
+		branch_code,
+		account_code,
+		product_code,
+		valid_start_date,
+		serial_no
+		)) ;
+
+--5. Table名: 定時定額買付条件変更テーブル
+CREATE TABLE mf_fixed_buying_change (
+		institution_code					VARCHAR2(3)			NOT NULL,
+		branch_code							VARCHAR2(3)			NOT NULL,
+		account_code						VARCHAR2(7)			NOT NULL,
+		product_code						VARCHAR2(10)		NOT NULL,
+		valid_start_date					DATE				NOT NULL,
+		monthly_buy_amount					DECIMAL(18,6)		NULL,
+		increase_buy_amount					DECIMAL(18,6)		NULL,
+		fin_draw_increase_buy_amount		DECIMAL(18,6)		NULL,
+		change_div							VARCHAR2(1)			NULL,
+		status								VARCHAR2(1)			NULL,
+		biz_date							DATE				NULL,
+		order_timestamp						DATE				NULL,
+		order_chanel						VARCHAR2(1)			NULL,
+		delete_flag							VARCHAR2(1)			NULL,
+		last_updater						VARCHAR2(20)		NOT NULL,
+		created_timestamp					DATE				NOT NULL,
+		last_updated_timestamp				DATE				NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKmf_fixed_buying_change ON mf_fixed_buying_change
+(
+		institution_code,
+		branch_code,
+		account_code,
+		product_code,
+		valid_start_date
+);
+
+ALTER TABLE mf_fixed_buying_change
+       ADD  ( PRIMARY KEY (institution_code,
+		branch_code,
+		account_code,
+		product_code,
+		valid_start_date)) ;
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+@

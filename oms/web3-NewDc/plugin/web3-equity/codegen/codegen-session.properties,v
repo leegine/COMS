@@ -1,0 +1,96 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.43.18;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	7a84d7eee2c1971;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.equity.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3equity.sql,sql/web3equitymarket.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3EquityMarketSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3equity_session_triggers.sql
+
+enums=\
+     eqtype_order_exec_send_mail.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+     eqtype_order_exec_send_mail.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+     eqtype_order_exec_send_mail.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+     market_notice_management.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  host_eqtype_close_order_notify:rowid_pk=true \
+  host_equity_order_exec_notify:rowid_pk=true \
+  host_equity_carryover_skip:rowid_pk=true \
+  host_eqtype_order_clmd_receipt:rowid_pk=true \
+  host_eqtype_order_receipt:rowid_pk=true \
+  host_eqtype_order_all:rowid_pk=true \
+  host_eqtype_swap_receipt:rowid_pk=true \
+  host_eqtype_order_accept:rowid_pk=true \
+  host_eqtype_swap:rowid_pk=true \
+  host_eqtype_swap_accept:rowid_pk=true \
+  eqtype_order_exec_send_mail \
+  market_notice_management \
+  host_eqtype_order_history:rowid_pk=true
+
+
+#imports=\
+#  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+
+@

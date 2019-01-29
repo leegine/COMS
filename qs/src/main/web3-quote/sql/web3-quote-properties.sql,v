@@ -1,0 +1,122 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.34;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3d04d912e303247;
+filename	web3-quote-properties.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-- 
+-- install quote-adaptor properties
+-- 
+DELETE FROM system_preferences WHERE name LIKE 'webbroker3.quoteadaptor%';
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.server.address', 'localhost');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.server.port', '8000');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.queue.size', '16');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.cache.size', '5009');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.updater.priority', '2');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.receiver.priority', '3');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.retry.interval.normal', '5000');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.retry.interval.economy', '60000');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.retry.threshold', '10');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.output.file.required', 'false');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.output.dir', './');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.monitor.interval', '60000');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.monitor.waring.threshold', '3');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.monitor.start.time.1', '09:00');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.monitor.end.time.1', '11:00');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.monitor.start.time.2', '12:30');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.monitor.end.time.2', '15:00');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.heartbeat.interval', '5000');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.heartbeat.timeout', '10000');
+
+INSERT INTO system_preferences(name, value) 
+VALUES ('webbroker3.quoteadaptor.heartbeat.priority', '1');
+
+
+
+-- 
+-- install job schedule
+-- 
+DELETE FROM job_schedule WHERE job_name LIKE '%quote%';
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900001, 'start_quote_service_all', 'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="start_quote_service_broadcast"><service_id>ALL</service_id></request>');
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900002, 'stop_quote_service_all',  'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="stop_quote_service_broadcast"><service_id>ALL</service_id></request>');
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900003, 'start_quote_service', 'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="start_quote_service"><service_id>ALL</service_id></request>');
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900004, 'stop_quote_service',  'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="stop_quote_service"><service_id>ALL</service_id></request>');
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900005, 'dump_cached_quote_data',  'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="quote_dump"></request>');
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900006, 'start_quote_monitoring',  'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="start_quote_monitoring"></request>');
+
+INSERT INTO job_schedule(JOB_ID, JOB_NAME, STATUS, SCHED_TYPE, FREQUENCY_SECS, HOURS, SCHEDULE, NEXT_DATE_TIME, LAST_DATE_TIME, RETRY_COUNT, RETRY_AFTER_SECS, MAX_DURATION_SECS, THREAD_COUNT, MAX_PER_NODE, THREAD_PRIORITY, MAX_HISTORY, REQUEST_XML)
+VALUES (900007, 'stop_quote_monitoring',  'enabled', 'manual', 60, null, null, null, null, 1, 60, 10, 1, 1, 'medium', 10, '<request p_type="stop_quote_monitoring"></request>');
+
+COMMIT;
+@

@@ -1,0 +1,57 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.08.57.41;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5404d904d7c547e;
+filename	web.xml;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+<web-app>
+	<servlet>
+		<servlet-name>XTradeServlet</servlet-name>
+		<display-name>XTrade Servlet</display-name>
+		<servlet-class>com.fitechlabs.xtrade.kernel.comm.xmlhttp.XTradeServlet</servlet-class>
+		<init-param>
+			<param-name>PLUGIN_CLASS_1</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.gentrade.GenericTradingPlugin</param-value>
+		</init-param>
+		<init-param>
+			<param-name>PLUGIN_CLASS_2</param-name>
+			<param-value>com.fitechlabs.xtrade.plugin.tc.eqtype.EqTypeTradingPlugin</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DEFAULT_URL</param-name>
+			<param-value>jdbc:weblogic:jts:xTradeConnPool</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DEFAULT_DRIVER</param-name>
+			<param-value>oracle.jdbc.driver.OracleDriver</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XTradeServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+</web-app>
+@

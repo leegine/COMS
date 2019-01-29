@@ -1,0 +1,55 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.21;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	3d04d912e303247;
+filename	web3-quote.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE quote_status (
+    host_name VARCHAR2(64) NOT NULL,
+    status    NUMBER(1) NOT NULL,
+    created_timestamp DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX Xpkquote_status
+    ON quote_status ( host_name );
+    
+ALTER TABLE quote_status
+    ADD ( PRIMARY KEY ( host_name ) );
+
+CREATE TABLE quote_monitor_product (
+    market_code  VARCHAR2(2)  NOT NULL,
+    product_code VARCHAR2(10) NOT NULL,
+    product_type    NUMBER(6) NOT NULL,
+    created_timestamp DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX Xpkquote_monitor_product
+    ON quote_monitor_product ( market_code, product_code, product_type );
+    
+ALTER TABLE quote_monitor_product
+    ADD ( PRIMARY KEY ( market_code, product_code, product_type ) );
+
+@

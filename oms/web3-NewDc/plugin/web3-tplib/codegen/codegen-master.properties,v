@@ -1,0 +1,87 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.30.26;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	1744d9128041e20;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.tradingpower.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3tplib.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3TPLibMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3tplib_master_triggers.sql
+
+enums=\
+  eqtype_fixed_contract.contract_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ContractTypeEnum \
+  eqtype_fixed_contract.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  fixed_fin_transaction.fin_transaction_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionType \
+  fixed_fin_transaction.fin_transaction_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.FinTransactionCateg \
+  fixed_fin_transaction.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  fixed_fin_transaction.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+  fixed_fin_transaction.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum 
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  eqtype_fixed_contract:inv=0 \
+  fixed_fin_transaction:inv=0 \
+  tp_cash_balance:inv=0 
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@

@@ -1,0 +1,434 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.02.28.31;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7004d9143b9789a;
+filename	web3triggerorder.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--トリガー注文関連
+-------------------------------------------------------------------------------
+--1. Table名: 株式予約注文単位テーブル
+CREATE TABLE rsv_eq_order_unit (
+       order_unit_id                 NUMBER(18)             NULL,
+       account_id                    NUMBER(18)             NOT NULL,
+       sub_account_id                NUMBER(18)             NOT NULL,
+       branch_id                     NUMBER(18)             NOT NULL,
+       trader_id                     NUMBER(18)             NULL,
+       order_id                      NUMBER(18)             NOT NULL,
+       order_type                    NUMBER(6)              NOT NULL,
+       order_categ                   NUMBER(6)              NOT NULL,
+       last_order_action_serial_no   NUMBER(8)   DEFAULT 0  NOT NULL,
+       reserve_order_trading_type    VARCHAR2(2)            NULL,
+       product_type                  NUMBER(6)              NOT NULL,
+       market_id                     NUMBER(18)             NULL,
+       quantity                      DECIMAL(18,6)          NOT NULL,
+       limit_price                   DECIMAL(18,6)          NULL,
+       price_adjust_value            DECIMAL(18,6)          NULL,
+       expiration_date               DATE                   NULL,
+       order_status                  NUMBER(6)   DEFAULT 1  NOT NULL,
+       order_open_status             NUMBER(6)   DEFAULT 1  NOT NULL,
+       expiration_status             NUMBER(6)              NOT NULL,
+       tax_type                      NUMBER(6)              NOT NULL,
+       swap_tax_type                 NUMBER(6)              NOT NULL,
+       repayment_type                VARCHAR2(1)            NULL,
+       repayment_num                 NUMBER(7)              NULL,
+       biz_date                      VARCHAR2(8)            NOT NULL,
+       product_id                    NUMBER(18)             NOT NULL,
+       order_chanel                  VARCHAR2(1)            NULL,
+       received_date_time            DATE                   NULL,
+       price                         DECIMAL(18,6)          NULL,
+       estimated_price               DECIMAL(18,6)          NULL,
+       capital_gain                  DECIMAL(18,6) DEFAULT 0  NULL,
+       capital_gain_tax              DECIMAL(18,6) DEFAULT 0  NULL,
+       order_root_div                VARCHAR2(1)            NULL,
+       closing_order_type            VARCHAR2(1)            NULL,
+       first_order_unit_id           NUMBER(18)             NULL,
+       order_error_code              VARCHAR2(5)            NULL,
+       parent_order_id               NUMBER(18)             NOT NULL,
+       parent_order_unit_id          NUMBER(18)             NULL,
+       serial_no_in_parent           NUMBER(8)              NULL,
+       created_timestamp             DATE  DEFAULT sysdate  NOT NULL,
+       last_updated_timestamp        DATE  DEFAULT sysdate  NOT NULL,
+       forced_expire_type            VARCHAR2(1) DEFAULT 0  NULL
+);
+
+CREATE UNIQUE INDEX XPKrsv_eq_order_unit ON rsv_eq_order_unit
+(
+       order_id             
+);
+
+CREATE UNIQUE INDEX XAK1rsv_eq_order_unit ON rsv_eq_order_unit
+(
+       account_id                     ,
+       parent_order_id                ,
+       serial_no_in_parent                  
+);
+
+--PK
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+
+--2. Table名: 株式予約注文履歴テーブル
+CREATE TABLE rsv_eq_order_action (
+    account_id                      NUMBER(18)                      NOT NULL,
+    sub_account_id                  NUMBER(18)                      NOT NULL,
+    trader_id	                    NUMBER(18)                      NULL,
+    order_id                        NUMBER(18)                      NOT NULL,
+    quantity                        DECIMAL(18,6)                   NOT NULL,
+    limit_price                     DECIMAL(18,6)                   NULL,
+    price_adjust_value              DECIMAL(18,6)                   NULL,
+    expiration_date                 DATE                            NULL,
+    order_status                    NUMBER(6)                       NOT NULL,
+    order_open_status               NUMBER(6)                       NOT NULL,
+    expiration_status               NUMBER(6)                       NOT NULL,
+    order_action_serial_no          NUMBER(8)                       NOT NULL,
+    estimated_price                 DECIMAL(18,6)                   NULL,    
+    order_root_div                  VARCHAR2(1)                     NULL,
+    created_timestamp               DATE         DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp          DATE         DEFAULT sysdate    NOT NULL,
+    ip_address                      VARCHAR2(15)                    NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKrsv_eq_order_action ON rsv_eq_order_action
+(
+       order_id                        ,
+       order_action_serial_no
+);
+
+
+--1. Table名: 株式予約建株返済指定情報ﾃｰﾌﾞﾙ
+CREATE TABLE rsv_eq_closing_contract_spec (
+    account_id                      NUMBER(18)                      NOT NULL,
+    sub_account_id                  NUMBER(18)                      NOT NULL,    
+    order_id                        NUMBER(18)                      NOT NULL,
+    contract_id	                    NUMBER(18)                      NOT NULL,
+    closing_serial_no               NUMBER(8)                       NOT NULL,
+    quantity                        DECIMAL(18,6)                   NOT NULL,    
+    created_timestamp               DATE         DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp          DATE         DEFAULT sysdate    NOT NULL    
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKrsv_eq_closing_contract_sp ON rsv_eq_closing_contract_spec
+(
+       order_id                        ,
+       closing_serial_no
+);
+
+CREATE UNIQUE INDEX XAK1rsv_eq_closing_contract_sp ON rsv_eq_closing_contract_spec
+(
+       order_id                        ,
+       contract_id
+);
+
+
+--4. Table名: 特殊執行条件取扱停止ﾃｰﾌﾞﾙ
+CREATE TABLE trigger_order_stop (
+    trigger_order_stop_id              NUMBER(18)                      NOT NULL,
+    institution_code                   VARCHAR2(3)                     NOT NULL,
+    branch_code                        VARCHAR2(3)                     NOT NULL,
+    target_type	                       VARCHAR2(1)                     NOT NULL,
+    key                                VARCHAR2(20)                    NOT NULL,
+    addition                           VARCHAR2(20)                    NULL,
+    stop_reason                        VARCHAR2(50)                    NULL,
+    succ_order_stop_flag               NUMBER(1)       DEFAULT 0       NOT NULL,
+    stop_order_stop_flag               NUMBER(1)       DEFAULT 0       NOT NULL,
+    wlimit_order_stop_flag             NUMBER(1)       DEFAULT 0       NOT NULL,
+    oco_order_stop_flag                NUMBER(1)       DEFAULT 0       NOT NULL,
+    ifd_order_stop_flag                NUMBER(1)       DEFAULT 0       NOT NULL,
+    valid_term_from                    DATE                            NOT NULL,
+    valid_term_to                      DATE                            NOT NULL,
+    delete_flag                        NUMBER(1)                       NOT NULL,
+    last_updater                       VARCHAR2(20)                    NOT NULL,
+    created_timestamp                  DATE         DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp             DATE         DEFAULT sysdate    NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKtrigger_order_stop ON trigger_order_stop
+(
+       trigger_order_stop_id
+);
+
+CREATE INDEX XIE1trigger_order_stop ON trigger_order_stop
+(
+       institution_code                 ,
+       branch_code                      ,
+       target_type                      ,
+       key
+);
+
+CREATE INDEX XIE2trigger_order_stop ON trigger_order_stop
+(
+       institution_code                 ,
+       branch_code                      ,
+       target_type                      ,
+       delete_flag
+);
+
+--PK
+ALTER TABLE trigger_order_stop
+       ADD (PRIMARY KEY (trigger_order_stop_id));
+
+
+--5. Table名: 先物OP予約注文単位ﾃｰﾌﾞﾙ
+CREATE TABLE rsv_ifo_order_unit (
+       order_unit_id                   NUMBER(18)             NULL,
+       account_id                      NUMBER(18)             NOT NULL,
+       sub_account_id                  NUMBER(18)             NOT NULL,
+       branch_id                       NUMBER(18)             NOT NULL,
+       trader_id                       NUMBER(18)             NULL,
+       order_id                        NUMBER(18)             NOT NULL,
+       order_type                      NUMBER(6)              NOT NULL,
+       order_categ                     NUMBER(6)              NOT NULL,
+       last_order_action_serial_no     NUMBER(8)   DEFAULT 0  NOT NULL,
+       reserve_order_trading_type      VARCHAR2(2)            NULL,
+       product_type                    NUMBER(6)              NOT NULL,
+       future_option_div               VARCHAR2(1)            NULL,
+       market_id                       NUMBER(18)             NULL,
+       quantity                        DECIMAL(18,6)          NOT NULL,
+       limit_price                     DECIMAL(18,6)          NULL,
+       price_adjust_value              DECIMAL(18,6)          NULL,
+       expiration_date                 DATE                   NULL,
+       order_status                    NUMBER(6)   DEFAULT 1  NOT NULL,
+       order_open_status               NUMBER(6)   DEFAULT 1  NOT NULL,
+       expiration_status               NUMBER(6)              NOT NULL,
+       tax_type                        NUMBER(6)              NOT NULL,
+       biz_date                        VARCHAR2(8)            NOT NULL,
+       product_id                      NUMBER(18)             NOT NULL,
+       order_chanel                    VARCHAR2(1)            NULL,
+       received_date_time              DATE                   NULL,
+       sonar_trader_code               VARCHAR2(5)            NULL,
+       price                           DECIMAL(18,6)          NULL,
+       estimated_price                 DECIMAL(18,6)          NULL,
+       order_root_div                  VARCHAR2(1)            NULL,
+       closing_order                   VARCHAR2(1)            NULL,
+       error_reason_code               VARCHAR2(4)            NULL,
+       first_order_unit_id             NUMBER(18)             NULL,
+       first_order_id                  NUMBER(18)             NULL,
+       order_error_code                VARCHAR2(5)            NULL,
+       parent_order_id                 NUMBER(18)             NOT NULL,
+       parent_order_unit_id            NUMBER(18)             NULL,
+       serial_no_in_parent             NUMBER(8)              NOT NULL,
+       evening_session_carryover_flag  NUMBER(1)   DEFAULT 0  NULL,
+       session_type                    VARCHAR2(1)            NULL,
+       expiration_date_type            VARCHAR2(1)            NULL,
+       created_timestamp               DATE                   NOT NULL,
+       last_updated_timestamp          DATE                   NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKrsv_ifo_order_unit ON rsv_ifo_order_unit
+(
+       order_id
+);
+
+CREATE UNIQUE INDEX XAK1rsv_ifo_order_unit ON rsv_ifo_order_unit
+(
+       account_id,
+       parent_order_id,
+       serial_no_in_parent
+);
+
+--PK
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( PRIMARY KEY (order_id) ) ;
+
+
+--6. Table名: 先物OP予約注文履歴テーブル
+CREATE TABLE rsv_ifo_order_action (
+    account_id                      NUMBER(18)                      NOT NULL,
+    sub_account_id                  NUMBER(18)                      NOT NULL,
+    order_id                        NUMBER(18)                      NOT NULL,
+    quantity                        DECIMAL(18,6)                   NOT NULL,
+    limit_price                     DECIMAL(18,6)                   NULL,
+    price_adjust_value              DECIMAL(18,6)                   NULL,
+    expiration_date                 DATE                            NULL,
+    order_status                    NUMBER(6)                       NOT NULL,
+    order_open_status               NUMBER(6)                       NOT NULL,
+    expiration_status               NUMBER(6)                       NOT NULL,
+    order_action_serial_no          NUMBER(8)                       NOT NULL,
+    estimated_price                 DECIMAL(18,6)                   NULL,    
+    order_root_div                  VARCHAR2(1)                     NULL,
+    trader_id	                    NUMBER(18)                      NULL,
+    sonar_trader_code               VARCHAR2(5)                     NULL,
+    expiration_date_type            VARCHAR2(1)                     NULL,
+    created_timestamp               DATE         DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp          DATE         DEFAULT sysdate    NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKrsv_ifo_order_action ON rsv_ifo_order_action
+(
+       order_id                        ,
+       order_action_serial_no
+);
+
+
+--7. Table名: 先物OP予約建玉返済指定情報ﾃｰﾌﾞﾙ
+CREATE TABLE rsv_ifo_closing_contract_spec (
+    account_id                      NUMBER(18)                      NOT NULL,
+    sub_account_id                  NUMBER(18)                      NOT NULL,    
+    order_id                        NUMBER(18)                      NOT NULL,
+    contract_id	                    NUMBER(18)                      NOT NULL,
+    closing_serial_no               NUMBER(8)                       NOT NULL,
+    quantity                        DECIMAL(18,6)                   NOT NULL,    
+    created_timestamp               DATE         DEFAULT sysdate    NOT NULL,
+    last_updated_timestamp          DATE         DEFAULT sysdate    NOT NULL    
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKrsv_ifo_closing_cont_sp ON rsv_ifo_closing_contract_spec
+(
+       order_id                        ,
+       closing_serial_no
+);
+
+CREATE UNIQUE INDEX XAK1rsv_ifo_closing_cont_sp ON rsv_ifo_closing_contract_spec
+(
+       order_id                        ,
+       contract_id
+);
+
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+--1. Table名: 株式予約注文単位テーブル
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES eqtype_order_unit );
+                             
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch );
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+                             
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES eqtype_product );
+
+ALTER TABLE rsv_eq_order_unit
+       ADD  ( FOREIGN KEY (parent_order_unit_id)
+                             REFERENCES eqtype_order_unit(order_unit_id) );
+                             
+--2. Table名: 注文履歴テーブル
+ALTER TABLE rsv_eq_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE rsv_eq_order_action
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE rsv_eq_order_action
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+ALTER TABLE rsv_eq_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES rsv_eq_order_unit );
+
+--2. Table名:株式予約建株返済指定情報ﾃｰﾌﾞﾙ
+ALTER TABLE rsv_eq_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE rsv_eq_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE rsv_eq_closing_contract_spec
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES rsv_eq_order_unit );
+ALTER TABLE rsv_eq_closing_contract_spec
+       ADD  ( FOREIGN KEY (contract_id)
+                             REFERENCES eqtype_contract );                             
+
+--3. Table名: 先物OP予約注文単位テーブル
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (order_unit_id)
+                             REFERENCES ifo_order_unit );
+                             
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch );
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+                             
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (market_id)
+                             REFERENCES market );
+
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (product_id)
+                             REFERENCES ifo_product );
+
+ALTER TABLE rsv_ifo_order_unit
+       ADD  ( FOREIGN KEY (parent_order_unit_id)
+                             REFERENCES ifo_order_unit(order_unit_id) );
+
+--4. Table名:先物OP予約建玉返済指定情報ﾃｰﾌﾞﾙ
+ALTER TABLE rsv_ifo_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE rsv_ifo_closing_contract_spec
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE rsv_ifo_closing_contract_spec
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES rsv_ifo_order_unit );
+ALTER TABLE rsv_ifo_closing_contract_spec
+       ADD  ( FOREIGN KEY (contract_id)
+                             REFERENCES ifo_contract );
+
+--5. Table名: 先物OP予約注文履歴テーブル
+ALTER TABLE rsv_ifo_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+ALTER TABLE rsv_ifo_order_action
+       ADD  ( FOREIGN KEY (account_id,sub_account_id)
+                             REFERENCES sub_account );
+ALTER TABLE rsv_ifo_order_action
+       ADD  ( FOREIGN KEY (trader_id)
+                             REFERENCES trader );
+ALTER TABLE rsv_ifo_order_action
+       ADD  ( FOREIGN KEY (order_id)
+                             REFERENCES rsv_ifo_order_unit );
+@

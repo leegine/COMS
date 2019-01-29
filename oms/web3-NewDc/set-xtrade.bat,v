@@ -1,0 +1,38 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.16.02.40.06;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8cc4d8022b208f3;
+filename	set-xtrade.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@@echo off
+:: Set XTRADE
+set XTRADE_HOME=%~dp0
+::echo XTRADE_HOME is set to %XTRADE_HOME%
+
+if "%DATABASE%"=="postgresql" goto SET_DATABASE_FINISH
+if "%DATABASE%"=="db2" goto SET_DATABASE_FINISH
+set DATABASE=oracle
+:SET_DATABASE_FINISH
+echo  TARGET DATABASE %DATABASE%
+@

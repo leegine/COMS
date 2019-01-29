@@ -1,0 +1,366 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.59.34;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5284d912ee43493;
+filename	web3tpadmin.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE deposit_autotransfer_stop (
+       deposit_autotransfer_stop_id          NUMBER(18) NOT NULL,
+       account_id                 NUMBER(18) NOT NULL,
+       branch_id             NUMBER(18) NOT NULL,
+       autotransfer_stop_start DATE DEFAULT sysdate NOT NULL,
+       autotransfer_stop_end DATE DEFAULT sysdate NOT NULL,
+       regist_div             VARCHAR2(1) DEFAULT '1' NOT NULL,
+       last_updater             VARCHAR2(20) NOT NULL,
+       created_timestamp          DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp     DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKdeposit_autotransfer_stop ON deposit_autotransfer_stop
+(
+       deposit_autotransfer_stop_id                    
+);
+
+CREATE INDEX XIE1deposit_autotransfer_stop ON deposit_autotransfer_stop
+(
+       autotransfer_stop_start,
+       autotransfer_stop_end,
+       regist_div
+);
+
+ALTER TABLE deposit_autotransfer_stop
+       ADD  ( PRIMARY KEY (deposit_autotransfer_stop_id) ) ;
+
+ALTER TABLE deposit_autotransfer_stop
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ON DELETE CASCADE ) ;
+
+ALTER TABLE deposit_autotransfer_stop
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;
+                             
+CREATE TABLE payment_requisition (
+       payment_requisition_id           NUMBER(18) NOT NULL,
+       account_id                                       NUMBER(18) NOT NULL,
+       branch_id                                NUMBER(18) NOT NULL,
+       occurred_date                            DATE NOT NULL,
+       payment_requisition_division             VARCHAR2(1) NOT NULL,
+       requisition_status                       VARCHAR2(1) NOT NULL,
+       payment_requisition_amount          DECIMAL(18,6) NOT NULL,
+       margin_collateral_rate                   DECIMAL(18,6) NOT NULL,
+       calclation_source                        VARCHAR2(1) NOT NULL,
+       last_updater                                     VARCHAR2(20) NOT NULL,
+       created_timestamp                        DATE DEFAULT sysdate NOT NULL,
+       last_updated_timestamp                   DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKpayment_requisition ON payment_requisition
+(
+       payment_requisition_id                    
+);
+
+CREATE INDEX XAK1payment_requisition ON payment_requisition
+(
+        account_id,
+        payment_requisition_division,
+        requisition_status,
+        calclation_source
+);
+
+CREATE INDEX XIE1payment_requisition ON payment_requisition
+(
+        occurred_date
+);
+
+ALTER TABLE payment_requisition
+       ADD  ( PRIMARY KEY (payment_requisition_id) ) ;
+
+ALTER TABLE payment_requisition
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account ON DELETE CASCADE ) ;
+
+ALTER TABLE payment_requisition
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch ) ;      
+
+CREATE TABLE REQUISITION_ACCOUNT_EQUITY (
+        CALC_RESULT_EQUITY_ID           NUMBER(18) NOT NULL,      
+        INSTITUTION_CODE               VARCHAR2(3) NOT NULL,
+        BRANCH_CODE                                 VARCHAR2(20)        NULL,
+        ACCOUNT_CODE                                VARCHAR2(7)         NOT NULL,
+        FAMILY_NAME                                 VARCHAR2(40)        NOT NULL,
+        SONAR_TRADER_CODE                           VARCHAR2(5)         NULL,
+        ASSET_EVALUATION_DIV            VARCHAR2(1) NOT NULL,
+        REAL_ACCOUNT_BALANCE_0  DECIMAL(18,6) NOT NULL,                                                                 
+        REAL_ACCOUNT_BALANCE_1  DECIMAL(18,6) NOT NULL,                                                                 
+        REAL_ACCOUNT_BALANCE_2  DECIMAL(18,6) NOT NULL,                                                                 
+        REAL_ACCOUNT_BALANCE_3  DECIMAL(18,6) NOT NULL,                                                                 
+        REAL_ACCOUNT_BALANCE_4  DECIMAL(18,6) NOT NULL,                                                                 
+        REAL_ACCOUNT_BALANCE_5  DECIMAL(18,6) NOT NULL,                                                                 
+        SECURITY_ASSET_0                DECIMAL(18,6) NOT NULL,                                                                 
+        SECURITY_ASSET_1                DECIMAL(18,6) NOT NULL,                                                                 
+        SECURITY_ASSET_2                DECIMAL(18,6) NOT NULL,                                                                 
+        SECURITY_ASSET_3                DECIMAL(18,6) NOT NULL,                                                                 
+        SECURITY_ASSET_4                DECIMAL(18,6) NOT NULL,                                                                 
+        SECURITY_ASSET_5                DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_0                  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_1                  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_2                  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_3                  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_4                  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_5                  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_0  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_1  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_2  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_3  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_4  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_5  DECIMAL(18,6) NOT NULL                                                                 
+);
+
+CREATE TABLE REQUISITION_ACCOUNT_MARGIN (
+        CALC_RESULT_MARGIN_ID           NUMBER(18) NOT NULL,      
+        INSTITUTION_CODE               VARCHAR2(3) NOT NULL,
+        BRANCH_CODE                                 VARCHAR2(20)        NULL,
+        ACCOUNT_CODE                                VARCHAR2(7)         NOT NULL,
+        FAMILY_NAME                                 VARCHAR2(40)        NOT NULL,
+        SONAR_TRADER_CODE                           VARCHAR2(5)         NULL,
+        MARK_TO_MARKET_DIV            VARCHAR2(1) NOT NULL,
+        DEBIT_AMOUNT_0  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_1  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_2  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_3  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_4  DECIMAL(18,6) NOT NULL,                                                                 
+        DEBIT_AMOUNT_5  DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_0                DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_1                DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_2                DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_3                DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_4                DECIMAL(18,6) NOT NULL,                                                                 
+        SPECIAL_DEBIT_AMOUNT_5                DECIMAL(18,6) NOT NULL,                                                                 
+        RECEIPT_MARGIN_DEPOSIT_0                  DECIMAL(18,6) NOT NULL,                                                                 
+        RECEIPT_MARGIN_DEPOSIT_1                  DECIMAL(18,6) NOT NULL,                                                                 
+        RECEIPT_MARGIN_DEPOSIT_2                  DECIMAL(18,6) NOT NULL,                                                                 
+        RECEIPT_MARGIN_DEPOSIT_3                  DECIMAL(18,6) NOT NULL,                                                                 
+        RECEIPT_MARGIN_DEPOSIT_4                  DECIMAL(18,6) NOT NULL,                                                                 
+        RECEIPT_MARGIN_DEPOSIT_5                  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_MAINTENANCE_AMOUNT_0  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_MAINTENANCE_AMOUNT_1  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_MAINTENANCE_AMOUNT_2  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_MAINTENANCE_AMOUNT_3  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_MAINTENANCE_AMOUNT_4  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_MAINTENANCE_AMOUNT_5  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_DEPOSIT_RATE_0  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_DEPOSIT_RATE_1  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_DEPOSIT_RATE_2  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_DEPOSIT_RATE_3  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_DEPOSIT_RATE_4  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_DEPOSIT_RATE_5  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_CLAIMED_AMOUNT_0  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_CLAIMED_AMOUNT_1  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_CLAIMED_AMOUNT_2  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_CLAIMED_AMOUNT_3  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_CLAIMED_AMOUNT_4  DECIMAL(18,6) NOT NULL,                                                                 
+        MARGIN_CLAIMED_AMOUNT_5  DECIMAL(18,6) NOT NULL                                                                 
+);
+
+CREATE TABLE PAYMENT_REQUISITION_EQUITY ( 
+		CALC_RESULT_EQUITY_ID				NUMBER(18)		NOT NULL,
+		ACCOUNT_ID							NUMBER(18)		NOT NULL,
+		FAMILY_NAME							VARCHAR2(40)	NOT NULL,
+		ACCOUNT_ATTRIBUTE					VARCHAR2(1)		NOT NULL,
+		SONAR_TRADER_CODE					VARCHAR2(5),
+		CALC_DATE							DATE			NOT NULL,
+		TRADING_STOP						VARCHAR2(1)		NOT NULL,
+		IFO_OPEN_POSITION_STOP				VARCHAR2(1)		NOT NULL,
+		PAYMENT_STOP						VARCHAR2(1)		NOT NULL,
+		OTHER_TRADING_STOP					VARCHAR2(1)		NOT NULL,
+		PAYMENT_REQUISITION_AMOUNT_0		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_1		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_2		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_3		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_4		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_5		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_0		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_1		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_2		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_3		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_4		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_5		DECIMAL(18,6),
+		ACCOUNT_BALANCE_0					DECIMAL(18,6),
+		ACCOUNT_BALANCE_1					DECIMAL(18,6),
+		ACCOUNT_BALANCE_2					DECIMAL(18,6),
+		ACCOUNT_BALANCE_3					DECIMAL(18,6),
+		ACCOUNT_BALANCE_4					DECIMAL(18,6),
+		ACCOUNT_BALANCE_5					DECIMAL(18,6),
+		CASH_BALANCE0						DECIMAL(18,6),
+		CASH_BALANCE1						DECIMAL(18,6),
+		CASH_BALANCE2						DECIMAL(18,6),
+		CASH_BALANCE3						DECIMAL(18,6),
+		CASH_BALANCE4						DECIMAL(18,6),
+		CASH_BALANCE5						DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_0				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_1				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_2				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_3				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_4				DECIMAL(18,6),
+		OTHER_RESTRAINT_0					DECIMAL(18,6),
+		OTHER_RESTRAINT_1					DECIMAL(18,6),
+		OTHER_RESTRAINT_2					DECIMAL(18,6),
+		OTHER_RESTRAINT_3					DECIMAL(18,6),
+		OTHER_RESTRAINT_4					DECIMAL(18,6),
+		OTHER_RESTRAINT_5					DECIMAL(18,6),
+		CREATED_TIMESTAMP					DATE,
+		LAST_UPDATED_TIMESTAMP				DATE,
+		institution_code					VARCHAR2(3)		NULL,
+		branch_code							VARCHAR2(3)		NULL,
+		account_code						VARCHAR2(7)		NULL
+);
+
+ALTER TABLE PAYMENT_REQUISITION_EQUITY
+       ADD  ( PRIMARY KEY (ACCOUNT_ID, CALC_DATE) ) ;
+
+CREATE INDEX XPPAYMENT_REQUISITION_EQUITY ON PAYMENT_REQUISITION_EQUITY
+(
+        CALC_RESULT_EQUITY_ID
+);
+
+CREATE INDEX XIE1PAYMENT_REQUISITION_EQUITY ON PAYMENT_REQUISITION_EQUITY
+(
+        calc_date,
+        institution_code,
+        branch_code,
+        account_code
+);
+
+CREATE TABLE PAYMENT_REQUISITION_MARGIN ( 
+		CALC_RESULT_MARGIN_ID				NUMBER(18)		NOT NULL,
+		ACCOUNT_ID							NUMBER(18)		NOT NULL,
+		FAMILY_NAME							VARCHAR2(40)	NOT NULL,
+		ACCOUNT_ATTRIBUTE					VARCHAR2(1)		NOT NULL,
+		SONAR_TRADER_CODE					VARCHAR2(5),
+		CALC_DATE							DATE			NOT NULL,
+		TRADING_STOP						VARCHAR2(1)		NOT NULL,
+		MARGIN_OPEN_POSITION_STOP			VARCHAR2(1)		NOT NULL,
+		IFO_OPEN_POSITION_STOP				VARCHAR2(1)		NOT NULL,
+		PAYMENT_STOP						VARCHAR2(1)		NOT NULL,
+		OTHER_TRADING_STOP					VARCHAR2(1)		NOT NULL,
+		BREAK20DAY							DATE,
+		BREAK20ELAPSED_DAYS					VARCHAR2(4),
+		BREAK30DAY							DATE,
+		BREAK30ELAPSED_DAYS					VARCHAR2(4),
+		PAYMENT_REQUISITION_AMOUNT_0		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_1		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_2		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_3		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_4		DECIMAL(18,6),
+		PAYMENT_REQUISITION_AMOUNT_5		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_0		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_1		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_2		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_3		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_4		DECIMAL(18,6),
+		PAYMENT_REQUISITION_DIVISION_5		DECIMAL(18,6),
+		ACCOUNT_BALANCE_0					DECIMAL(18,6),
+		ACCOUNT_BALANCE_1					DECIMAL(18,6),
+		ACCOUNT_BALANCE_2					DECIMAL(18,6),
+		ACCOUNT_BALANCE_3					DECIMAL(18,6),
+		ACCOUNT_BALANCE_4					DECIMAL(18,6),
+		ACCOUNT_BALANCE_5					DECIMAL(18,6),
+		CASH_BALANCE0						DECIMAL(18,6),
+		CASH_BALANCE1						DECIMAL(18,6),
+		CASH_BALANCE2						DECIMAL(18,6),
+		CASH_BALANCE3						DECIMAL(18,6),
+		CASH_BALANCE4						DECIMAL(18,6),
+		CASH_BALANCE5						DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_0				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_1				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_2				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_3				DECIMAL(18,6),
+		DAY_TRADE_RESTRAINT_4				DECIMAL(18,6),
+		OTHER_RESTRAINT_0					DECIMAL(18,6),
+		OTHER_RESTRAINT_1					DECIMAL(18,6),
+		OTHER_RESTRAINT_2					DECIMAL(18,6),
+		OTHER_RESTRAINT_3					DECIMAL(18,6),
+		OTHER_RESTRAINT_4					DECIMAL(18,6),
+		OTHER_RESTRAINT_5					DECIMAL(18,6),
+		PAID_MARGIN_DEPOSIT_0				DECIMAL(18,6),
+		PAID_MARGIN_DEPOSIT_1				DECIMAL(18,6),
+		PAID_MARGIN_DEPOSIT_2				DECIMAL(18,6),
+		PAID_MARGIN_DEPOSIT_3				DECIMAL(18,6),
+		PAID_MARGIN_DEPOSIT_4				DECIMAL(18,6),
+		PAID_MARGIN_DEPOSIT_5				DECIMAL(18,6),
+		RECEIPT_MARGIN_DEPOSIT_0			DECIMAL(18,6),
+		RECEIPT_MARGIN_DEPOSIT_1			DECIMAL(18,6),
+		RECEIPT_MARGIN_DEPOSIT_2			DECIMAL(18,6),
+		RECEIPT_MARGIN_DEPOSIT_3			DECIMAL(18,6),
+		RECEIPT_MARGIN_DEPOSIT_4			DECIMAL(18,6),
+		RECEIPT_MARGIN_DEPOSIT_5			DECIMAL(18,6),
+		MARGIN_DEPOSIT_0					DECIMAL(18,6),
+		MARGIN_DEPOSIT_1					DECIMAL(18,6),
+		MARGIN_DEPOSIT_2					DECIMAL(18,6),
+		MARGIN_DEPOSIT_3					DECIMAL(18,6),
+		MARGIN_DEPOSIT_4					DECIMAL(18,6),
+		MARGIN_DEPOSIT_5					DECIMAL(18,6),
+		CASH_MARGIN_DEPOSIT_0				DECIMAL(18,6),
+		CASH_MARGIN_DEPOSIT_1				DECIMAL(18,6),
+		CASH_MARGIN_DEPOSIT_2				DECIMAL(18,6),
+		CASH_MARGIN_DEPOSIT_3				DECIMAL(18,6),
+		CASH_MARGIN_DEPOSIT_4				DECIMAL(18,6),
+		CASH_MARGIN_DEPOSIT_5				DECIMAL(18,6),
+		CONTRACT_AMOUNT_0					DECIMAL(18,6),
+		CONTRACT_AMOUNT_1					DECIMAL(18,6),
+		CONTRACT_AMOUNT_2					DECIMAL(18,6),
+		CONTRACT_AMOUNT_3					DECIMAL(18,6),
+		CONTRACT_AMOUNT_4					DECIMAL(18,6),
+		CONTRACT_AMOUNT_5					DECIMAL(18,6),
+		MARGIN_DEPOSIT_RATE_0				DECIMAL(18,6),
+		MARGIN_DEPOSIT_RATE_1				DECIMAL(18,6),
+		MARGIN_DEPOSIT_RATE_2				DECIMAL(18,6),
+		MARGIN_DEPOSIT_RATE_3				DECIMAL(18,6),
+		MARGIN_DEPOSIT_RATE_4				DECIMAL(18,6),
+		MARGIN_DEPOSIT_RATE_5				DECIMAL(18,6),
+		CREATED_TIMESTAMP					DATE,
+		LAST_UPDATED_TIMESTAMP				DATE,
+		institution_code					VARCHAR2(3)		NULL,
+		branch_code							VARCHAR2(3)		NULL,
+		account_code						VARCHAR2(7)		NUll
+);
+
+ALTER TABLE PAYMENT_REQUISITION_MARGIN
+       ADD  ( PRIMARY KEY (ACCOUNT_ID, CALC_DATE) ) ;
+
+CREATE INDEX XPPAYMENT_REQUISITION_MARGIN ON PAYMENT_REQUISITION_MARGIN
+(
+        CALC_RESULT_MARGIN_ID
+);
+
+CREATE INDEX XIE1PAYMENT_REQUISITION_MARGIN ON PAYMENT_REQUISITION_MARGIN
+(
+        calc_date,
+        institution_code,
+        branch_code,
+        account_code
+);
+
+                                                          @

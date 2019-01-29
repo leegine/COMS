@@ -1,0 +1,85 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.47;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	3d04d912e303247;
+filename	codegen-session_proto.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.quoteadaptor.prototype.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3-quote-proto.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3QuoteProtoSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+# triggers=sql/web3_quote_proto_master_triggers.sql
+
+enums=\
+web3_quote_proto.real_type:class=webbroker3.quoteadaptor.RealType \
+web3_quote_proto.data_type:class=webbroker3.quoteadaptor.DataType \
+web3_quote_proto.current_price_flag:class=webbroker3.quoteadaptor.CurrentPriceFlag \
+web3_quote_proto.ask_price_title:class=webbroker3.quoteadaptor.AskPriceTitle \
+web3_quote_proto.bid_price_title:class=webbroker3.quoteadaptor.BidPriceTitle
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+web3_quote_proto:inv=0
+  
+# imports=\
+# com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+# com.fitechlbas.xtrade.plugin.tc.eqtype.data.*
+
+@

@@ -1,0 +1,43 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.10.10;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	4d04d7f02b35c7a;
+filename	web3-cache-monitor-view.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE OR REPLACE VIEW cache_monitor_ord_acc_status
+AS
+SELECT  
+	order_accept_status.institution_code			as institution_code,
+	order_accept_status.branch_code				as branch_code,
+	order_accept_status.order_acc_product			as order_acc_product,
+	order_accept_status.order_acc_transaction		as order_acc_transaction,
+	order_accept_status.order_accept_status		as order_accept_status,
+	order_accept_status.order_accept_status_before	as order_accept_status_before,
+	order_accept_status.last_updater				as last_updater,
+	order_accept_status.created_timestamp			as created_timestamp,
+	order_accept_status.last_updated_timestamp		as last_updated_timestamp
+FROM order_accept_status
+
+/
+@

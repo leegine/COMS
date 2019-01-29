@@ -1,0 +1,89 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.28.09.04.54;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5284d904f03597b;
+filename	codegen-master.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=com.fitechlabs.xtrade.plugin.tc.xbfeq.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/xb-feq.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=FeqMasterDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=master
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/xbfeq_master_triggers.sql
+
+enums=\
+	feq_product.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+	feq_traded_product.list_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+	feq_traded_product_updq.list_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  feq_product:inv=0 \
+  feq_traded_product:inv=0 \
+  feq_traded_product_updq:inv=0 \
+  
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* 
+
+  
+#
+# Javadoc generation related properties
+javadoc.lang=ja
+javadoc.encoding=SJIS@

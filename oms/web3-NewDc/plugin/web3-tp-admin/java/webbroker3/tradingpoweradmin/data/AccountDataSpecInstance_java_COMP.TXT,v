@@ -1,0 +1,336 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.00.58.25;	author che-jin;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	86c4d7eb25155fb;
+filename	AccountDataSpecInstance_java_COMP.TXT;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@┏━━━━┯━━━━━━━┳━━━━┯━━┳━━━━┯━━━┓                                          ┏━━━┯━━━━━━━━━━━━━┳━━┯━━━━━━━━┓
+┃比較範囲│   1～1000桁迄┃一致条件│ 3行┃先読行数│1000行┃                                          ┃OPTION│全SP無効 TAB-SP変換       ┃出力│2010/09/01 13:55┃
+┣━━━━┷━━━━━━━┻━━━━┷━━┻━━━━┷━━━┻━━━━━━━ OLD      NEW ━━━━━━━┻━━━┷━━━━━━━━━━━━━┻━━┷━━━━━━━━┫
+┃U:\13.最新ソース\latest\本番ソース1.0版\web3-tp-admin\web3-xTrade\plugin\web┃ FILE ┃\\svflksp01\WEB3\90.個人フォルダ\ST\仲里\web3\作業ログ\20100901_tpadmin Dao ┃
+┃3-tp-admin\java\webbroker3\tradingpoweradmin\data\AccountDa 2006/03/27 14:35┃      ┃クリアケース登録\web3-tp-admin\java\webbroker3\tradingpower 2010/09/01 10:57┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛STATUS┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+      LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+
+                                        ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ 中略 ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇                                        
+0014     new ColumnSpec("regist_div",java.sql.Types.VARCHAR,1,0,false,false,null      0014     new ColumnSpec("regist_div",java.sql.Types.VARCHAR,1,0,false,false,null
+0015     new ColumnSpec("last_updater",java.sql.Types.VARCHAR,20,0,false,false,n      0015     new ColumnSpec("last_updater",java.sql.Types.VARCHAR,20,0,false,false,n
+0016     new ColumnSpec("created_timestamp",java.sql.Types.TIMESTAMP,0,0,false,f      0016     new ColumnSpec("created_timestamp",java.sql.Types.TIMESTAMP,0,0,false,f
+0017     new ColumnSpec("last_updated_timestamp",java.sql.Types.TIMESTAMP,0,0,fa      0017     new ColumnSpec("last_updated_timestamp",java.sql.Types.TIMESTAMP,0,0,fa
+0018   };                                                                             0018   };                                                                       
+LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+(S001)LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+
+0019   private static final ColumnSpec payment_requisition_equity_columns[] = {  削除                                                                                 
+0020     new ColumnSpec("calc_result_equity_id",java.sql.Types.NUMERIC,18,0,fals 削除                                                                                 
+0020 e,false,null,null),                                                          --                                                                                  
+0021     new ColumnSpec("account_id",java.sql.Types.NUMERIC,18,0,false,true,null 削除                                                                                 
+0021 ,null),                                                                      --                                                                                  
+0022     new ColumnSpec("family_name",java.sql.Types.VARCHAR,40,0,false,false,nu 削除                                                                                 
+0022 ll,null),                                                                    --                                                                                  
+0023     new ColumnSpec("account_attribute",java.sql.Types.VARCHAR,1,0,false,fal 削除                                                                                 
+0023 se,null,null),                                                               --                                                                                  
+0024     new ColumnSpec("sonar_trader_code",java.sql.Types.VARCHAR,5,0,true,fals 削除                                                                                 
+0024 e,null,null),                                                                --                                                                                  
+0025     new ColumnSpec("calc_date",java.sql.Types.TIMESTAMP,0,0,false,true,null 削除                                                                                 
+0025 ,null),                                                                      --                                                                                  
+0026     new ColumnSpec("trading_stop",java.sql.Types.VARCHAR,1,0,false,false,nu 削除                                                                                 
+0026 ll,null),                                                                    --                                                                                  
+0027     new ColumnSpec("ifo_open_position_stop",java.sql.Types.VARCHAR,1,0,fals 削除                                                                                 
+0027 e,false,null,null),                                                          --                                                                                  
+0028     new ColumnSpec("payment_stop",java.sql.Types.VARCHAR,1,0,false,false,nu 削除                                                                                 
+0028 ll,null),                                                                    --                                                                                  
+0029     new ColumnSpec("other_trading_stop",java.sql.Types.VARCHAR,1,0,false,fa 削除                                                                                 
+0029 lse,null,null),                                                              --                                                                                  
+0030     new ColumnSpec("payment_requisition_amount_0",java.sql.Types.DECIMAL,18 削除                                                                                 
+0030 ,6,true,false,null,null),                                                    --                                                                                  
+0031     new ColumnSpec("payment_requisition_amount_1",java.sql.Types.DECIMAL,18 削除                                                                                 
+0031 ,6,true,false,null,null),                                                    --                                                                                  
+0032     new ColumnSpec("payment_requisition_amount_2",java.sql.Types.DECIMAL,18 削除                                                                                 
+0032 ,6,true,false,null,null),                                                    --                                                                                  
+0033     new ColumnSpec("payment_requisition_amount_3",java.sql.Types.DECIMAL,18 削除                                                                                 
+0033 ,6,true,false,null,null),                                                    --                                                                                  
+0034     new ColumnSpec("payment_requisition_amount_4",java.sql.Types.DECIMAL,18 削除                                                                                 
+0034 ,6,true,false,null,null),                                                    --                                                                                  
+0035     new ColumnSpec("payment_requisition_amount_5",java.sql.Types.DECIMAL,18 削除                                                                                 
+0035 ,6,true,false,null,null),                                                    --                                                                                  
+0036     new ColumnSpec("payment_requisition_division_0",java.sql.Types.DECIMAL, 削除                                                                                 
+0036 18,6,true,false,null,null),                                                  --                                                                                  
+0037     new ColumnSpec("payment_requisition_division_1",java.sql.Types.DECIMAL, 削除                                                                                 
+0037 18,6,true,false,null,null),                                                  --                                                                                  
+0038     new ColumnSpec("payment_requisition_division_2",java.sql.Types.DECIMAL, 削除                                                                                 
+0038 18,6,true,false,null,null),                                                  --                                                                                  
+0039     new ColumnSpec("payment_requisition_division_3",java.sql.Types.DECIMAL, 削除                                                                                 
+0039 18,6,true,false,null,null),                                                  --                                                                                  
+0040     new ColumnSpec("payment_requisition_division_4",java.sql.Types.DECIMAL, 削除                                                                                 
+0040 18,6,true,false,null,null),                                                  --                                                                                  
+0041     new ColumnSpec("payment_requisition_division_5",java.sql.Types.DECIMAL, 削除                                                                                 
+0041 18,6,true,false,null,null),                                                  --                                                                                  
+0042     new ColumnSpec("account_balance_0",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0042 se,null,null),                                                               --                                                                                  
+0043     new ColumnSpec("account_balance_1",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0043 se,null,null),                                                               --                                                                                  
+0044     new ColumnSpec("account_balance_2",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0044 se,null,null),                                                               --                                                                                  
+0045     new ColumnSpec("account_balance_3",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0045 se,null,null),                                                               --                                                                                  
+0046     new ColumnSpec("account_balance_4",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0046 se,null,null),                                                               --                                                                                  
+0047     new ColumnSpec("account_balance_5",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0047 se,null,null),                                                               --                                                                                  
+0048     new ColumnSpec("cash_balance0",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0048 ull,null),                                                                   --                                                                                  
+0049     new ColumnSpec("cash_balance1",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0049 ull,null),                                                                   --                                                                                  
+0050     new ColumnSpec("cash_balance2",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0050 ull,null),                                                                   --                                                                                  
+0051     new ColumnSpec("cash_balance3",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0051 ull,null),                                                                   --                                                                                  
+0052     new ColumnSpec("cash_balance4",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0052 ull,null),                                                                   --                                                                                  
+0053     new ColumnSpec("cash_balance5",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0053 ull,null),                                                                   --                                                                                  
+0054     new ColumnSpec("day_trade_restraint_0",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0054 ,false,null,null),                                                           --                                                                                  
+0055     new ColumnSpec("day_trade_restraint_1",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0055 ,false,null,null),                                                           --                                                                                  
+0056     new ColumnSpec("day_trade_restraint_2",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0056 ,false,null,null),                                                           --                                                                                  
+0057     new ColumnSpec("day_trade_restraint_3",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0057 ,false,null,null),                                                           --                                                                                  
+0058     new ColumnSpec("day_trade_restraint_4",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0058 ,false,null,null),                                                           --                                                                                  
+0059     new ColumnSpec("other_restraint_0",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0059 se,null,null),                                                               --                                                                                  
+0060     new ColumnSpec("other_restraint_1",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0060 se,null,null),                                                               --                                                                                  
+0061     new ColumnSpec("other_restraint_2",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0061 se,null,null),                                                               --                                                                                  
+0062     new ColumnSpec("other_restraint_3",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0062 se,null,null),                                                               --                                                                                  
+0063     new ColumnSpec("other_restraint_4",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0063 se,null,null),                                                               --                                                                                  
+0064     new ColumnSpec("other_restraint_5",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0064 se,null,null),                                                               --                                                                                  
+0065     new ColumnSpec("created_timestamp",java.sql.Types.TIMESTAMP,0,0,true,fa 削除                                                                                 
+0065 lse,null,null),                                                              --                                                                                  
+0066     new ColumnSpec("last_updated_timestamp",java.sql.Types.TIMESTAMP,0,0,tr 削除                                                                                 
+0066 ue,false,null,null),                                                         --                                                                                  
+0067   };                                                                        削除                                                                                 
+0068   private static final ColumnSpec payment_requisition_margin_columns[] = {  削除                                                                                 
+0069     new ColumnSpec("calc_result_margin_id",java.sql.Types.NUMERIC,18,0,fals 削除                                                                                 
+0069 e,false,null,null),                                                          --                                                                                  
+0070     new ColumnSpec("account_id",java.sql.Types.NUMERIC,18,0,false,true,null 削除                                                                                 
+0070 ,null),                                                                      --                                                                                  
+0071     new ColumnSpec("family_name",java.sql.Types.VARCHAR,40,0,false,false,nu 削除                                                                                 
+0071 ll,null),                                                                    --                                                                                  
+0072     new ColumnSpec("account_attribute",java.sql.Types.VARCHAR,1,0,false,fal 削除                                                                                 
+0072 se,null,null),                                                               --                                                                                  
+0073     new ColumnSpec("sonar_trader_code",java.sql.Types.VARCHAR,5,0,true,fals 削除                                                                                 
+0073 e,null,null),                                                                --                                                                                  
+0074     new ColumnSpec("calc_date",java.sql.Types.TIMESTAMP,0,0,false,true,null 削除                                                                                 
+0074 ,null),                                                                      --                                                                                  
+0075     new ColumnSpec("trading_stop",java.sql.Types.VARCHAR,1,0,false,false,nu 削除                                                                                 
+0075 ll,null),                                                                    --                                                                                  
+0076     new ColumnSpec("margin_open_position_stop",java.sql.Types.VARCHAR,1,0,f 削除                                                                                 
+0076 alse,false,null,null),                                                       --                                                                                  
+0077     new ColumnSpec("ifo_open_position_stop",java.sql.Types.VARCHAR,1,0,fals 削除                                                                                 
+0077 e,false,null,null),                                                          --                                                                                  
+0078     new ColumnSpec("payment_stop",java.sql.Types.VARCHAR,1,0,false,false,nu 削除                                                                                 
+0078 ll,null),                                                                    --                                                                                  
+0079     new ColumnSpec("other_trading_stop",java.sql.Types.VARCHAR,1,0,false,fa 削除                                                                                 
+0079 lse,null,null),                                                              --                                                                                  
+0080     new ColumnSpec("break20day",java.sql.Types.TIMESTAMP,0,0,true,false,nul 削除                                                                                 
+0080 l,null),                                                                     --                                                                                  
+0081     new ColumnSpec("break20elapsed_days",java.sql.Types.VARCHAR,4,0,true,fa 削除                                                                                 
+0081 lse,null,null),                                                              --                                                                                  
+0082     new ColumnSpec("break30day",java.sql.Types.TIMESTAMP,0,0,true,false,nul 削除                                                                                 
+0082 l,null),                                                                     --                                                                                  
+0083     new ColumnSpec("break30elapsed_days",java.sql.Types.VARCHAR,4,0,true,fa 削除                                                                                 
+0083 lse,null,null),                                                              --                                                                                  
+0084     new ColumnSpec("payment_requisition_amount_0",java.sql.Types.DECIMAL,18 削除                                                                                 
+0084 ,6,true,false,null,null),                                                    --                                                                                  
+0085     new ColumnSpec("payment_requisition_amount_1",java.sql.Types.DECIMAL,18 削除                                                                                 
+0085 ,6,true,false,null,null),                                                    --                                                                                  
+0086     new ColumnSpec("payment_requisition_amount_2",java.sql.Types.DECIMAL,18 削除                                                                                 
+0086 ,6,true,false,null,null),                                                    --                                                                                  
+0087     new ColumnSpec("payment_requisition_amount_3",java.sql.Types.DECIMAL,18 削除                                                                                 
+0087 ,6,true,false,null,null),                                                    --                                                                                  
+0088     new ColumnSpec("payment_requisition_amount_4",java.sql.Types.DECIMAL,18 削除                                                                                 
+0088 ,6,true,false,null,null),                                                    --                                                                                  
+0089     new ColumnSpec("payment_requisition_amount_5",java.sql.Types.DECIMAL,18 削除                                                                                 
+0089 ,6,true,false,null,null),                                                    --                                                                                  
+0090     new ColumnSpec("payment_requisition_division_0",java.sql.Types.DECIMAL, 削除                                                                                 
+0090 18,6,true,false,null,null),                                                  --                                                                                  
+0091     new ColumnSpec("payment_requisition_division_1",java.sql.Types.DECIMAL, 削除                                                                                 
+0091 18,6,true,false,null,null),                                                  --                                                                                  
+0092     new ColumnSpec("payment_requisition_division_2",java.sql.Types.DECIMAL, 削除                                                                                 
+0092 18,6,true,false,null,null),                                                  --                                                                                  
+0093     new ColumnSpec("payment_requisition_division_3",java.sql.Types.DECIMAL, 削除                                                                                 
+0093 18,6,true,false,null,null),                                                  --                                                                                  
+0094     new ColumnSpec("payment_requisition_division_4",java.sql.Types.DECIMAL, 削除                                                                                 
+0094 18,6,true,false,null,null),                                                  --                                                                                  
+0095     new ColumnSpec("payment_requisition_division_5",java.sql.Types.DECIMAL, 削除                                                                                 
+0095 18,6,true,false,null,null),                                                  --                                                                                  
+0096     new ColumnSpec("account_balance_0",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0096 se,null,null),                                                               --                                                                                  
+0097     new ColumnSpec("account_balance_1",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0097 se,null,null),                                                               --                                                                                  
+0098     new ColumnSpec("account_balance_2",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0098 se,null,null),                                                               --                                                                                  
+0099     new ColumnSpec("account_balance_3",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0099 se,null,null),                                                               --                                                                                  
+0100     new ColumnSpec("account_balance_4",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0100 se,null,null),                                                               --                                                                                  
+0101     new ColumnSpec("account_balance_5",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0101 se,null,null),                                                               --                                                                                  
+0102     new ColumnSpec("cash_balance0",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0102 ull,null),                                                                   --                                                                                  
+0103     new ColumnSpec("cash_balance1",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0103 ull,null),                                                                   --                                                                                  
+0104     new ColumnSpec("cash_balance2",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0104 ull,null),                                                                   --                                                                                  
+0105     new ColumnSpec("cash_balance3",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0105 ull,null),                                                                   --                                                                                  
+0106     new ColumnSpec("cash_balance4",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0106 ull,null),                                                                   --                                                                                  
+0107     new ColumnSpec("cash_balance5",java.sql.Types.DECIMAL,18,6,true,false,n 削除                                                                                 
+0107 ull,null),                                                                   --                                                                                  
+0108     new ColumnSpec("day_trade_restraint_0",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0108 ,false,null,null),                                                           --                                                                                  
+0109     new ColumnSpec("day_trade_restraint_1",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0109 ,false,null,null),                                                           --                                                                                  
+0110     new ColumnSpec("day_trade_restraint_2",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0110 ,false,null,null),                                                           --                                                                                  
+0111     new ColumnSpec("day_trade_restraint_3",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0111 ,false,null,null),                                                           --                                                                                  
+0112     new ColumnSpec("day_trade_restraint_4",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0112 ,false,null,null),                                                           --                                                                                  
+0113     new ColumnSpec("other_restraint_0",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0113 se,null,null),                                                               --                                                                                  
+0114     new ColumnSpec("other_restraint_1",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0114 se,null,null),                                                               --                                                                                  
+0115     new ColumnSpec("other_restraint_2",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0115 se,null,null),                                                               --                                                                                  
+0116     new ColumnSpec("other_restraint_3",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0116 se,null,null),                                                               --                                                                                  
+0117     new ColumnSpec("other_restraint_4",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0117 se,null,null),                                                               --                                                                                  
+0118     new ColumnSpec("other_restraint_5",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0118 se,null,null),                                                               --                                                                                  
+0119     new ColumnSpec("paid_margin_deposit_0",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0119 ,false,null,null),                                                           --                                                                                  
+0120     new ColumnSpec("paid_margin_deposit_1",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0120 ,false,null,null),                                                           --                                                                                  
+0121     new ColumnSpec("paid_margin_deposit_2",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0121 ,false,null,null),                                                           --                                                                                  
+0122     new ColumnSpec("paid_margin_deposit_3",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0122 ,false,null,null),                                                           --                                                                                  
+0123     new ColumnSpec("paid_margin_deposit_4",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0123 ,false,null,null),                                                           --                                                                                  
+0124     new ColumnSpec("paid_margin_deposit_5",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0124 ,false,null,null),                                                           --                                                                                  
+0125     new ColumnSpec("receipt_margin_deposit_0",java.sql.Types.DECIMAL,18,6,t 削除                                                                                 
+0125 rue,false,null,null),                                                        --                                                                                  
+0126     new ColumnSpec("receipt_margin_deposit_1",java.sql.Types.DECIMAL,18,6,t 削除                                                                                 
+0126 rue,false,null,null),                                                        --                                                                                  
+0127     new ColumnSpec("receipt_margin_deposit_2",java.sql.Types.DECIMAL,18,6,t 削除                                                                                 
+0127 rue,false,null,null),                                                        --                                                                                  
+0128     new ColumnSpec("receipt_margin_deposit_3",java.sql.Types.DECIMAL,18,6,t 削除                                                                                 
+0128 rue,false,null,null),                                                        --                                                                                  
+0129     new ColumnSpec("receipt_margin_deposit_4",java.sql.Types.DECIMAL,18,6,t 削除                                                                                 
+0129 rue,false,null,null),                                                        --                                                                                  
+0130     new ColumnSpec("receipt_margin_deposit_5",java.sql.Types.DECIMAL,18,6,t 削除                                                                                 
+0130 rue,false,null,null),                                                        --                                                                                  
+0131     new ColumnSpec("margin_deposit_0",java.sql.Types.DECIMAL,18,6,true,fals 削除                                                                                 
+0131 e,null,null),                                                                --                                                                                  
+0132     new ColumnSpec("margin_deposit_1",java.sql.Types.DECIMAL,18,6,true,fals 削除                                                                                 
+0132 e,null,null),                                                                --                                                                                  
+0133     new ColumnSpec("margin_deposit_2",java.sql.Types.DECIMAL,18,6,true,fals 削除                                                                                 
+0133 e,null,null),                                                                --                                                                                  
+0134     new ColumnSpec("margin_deposit_3",java.sql.Types.DECIMAL,18,6,true,fals 削除                                                                                 
+0134 e,null,null),                                                                --                                                                                  
+0135     new ColumnSpec("margin_deposit_4",java.sql.Types.DECIMAL,18,6,true,fals 削除                                                                                 
+0135 e,null,null),                                                                --                                                                                  
+0136     new ColumnSpec("margin_deposit_5",java.sql.Types.DECIMAL,18,6,true,fals 削除                                                                                 
+0136 e,null,null),                                                                --                                                                                  
+0137     new ColumnSpec("cash_margin_deposit_0",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0137 ,false,null,null),                                                           --                                                                                  
+0138     new ColumnSpec("cash_margin_deposit_1",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0138 ,false,null,null),                                                           --                                                                                  
+0139     new ColumnSpec("cash_margin_deposit_2",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0139 ,false,null,null),                                                           --                                                                                  
+0140     new ColumnSpec("cash_margin_deposit_3",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0140 ,false,null,null),                                                           --                                                                                  
+0141     new ColumnSpec("cash_margin_deposit_4",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0141 ,false,null,null),                                                           --                                                                                  
+0142     new ColumnSpec("cash_margin_deposit_5",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0142 ,false,null,null),                                                           --                                                                                  
+0143     new ColumnSpec("contract_amount_0",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0143 se,null,null),                                                               --                                                                                  
+0144     new ColumnSpec("contract_amount_1",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0144 se,null,null),                                                               --                                                                                  
+0145     new ColumnSpec("contract_amount_2",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0145 se,null,null),                                                               --                                                                                  
+0146     new ColumnSpec("contract_amount_3",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0146 se,null,null),                                                               --                                                                                  
+0147     new ColumnSpec("contract_amount_4",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0147 se,null,null),                                                               --                                                                                  
+0148     new ColumnSpec("contract_amount_5",java.sql.Types.DECIMAL,18,6,true,fal 削除                                                                                 
+0148 se,null,null),                                                               --                                                                                  
+0149     new ColumnSpec("margin_deposit_rate_0",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0149 ,false,null,null),                                                           --                                                                                  
+0150     new ColumnSpec("margin_deposit_rate_1",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0150 ,false,null,null),                                                           --                                                                                  
+0151     new ColumnSpec("margin_deposit_rate_2",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0151 ,false,null,null),                                                           --                                                                                  
+0152     new ColumnSpec("margin_deposit_rate_3",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0152 ,false,null,null),                                                           --                                                                                  
+0153     new ColumnSpec("margin_deposit_rate_4",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0153 ,false,null,null),                                                           --                                                                                  
+0154     new ColumnSpec("margin_deposit_rate_5",java.sql.Types.DECIMAL,18,6,true 削除                                                                                 
+0154 ,false,null,null),                                                           --                                                                                  
+0155     new ColumnSpec("created_timestamp",java.sql.Types.TIMESTAMP,0,0,true,fa 削除                                                                                 
+0155 lse,null,null),                                                              --                                                                                  
+0156     new ColumnSpec("last_updated_timestamp",java.sql.Types.TIMESTAMP,0,0,tr 削除                                                                                 
+0156 ue,false,null,null),                                                         --                                                                                  
+0157   };                                                                        削除                                                                                 
+LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+(E001)LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+
+0158                                                                                  0019                                                                            
+0159   private static final TableSpec tables[] = {                                    0020   private static final TableSpec tables[] = {                              
+0160     new TableSpec("deposit_autotransfer_stop",deposit_autotransfer_stop_col      0021     new TableSpec("deposit_autotransfer_stop",deposit_autotransfer_stop_col
+LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+(S002)LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+
+0161     new TableSpec("payment_requisition_equity",payment_requisition_equity_c 削除                                                                                 
+0161 olumns,"inv=?.account_id"),                                                  --                                                                                  
+0162     new TableSpec("payment_requisition_margin",payment_requisition_margin_c 削除                                                                                 
+0162 olumns,"inv=?.account_id"),                                                  --                                                                                  
+LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+(E002)LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+
+0163   };                                                                             0022   };                                                                       
+0164                                                                                  0023                                                                            
+0165   private static final AccountDataSpecInstance instance = new AccountDataSp      0024   private static final AccountDataSpecInstance instance = new AccountDataSp
+0166                                                                                  0025                                                                            
+0167   private AccountDataSpecInstance() {                                            0026   private AccountDataSpecInstance() {                                      
+                                        ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ 中略 ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇                                        
+LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+      LINE ----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+
+┏━━┯━━━┳━━┯━━━┳━━┯━━━┳━━┯━━━┓           ┏━━━ OLD    NEW ━━━┓  ┏━━━━┯━━━━┓                                             
+┃変更│     0┃追加│     0┃削除│   141┃合計│   141┃           ┃    175 ┃LINE┃     34 ┃  ┃行数増減│   -141 ┃                                             
+┗━━┷━━━┻━━┷━━━┻━━┷━━━┻━━┷━━━┛           ┗━━━━┛    ┗━━━━┛  ┗━━━━┷━━━━┛                                             
+@

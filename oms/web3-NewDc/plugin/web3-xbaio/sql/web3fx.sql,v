@@ -1,0 +1,354 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.16.05.36.06;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8f04d80403d696d;
+filename	web3fx.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--為替保証金
+-------------------------------------------------------------------------------
+
+--1. FX顧客テーブル
+CREATE TABLE fx_account(
+        fx_account_id	        NUMBER(18)      NOT NULL,
+        institution_code	VARCHAR2(3)     NOT NULL,
+        branch_code		VARCHAR2(3)     NOT NULL,
+        fx_system_code		VARCHAR2(2)     NOT NULL,
+        account_code		VARCHAR2(7)     NOT NULL,
+        fx_account_div		VARCHAR2(1)     NOT NULL,
+        fx_last_name		VARCHAR2(50)    NULL	,
+        fx_first_name		VARCHAR2(50)    NULL	,
+        fx_mail_address		VARCHAR2(50)    NULL	,
+        fx_login_id		NUMBER(18)      NULL	,
+        last_updater		VARCHAR2(20)    NULL	,
+        created_timestamp	DATE            NOT NULL,
+        last_updated_timestamp	DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfx_account ON fx_account
+(
+        fx_account_id        
+);
+
+CREATE UNIQUE INDEX XAKfx_account ON fx_account
+(
+       institution_code       ,
+       branch_code	      ,
+       fx_system_code         ,
+       account_code
+);
+
+--Primary Key
+ALTER TABLE fx_account
+        ADD  (PRIMARY KEY (fx_account_id));
+
+
+--2. FX口座番号テーブル
+CREATE TABLE fx_account_code (
+        institution_code        VARCHAR2(3)     NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        fx_system_code          VARCHAR2(2)     NOT NULL,
+        account_code		VARCHAR2(7)     NOT NULL,
+        fx_course_div           VARCHAR2(1)     NOT NULL,
+        fx_account_code		VARCHAR2(10)     NOT NULL,
+        last_updater	        VARCHAR2(20)    NULL	,
+        created_timestamp	DATE            NOT NULL,
+        last_updated_timestamp	DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfx_account_code ON fx_account_code 
+(
+        institution_code	,
+        branch_code     	,
+        fx_system_code  	,
+	account_code		,
+	fx_course_div
+);
+CREATE INDEX XAK1fx_account_code ON fx_account_code 
+(
+        institution_code	,
+        branch_code             ,
+        fx_system_code          ,
+        fx_account_code
+);
+CREATE INDEX XIE1fx_account_code ON fx_account_code 
+(
+        institution_code	,
+        branch_code             ,
+        fx_system_code          ,
+	account_code
+);
+--Primary Key
+ALTER TABLE fx_account_code 
+        ADD  (PRIMARY KEY (institution_code,branch_code,fx_system_code,account_code,fx_course_div));
+
+
+--3. GFT口座開設状況テーブル
+CREATE TABLE gft_account_open_status (
+        institution_code       		VARCHAR2(3)	NOT NULL,
+        branch_code        		VARCHAR2(3)    	NOT NULL,
+        account_code            	VARCHAR2(7)    	NOT NULL,
+        order_request_number    	VARCHAR2(9)     NOT NULL,
+        last_name         		VARCHAR2(50)    NULL,
+        first_name           		VARCHAR2(50)    NULL,
+        mail_address           		VARCHAR2(50)    NULL,
+        login_id              		VARCHAR2(18)    NULL,
+        password              		VARCHAR2(8)     NULL,
+        fx_account_code_01           	VARCHAR2(10)    	NULL,
+        fx_account_code_10              VARCHAR2(10)     NULL,
+        account_open_status_div		VARCHAR2(2)    	NOT NULL,
+        send_rcv_div           		VARCHAR2(2)    	NOT NULL,
+        result_code           		VARCHAR2(8)    	NULL,
+        error_reason_code              	VARCHAR2(4)     NULL,
+        last_updater             	VARCHAR2(20)    NULL,
+        created_timestamp              	DATE     	NOT NULL,
+        last_updated_timestamp         	DATE     	NOT NULL,
+        agreement_div               VARCHAR2(1)    	NOT NULL,
+        result_code_soap            VARCHAR2(10)     NULL,
+        fx_system_code              VARCHAR2(2)     NULL,
+        ext_account_code            VARCHAR2(20)     NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKgft_account_open_status ON gft_account_open_status 
+(
+        institution_code	,
+        branch_code     	,
+        order_request_number
+);
+
+--Primary Key
+ALTER TABLE gft_account_open_status 
+        ADD  (PRIMARY KEY (institution_code,branch_code,order_request_number));
+
+
+--4. GFT振替状況テーブル
+CREATE TABLE gft_transfer_status (
+        institution_code       		VARCHAR2(3)	NOT NULL,
+        branch_code        		VARCHAR2(3)    	NOT NULL,
+        account_code            	VARCHAR2(7)    	NOT NULL,
+        order_request_number    	VARCHAR2(9)     NOT NULL,
+        operation_div         		VARCHAR2(2)    	NOT NULL,
+        course_div           		VARCHAR2(1)    	NOT NULL,
+        fx_account_code        		VARCHAR2(10)    	NOT NULL,
+        amount              		NUMBER(14)    	NULL,
+        transfer_date              	VARCHAR2(8)     NULL,
+        transfer_status_div             VARCHAR2(1)    	NOT NULL,
+        send_rcv_div                 	VARCHAR2(1)     NOT NULL,
+        result_code			VARCHAR2(8)    	NULL,
+        error_reason_code           	VARCHAR2(4)    	NULL,
+        send_time           		VARCHAR2(14)    NULL,
+        receive_time              	VARCHAR2(14)    NULL,
+        mrg_trn_order_request_number    VARCHAR2(9)    	NULL,
+        last_updater              	VARCHAR2(20)    NULL,
+        created_timestamp         	DATE     	NOT NULL,
+        last_updated_timestamp         	DATE     	NOT NULL,
+        fx_upload_number            VARCHAR2(9)     NULL,
+        result_code_soap            VARCHAR2(4)     NULL,
+        fx_system_code              VARCHAR2(2)     NULL,
+        io_list_trade_div           VARCHAR2(4)     NULL
+);
+
+--INDEX
+CREATE INDEX XIEgft_transfer_status ON gft_transfer_status
+(
+        institution_code     ,
+        branch_code          ,
+        account_code
+);
+
+CREATE UNIQUE INDEX XPKgft_transfer_status ON gft_transfer_status
+(
+        institution_code     ,
+        branch_code          ,
+        order_request_number
+);
+
+--Primary Key
+ALTER TABLE gft_transfer_status
+        ADD  (PRIMARY KEY (institution_code,branch_code,order_request_number));
+
+--5. GFT電文保存テーブル
+CREATE TABLE gft_message (
+        message_div 		VARCHAR2(1)	NOT NULL,
+        dir_send_time        	VARCHAR2(14)    NULL,
+        operation            	VARCHAR2(2)    	NULL,
+        account    		VARCHAR2(10)    	NULL,
+        email         		VARCHAR2(50)    NULL,
+        gft_link_1           	VARCHAR2(18)    NULL,
+        gft_link_2           	VARCHAR2(12)    NULL,
+        group_name              VARCHAR2(20)    NULL,
+        amount              	VARCHAR2(12)    NULL,
+        wolf_session_key        VARCHAR2(80)    NULL,
+        aa_aid                 	VARCHAR2(20)    NULL,
+        aa_rsid			VARCHAR2(15)    NULL,
+        ssid           		VARCHAR2(3)    	NULL,
+        cpy           		VARCHAR2(3)    	NULL,
+        brn              	VARCHAR2(3)    	NULL,
+        acc    			VARCHAR2(7)    	NULL,
+        req              	VARCHAR2(9)    	NULL,
+        result_code         	VARCHAR2(8)     NULL,
+        gft_send_time         	VARCHAR2(14)    NULL,
+        gft_ac1              	VARCHAR2(10)     NULL,
+        gft_ac2             	VARCHAR2(10)    	NULL,
+        last_name               VARCHAR2(50)    NULL,
+        first_name		VARCHAR2(50)    NULL,
+        hash_key           	VARCHAR2(32)   	NULL,
+        created_timestamp       DATE    	NOT NULL,
+        last_updated_timestamp	DATE    	NOT NULL,
+        delivery_date           VARCHAR2(8)     NULL,
+        amount2                 VARCHAR2(12)    NULL,
+        address1                VARCHAR2(40)    NULL,
+        address2                VARCHAR2(40)    NULL,
+        address3                VARCHAR2(40)    NULL
+);
+
+--INDEX
+CREATE INDEX XIE1gft_message ON gft_message
+(
+        message_div     ,
+        cpy          	,
+        brn		,
+        req
+);
+
+
+--6. 会社別FXシステム条件テーブル
+CREATE TABLE comp_fx_condition (
+        institution_code        VARCHAR2(3)    	NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        fx_system_code          VARCHAR2(2)     NOT NULL,
+        group_name              VARCHAR2(20)    NULL,
+        url   			        VARCHAR2(200)	NULL,
+        created_timestamp       DATE    	    NOT NULL,
+        last_updated_timestamp	DATE    	    NOT NULL,
+        fx_head_of_login_id     VARCHAR2(3)     NOT NULL,
+        single_sign_on_url      VARCHAR2(200)   NULL,
+        valid_term              VARCHAR2(3)     NULL,
+        fx_system_div           VARCHAR2(1)     NULL,
+        ext_connect_system_code  VARCHAR2(2)     NULL,
+        trading_time_type       VARCHAR2(2)     NOT NULL,
+        online_acc_open         VARCHAR2(2)     NOT NULL,
+        soap_connect_div        VARCHAR2(2)     NOT NULL,
+        acc_type                VARCHAR2(2)     NOT NULL,
+        mrf_allow_div           VARCHAR2(2)     NOT NULL,
+        acc_open_real_update    VARCHAR2(2)     NOT NULL,
+        question_check_div      VARCHAR2(2)     NOT NULL,
+        fx_system_id            NUMBER(18)      NOT NULL,
+        get_transferable_amt_div VARCHAR2(1)    NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKcomp_fx_condition ON comp_fx_condition
+(
+        institution_code        ,
+        branch_code             ,
+        fx_system_code
+);
+
+CREATE INDEX XIE1COMP_FX_CONDITION ON comp_fx_condition
+(
+        institution_code        ,
+        branch_code
+);
+
+--Primary Key
+ALTER TABLE comp_fx_condition
+        ADD  (PRIMARY KEY (institution_code,branch_code,fx_system_code));
+
+--7. FX説明不要承諾履歴管理テーブル
+CREATE TABLE fx_unnecessary_explanation (
+        institution_code        VARCHAR2(3)    	NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        fx_serial_no            NUMBER(8)       NOT NULL,
+        fx_valid_flag           VARCHAR2(1)	    NOT NULL,
+        last_updater            VARCHAR2(20)    NULL,
+        created_timestamp       DATE    	    NOT NULL,
+        last_updated_timestamp	DATE    	    NOT NULL
+);        
+        
+--INDEX
+CREATE UNIQUE INDEX XPKfx_unnecessary_explanation ON fx_unnecessary_explanation
+(
+        institution_code        ,
+        branch_code             ,
+        account_code            ,
+        fx_serial_no
+);
+
+--INDEX
+CREATE INDEX XIEfx_unnesessary_explanation ON fx_unnecessary_explanation
+(
+        institution_code        ,
+        branch_code             ,
+        account_code       
+);        
+
+--Primary Key
+ALTER TABLE fx_unnecessary_explanation
+        ADD  (PRIMARY KEY (institution_code,branch_code,account_code,fx_serial_no));
+        
+--8. シングルサインオンデータ保存テーブル
+CREATE TABLE sso_message (
+        institution_code        VARCHAR2(3)    	NOT NULL,
+        branch_code             VARCHAR2(3)     NOT NULL,
+        account_code            VARCHAR2(7)     NOT NULL,
+        fx_login_id             NUMBER(18)      NOT NULL,
+        random                  VARCHAR2(4)	    NOT NULL,
+        operation_time          VARCHAR2(12)    NOT NULL,
+        encrypt_string          VARCHAR2(50)    NOT NULL,
+        secret_key              VARCHAR2(8)     NOT NULL,
+        hash_key                VARCHAR2(32)    NOT NULL,                        
+        created_timestamp       DATE    	    NOT NULL,
+        last_updated_timestamp	DATE    	    NOT NULL
+);
+
+--9.Table名: FX振替条件マスタ
+CREATE TABLE fx_transfer_master (
+       fx_system_id                NUMBER(18)      NOT NULL,
+       transfer_div                VARCHAR2(1)     NOT NULL,
+       delivery_date_div           VARCHAR2(2)     NOT NULL,
+       order_type                  NUMBER(6)       NOT NULL,
+       remark_code                 VARCHAR2(4)     NOT NULL,
+       remark_name                 VARCHAR2(10)    NULL,
+       io_list_trade_div           VARCHAR2(4)     NULL,
+       created_timestamp           DATE            NOT NULL,
+       last_updated_timestamp      DATE            NOT NULL
+);
+
+--INDEX
+CREATE UNIQUE INDEX XPKfx_transfer_master ON fx_transfer_master
+(
+       fx_system_id,
+       transfer_div
+);
+
+--PK
+ALTER TABLE fx_transfer_master
+       ADD  (PRIMARY KEY (fx_system_id, transfer_div));
+
+@

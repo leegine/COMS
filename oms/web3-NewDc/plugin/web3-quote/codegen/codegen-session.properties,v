@@ -1,0 +1,83 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.29.00.56.51;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	3d04d912e303247;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.quoteadaptor.stdimpls.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3-quote.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3QuoteSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+#triggers=sql/web3-quote_session_triggers.sql
+
+enums=\
+    quote_status.status:class=webbroker3.quoteadaptor.stdimpls.QuoteStatus \
+    quote_monitor_product.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+    quote_status \
+    quote_monitor_product
+  
+#imports=\
+#com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+#com.fitechlbas.xtrade.plugin.tc.eqtype.data.*
+
+@

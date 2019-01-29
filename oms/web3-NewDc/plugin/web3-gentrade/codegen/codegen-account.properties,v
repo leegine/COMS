@@ -1,0 +1,114 @@
+head	1.2;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	2011.03.24.08.49.56;	author che-jin;	state Exp;
+branches;
+next	1.1;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	5cc4d8b0586158f;
+filename	codegen-account.properties;
+
+1.1
+date	2011.03.15.06.05.28;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8b84d7f0185589f;
+filename	codegen-account.properties;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.gentrade.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3gtl.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3GenTradeAccountDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=account
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+#
+# the name of the triggers file to generate
+#
+triggers=sql/web3gtl_account_triggers.sql
+
+enums=\
+  order_unit_introduce_div.product_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ProductTypeEnum \
+   stock_secured_loan.mng_lock_flag_advance:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+   stock_secured_loan.mng_lock_flag_unpay_margin:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+   stock_secured_loan.mng_lock_flag_short_security:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+   stock_secured_loan.mng_lock_flag_unsubstit_depo:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+   doc_delivery_management.delete_flag:class=com.fitechlabs.xtrade.plugin.tc.gentrade.BooleanEnum \
+
+#
+#  the tables to include in this portion of the binding layer
+#
+tables=\
+  account_product_order_stop:inv=?.account_id \
+  insider:inv=?.account_id \
+  exclusive_use_account:inv=?.account_id \
+  account_info_mst:inv=?.account_id \
+  order_unit_introduce_div:inv=?.account_id \
+  security_shortage_account:inv=?.account_id \
+  stock_secured_loan:inv=?.account_id \
+  security_cashout_restraint:inv=?.account_id \
+  doc_delivery_management:inv=?.account_id \
+  acc_open_div:inv=?.account_id \
+  ele_delivery_management:inv=?.account_id \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d63 1
+@
+

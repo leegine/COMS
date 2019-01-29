@@ -1,0 +1,286 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.05.50.20;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	8984d7efe084d3b;
+filename	web3ipo.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--銘柄関連
+-------------------------------------------------------------------------------
+
+--1. Table名: IPO銘柄テーブル
+
+CREATE TABLE ipo_product (
+       ipo_product_id                   NUMBER(18)           NOT NULL,
+       institution_code                    VARCHAR2(3)          NOT NULL,
+       product_code                        VARCHAR2(10)         NOT NULL,
+       standard_name                    VARCHAR2(50)         NULL,
+       product_type                        NUMBER(6)            NOT NULL,
+       ipo_regist_div                    VARCHAR2(1)          NOT NULL,
+       ipo_regist_detail_div            VARCHAR2(1)          NOT NULL,
+       public_offering_date                DATE                 NULL,
+       public_offering_date_count       NUMBER(6)            NULL,
+       public_market                    VARCHAR2(2)          NOT NULL,
+       provisional_value_div            VARCHAR2(1)          NOT NULL,
+       provisional_min_value            DECIMAL(18,6)        NULL,
+       provisional_max_value            DECIMAL(18,6)        NULL,
+       provisional_value_open_date      DATE                 NULL,
+       public_offering_quantity         NUMBER(18)           NULL,
+       public_sales_quantity            NUMBER(18)           NULL,
+       dealing_quantity                 NUMBER(18)           NULL,
+       lead_managing_underwriter        VARCHAR2(80)         NULL,
+       lot_size                         NUMBER(18)           NULL,
+       tick_value                       DECIMAL(18,6)        NULL,
+       ipo_unit_div                     VARCHAR2(1)          NULL,
+       enable_market_order              VARCHAR2(1)          NULL,
+       bookbuilding_start_datetime      DATE                 NULL,
+       bookbuilding_end_datetime        DATE                 NULL,
+       public_price_settle_date         DATE                 NULL,
+       public_price                     DECIMAL(18,6)        NULL,
+       public_price_discount_rate       DECIMAL(4,2)         NULL,
+       lot_date                         DATE                 NULL,
+       lot_date_count                   NUMBER(6)            NULL,
+       lot_status                       VARCHAR2(1)          NULL,
+       offer_start_datetime             DATE                 NULL,
+       offer_start_date_count           NUMBER(6)            NULL,
+       offer_end_datetime               DATE                 NULL,
+       offer_end_date_count             NUMBER(6)            NULL,
+       offer_start_date_prospec         DATE                 NULL,
+       offer_start_date_count_prospec   NUMBER(6)            NULL,
+       offer_end_date_prospec           DATE                 NULL,
+       offer_end_date_count_prospec     NUMBER(6)            NULL,
+       company_logo_url                 VARCHAR2(80)         NULL,
+       company_url                      VARCHAR2(80)         NULL,
+       company_outline                  VARCHAR2(400)        NULL,
+       note                             VARCHAR2(400)        NULL,
+       ipo_stop                         VARCHAR2(1)          NULL,
+       delete_flag                      NUMBER(1)            NULL,
+       last_updater                     VARCHAR2(20)         NULL,
+       created_timestamp                DATE                 NULL,
+       last_updated_timestamp           DATE                 NULL,
+       doc_reading_div		            VARCHAR2(1)          NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKipo_product ON ipo_product
+(
+       ipo_product_id
+);
+
+--PK
+
+ALTER TABLE ipo_product
+      ADD  (PRIMARY KEY (ipo_product_id));
+
+
+-------------------------------------------------------------------------------
+--注文(申告)
+-------------------------------------------------------------------------------
+
+--2. Table名: IPO申告テーブル
+
+CREATE TABLE ipo_order (
+       ipo_order_id                         NUMBER(18)        NOT NULL,
+       ipo_product_id                     NUMBER(18)        NOT NULL,
+       branch_id                         NUMBER(18)        NOT NULL,
+       account_id                         NUMBER(18)        NOT NULL,
+       sub_account_id                     NUMBER(18)        NOT NULL,
+       last_order_action_serial_no         NUMBER(8)         NOT NULL,
+       quantity                             DECIMAL(18,6)     NOT NULL,
+       limit_price                         DECIMAL(18,6)     NOT NULL,
+       order_status                         NUMBER(6)         NOT NULL,
+       order_open_status                 NUMBER(6)         NOT NULL,
+       price                             DECIMAL(18,6)     NULL,
+       current_price                     DECIMAL(18,6)     NULL,
+       bookbuilding_price                 DECIMAL(18,6)     NULL,
+       bookbuilding_created_timestamp     DATE              NULL,
+       elected_quantity                     NUMBER(18)        NULL,
+       lot_result                         VARCHAR2(1)       NULL,
+       lot_result_retry                     VARCHAR2(1)       NULL,
+       substitute_priority                 NUMBER(18)        NULL,
+       send_mail_status                     VARCHAR2(1)       NULL,
+       offering_div                         VARCHAR2(1)       NULL,
+       accept_status                     VARCHAR2(1)       NULL,
+       application_quantity                 DECIMAL(18,6)     NULL,
+       pay_amount                         DECIMAL(18,6)     NULL,
+       tax_type                             NUMBER(6)         NULL,
+       offering_timestamp                 DATE              NULL,
+       trader_id                         NUMBER(18)        NULL,
+       order_root_div                     VARCHAR2(1)     NULL,
+       last_updater                         VARCHAR2(20)      NULL,
+       created_timestamp                 DATE              NULL,
+       last_updated_timestamp             DATE              NULL,
+       lot_number                        VARCHAR2(10)     NULL
+);
+
+--INDEX
+
+CREATE UNIQUE INDEX XPKipo_order ON ipo_order
+(
+       ipo_order_id
+);
+
+CREATE UNIQUE INDEX XAKipo_order ON ipo_order
+(
+       ipo_product_id     ,
+       branch_id          ,
+       account_id         ,
+       sub_account_id
+);
+
+--PK
+
+ALTER TABLE ipo_order
+      ADD  (PRIMARY KEY (ipo_order_id));
+
+--3. Table名: ﾌﾞｯｸﾋﾞﾙﾃﾞｨﾝｸﾞ申告履歴ﾃｰﾌﾞﾙ
+
+CREATE TABLE ipo_bookbuilding_order_action (
+       bookbuilding_order_action_id       NUMBER(18)       NOT NULL,
+       ipo_order_id                       NUMBER(18)       NOT NULL,
+       ipo_product_id                     NUMBER(18)       NOT NULL,
+       branch_id                          NUMBER(18)       NOT NULL,
+       account_id                         NUMBER(18)       NOT NULL,
+       sub_account_id                     NUMBER(18)       NOT NULL,
+       order_action_serial_no             NUMBER(8)        NOT NULL,
+       quantity                           DECIMAL(18,6)    NOT NULL,
+       limit_price                        DECIMAL(18,6)    NOT NULL,
+       order_status                       NUMBER(6)        NULL,
+       order_open_status                  NUMBER(6)        NULL,
+       price                              DECIMAL(18,6)    NULL,
+       current_price                      DECIMAL(18,6)    NULL,
+       bookbuilding_price                 DECIMAL(18,6)    NULL,
+       bookbuilding_created_timestamp     DATE             NULL,
+       trader_id                          NUMBER(18)       NULL,
+       order_root_div                     VARCHAR2(1)      NULL,
+       last_updater                       VARCHAR2(20)     NULL,
+       delete_flag                        NUMBER(1)        NULL,
+       created_timestamp                  DATE             NULL,
+       last_updated_timestamp             DATE             NULL,
+       action_send_status                 VARCHAR2(1)      NULL
+);
+--INDEX
+
+CREATE UNIQUE INDEX XPKipo_bb_order_action ON ipo_bookbuilding_order_action
+(
+       bookbuilding_order_action_id
+);
+
+CREATE UNIQUE INDEX XAKipo_bb_order_action ON ipo_bookbuilding_order_action
+(
+       ipo_order_id,
+       order_action_serial_no
+);
+
+--PK
+
+ALTER TABLE ipo_bookbuilding_order_action
+      ADD  (PRIMARY KEY (bookbuilding_order_action_id));
+
+--4. Table名: IPO抽選テーブル
+
+CREATE TABLE ipo_bookbuilding (
+       ipo_product_id                 NUMBER(18)       NOT NULL,
+       bb_div                         VARCHAR2(1)      NOT NULL,
+       bb_seq                         NUMBER(18)       NOT NULL,
+       branch_id                      NUMBER(18)       NOT NULL,
+       product_code                   VARCHAR2(10)     NOT NULL,
+       bb_quantity_all                NUMBER(18)       NOT NULL,
+       bb_quantity_loop               NUMBER(18)       NOT NULL,
+       sub_bb_quantity_all            NUMBER(18)       NULL,
+       sub_bb_quantity_loop           NUMBER(18)       NULL,
+       process                        VARCHAR2(2)      NOT NULL,
+       status                         VARCHAR2(1)      NOT NULL,
+       bb_result_quantity_sum         NUMBER(18)       NULL,
+       bb_result_acc_count            NUMBER(18)       NULL,
+       bb_result_quantity_max         NUMBER(18)       NULL,
+       bb_result_quantity_min         NUMBER(18)       NULL,
+       sub_bb_result_quantity_sum     NUMBER(18)       NULL,
+       sub_bb_result_acc_count        NUMBER(18)       NULL,
+       sub_bb_result_quantity_max     NUMBER(18)       NULL,
+       sub_bb_result_quantity_min     NUMBER(18)       NULL,
+       created_timestamp              DATE             NOT NULL,
+       last_updated_timestamp         DATE             NOT NULL
+);
+--INDEX
+
+CREATE UNIQUE INDEX XPKipo_bookbuilding ON ipo_bookbuilding
+(
+       ipo_product_id,
+       bb_div,
+       bb_seq,
+       branch_id
+);
+
+--PK
+
+ALTER TABLE ipo_bookbuilding
+      ADD  (PRIMARY KEY (ipo_product_id,bb_div,bb_seq,branch_id));
+
+-------------------------------------------------------------------------------
+--FOREIGN KEY
+-------------------------------------------------------------------------------
+
+--1. 注文(申告).IPO申告テーブル
+
+ALTER TABLE ipo_order
+       ADD  ( FOREIGN KEY (ipo_product_id)
+                             REFERENCES ipo_product  );
+
+ALTER TABLE ipo_order
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch  );
+
+ALTER TABLE ipo_order
+      ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account  );
+
+ALTER TABLE ipo_order
+       ADD  ( FOREIGN KEY (account_id , sub_account_id)
+                             REFERENCES sub_account  );
+
+
+--2. 注文(申告).ﾌﾞｯｸﾋﾞﾙﾃﾞｨﾝｸﾞ申告履歴ﾃｰﾌﾞﾙ
+
+ALTER TABLE ipo_bookbuilding_order_action
+       ADD  ( FOREIGN KEY (ipo_order_id)
+                             REFERENCES ipo_order );
+
+ALTER TABLE ipo_bookbuilding_order_action
+       ADD  ( FOREIGN KEY (ipo_product_id)
+                             REFERENCES ipo_product );
+
+ALTER TABLE ipo_bookbuilding_order_action
+       ADD  ( FOREIGN KEY (branch_id)
+                             REFERENCES branch );
+
+ALTER TABLE ipo_bookbuilding_order_action
+       ADD  ( FOREIGN KEY (account_id)
+                             REFERENCES main_account );
+
+ALTER TABLE ipo_bookbuilding_order_action
+       ADD  ( FOREIGN KEY (account_id , sub_account_id)
+                             REFERENCES sub_account );
+@

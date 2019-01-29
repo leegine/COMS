@@ -1,0 +1,581 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.43.35;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	7a84d7eee2c1971;
+filename	web3equitymarket.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@-------------------------------------------------------------------------------
+--SONAR関連
+-------------------------------------------------------------------------------
+
+--1. Table名: 株式失効通知キューテーブル
+CREATE TABLE host_eqtype_close_order_notify (
+    request_code            VARCHAR2(5)        NULL,
+    institution_code        VARCHAR2(3)        NULL,
+    branch_code             VARCHAR2(3)        NULL,
+    account_code            VARCHAR2(7)        NULL,
+    trader_code             VARCHAR2(5)        NULL,
+    order_request_number    VARCHAR2(9)        NULL,
+    executed_quantity       DECIMAL(18,6)      NULL,
+    reason_code             VARCHAR2(1)        NULL,
+    close_notify_type       VARCHAR2(1)        NULL,
+    error_message           VARCHAR2(4)        NULL,
+    virtual_server_number_market     VARCHAR2(7)    NULL,
+    notice_type             VARCHAR2(2)    NULL,
+    notice_number           NUMBER(10)     NULL,
+    status                  VARCHAR2(1)        NULL,
+    created_timestamp	    DATE DEFAULT sysdate NULL,
+    last_updated_timestamp  DATE DEFAULT sysdate NULL,
+    close_quantity          DECIMAL(18,6)      NULL
+);
+
+
+CREATE INDEX XIE1H_EQ_CLOSE_ORDER_NOTIFY ON host_eqtype_close_order_notify
+(
+    order_request_number
+);
+
+CREATE INDEX XIE2host_eq_close_order_notify ON host_eqtype_close_order_notify
+(
+    last_updated_timestamp,
+    status
+);
+
+--2. Table名: 株式出来通知キューテーブル
+CREATE TABLE host_equity_order_exec_notify (
+    request_code            VARCHAR2(5)    NULL,
+    institution_code        VARCHAR2(3)    NULL,
+    branch_code             VARCHAR2(3)    NULL,
+    account_code            VARCHAR2(7)    NULL,
+    trader_code             VARCHAR2(5)    NULL,
+    order_request_number    VARCHAR2(9)    NULL,
+    exec_quantity           DECIMAL(18,6)  NULL,
+    exec_price              DECIMAL(18,6)  NULL,
+    exec_timestamp          DATE           NULL,
+    dealed_type             VARCHAR2(1)    NULL,
+    virtual_server_number_market     VARCHAR2(7)    NULL,
+    notice_type             VARCHAR2(2)    NULL,
+    notice_number           NUMBER(10)     NULL,
+    exec_number             NUMBER(8)      NULL,
+    status                  VARCHAR2(1)    NULL,
+    created_timestamp		DATE DEFAULT sysdate NULL,
+    last_updated_timestamp	DATE DEFAULT sysdate NULL,
+    last_updater            VARCHAR2(20)   NULL
+);
+
+
+CREATE INDEX XIE1H_EQ_ORDER_EXEC_NOTIFY ON host_equity_order_exec_notify
+(
+    order_request_number
+);
+
+CREATE INDEX XIE2host_eq_order_exec_notify ON host_equity_order_exec_notify
+(
+    last_updated_timestamp,
+    status
+);
+
+CREATE INDEX XIE3host_eq_order_exec_notify ON host_equity_order_exec_notify
+(
+    status
+);
+
+--3. Table名: 株式注文繰越スキップ銘柄通知キューテーブル
+CREATE TABLE host_equity_carryover_skip (
+    request_code            VARCHAR2(5)        NULL,
+    institution_code        VARCHAR2(3)        NULL,
+    product_code            VARCHAR2(10)       NULL,
+    skip_market_code        VARCHAR2(2)        NULL,
+    skip_regist_type        VARCHAR2(1)        NULL,
+    input_datetime          DATE               NULL,
+    status                  VARCHAR2(1)        NULL
+);
+
+
+--4. Table名: 株式注文受付キューテーブル
+CREATE TABLE host_eqtype_order_accept (
+    request_code            VARCHAR2(5)        NULL,
+    institution_code        VARCHAR2(3)        NULL,
+    branch_code             VARCHAR2(3)        NULL,
+    account_code            VARCHAR2(7)        NULL,
+    trader_code             VARCHAR2(5)        NULL,
+    order_request_number    VARCHAR2(9)        NULL,
+    accept_status           VARCHAR2(1)        NULL,
+    error_message           VARCHAR2(4)        NULL,
+    submit_order_route_div  VARCHAR2(1)        NULL,
+    virtual_server_number_market     VARCHAR2(7)    NULL,
+    notice_type             VARCHAR2(2)    NULL,
+    notice_number           NUMBER(10)     NULL,
+    accept_number           VARCHAR2(20)     NULL,
+    status                  VARCHAR2(1)        NULL,
+    created_timestamp	    DATE DEFAULT sysdate NULL,
+    last_updated_timestamp  DATE DEFAULT sysdate NULL
+
+);
+
+CREATE INDEX XIE1host_eqtype_order_accept ON host_eqtype_order_accept
+(
+    request_code,
+    status
+);
+
+
+CREATE INDEX XIE1H_EQ_ORD_ACCEPT ON host_eqtype_order_accept
+(
+    order_request_number
+);
+
+CREATE INDEX XIE2host_eq_order_accept ON host_eqtype_order_accept
+(
+    last_updated_timestamp,
+    status
+);
+
+--5. Table名: 株式注文訂正取消通知キューテーブル
+CREATE TABLE host_eqtype_order_clmd_receipt (
+    request_code                VARCHAR2(5)        NULL,
+    institution_code            VARCHAR2(3)        NULL,
+    branch_code                 VARCHAR2(3)        NULL,
+    account_code                VARCHAR2(7)        NULL,
+    trader_code                 VARCHAR2(5)        NULL,
+    order_request_number        VARCHAR2(9)        NULL,
+    modified_quantity           DECIMAL(18,6)      NULL,
+    modified_limit_price        DECIMAL(18,6)      NULL,
+    modified_execution_type     VARCHAR2(1)        NULL,
+    modified_price_condition_type	VARCHAR2(1)	NULL,
+    modified_result             VARCHAR2(2)        NULL,
+    canmod_receipt_type         VARCHAR2(1)        NULL,
+    modified_order_rev          VARCHAR2(2)        NULL,
+    virtual_server_number_market        VARCHAR2(7)     NULL,
+    notice_type                 VARCHAR2(2)        NULL,
+    notice_number               NUMBER(10)         NULL,
+    status                      VARCHAR2(1)        NULL,
+    created_timestamp           DATE DEFAULT sysdate 	NULL,
+    last_updated_timestamp      DATE DEFAULT sysdate 	NULL,
+    mod_submit_order_route_div  VARCHAR2(1)        NULL
+
+);
+
+
+CREATE INDEX XIE1H_EQ_ORDER_CLMD_RECEIPT ON host_eqtype_order_clmd_receipt
+(
+    order_request_number
+);
+
+CREATE INDEX XIE2host_eq_order_clmd_receipt ON host_eqtype_order_clmd_receipt
+(
+    last_updated_timestamp,
+    status
+);
+
+CREATE INDEX XIE3host_eq_order_clmd_receipt ON host_eqtype_order_clmd_receipt
+(
+    status
+);
+
+--6. Table名: 株式注文入力通知キューテーブル
+CREATE TABLE host_eqtype_order_receipt (
+    request_code                VARCHAR2(5)        NULL,
+    institution_code            VARCHAR2(3)        NULL,
+    branch_code                 VARCHAR2(3)        NULL,
+    account_code                VARCHAR2(7)        NULL,
+    trader_code                 VARCHAR2(5)        NULL,
+    order_request_number        VARCHAR2(9)        NULL,
+    order_date_div              VARCHAR2(1)        NULL,
+    trade_type                  VARCHAR2(1)        NULL,
+    commision_product_code      VARCHAR2(2)        NULL,
+    product_code                VARCHAR2(10)       NULL,
+    sonar_market_code           VARCHAR2(1)        NULL,
+    sonar_traded_code           VARCHAR2(2)        NULL,
+    quantity                    DECIMAL(18,6)      NULL,
+    limit_price                 DECIMAL(18,6)      NULL,
+    execution_type              VARCHAR2(1)        NULL,
+    capital_gain_tax_type       VARCHAR2(1)        NULL,
+    create_datetime             DATE               NULL,
+    biz_datetime                DATE               NULL,
+    channel                     VARCHAR2(1)        NULL,
+    factor                      VARCHAR2(1)        NULL,
+    commition_number            VARCHAR2(2)        NULL,
+    commition_branch_number     VARCHAR2(1)        NULL,
+    delivery_date               VARCHAR2(8)        NULL,
+    estimated_price             DECIMAL(18,6)      NULL,
+    tax_type                    NUMBER(6)          NULL,
+    sonar_repayment_type	VARCHAR2(1)        NULL,
+    execution_condition		VARCHAR2(1)        NULL,
+    price_condition_type	VARCHAR2(1)        NULL,
+    short_sell_order_flag	VARCHAR2(1)        NULL,
+    submit_order_route_div	VARCHAR2(1)        NULL,
+    status                      VARCHAR2(1)        NULL,
+    created_timestamp   	DATE DEFAULT sysdate NULL,
+    last_updated_timestamp	DATE DEFAULT sysdate NULL
+);
+
+CREATE INDEX XIE1H_EQ_ORDER_RECEIPT ON host_eqtype_order_receipt
+(
+    order_request_number
+);
+
+--7. Table名: 株式注文取引キューテーブル
+CREATE TABLE host_eqtype_order_all (
+    request_code               VARCHAR2(5)         NULL,
+    account_id                 NUMBER(18)          NULL,
+    institution_code           VARCHAR2(3)         NULL,
+    branch_code                VARCHAR2(3)         NULL,
+    account_code               VARCHAR2(7)         NULL,
+    sonar_trader_code          VARCHAR2(5)         NULL,
+    order_request_number       VARCHAR2(9)         NULL,
+    order_action_serial_no     NUMBER(8)           NULL,
+    product_code               VARCHAR2(10)        NULL,
+    received_date_time         DATE                NULL,
+    submit_order_route_div     VARCHAR2(1)         NULL,
+    sell_order_quantity        DECIMAL(18,6)       NULL,
+    buy_order_quantity         DECIMAL(18,6)       NULL,
+    limit_price                DECIMAL(18,6)       NULL,
+    execution_condition        VARCHAR2(1)         NULL,
+    price_condition_type       VARCHAR2(1)         NULL,
+    sonar_traded_code          VARCHAR2(2)         NULL,
+    sonar_repayment_type       VARCHAR2(1)         NULL,
+    sonar_market_code          VARCHAR2(1)         NULL,
+    ticket_number              VARCHAR2(4)         NULL,
+    received_date_time_div     VARCHAR2(1)         NULL,
+    tax_type                   VARCHAR2(1)         NULL,
+    capital_gain_tax_type      VARCHAR2(1)         NULL,
+    check_type                 VARCHAR2(1)         NULL,
+    order_chanel               VARCHAR2(1)         NULL,
+    factor                     VARCHAR2(1)         NULL,
+    commision_number           VARCHAR2(2)         NULL,
+    commision_branch_number    VARCHAR2(1)         NULL,
+    commision_product_code     VARCHAR2(2)         NULL,
+    short_sell_order_flag      VARCHAR2(1)         NULL,
+    change_quantity            DECIMAL(18,6)       NULL,
+    change_limit_price         DECIMAL(18,6)       NULL,
+    change_execution_condition  VARCHAR2(1)        NULL,
+    change_price_condition_type VARCHAR2(1)        NULL,
+    change_order_time          VARCHAR2(4)         NULL,
+    change_order_date_div      VARCHAR2(1)         NULL,
+    cancel_div                 VARCHAR2(1)         NOT NULL,
+    cancel_order_time          VARCHAR2(4)         NULL,
+    cancel_order_date_div      VARCHAR2(1)         NULL,
+    front_order_exchange_code  VARCHAR2(1)         NULL,
+    front_order_system_code    VARCHAR2(1)         NULL,
+    front_order_trade_code     VARCHAR2(1)         NULL,
+    tradeaudit_code            VARCHAR2(1)         NULL,
+    corp_code                  VARCHAR2(20)        NOT NULL,
+    org_corp_code              VARCHAR2(20)        NULL,
+    virtual_server_number_jsoes VARCHAR2(7)        NULL,
+    market_order_number        NUMBER(10)          NULL,
+    amg_send_time              DATE                NULL,
+    amg_ack_time               DATE                NULL,
+    market_ack_time            DATE                NULL,
+    all_order_change_div       VARCHAR2(1) DEFAULT '0' NOT NULL,
+    status                     VARCHAR2(1)         NOT NULL,
+    created_timestamp          DATE DEFAULT sysdate NULL,
+    last_updated_timestamp     DATE DEFAULT sysdate NULL,
+    market_close_flag          VARCHAR2(1) DEFAULT 0 NULL
+);
+
+
+CREATE INDEX XIE1host_eqtype_order_all ON host_eqtype_order_all
+(
+    order_action_serial_no,
+    order_request_number
+);
+
+CREATE INDEX XIE2host_eqtype_order_all ON host_eqtype_order_all
+(
+    status,
+    submit_order_route_div
+);
+
+CREATE INDEX XIE3host_eqtype_order_all ON host_eqtype_order_all
+(
+    corp_code
+);
+
+CREATE INDEX XIE4host_eqtype_order_all ON host_eqtype_order_all
+(
+    front_order_exchange_code
+);
+
+CREATE INDEX XIE5host_eqtype_order_all ON host_eqtype_order_all
+(
+    org_corp_code
+);
+
+-------------------------------------------------------------------------------
+--信用取引
+-------------------------------------------------------------------------------
+
+--8. 現引現渡キューテーブル
+CREATE TABLE host_eqtype_swap(
+        request_code                VARCHAR2(5)     NULL,
+	account_id		NUMBER(18)	NULL,
+        institution_code        VARCHAR2(3)     NULL,
+        branch_code                VARCHAR2(3)     NULL,
+        account_code                VARCHAR2(7)     NULL,
+        sonar_trader_code        VARCHAR2(5)     NULL,
+        product_code                VARCHAR2(10)    NULL,
+        sell_order_quantity        DECIMAL(18,6)   NULL,
+        buy_order_quantity        DECIMAL(18,6)   NULL,
+        sonar_repayment_type        VARCHAR2(1)     NULL,
+        sonar_market_code        VARCHAR2(1)     NULL,
+        ticket_number                VARCHAR2(4)     NULL,
+        capital_gain_tax_type        VARCHAR2(1)     NULL,
+        check_type                VARCHAR2(1)     NULL,
+        cancel_div                VARCHAR2(1)     NULL,
+        order_request_number        VARCHAR2(9)     NULL,
+	order_action_serial_no	  NUMBER(8)	NULL,
+        create_datetime                DATE            NULL,
+        tax_type                VARCHAR2(1)     NULL,
+        swap_tax_type                VARCHAR2(1)     NULL,
+        status                        VARCHAR2(1)     NULL,
+	created_timestamp	DATE DEFAULT sysdate NULL,
+	last_updated_timestamp	DATE DEFAULT sysdate NULL
+);
+
+CREATE INDEX XIE1H_EQ_SWAP ON host_eqtype_swap
+(
+    order_request_number
+);
+
+--9. 現引現渡受付キューテーブル
+CREATE TABLE host_eqtype_swap_accept (
+        request_code                VARCHAR2(5)     NULL,
+        institution_code            VARCHAR2(3)     NULL,
+        branch_code                 VARCHAR2(3)     NULL,
+        account_code                VARCHAR2(7)     NULL,
+        trader_code                 VARCHAR2(5)     NULL,
+        order_request_number        VARCHAR2(9)     NULL,
+        accept_status               VARCHAR2(1)     NULL,
+        error_message               VARCHAR2(4)     NULL,
+        status                      VARCHAR2(1)     NULL,
+	created_timestamp	    DATE DEFAULT sysdate NULL,
+	last_updated_timestamp	    DATE DEFAULT sysdate NULL
+);
+
+
+CREATE INDEX XIE1host_eqtype_swap_accept on host_eqtype_swap_accept (
+        request_code,
+        status
+);
+
+CREATE INDEX XIE1H_EQ_SWAP_ACCEPT on host_eqtype_swap_accept (
+        order_request_number
+);
+
+CREATE INDEX XIE2host_eq_swap_accept on host_eqtype_swap_accept (
+        last_updated_timestamp,
+        status
+);
+
+--10. 現引現渡入力通知キューテーブル
+CREATE TABLE host_eqtype_swap_receipt (
+	request_code		VARCHAR2(5)	NULL,
+	institution_code	VARCHAR2(3)	NULL,
+	branch_code		VARCHAR2(3)	NULL,
+	account_code		VARCHAR2(7)	NULL,
+	trader_code		VARCHAR2(5)	NULL,
+	product_code		VARCHAR2(10)	NULL,
+	order_request_number	VARCHAR2(9)	NULL,
+	trade_type		VARCHAR2(1)	NULL,
+	sonar_repayment_type	VARCHAR2(1)	NULL,
+	sonar_market_code	VARCHAR2(1)	NULL,
+	quantity		DECIMAL(18,6)	NULL,
+	capital_gain_tax_type	VARCHAR2(1)	NULL,
+	swap_tax_type		VARCHAR2(1)	NULL,
+	tax_type		VARCHAR2(1)	NULL,
+	biz_datetime		DATE		NULL,
+	delivery_date		VARCHAR2(8)	NULL,
+	cancel_div		VARCHAR2(1)	NULL,
+	status			VARCHAR2(1)	NULL,
+	created_timestamp	DATE DEFAULT sysdate NULL,
+	last_updated_timestamp	DATE DEFAULT sysdate NULL
+);
+
+
+CREATE INDEX XIE1H_EQ_SWAP_RECEIPT on host_eqtype_swap_receipt (
+        order_request_number
+);
+
+-------------------------------------------------------------------------------
+--フロント発注関連
+-------------------------------------------------------------------------------
+--1. 市場通知管理テーブル
+
+CREATE TABLE market_notice_management(
+    virtual_server_number_market	VARCHAR2(7)	     NOT NULL,
+    notice_type				VARCHAR2(2)	     NOT NULL,
+    notice_number			NUMBER(10)	     NOT NULL,
+    client_number			VARCHAR2(3)		 NULL,
+    institution_code			VARCHAR2(3)		 NULL,
+    branch_code				VARCHAR2(3)         	 NULL,
+    account_code			VARCHAR2(7)		 NULL,
+    front_order_exchange_code		VARCHAR2(1)	     NOT NULL,
+    front_order_system_code		VARCHAR2(1)	     NOT NULL,
+    front_order_trade_code		VARCHAR2(1)		 NULL,
+    data_class_code			VARCHAR2(1)		 NULL,
+    data_class_detail_code		VARCHAR2(3)		 NULL,
+    corp_code				VARCHAR2(20)		 NULL,
+    resend_flg				VARCHAR2(1)		 NULL,
+    product_code			VARCHAR2(12)		 NULL,
+    error_code				VARCHAR2(4)		 NULL,
+    accept_number			VARCHAR2(20)		 NULL,
+    market_time				NUMBER(6)		 NULL,
+    buy_sell_div			VARCHAR2(1)		 NULL,
+    execution_condition			VARCHAR2(1)		 NULL,
+    price_condition_type		VARCHAR2(1)		 NULL,
+    order_quantity			DECIMAL(18,6)		 NULL,
+    limit_price				DECIMAL(18,6)		 NULL,
+    tradeaudit_code			VARCHAR2(1)		 NULL,
+    margin_code				VARCHAR2(1)		 NULL,
+    short_sell_order_flag		VARCHAR2(1)		 NULL,
+    org_limit_price			DECIMAL(18,6)		 NULL,
+    org_corp_code			VARCHAR2(20)		 NULL,
+    cut_quantity			NUMBER(13)		 NULL,
+    exec_price				DECIMAL(18,6)		 NULL,
+    exec_quantity			DECIMAL(18,6)		 NULL,
+    left_quantity			DECIMAL(18,6)		 NULL,
+    price_mark				VARCHAR2(1)		 NULL,
+    exec_mark				VARCHAR2(1)		 NULL,
+    exec_number				NUMBER(8)		 NULL,
+    modified_result			VARCHAR2(4)		 NULL,
+    org_execution_condition		VARCHAR2(1)		 NULL,
+    org_price_condition_type		VARCHAR2(1)		 NULL,
+    org_order_quantity			DECIMAL(18,6)	         NULL,
+    canceled_quantity			NUMBER(13)		 NULL,
+    executed_quantity			NUMBER(13)		 NULL,
+    reason_code				VARCHAR2(4)		 NULL,
+    stop_mark				VARCHAR2(1)		 NULL,
+    expiration_quantity			DECIMAL(18,6)	         NULL,
+    biz_date_count					NUMBER(1)     DEFAULT 0    NOT NULL,
+    created_timestamp			DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp		DATE DEFAULT sysdate NOT NULL,
+    submit_order_route_div		VARCHAR2(1)		 DEFAULT '2'	NULL,
+    product_type                NUMBER(6)        DEFAULT 1      NULL,
+    stop_order_price            DECIMAL(18,6)                   NULL,
+    w_limit_price               DECIMAL(18,6)                   NULL,
+    org_stop_order_price        DECIMAL(18,6)                   NULL,
+    org_w_limit_price           DECIMAL(18,6)                   NULL
+);
+
+CREATE UNIQUE INDEX XPKmarket_notice_management ON market_notice_management
+(
+    virtual_server_number_market,
+    notice_type,
+    notice_number,
+    front_order_exchange_code,
+    front_order_system_code,
+    biz_date_count
+);
+
+CREATE INDEX XIE1market_notice_management ON market_notice_management
+(
+    institution_code,
+    front_order_exchange_code,
+    front_order_system_code
+);
+
+ALTER TABLE market_notice_management
+    ADD (PRIMARY KEY (virtual_server_number_market,notice_type,notice_number,front_order_exchange_code,front_order_system_code,biz_date_count));
+
+
+--2. Table名: 履歴管理テーブル
+CREATE TABLE host_eqtype_order_history (
+       request_code                  VARCHAR2(5)         NULL,
+       institution_code              VARCHAR2(3)         NULL,
+       branch_code                   VARCHAR2(3)         NULL,
+       account_code                  VARCHAR2(7)         NULL,
+       sonar_trader_code             VARCHAR2(5)         NULL,
+       order_request_number          VARCHAR2(9)         NULL,
+       product_code                  VARCHAR2(10)        NULL,
+       corp_code                     VARCHAR2(20)        NULL,
+       front_order_exchange_code     VARCHAR2(1)         NULL,
+       front_order_system_code       VARCHAR2(1)         NULL,
+       front_order_trade_code        VARCHAR2(1)         NULL,
+       execution_condition           VARCHAR2(1)         NULL,
+       price_condition_type          VARCHAR2(1)         NULL,
+       received_date_time            VARCHAR2(8)         NULL,
+       received_time                 VARCHAR2(4)         NULL,
+       data_class_code               VARCHAR2(1)         NULL,
+       data_class_detail_code        VARCHAR2(3)         NULL,
+       buy_sell_div                  VARCHAR2(1)         NULL,
+       front_order_time              VARCHAR2(4)         NULL,
+       sell_order_quantity           DECIMAL(18,6)       NULL,
+       buy_order_quantity            DECIMAL(18,6)       NULL,
+       limit_price                   DECIMAL(18,6)       NULL,
+       sonar_traded_code             VARCHAR2(2)         NULL,
+       sonar_repayment_type          VARCHAR2(1)         NULL,
+       sonar_market_code             VARCHAR2(1)         NULL,
+       ticket_number                 VARCHAR2(4)         NULL,
+       received_date_time_div        VARCHAR2(1)         NULL,
+       tax_type                      VARCHAR2(1)         NULL,
+       capital_gain_tax_type         VARCHAR2(1)         NULL,
+       check_type                    VARCHAR2(1)         NULL,
+       order_chanel                  VARCHAR2(1)         NULL,
+       factor                        VARCHAR2(1)         NULL,
+       commision_number              VARCHAR2(2)         NULL,
+       commision_branch_number       VARCHAR2(1)         NULL,
+       short_sell_order_flag         VARCHAR2(1)         NULL,
+       change_quantity               DECIMAL(18,6)       NULL,
+       modified_limit_price          DECIMAL(18,6)       NULL,
+       modified_price_condition_type VARCHAR2(1)         NULL,
+       modified_execution_type       VARCHAR2(1)         NULL,
+       change_order_time             VARCHAR2(4)         NULL,
+       change_order_date_div         VARCHAR2(1)         NULL,
+       org_corp_code                 VARCHAR2(20)        NULL,
+       canceled_quantity             DECIMAL(18,6)       NULL,
+       cancel_div                    VARCHAR2(1)         NULL,
+       cancel_order_time             VARCHAR2(4)         NULL,
+       cancel_order_date_div         VARCHAR2(1)         NULL,
+       exec_price                    DECIMAL(18,6)       NULL,
+       exec_quantity                 DECIMAL(18,6)       NULL,
+       exec_time                     VARCHAR2(4)         NULL,
+       price_mark                    VARCHAR2(1)         NULL,
+       exec_number                   NUMBER(8)    DEFAULT 0    NOT NULL,
+       accept_number                 VARCHAR2(20)          NULL,
+       virtual_server_number_market  VARCHAR2(7)         NULL,
+       executed_quantity             DECIMAL(18,6)       NULL,
+       price                         DECIMAL(18,6)       NULL,
+       stop_mark                     VARCHAR2(1)         NULL,
+       expiration_quantity           DECIMAL(18,6)       NULL,
+       reason_code                   VARCHAR2(1)         NULL,
+       expiration_time               VARCHAR2(4)         NULL,
+       status                        VARCHAR2(1)         NULL,
+       created_timestamp             DATE     DEFAULT sysdate    NOT NULL,
+       last_updated_timestamp        DATE     DEFAULT sysdate    NOT NULL,
+       order_attribute_div           VARCHAR2(1)         NULL
+);
+
+
+CREATE INDEX XIE1host_eqtype_order_history ON host_eqtype_order_history
+(
+    status,
+    institution_code
+);
+
+CREATE INDEX XIE2host_eqtype_order_history ON host_eqtype_order_history
+(
+    corp_code
+);
+@

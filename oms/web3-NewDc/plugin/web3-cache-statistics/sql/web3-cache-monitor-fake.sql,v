@@ -1,0 +1,52 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.06.10.14;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	4d04d7f02b35c7a;
+filename	web3-cache-monitor-fake.sql;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@CREATE TABLE cache_monitor_ord_acc_status (
+    institution_code           VARCHAR2(3) NOT NULL,
+    branch_code                VARCHAR2(3) NOT NULL,
+    order_acc_product          VARCHAR2(2) NOT NULL,
+    order_acc_transaction      VARCHAR2(2) NOT NULL,
+    order_accept_status        VARCHAR2(1) NOT NULL,
+    order_accept_status_before VARCHAR2(1) NOT NULL,
+    last_updater               VARCHAR2(20)    NULL,
+    created_timestamp          DATE DEFAULT sysdate NOT NULL,
+    last_updated_timestamp     DATE DEFAULT sysdate NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKcm_ord_acc_status   ON cache_monitor_ord_acc_status (
+       institution_code,
+       branch_code,
+       order_acc_product,
+       order_acc_transaction
+);
+
+ALTER TABLE cache_monitor_ord_acc_status 
+       ADD  ( PRIMARY KEY (institution_code,
+                           branch_code,
+                           order_acc_product,
+                           order_acc_transaction
+                           ) ) ;@

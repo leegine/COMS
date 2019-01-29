@@ -1,0 +1,89 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2011.03.15.04.39.35;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	kv;
+permissions	666;
+commitid	8704d7eed731715;
+filename	codegen-session.properties;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@# ------ Properties file to drive generation of market data binding--------
+#
+
+#
+# root of generated sources
+#
+dev=java
+
+#
+# name of the package prefix
+#
+pkg=webbroker3.eqtypeadmin.data
+
+#
+# the sql file to use which contains the tables
+#
+sql=sql/web3-eqtypeadmin-fake.sql,sql/web3eqtypeadmin.sql
+
+#
+# the name of the database class
+# this is used as the stem for the Extensions plugin code
+#
+dbname=WEB3EqtypeadminSessionDatabase
+
+#
+# the name of the processor to generate the boot-xml file for
+#
+processor=session
+
+#
+# the list of Plugin dependencies as a comma-delimited list.
+# If absolute package names are required, they can be used here
+#
+dependencies=com.fitechlabs.xtrade.kernel.boot.KernelPlugin
+
+
+enums=\
+  admin_eq_forced_settle_order.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  admin_eq_forced_settle_order.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+  admin_eq_forced_settle_order.order_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderStatusEnum \
+  admin_eq_forced_settle_order.order_open_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderOpenStatusEnum \
+  admin_eq_forced_settle_order.expiration_status:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderExpirationStatusEnum \
+  admin_eq_forced_settle_order.contract_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.ContractTypeEnum \
+  admin_eq_forced_settle_order.tax_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.TaxTypeEnum \
+  forced_settle_order_inq.order_type:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderTypeEnum \
+  forced_settle_order_inq.order_categ:class=com.fitechlabs.xtrade.plugin.tc.gentrade.OrderCategEnum \
+
+
+#
+# the tables to include in this portion of the binding layer
+#
+tables=\
+  admin_eq_forced_settle_order \
+  forced_settle_order_inq \
+  attention_info_history \
+  host_attention_info_notify:rowid_pk=true \
+
+imports=\
+  com.fitechlabs.xtrade.plugin.tc.gentrade.data.* \
+  com.fitechlabs.xtrade.plugin.tc.eqtype.data.* \
+
+@

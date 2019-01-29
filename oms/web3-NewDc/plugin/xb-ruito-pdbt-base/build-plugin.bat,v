@@ -1,0 +1,40 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@:: @;
+
+
+1.1
+date	2011.03.28.09.09.55;	author zhang-tengyu;	state Exp;
+branches;
+next	;
+deltatype	text;
+kopt	b;
+permissions	666;
+commitid	5644d9050285d38;
+filename	build-plugin.bat;
+
+
+desc
+@@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@::BUILD  SCRIPT
+@@echo on
+@@setlocal
+
+call ..\..\set-xtrade.bat
+set PLUGIN=plugin\xb-ruito-pdbt-base
+
+cd %XTRADE_HOME%\ant-build
+call xbuild -plugin -latest -h %PLUGIN%
+@@endlocal
+pause
+
+@
